@@ -12,6 +12,7 @@
 #import "LFHardwareVideoEncoder.h"
 #import "LFHardwareAudioEncoder.h"
 #import "LFStreamRtmpSocket.h"
+#import "LFStreamTcpSocket.h"
 #import "LFLiveStreamInfo.h"
 
 #define LFLiveReportKey @"com.youku.liveSessionReport"
@@ -20,6 +21,8 @@
 {
     dispatch_semaphore_t _lock;
 }
+///流媒体格式
+@property (nonatomic, assign) LFLiveType liveType;
 ///音频配置
 @property (nonatomic, strong) LFLiveAudioConfiguration *audioConfiguration;
 ///视频配置
@@ -62,11 +65,12 @@
 @implementation LFLiveSession
 
 #pragma mark -- LifeCycle
-- (instancetype)initWithAudioConfiguration:(LFLiveAudioConfiguration *)audioConfiguration videoConfiguration:(LFLiveVideoConfiguration *)videoConfiguration{
+- (instancetype)initWithAudioConfiguration:(LFLiveAudioConfiguration *)audioConfiguration videoConfiguration:(LFLiveVideoConfiguration *)videoConfiguration liveType:(LFLiveType)liveType{
     if(!audioConfiguration || !videoConfiguration) @throw [NSException exceptionWithName:@"LFLiveSession init error" reason:@"audioConfiguration or videoConfiguration is nil " userInfo:nil];
     if(self = [super init]){
         _audioConfiguration = audioConfiguration;
         _videoConfiguration = videoConfiguration;
+        _liveType = liveType;
         _lock = dispatch_semaphore_create(1);
     }
     return self;
@@ -235,7 +239,11 @@
 
 - (id<LFStreamSocket>)socket{
     if(!_socket){
-        _socket = [[LFStreamRtmpSocket alloc] initWithStream:self.streamInfo];
+        if(self.liveType == LFLiveRTMP){
+            _socket = [[LFStreamRtmpSocket alloc] initWithStream:self.streamInfo];
+        }else if(self.liveType == LFLiveFLV){
+            _socket = [[LFStreamTcpSocket alloc] initWithStream:self.streamInfo videoSize:self.videoConfiguration.videoSize reconnectInterval:self.reconnectInterval reconnectCount:self.reconnectCount];
+        }
         [_socket setDelegate:self];
     }
     return _socket;

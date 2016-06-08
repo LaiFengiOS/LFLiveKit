@@ -17,6 +17,13 @@
 
 typedef void (^ LFRequestComplete)(_Nullable id info,NSError *_Nullable errorMsg);
 
+/// 流类型
+typedef NS_ENUM(NSUInteger, LFLiveType){
+    /// rtmp格式
+    LFLiveRTMP = 0,
+    /// tcp 传输flv格式
+    LFLiveFLV = 1,
+};
 
 @class LFLiveSession;
 @protocol LFLiveSessionDelegate <NSObject>
@@ -82,7 +89,7 @@ typedef void (^ LFRequestComplete)(_Nullable id info,NSError *_Nullable errorMsg
  The designated initializer. Multiple instances with the same configuration will make the
  capture unstable.
  */
-- (nullable instancetype)initWithAudioConfiguration:(nullable LFLiveAudioConfiguration*)audioConfiguration videoConfiguration:(nullable LFLiveVideoConfiguration*)videoConfiguration NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithAudioConfiguration:(nullable LFLiveAudioConfiguration*)audioConfiguration videoConfiguration:(nullable LFLiveVideoConfiguration*)videoConfiguration liveType:(LFLiveType)liveType NS_DESIGNATED_INITIALIZER;
 
 /** The start stream .*/
 - (void)startLive:(nonnull LFLiveStreamInfo*)streamInfo;

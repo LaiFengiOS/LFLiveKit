@@ -8,7 +8,7 @@
 
 LFLiveKit
 
-	LFLiveKit IOS mobile phone push code，Default format support RTMP，At the same time, the structure is very easy to extend.
+	LFLiveKit IOS mobile phone push code，Default format support RTMP and FLV，At the same time, the structure is very easy to extend.
 
 Podfile
 	To integrate LFLiveKit into your Xcode project using CocoaPods, specify it in your Podfile:
@@ -43,13 +43,13 @@ Architecture
 
 	capture: LFAudioCapture and  LFVideoCapture
 	encode:  LFHardwareAudioEncoder and LFHardwareVideoEncoder
-	publish: LFStreamRtmpSocket
+	publish: LFStreamRtmpSocket LFStreamTcpSocket
 	
 Usage
 	
 	- (LFLiveSession*)session{
     if(!_session){
-        _session = [[LFLiveSession alloc] initWithAudioConfiguration:		   [LFLiveAudioConfiguration defaultConfiguration] videoConfiguration:			[LFLiveVideoConfiguration defaultConfiguration]];
+_session = [[LFLiveSession alloc] initWithAudioConfiguration:[LFLiveAudioConfiguration defaultConfiguration] videoConfiguration:[LFLiveVideoConfiguration defaultConfiguration] liveType:LFLiveRTMP];
         _session.running = YES;
         _session.preView = self;
     }
@@ -73,7 +73,7 @@ Usage
          videoConfiguration.orientation = UIInterfaceOrientationLandscapeLeft;
          videoConfiguration.sessionPreset = LFCaptureSessionPreset720x1280;
          
-         _session = [[LFLiveSession alloc] 				initWithAudioConfiguration:audioConfiguration 				videoConfiguration:videoConfiguration];
+         _session = [[LFLiveSession alloc] initWithAudioConfiguration:audioConfiguration 				videoConfiguration:videoConfiguration liveType:LFLiveRTMP];
         _session.running = YES;
         _session.preView = self;
     }

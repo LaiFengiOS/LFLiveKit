@@ -2,7 +2,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "LFLiveKit"
-  s.version      = "1.4.1"
+  s.version      = "1.5"
   s.summary      = "LaiFeng ios Live. LFLiveKit."
   s.homepage     = "https://github.com/chenliming777"
   s.license      = { :type => "MIT", :file => "FILE_LICENSE" }
@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
   s.platform     = :ios, "8.0"
   s.ios.deployment_target = "8.0"
   s.source       = { :git => "https://github.com/LaiFengiOS/LFLiveKit", :tag => "#{s.version}" }
-  s.source_files  = "LFLiveKit/**/*.{h,m}"
+  s.source_files  = "LFLiveKit/**/*.{*}"
   s.public_header_files = "LFLiveKit/**/*.h"
 
   s.frameworks = "VideoToolbox", "AudioToolbox","AVFoundation","Foundation","UIKit"

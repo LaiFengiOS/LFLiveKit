@@ -3,7 +3,7 @@ Pod::Spec.new do |s|
 
   s.name         = "LFLiveKit"
   s.version      = "1.4.1"
-  s.summary      = "objectc ios Live. LFLiveKit."
+  s.summary      = "LaiFeng ios Live. LFLiveKit."
   s.homepage     = "https://github.com/chenliming777"
   s.license      = { :type => "MIT", :file => "FILE_LICENSE" }
   s.author       = { "chenliming" => "chenliming777@qq.com" }

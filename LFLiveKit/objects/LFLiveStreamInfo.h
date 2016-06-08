@@ -32,6 +32,13 @@ typedef NS_ENUM(NSUInteger,LFLiveSocketErrorCode) {
 
 @interface LFLiveStreamInfo : NSObject
 
+@property (nonatomic, copy) NSString *streamId;
+
+#pragma mark -- FLV
+@property (nonatomic, copy) NSString *host;
+@property (nonatomic, assign) NSInteger port;
+#pragma mark -- RTMP
 @property (nonatomic, copy) NSString *url;          ///< 上传地址 (RTMP用就好了)
+
 
 @end

@@ -7,6 +7,8 @@
 //  真正的上传地址 token等
 
 #import <Foundation/Foundation.h>
+#import "LFLiveAudioConfiguration.h"
+#import "LFLiveVideoConfiguration.h"
 
 /// 流状态
 typedef NS_ENUM(NSUInteger, LFLiveState){
@@ -39,6 +41,10 @@ typedef NS_ENUM(NSUInteger,LFLiveSocketErrorCode) {
 @property (nonatomic, assign) NSInteger port;
 #pragma mark -- RTMP
 @property (nonatomic, copy) NSString *url;          ///< 上传地址 (RTMP用就好了)
+///音频配置
+@property (nonatomic, strong) LFLiveAudioConfiguration *audioConfiguration;
+///视频配置
+@property (nonatomic, strong) LFLiveVideoConfiguration *videoConfiguration;
 
 
 @end

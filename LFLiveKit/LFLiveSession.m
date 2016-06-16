@@ -85,7 +85,8 @@
 - (void)startLive:(LFLiveStreamInfo*)streamInfo{
     if(!streamInfo) return;
     _streamInfo = streamInfo;
-    
+    _streamInfo.videoConfiguration = _videoConfiguration;
+    _streamInfo.audioConfiguration = _audioConfiguration;
     [self.socket start];
 }
 

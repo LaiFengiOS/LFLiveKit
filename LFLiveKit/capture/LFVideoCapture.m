@@ -15,6 +15,7 @@
 
 @property(nonatomic, strong) GPUImageVideoCamera *videoCamera;
 @property(nonatomic, strong) GPUImageOutput<GPUImageInput> *filter;
+@property(nonatomic, strong) GPUImageOutput<GPUImageInput> *output;
 @property(nonatomic, strong) GPUImageCropFilter *cropfilter;
 @property(nonatomic, strong) GPUImageView *gpuImageView;
 @property(nonatomic, strong) LFLiveVideoConfiguration *configuration;
@@ -108,16 +109,21 @@
     [_videoCamera removeAllTargets];
     
     if (_beautyFace) {
+        _output = [[LFGPUImageEmptyFilter alloc] init];
         _filter = [[LFGPUImageBeautyFilter alloc] init];
+        
+        __weak typeof(self) _self = self;
+        [_output setFrameProcessingCompletionBlock:^(GPUImageOutput *output, CMTime time) {
+            [_self processVideo:output];
+        }];
     } else {
         _filter = [[LFGPUImageEmptyFilter alloc] init];
+        
+        __weak typeof(self) _self = self;
+        [_filter setFrameProcessingCompletionBlock:^(GPUImageOutput *output, CMTime time) {
+            [_self processVideo:output];
+        }];
     }
-    
-    __weak typeof(self) _self = self;
-    [_filter setFrameProcessingCompletionBlock:^(GPUImageOutput *output, CMTime time) {
-        [_self processVideo:output];
-    }];
-  
     
     if (_configuration.isClipVideo) {
         if (_configuration.orientation == UIInterfaceOrientationPortrait || _configuration.orientation == UIInterfaceOrientationPortraitUpsideDown){
@@ -131,8 +137,13 @@
         [_videoCamera addTarget:_filter];
     }
     
-    [_filter addTarget:_gpuImageView];
-   
+    if (_beautyFace) {
+        [_filter addTarget:_output];
+        [_output addTarget:_gpuImageView];
+    } else {
+        [_filter addTarget:_gpuImageView];
+    }
+    
     if (_videoCamera.cameraPosition == AVCaptureDevicePositionFront) {
         [_gpuImageView setInputRotation:kGPUImageFlipHorizonal atIndex:0];
     } else {

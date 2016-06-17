@@ -42,12 +42,14 @@ SAVC(mp4a);
 
 @interface LFStreamRtmpSocket ()<LFStreamingBufferDelegate>
 {
-    RTMP* _rtmp;
+    PILI_RTMP* _rtmp;
 }
 @property (nonatomic, weak) id<LFStreamSocketDelegate> delegate;
 @property (nonatomic, strong) LFLiveStreamInfo *stream;
 @property (nonatomic, strong) LFStreamingBuffer *buffer;
 @property (nonatomic, strong) dispatch_queue_t socketQueue;
+//错误信息
+@property (nonatomic, assign) RTMPError error;
 @property (nonatomic, assign) NSInteger retryTimes4netWorkBreaken;
 
 @property (nonatomic, assign) BOOL isSending;
@@ -84,8 +86,8 @@ SAVC(mp4a);
 - (void) stop{
     dispatch_async(self.socketQueue, ^{
         if(_rtmp != NULL){
-            RTMP_Close(_rtmp);
-            RTMP_Free(_rtmp);
+            PILI_RTMP_Close(_rtmp, &_error);
+            PILI_RTMP_Free(_rtmp);
             _rtmp = NULL;
         }
         [self clean];
@@ -156,30 +158,30 @@ SAVC(mp4a);
     }
     
     if(_rtmp != NULL){
-        RTMP_Close(_rtmp);
-        RTMP_Free(_rtmp);
+        PILI_RTMP_Close(_rtmp, &_error);
+        PILI_RTMP_Free(_rtmp);
     }
     
-    _rtmp = RTMP_Alloc();
-    RTMP_Init(_rtmp);
+    _rtmp = PILI_RTMP_Alloc();
+    PILI_RTMP_Init(_rtmp);
     
     //设置URL
-    if (RTMP_SetupURL(_rtmp, push_url) < 0){
+    if (PILI_RTMP_SetupURL(_rtmp, push_url, &_error) < 0){
         //log(LOG_ERR, "RTMP_SetupURL() failed!");
         goto Failed;
     }
     
     //设置可写，即发布流，这个函数必须在连接前使用，否则无效
-    RTMP_EnableWrite(_rtmp);
+    PILI_RTMP_EnableWrite(_rtmp);
     _rtmp->Link.timeout = RTMP_RECEIVE_TIMEOUT;
     
     //连接服务器
-    if (RTMP_Connect(_rtmp, NULL) < 0){
+    if (PILI_RTMP_Connect(_rtmp, NULL, &_error) < 0){
         goto Failed;
     }
     
     //连接流
-    if (RTMP_ConnectStream(_rtmp, 0) < 0) {
+    if (PILI_RTMP_ConnectStream(_rtmp, 0, &_error) < 0) {
         goto Failed;
     }
     
@@ -197,8 +199,8 @@ SAVC(mp4a);
     return 0;
     
 Failed:
-    RTMP_Close(_rtmp);
-    RTMP_Free(_rtmp);
+    PILI_RTMP_Close(_rtmp, &_error);
+    PILI_RTMP_Free(_rtmp);
     [self clean];
     if(self.delegate && [self.delegate respondsToSelector:@selector(socketStatus:status:)]){
         [self.delegate socketStatus:self status:LFLiveError];
@@ -209,7 +211,7 @@ Failed:
 #pragma mark -- Rtmp Send
 
 - (void)sendMetaData {
-    RTMPPacket packet;
+    PILI_RTMPPacket packet;
     
     char pbuf[2048], *pend = pbuf+sizeof(pbuf);
     
@@ -254,9 +256,9 @@ Failed:
     *enc++ = 0;
     *enc++ = 0;
     *enc++ = AMF_OBJECT_END;
-    
+
     packet.m_nBodySize = enc - packet.m_body;
-    if(!RTMP_SendPacket(_rtmp, &packet, FALSE)) {
+    if(!PILI_RTMP_SendPacket(_rtmp, &packet, FALSE, &_error)) {
         return;
     }
 }
@@ -336,9 +338,9 @@ Failed:
 
 -(NSInteger) sendPacket:(unsigned int)nPacketType data:(unsigned char *)data size:(NSInteger) size nTimestamp:(uint64_t) nTimestamp{
     NSInteger rtmpLength = size;
-    RTMPPacket rtmp_pack;
-    RTMPPacket_Reset(&rtmp_pack);
-    RTMPPacket_Alloc(&rtmp_pack,(uint32_t)rtmpLength);
+    PILI_RTMPPacket rtmp_pack;
+    PILI_RTMPPacket_Reset(&rtmp_pack);
+    PILI_RTMPPacket_Alloc(&rtmp_pack,(uint32_t)rtmpLength);
     
     rtmp_pack.m_nBodySize = (uint32_t)size;
     memcpy(rtmp_pack.m_body,data,size);
@@ -354,13 +356,13 @@ Failed:
     
     NSInteger nRet = [self RtmpPacketSend:&rtmp_pack];
     
-    RTMPPacket_Free(&rtmp_pack);
+    PILI_RTMPPacket_Free(&rtmp_pack);
     return nRet;
 }
 
-- (NSInteger)RtmpPacketSend:(RTMPPacket*)packet{
-    if (RTMP_IsConnected(_rtmp)){
-        int success = RTMP_SendPacket(_rtmp,packet,0);
+- (NSInteger)RtmpPacketSend:(PILI_RTMPPacket*)packet{
+    if (PILI_RTMP_IsConnected(_rtmp)){
+        int success = PILI_RTMP_SendPacket(_rtmp,packet,0,&_error);
         if(success){
             self.isSending = NO;
             [self sendFrame];

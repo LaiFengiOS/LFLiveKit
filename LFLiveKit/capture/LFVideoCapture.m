@@ -15,11 +15,9 @@
 
 @property(nonatomic, strong) GPUImageVideoCamera *videoCamera;
 @property(nonatomic, strong) GPUImageOutput<GPUImageInput> *filter;
-@property(nonatomic, strong) GPUImageOutput<GPUImageInput> *emptyFilter;
-@property(nonatomic, strong) GPUImageOutput<GPUImageInput> *beau;
 @property(nonatomic, strong) GPUImageCropFilter *cropfilter;
 @property(nonatomic, strong) GPUImageView *gpuImageView;
-@property (nonatomic, strong) LFLiveVideoConfiguration *configuration;
+@property(nonatomic, strong) LFLiveVideoConfiguration *configuration;
 
 @end
 
@@ -80,8 +78,11 @@
 - (void)setCaptureDevicePosition:(AVCaptureDevicePosition)captureDevicePosition{
     [_videoCamera rotateCamera];
     _videoCamera.frameRate = (int32_t)_configuration.videoFrameRate;
-    if(captureDevicePosition == AVCaptureDevicePositionFront) [_gpuImageView setInputRotation:kGPUImageFlipHorizonal atIndex:0];
-    else [_gpuImageView setInputRotation:kGPUImageNoRotation atIndex:0];
+    if (captureDevicePosition == AVCaptureDevicePositionFront) {
+        [_gpuImageView setInputRotation:kGPUImageFlipHorizonal atIndex:0];
+    } else {
+        [_gpuImageView setInputRotation:kGPUImageNoRotation atIndex:0];
+    }
 }
 
 - (AVCaptureDevicePosition)captureDevicePosition{
@@ -102,64 +103,45 @@
     if(_beautyFace == beautyFace) return;
     
     _beautyFace = beautyFace;
-    [_emptyFilter removeAllTargets];
     [_filter removeAllTargets];
     [_cropfilter removeAllTargets];
     [_videoCamera removeAllTargets];
-    [_beau removeAllTargets];
     
-    if(_beautyFace){
-        _filter = [[GPUImageUnsharpMaskFilter alloc] init];
-        [(GPUImageUnsharpMaskFilter*)_filter setIntensity:1.23];
-        [(GPUImageUnsharpMaskFilter*)_filter setBlurRadiusInPixels:13];
-        _beau = [[LFGPUImageBeautyFilter alloc] init];
-        _emptyFilter = [[LFGPUImageEmptyFilter alloc] init];
-    }else{
+    if (_beautyFace) {
+        _filter = [[LFGPUImageBeautyFilter alloc] init];
+    } else {
         _filter = [[LFGPUImageEmptyFilter alloc] init];
     }
     
+    __weak typeof(self) _self = self;
+    [_filter setFrameProcessingCompletionBlock:^(GPUImageOutput *output, CMTime time) {
+        [_self processVideo:output];
+    }];
+  
     
-    
-    if (beautyFace) {
-        __weak typeof(self) _self = self;
-        [_emptyFilter setFrameProcessingCompletionBlock:^(GPUImageOutput *output, CMTime time) {
-            [_self processVideo:output];
-        }];
-    } else {
-        __weak typeof(self) _self = self;
-        [_filter setFrameProcessingCompletionBlock:^(GPUImageOutput *output, CMTime time) {
-            [_self processVideo:output];
-        }];
-    }
-    
-    
-    if(_configuration.isClipVideo){
-        if(_configuration.orientation == UIInterfaceOrientationPortrait || _configuration.orientation == UIInterfaceOrientationPortraitUpsideDown){
+    if (_configuration.isClipVideo) {
+        if (_configuration.orientation == UIInterfaceOrientationPortrait || _configuration.orientation == UIInterfaceOrientationPortraitUpsideDown){
             _cropfilter = [[GPUImageCropFilter alloc] initWithCropRegion:CGRectMake(0.125, 0, 0.75, 1)];
-        }else{
+        } else {
             _cropfilter = [[GPUImageCropFilter alloc] initWithCropRegion:CGRectMake(0, 0.125, 1, 0.75)];
         }
         [_videoCamera addTarget:_cropfilter];
         [_cropfilter addTarget:_filter];
-    }else{
-        [_videoCamera addTarget:_filter];
-        
-    }
-    
-    if (beautyFace) {
-        [_filter addTarget:_beau];
-        [_beau addTarget:_emptyFilter];
-        [_emptyFilter addTarget:_gpuImageView];
     } else {
-        [_filter addTarget:_gpuImageView];
+        [_videoCamera addTarget:_filter];
     }
-    if(_videoCamera.cameraPosition == AVCaptureDevicePositionFront) [_gpuImageView setInputRotation:kGPUImageFlipHorizonal atIndex:0];
-    else [_gpuImageView setInputRotation:kGPUImageNoRotation atIndex:0];
     
+    [_filter addTarget:_gpuImageView];
+   
+    if (_videoCamera.cameraPosition == AVCaptureDevicePositionFront) {
+        [_gpuImageView setInputRotation:kGPUImageFlipHorizonal atIndex:0];
+    } else {
+        [_gpuImageView setInputRotation:kGPUImageNoRotation atIndex:0];
+    }
 }
 
 #pragma mark -- Custom Method
-- (void) processVideo:(GPUImageOutput *)output{
+- (void)processVideo:(GPUImageOutput *)output{
     __weak typeof(self) _self = self;
     @autoreleasepool {
         GPUImageFramebuffer *imageFramebuffer = output.framebufferForOutput;

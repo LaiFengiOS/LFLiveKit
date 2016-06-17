@@ -1,478 +1,224 @@
 #import "LFGPUImageBeautyFilter.h"
-#import "GPUImageGaussianBlurFilter.h"
-#import "GPUImageTwoInputFilter.h"
-#import "GPUImageBilateralFilter.h"
-
 
 #if TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE
-NSString *const KLFGPUImageBeautyFragmentShaderString = SHADER_STRING
-( 
+NSString *const kLFGPUImageBeautyFragmentShaderString = SHADER_STRING
+(
  varying highp vec2 textureCoordinate;
- varying highp vec2 textureCoordinate2;
  
  uniform sampler2D inputImageTexture;
- uniform sampler2D inputImageTexture2; 
  
- uniform lowp float excludeCircleRadius;
- uniform lowp vec2 excludeCirclePoint;
- uniform lowp float excludeBlurSize;
- uniform highp float aspectRatio;
- //247  217  211
-
+ uniform highp vec2 singleStepOffset;
+ uniform mediump float params;
+ 
+ const highp vec3 W = vec3(0.299,0.587,0.114);
+ highp vec2 blurCoordinates[20];
+ 
+ highp float hardLight(highp float color)
+{
+    if(color <= 0.5)
+        color = color * color * 2.0;
+    else
+        color = 1.0 - ((1.0 - color)*(1.0 - color) * 2.0);
+    return color;
+}
+ 
  void main()
  {
-     lowp vec4 tmpColor = texture2D(inputImageTexture, textureCoordinate);
-//     gl_FragColor = tmpColor;
-//     return;
-     lowp vec4 sharpImageColor = texture2D(inputImageTexture, textureCoordinate);
-     lowp vec4 blurredImageColor = texture2D(inputImageTexture2, textureCoordinate2);
-     if((sharpImageColor.r > 0.372549 && sharpImageColor.g > 0.156863 && sharpImageColor.b > 0.078431 &&
-         sharpImageColor.r - sharpImageColor.g > 0.058823 && sharpImageColor.r - sharpImageColor.b > 0.058823) ||
-        (sharpImageColor.r > 0.784314 && sharpImageColor.g > 0.823530 && sharpImageColor.b > 0.666667 &&
-         abs(sharpImageColor.r - sharpImageColor.b) <= 0.058823 && sharpImageColor.r > sharpImageColor.b && sharpImageColor.g > sharpImageColor.b)) {
-
-            mediump float rpass;
-            mediump float gpass;
-            mediump float bpass;
-            mediump float hpass;
-            hpass = 0.5 / excludeBlurSize;
-            hpass = 1.0;
-
-            mediump float dis = distance(sharpImageColor, blurredImageColor);
-            bpass = min((0.4+1.0*(1.0*dis)), 1.0);
-            gl_FragColor = mix(sharpImageColor, blurredImageColor, 1.0-bpass);
-
-     } else {
-         mediump float rpass;
-         mediump float gpass;
-         mediump float bpass;
-         mediump float hpass;
-         hpass = 0.5 / excludeBlurSize;
-         hpass = 1.0;
-         mediump float dis = distance(sharpImageColor, blurredImageColor);
-         bpass = min((0.45+1.0*(1.0*dis)), 1.0);
-         gl_FragColor = mix(sharpImageColor, blurredImageColor, 1.0-bpass);
-
+     highp vec3 centralColor = texture2D(inputImageTexture, textureCoordinate).rgb;
+     blurCoordinates[0] = textureCoordinate.xy + singleStepOffset * vec2(0.0, -10.0);
+     blurCoordinates[1] = textureCoordinate.xy + singleStepOffset * vec2(0.0, 10.0);
+     blurCoordinates[2] = textureCoordinate.xy + singleStepOffset * vec2(-10.0, 0.0);
+     blurCoordinates[3] = textureCoordinate.xy + singleStepOffset * vec2(10.0, 0.0);
+     blurCoordinates[4] = textureCoordinate.xy + singleStepOffset * vec2(5.0, -8.0);
+     blurCoordinates[5] = textureCoordinate.xy + singleStepOffset * vec2(5.0, 8.0);
+     blurCoordinates[6] = textureCoordinate.xy + singleStepOffset * vec2(-5.0, 8.0);
+     blurCoordinates[7] = textureCoordinate.xy + singleStepOffset * vec2(-5.0, -8.0);
+     blurCoordinates[8] = textureCoordinate.xy + singleStepOffset * vec2(8.0, -5.0);
+     blurCoordinates[9] = textureCoordinate.xy + singleStepOffset * vec2(8.0, 5.0);
+     blurCoordinates[10] = textureCoordinate.xy + singleStepOffset * vec2(-8.0, 5.0);
+     blurCoordinates[11] = textureCoordinate.xy + singleStepOffset * vec2(-8.0, -5.0);
+     blurCoordinates[12] = textureCoordinate.xy + singleStepOffset * vec2(0.0, -6.0);
+     blurCoordinates[13] = textureCoordinate.xy + singleStepOffset * vec2(0.0, 6.0);
+     blurCoordinates[14] = textureCoordinate.xy + singleStepOffset * vec2(6.0, 0.0);
+     blurCoordinates[15] = textureCoordinate.xy + singleStepOffset * vec2(-6.0, 0.0);
+     blurCoordinates[16] = textureCoordinate.xy + singleStepOffset * vec2(-4.0, -4.0);
+     blurCoordinates[17] = textureCoordinate.xy + singleStepOffset * vec2(-4.0, 4.0);
+     blurCoordinates[18] = textureCoordinate.xy + singleStepOffset * vec2(4.0, -4.0);
+     blurCoordinates[19] = textureCoordinate.xy + singleStepOffset * vec2(4.0, 4.0);
+     
+     highp float sampleColor = centralColor.g * 20.0;
+     sampleColor += texture2D(inputImageTexture, blurCoordinates[0]).g;
+     sampleColor += texture2D(inputImageTexture, blurCoordinates[1]).g;
+     sampleColor += texture2D(inputImageTexture, blurCoordinates[2]).g;
+     sampleColor += texture2D(inputImageTexture, blurCoordinates[3]).g;
+     sampleColor += texture2D(inputImageTexture, blurCoordinates[4]).g;
+     sampleColor += texture2D(inputImageTexture, blurCoordinates[5]).g;
+     sampleColor += texture2D(inputImageTexture, blurCoordinates[6]).g;
+     sampleColor += texture2D(inputImageTexture, blurCoordinates[7]).g;
+     sampleColor += texture2D(inputImageTexture, blurCoordinates[8]).g;
+     sampleColor += texture2D(inputImageTexture, blurCoordinates[9]).g;
+     sampleColor += texture2D(inputImageTexture, blurCoordinates[10]).g;
+     sampleColor += texture2D(inputImageTexture, blurCoordinates[11]).g;
+     sampleColor += texture2D(inputImageTexture, blurCoordinates[12]).g * 2.0;
+     sampleColor += texture2D(inputImageTexture, blurCoordinates[13]).g * 2.0;
+     sampleColor += texture2D(inputImageTexture, blurCoordinates[14]).g * 2.0;
+     sampleColor += texture2D(inputImageTexture, blurCoordinates[15]).g * 2.0;
+     sampleColor += texture2D(inputImageTexture, blurCoordinates[16]).g * 2.0;
+     sampleColor += texture2D(inputImageTexture, blurCoordinates[17]).g * 2.0;
+     sampleColor += texture2D(inputImageTexture, blurCoordinates[18]).g * 2.0;
+     sampleColor += texture2D(inputImageTexture, blurCoordinates[19]).g * 2.0;
+     
+     sampleColor = sampleColor / 48.0;
+     
+     highp float highPass = centralColor.g - sampleColor + 0.5;
+     
+     for(int i = 0; i < 5;i++)
+     {
+         highPass = hardLight(highPass);
      }
-
-     mediump float r;
-     mediump float g;
-     mediump float b;
-     mediump float status = 0.81;
-//     r = min((gl_FragColor.r+sharpImageColor.r - sharpImageColor.r*gl_FragColor.r), 1.0);
-//     g = min((gl_FragColor.g+sharpImageColor.g - sharpImageColor.g*gl_FragColor.g), 1.0);
-//     b = min((gl_FragColor.b+sharpImageColor.b - sharpImageColor.b*gl_FragColor.b), 1.0);
-     r = min((gl_FragColor.r*2.0 - gl_FragColor.r*gl_FragColor.r), 1.0);
-     g = min((gl_FragColor.g*2.0 - gl_FragColor.g*gl_FragColor.g), 1.0);
-     b = min((gl_FragColor.b*2.0 - gl_FragColor.b*gl_FragColor.b), 1.0);
-     r = min(status*gl_FragColor.r+1.05*(1.0-status)*r, 1.0);
-     g = min(status*gl_FragColor.g+1.15*(1.0-status)*g, 1.0);
-     b = min(status*gl_FragColor.b+1.25*(1.0-status)*b, 1.0);
-     gl_FragColor = vec4(r, g, b, 1.0);
-     //gl_FragColor = vec4(r, g, b, 1.0);
-
+     highp float luminance = dot(centralColor, W);
+     
+     highp float alpha = pow(luminance, params);
+     
+     highp vec3 smoothColor = centralColor + (centralColor-vec3(highPass))*alpha*0.1;
+     
+     gl_FragColor = vec4(mix(smoothColor.rgb, max(smoothColor, centralColor), alpha), 1.0);
  }
-);
+);                                                                    
 #else
-NSString *const KLFGPUImageBeautyFragmentShaderString = SHADER_STRING
+NSString *const kLFGPUImageBeautyFragmentShaderString = SHADER_STRING
 (
  varying vec2 textureCoordinate;
- varying vec2 textureCoordinate2;
  
  uniform sampler2D inputImageTexture;
- uniform sampler2D inputImageTexture2;
  
- uniform float excludeCircleRadius;
- uniform vec2 excludeCirclePoint;
- uniform float excludeBlurSize;
- uniform float aspectRatio;
+ uniform mediump vec2 singleStepOffset;
+ uniform mediump float params;
+ 
+ const mediump vec3 W = vec3(0.299,0.587,0.114);
+ mediump vec2 blurCoordinates[20];
+ 
+ mediump float hardLight(mediump float color)
+{
+    if(color <= 0.5)
+        color = color * color * 2.0;
+    else
+        color = 1.0 - ((1.0 - color)*(1.0 - color) * 2.0);
+    return color;
+}
  
  void main()
  {
-//     vec4 sharpImageColor = texture2D(inputImageTexture, textureCoordinate);
-//     vec4 blurredImageColor = texture2D(inputImageTexture2, textureCoordinate2);
-//     
-//     vec2 textureCoordinateToUse = vec2(textureCoordinate2.x, (textureCoordinate2.y * aspectRatio + 0.5 - 0.5 * aspectRatio));
-//     float distanceFromCenter = distance(excludeCirclePoint, textureCoordinateToUse);
-//     
-//     gl_FragColor = mix(sharpImageColor, blurredImageColor, smoothstep(excludeCircleRadius - excludeBlurSize, excludeCircleRadius, distanceFromCenter));
+     mediump vec3 centralColor = texture2D(inputImageTexture, textureCoordinate).rgb;
+     blurCoordinates[0] = textureCoordinate.xy + singleStepOffset * vec2(0.0, -10.0);
+     blurCoordinates[1] = textureCoordinate.xy + singleStepOffset * vec2(0.0, 10.0);
+     blurCoordinates[2] = textureCoordinate.xy + singleStepOffset * vec2(-10.0, 0.0);
+     blurCoordinates[3] = textureCoordinate.xy + singleStepOffset * vec2(10.0, 0.0);
+     blurCoordinates[4] = textureCoordinate.xy + singleStepOffset * vec2(5.0, -8.0);
+     blurCoordinates[5] = textureCoordinate.xy + singleStepOffset * vec2(5.0, 8.0);
+     blurCoordinates[6] = textureCoordinate.xy + singleStepOffset * vec2(-5.0, 8.0);
+     blurCoordinates[7] = textureCoordinate.xy + singleStepOffset * vec2(-5.0, -8.0);
+     blurCoordinates[8] = textureCoordinate.xy + singleStepOffset * vec2(8.0, -5.0);
+     blurCoordinates[9] = textureCoordinate.xy + singleStepOffset * vec2(8.0, 5.0);
+     blurCoordinates[10] = textureCoordinate.xy + singleStepOffset * vec2(-8.0, 5.0);
+     blurCoordinates[11] = textureCoordinate.xy + singleStepOffset * vec2(-8.0, -5.0);
+     blurCoordinates[12] = textureCoordinate.xy + singleStepOffset * vec2(0.0, -6.0);
+     blurCoordinates[13] = textureCoordinate.xy + singleStepOffset * vec2(0.0, 6.0);
+     blurCoordinates[14] = textureCoordinate.xy + singleStepOffset * vec2(6.0, 0.0);
+     blurCoordinates[15] = textureCoordinate.xy + singleStepOffset * vec2(-6.0, 0.0);
+     blurCoordinates[16] = textureCoordinate.xy + singleStepOffset * vec2(-4.0, -4.0);
+     blurCoordinates[17] = textureCoordinate.xy + singleStepOffset * vec2(-4.0, 4.0);
+     blurCoordinates[18] = textureCoordinate.xy + singleStepOffset * vec2(4.0, -4.0);
+     blurCoordinates[19] = textureCoordinate.xy + singleStepOffset * vec2(4.0, 4.0);
      
-     vec4 sharpImageColor = texture2D(inputImageTexture, textureCoordinate);
-     vec4 blurredImageColor = texture2D(inputImageTexture2, textureCoordinate2);
-     if(sharpImageColor.r > 0.372549/*0.372549*/) {
-         mediump float bpass;
-         bpass = min((sharpImageColor.r - blurredImageColor.r)*(sharpImageColor.r - blurredImageColor.r)*0.045455, 1.0);
-         //bpass = min((sharpImageColor.r - blurredImageColor.r)*(sharpImageColor.r - blurredImageColor.r)*0.038462, 1.0);
-         bpass = min((0.5+255.0*bpass), 1.0);
-         gl_FragColor = mix(sharpImageColor, blurredImageColor, 1.0-bpass);
-     } else {
-         gl_FragColor = vec4(sharpImageColor.r, sharpImageColor.g, sharpImageColor.b,1.0);
+     mediump float sampleColor = centralColor.g * 20.0;
+     sampleColor += texture2D(inputImageTexture, blurCoordinates[0]).g;
+     sampleColor += texture2D(inputImageTexture, blurCoordinates[1]).g;
+     sampleColor += texture2D(inputImageTexture, blurCoordinates[2]).g;
+     sampleColor += texture2D(inputImageTexture, blurCoordinates[3]).g;
+     sampleColor += texture2D(inputImageTexture, blurCoordinates[4]).g;
+     sampleColor += texture2D(inputImageTexture, blurCoordinates[5]).g;
+     sampleColor += texture2D(inputImageTexture, blurCoordinates[6]).g;
+     sampleColor += texture2D(inputImageTexture, blurCoordinates[7]).g;
+     sampleColor += texture2D(inputImageTexture, blurCoordinates[8]).g;
+     sampleColor += texture2D(inputImageTexture, blurCoordinates[9]).g;
+     sampleColor += texture2D(inputImageTexture, blurCoordinates[10]).g;
+     sampleColor += texture2D(inputImageTexture, blurCoordinates[11]).g;
+     sampleColor += texture2D(inputImageTexture, blurCoordinates[12]).g * 2.0;
+     sampleColor += texture2D(inputImageTexture, blurCoordinates[13]).g * 2.0;
+     sampleColor += texture2D(inputImageTexture, blurCoordinates[14]).g * 2.0;
+     sampleColor += texture2D(inputImageTexture, blurCoordinates[15]).g * 2.0;
+     sampleColor += texture2D(inputImageTexture, blurCoordinates[16]).g * 2.0;
+     sampleColor += texture2D(inputImageTexture, blurCoordinates[17]).g * 2.0;
+     sampleColor += texture2D(inputImageTexture, blurCoordinates[18]).g * 2.0;
+     sampleColor += texture2D(inputImageTexture, blurCoordinates[19]).g * 2.0;
+     
+     sampleColor = sampleColor / 48.0;
+     
+     mediump float highPass = centralColor.g - sampleColor + 0.5;
+     
+     for(int i = 0; i < 5;i++)
+     {
+         highPass = hardLight(highPass);
      }
-     mediump float r;
-     mediump float g;
-     mediump float b;
-     r = min((gl_FragColor.r*2.0 - gl_FragColor.r*gl_FragColor.r), 1.0);
-     g = min((gl_FragColor.g*2.0 - gl_FragColor.g*gl_FragColor.g), 1.0);
-     b = min((gl_FragColor.b*2.0 - gl_FragColor.b*gl_FragColor.b), 1.0);
+     mediump float luminance = dot(centralColor, W);
      
-     r = min(0.62*gl_FragColor.r+0.38*r, 1.0);
-     g = min(0.62*gl_FragColor.g+0.38*g, 1.0);
-     b = min(0.62*gl_FragColor.b+0.38*b, 1.0);
+     mediump float alpha = pow(luminance, params);
      
-     gl_FragColor = vec4(r, g, b, 1.0);
+     mediump vec3 smoothColor = centralColor + (centralColor-vec3(highPass))*alpha*0.1;
      
+     gl_FragColor = vec4(mix(smoothColor.rgb, max(smoothColor, centralColor), alpha), 1.0);
  }
 );
 #endif
 
 @implementation LFGPUImageBeautyFilter
 
-@synthesize excludeCirclePoint = _excludeCirclePoint, excludeCircleRadius = _excludeCircleRadius, excludeBlurSize = _excludeBlurSize;
-@synthesize blurRadiusInPixels = _blurRadiusInPixels;
-@synthesize aspectRatio = _aspectRatio;
-
 - (id)init;
 {
-    if (!(self = [super init]))
+    if (!(self = [super initWithFragmentShaderFromString:kLFGPUImageBeautyFragmentShaderString]))
     {
 		return nil;
     }
     
-    hasOverriddenAspectRatio = NO;
-    
-    // First pass: apply a variable Gaussian blur
-    blurFilter = [[GPUImageGaussianBlurFilter alloc] init];
-    //blurFilter = [[GPUImageBilateralFilter alloc] init];
-    blurFilter.texelSpacingMultiplier = 0.55;
-    blurFilter.blurRadiusInPixels = 23.0;
-    [self addFilter:blurFilter];
-    
-    // Second pass: combine the blurred image with the original sharp one
-    selectiveFocusFilter = [[GPUImageTwoInputFilter alloc] initWithFragmentShaderFromString:KLFGPUImageBeautyFragmentShaderString];
-    [self addFilter:selectiveFocusFilter];
-    
-    // Texture location 0 needs to be the sharp image for both the blur and the second stage processing
-    [blurFilter addTarget:selectiveFocusFilter atTextureLocation:1];
-    
-    // To prevent double updating of this filter, disable updates from the sharp image side    
-    self.initialFilters = [NSArray arrayWithObjects:blurFilter, selectiveFocusFilter, nil];
-    self.terminalFilter = selectiveFocusFilter;
-    
-    //self.blurRadiusInPixels = 5.0;
-    //960*540
-    self.blurRadiusInPixels = 13.0;
-    //1280*720
-    //self.blurRadiusInPixels = 11.0;
-    
-    self.excludeCircleRadius = 13.0;
-    self.excludeCirclePoint = CGPointMake(0.5f, 0.5f);
-    self.excludeBlurSize = 13.0;
-    
-    
-
+    self.beautyLevel = 2
+    ;
     
     return self;
 }
 
-- (void)setInputSize:(CGSize)newSize atIndex:(NSInteger)textureIndex;
+- (void)setInputSize:(CGSize)newSize atIndex:(NSInteger)textureIndex
 {
     CGSize oldInputSize = inputTextureSize;
     [super setInputSize:newSize atIndex:textureIndex];
     inputTextureSize = newSize;
     
-    if ( (!CGSizeEqualToSize(oldInputSize, inputTextureSize)) && (!hasOverriddenAspectRatio) && (!CGSizeEqualToSize(newSize, CGSizeZero)) )
-    {
-        _aspectRatio = (inputTextureSize.width / inputTextureSize.height);
-        [selectiveFocusFilter setFloat:_aspectRatio forUniformName:@"aspectRatio"];
+    CGPoint offset = CGPointMake(2.0f / inputTextureSize.width, 2.0 / inputTextureSize.height);
+    [self setPoint:offset forUniformName:@"singleStepOffset"];
+}
+
+- (void)setBeautyLevel:(NSInteger)level
+{
+    switch (level) {
+        case 1:
+            [self setFloat:1.0f forUniformName:@"params"];
+            break;
+        case 2:
+            [self setFloat:0.8f forUniformName:@"params"];
+            break;
+        case 3:
+            [self setFloat:0.6f forUniformName:@"params"];
+            break;
+        case 4:
+            [self setFloat:0.4f forUniformName:@"params"];
+            break;
+        case 5:
+            [self setFloat:0.33f forUniformName:@"params"];
+            break;
+        default:
+            break;
     }
 }
 
-#pragma mark -
-#pragma mark Accessors
-
-- (void)setBlurRadiusInPixels:(CGFloat)newValue;
-{
-    //newValue = 25;
-    blurFilter.blurRadiusInPixels = newValue;
-    _excludeCircleRadius = newValue;
-    [selectiveFocusFilter setFloat:newValue forUniformName:@"excludeCircleRadius"];
-    _excludeBlurSize = newValue;
-    [selectiveFocusFilter setFloat:newValue forUniformName:@"excludeBlurSize"];
-}
-
-- (CGFloat)blurRadiusInPixels;
-{
-    return blurFilter.blurRadiusInPixels;
-}
-
-- (void)setExcludeCirclePoint:(CGPoint)newValue;
-{
-    _excludeCirclePoint = newValue;
-    [selectiveFocusFilter setPoint:newValue forUniformName:@"excludeCirclePoint"];
-}
-
-- (void)setExcludeCircleRadius:(CGFloat)newValue;
-{
-    _excludeCircleRadius = newValue;
-    [selectiveFocusFilter setFloat:newValue forUniformName:@"excludeCircleRadius"];
-}
-
-- (void)setExcludeBlurSize:(CGFloat)newValue;
-{
-    _excludeBlurSize = newValue;
-    [selectiveFocusFilter setFloat:newValue forUniformName:@"excludeBlurSize"];
-}
-
-- (void)setAspectRatio:(CGFloat)newValue;
-{
-    hasOverriddenAspectRatio = YES;
-    _aspectRatio = newValue;    
-    [selectiveFocusFilter setFloat:_aspectRatio forUniformName:@"aspectRatio"];
-}
-
 @end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//#import "LFGPUImageBeautyFilter.h"
-//
-//// Internal CombinationFilter(It should not be used outside)
-//@interface GPUImageCombinationFilter : GPUImageThreeInputFilter
-//{
-//    GLint smoothDegreeUniform;
-//}
-//
-//@property (nonatomic, assign) CGFloat intensity;
-//
-//@end
-//
-//NSString *const kGPUImageBeautifyFragmentShaderString = SHADER_STRING
-//(
-// varying highp vec2 textureCoordinate;
-// varying highp vec2 textureCoordinate2;
-// varying highp vec2 textureCoordinate3;
-// 
-// uniform sampler2D inputImageTexture;
-// uniform sampler2D inputImageTexture2;
-// uniform sampler2D inputImageTexture3;
-// uniform mediump float smoothDegree;
-// 
-// void main()
-// {
-////     highp vec4 bilateral = texture2D(inputImageTexture, textureCoordinate);
-////     highp vec4 canny = texture2D(inputImageTexture2, textureCoordinate2);
-////     highp vec4 origin = texture2D(inputImageTexture3,textureCoordinate3);
-////     highp vec4 smooth;
-////     lowp float r = origin.r;
-////     lowp float g = origin.g;
-////     lowp float b = origin.b;
-////     if (canny.r < 0.2 && r > 0.3725 && g > 0.1568 && b > 0.0784 && r > b && (max(max(r, g), b) - min(min(r, g), b)) > 0.0588 && abs(r-g) > 0.0588) {
-////         smooth = (1.0 - smoothDegree) * (origin - bilateral) + bilateral;
-////     }
-////     else {
-////         smooth = origin;
-////     }
-////     smooth.r = log(1.0 + 0.2 * smooth.r)/log(1.2);
-////     smooth.g = log(1.0 + 0.2 * smooth.g)/log(1.2);
-////     smooth.b = log(1.0 + 0.2 * smooth.b)/log(1.2);
-////     gl_FragColor = smooth;
-//     
-//     
-//     highp vec4 blurredImageColor = texture2D(inputImageTexture, textureCoordinate);
-//     highp vec4 canny = texture2D(inputImageTexture2, textureCoordinate2);
-//     highp vec4 sharpImageColor = texture2D(inputImageTexture3,textureCoordinate3);
-//
-//     //gl_FragColor = canny;
-//     
-//     
-//     
-//     
-//          if((sharpImageColor.r > 0.372549 && sharpImageColor.g > 0.156863 && sharpImageColor.b > 0.078431 &&
-//              sharpImageColor.r - sharpImageColor.g > 0.058823 && sharpImageColor.r - sharpImageColor.b > 0.058823) ||
-//             (sharpImageColor.r > 0.784314 && sharpImageColor.g > 0.823530 && sharpImageColor.b > 0.666667 &&
-//              abs(sharpImageColor.r - sharpImageColor.b) <= 0.058823 && sharpImageColor.r > sharpImageColor.b && sharpImageColor.g > sharpImageColor.b)) {
-//                 mediump float rpass;
-//                 mediump float gpass;
-//                 mediump float bpass;
-//                 mediump float hpass;
-//                 //hpass = 0.5 / excludeBlurSize;
-//                 hpass = 1.0;
-//                 //1280*720
-//                 //bpass = min((sharpImageColor.r - blurredImageColor.r)*(sharpImageColor.r - blurredImageColor.r)*0.045455, 1.0);
-//                 //960*540
-//                 rpass = min(((sharpImageColor.r - blurredImageColor.r)*hpass), 1.0);
-//                 gpass = min(((sharpImageColor.g - blurredImageColor.g)*hpass), 1.0);
-//                 bpass = min(((sharpImageColor.b - blurredImageColor.b)*hpass), 1.0);
-//                 bpass = min((0.0+1.0*(1.0*bpass)), 1.0);
-//                 gpass = min((0.0+1.0*(1.0*gpass)), 1.0);
-//                 rpass = min((0.0+1.0*(1.0*rpass)), 1.0);
-//                 mediump float dis = distance(sharpImageColor, blurredImageColor);
-//                 bpass = min((0.35+1.0*(1.0*dis)), 1.0);
-//                 if(canny.r > 0.2) {
-//                     bpass = min((0.45+1.0*(1.0*dis)), 1.0);
-//                 }
-//                 gl_FragColor = mix(sharpImageColor, blurredImageColor, 1.0-bpass);
-//
-//     
-//          } else {
-//              mediump float rpass;
-//              mediump float gpass;
-//              mediump float bpass;
-//              mediump float hpass;
-//              //hpass = 0.5 / excludeBlurSize;
-//              hpass = 1.0;
-//              //1280*720
-//              //bpass = min((sharpImageColor.r - blurredImageColor.r)*(sharpImageColor.r - blurredImageColor.r)*0.045455, 1.0);
-//              //960*540
-//              rpass = min(((sharpImageColor.r - blurredImageColor.r)*hpass), 1.0);
-//              gpass = min(((sharpImageColor.g - blurredImageColor.g)*hpass), 1.0);
-//              bpass = min(((sharpImageColor.b - blurredImageColor.b)*hpass), 1.0);
-//              bpass = min((0.5+1.0*(1.0*bpass)), 1.0);
-//              gpass = min((0.5+1.0*(1.0*gpass)), 1.0);
-//              rpass = min((0.5+1.0*(1.0*rpass)), 1.0);
-//     
-//     //         gpass = max(rpass, gpass);
-//     //         bpass = max(gpass, bpass);
-//     //         bpass = min((0.5+1.0*(1.0*bpass)), 1.0);
-//              //gl_FragColor = vec4(1, 1, 1, 1.0);
-//              mediump float dis = distance(sharpImageColor, blurredImageColor);
-//              bpass = min((0.45+1.0*(1.0*dis)), 1.0);
-//              if(canny.r > 0.2) {
-//                  bpass = min((0.45+1.0*(1.0*dis)), 1.0);
-//              }
-//              gl_FragColor = mix(sharpImageColor, blurredImageColor, 1.0-bpass);
-////
-//          }
-//
-//     
-//     //gl_FragColor = canny;
-//     
-//     
-//          mediump float r;
-//          mediump float g;
-//          mediump float b;
-//     mediump float status = 0.8;
-//          r = min((gl_FragColor.r*2.0 - gl_FragColor.r*gl_FragColor.r), 1.0);
-//          g = min((gl_FragColor.g*2.0 - gl_FragColor.g*gl_FragColor.g), 1.0);
-//          b = min((gl_FragColor.b*2.0 - gl_FragColor.b*gl_FragColor.b), 1.0);
-//          r = min(status*gl_FragColor.r+(1.0-status)*r, 1.0);
-//          g = min(status*gl_FragColor.g+1.2*(1.0-status)*g, 1.0);
-//          b = min(status*gl_FragColor.b+1.3*(1.0-status)*b, 1.0);
-//          gl_FragColor = vec4(r, g, b, 1.0);
-//     
-//     //gl_FragColor = blurredImageColor;
-//     
-//     
-//     
-//     
-// }
-// );
-//
-//@implementation GPUImageCombinationFilter
-//
-//- (id)init {
-//    if (self = [super initWithFragmentShaderFromString:kGPUImageBeautifyFragmentShaderString]) {
-//        smoothDegreeUniform = [filterProgram uniformIndex:@"smoothDegree"];
-//    }
-//    self.intensity = 0.5;
-//    return self;
-//}
-//
-//- (void)setIntensity:(CGFloat)intensity {
-//    _intensity = intensity;
-//    [self setFloat:intensity forUniform:smoothDegreeUniform program:filterProgram];
-//}
-//
-//@end
-//
-//@implementation LFGPUImageBeautyFilter
-//
-//- (id)init;
-//{
-//    if (!(self = [super init]))
-//    {
-//        return nil;
-//    }
-//    
-//    // First pass: face smoothing filter
-////    bilateralFilter = [[GPUImageBilateralFilter alloc] init];
-////    bilateralFilter.distanceNormalizationFactor = 1.0;
-////    bilateralFilter.texelSpacingMultiplier = 0.75;
-////    bilateralFilter.blurRadiusInPixels = 11.0;
-////    [self addFilter:bilateralFilter];
-//    
-//    bilateralFilter = [[GPUImageGaussianBlurFilter alloc] init];
-//    bilateralFilter.texelSpacingMultiplier = 0.55;
-//    bilateralFilter.blurRadiusInPixels = 13.0;
-//    [self addFilter:bilateralFilter];
-//    
-//    // Second pass: edge detection
-//    cannyEdgeFilter = [[GPUImageCannyEdgeDetectionFilter alloc] init];
-//    [self addFilter:cannyEdgeFilter];
-//    
-//    // Third pass: combination bilateral, edge detection and origin
-//    combinationFilter = [[GPUImageCombinationFilter alloc] init];
-//    [self addFilter:combinationFilter];
-//    
-//    // Adjust HSB
-//    hsbFilter = [[GPUImageHSBFilter alloc] init];
-//    [hsbFilter adjustBrightness:1.0];
-//    [hsbFilter adjustSaturation:1.0];
-//    
-//    [bilateralFilter addTarget:combinationFilter];
-//    [cannyEdgeFilter addTarget:combinationFilter];
-//    
-//    [combinationFilter addTarget:hsbFilter];
-//    
-//    self.initialFilters = [NSArray arrayWithObjects:bilateralFilter,cannyEdgeFilter,combinationFilter,nil];
-//    self.terminalFilter = hsbFilter;
-//    
-//    return self;
-//}
-//
-//#pragma mark -
-//#pragma mark GPUImageInput protocol
-//
-//- (void)newFrameReadyAtTime:(CMTime)frameTime atIndex:(NSInteger)textureIndex;
-//{
-//    for (GPUImageOutput<GPUImageInput> *currentFilter in self.initialFilters)
-//    {
-//        if (currentFilter != self.inputFilterToIgnoreForUpdates)
-//        {
-//            if (currentFilter == combinationFilter) {
-//                textureIndex = 2;
-//            }
-//            [currentFilter newFrameReadyAtTime:frameTime atIndex:textureIndex];
-//        }
-//    }
-//}
-//
-//- (void)setInputFramebuffer:(GPUImageFramebuffer *)newInputFramebuffer atIndex:(NSInteger)textureIndex;
-//{
-//    for (GPUImageOutput<GPUImageInput> *currentFilter in self.initialFilters)
-//    {
-//        if (currentFilter == combinationFilter) {
-//            textureIndex = 2;
-//        }
-//        [currentFilter setInputFramebuffer:newInputFramebuffer atIndex:textureIndex];
-//    }
-//}
-//
-//@end
-
-
-
-
-
 

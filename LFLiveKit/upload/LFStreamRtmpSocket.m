@@ -9,12 +9,8 @@
 #import "LFStreamRtmpSocket.h"
 #import "rtmp.h"
 
-
 #define DATA_ITEMS_MAX_COUNT 100
 #define RTMP_DATA_RESERVE_SIZE 400
-
-#define RTMP_CONNECTION_TIMEOUT 1500
-#define RTMP_RECEIVE_TIMEOUT    2
 #define RTMP_HEAD_SIZE (sizeof(RTMPPacket)+RTMP_MAX_HEADER_SIZE)
 
 #define SAVC(x)    static const AVal av_##x = AVC(#x)
@@ -173,7 +169,6 @@ SAVC(mp4a);
     
     //设置可写，即发布流，这个函数必须在连接前使用，否则无效
     PILI_RTMP_EnableWrite(_rtmp);
-    _rtmp->Link.timeout = RTMP_RECEIVE_TIMEOUT;
     
     //连接服务器
     if (PILI_RTMP_Connect(_rtmp, NULL, &_error) < 0){

@@ -20,6 +20,6 @@ Pod::Spec.new do |s|
 
   s.dependency "CocoaAsyncSocket", "~> 7.4.1"
   s.dependency 'LMGPUImage', '~> 0.1.9'
-  s.dependency "librtmp-iOS", "~> 1.1.0"
+  s.dependency "pili-librtmp", "~> 1.0.2"
 
 end

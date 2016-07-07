@@ -111,7 +111,7 @@ static const NSUInteger defaultSendBufferMaxCount = 600;///< 最大缓冲区为6
             LFVideoFrame *videoFrame = (LFVideoFrame*)frame;
             if(videoFrame.isKeyFrame && pframes.count > 0){
                 break;
-            }else{
+            }else if(!videoFrame.isKeyFrame){
                 [pframes addObject:frame];
             }
         }

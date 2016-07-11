@@ -86,8 +86,8 @@ NSString *const LFAudioComponentFailedToCreateNotification = @"LFAudioComponentF
         AURenderCallbackStruct cb;
         cb.inputProcRefCon = (__bridge void *)(self);
         cb.inputProc = handleInputBuffer;
-        status = AudioUnitSetProperty(self.componetInstance, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 1, &desc, sizeof(desc));
-        status = AudioUnitSetProperty(self.componetInstance, kAudioOutputUnitProperty_SetInputCallback, kAudioUnitScope_Global, 1, &cb, sizeof(cb));
+        AudioUnitSetProperty(self.componetInstance, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 1, &desc, sizeof(desc));
+        AudioUnitSetProperty(self.componetInstance, kAudioOutputUnitProperty_SetInputCallback, kAudioUnitScope_Global, 1, &cb, sizeof(cb));
         
         status = AudioUnitInitialize(self.componetInstance);
         
@@ -168,6 +168,7 @@ NSString *const LFAudioComponentFailedToCreateNotification = @"LFAudioComponentF
             seccReason = @"The reason for the change is unknown.";
             break;
     }
+    NSLog(@"handleRouteChange reason is %@",seccReason);
     AVAudioSessionPortDescription *input = [[session.currentRoute.inputs count]?session.currentRoute.inputs:nil objectAtIndex:0];
     if (input.portType == AVAudioSessionPortHeadsetMic) {
         

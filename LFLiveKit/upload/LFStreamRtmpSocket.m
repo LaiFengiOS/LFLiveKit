@@ -252,7 +252,7 @@ Failed:
     *enc++ = 0;
     *enc++ = AMF_OBJECT_END;
 
-    packet.m_nBodySize = enc - packet.m_body;
+    packet.m_nBodySize = enc - (uint32_t)packet.m_body;
     if(!PILI_RTMP_SendPacket(_rtmp, &packet, FALSE, &_error)) {
         return;
     }

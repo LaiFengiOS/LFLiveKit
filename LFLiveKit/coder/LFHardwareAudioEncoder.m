@@ -129,7 +129,7 @@
     
     uint32_t count = size / sizeof(AudioClassDescription);
     AudioClassDescription descs[count];
-    status = AudioFormatGetProperty(kAudioFormatProperty_Encoders, sizeof(encoderSpecifier), &encoderSpecifier, &size, descs);
+    AudioFormatGetProperty(kAudioFormatProperty_Encoders, sizeof(encoderSpecifier), &encoderSpecifier, &size, descs);
     for (uint32_t i = 0; i < count; i++){
         if ((type == descs[i].mSubType) && (manufacturer == descs[i].mManufacturer)){
             memcpy(&audioDesc, &descs[i], sizeof(audioDesc));

@@ -94,9 +94,9 @@ static const NSUInteger defaultSendBufferMaxCount = 600;///< 最大缓冲区为6
         return;
     }
     
-    LFFrame *firstIFrame = [self firstIFrame];
-    if(firstIFrame){
-        [self.list removeObject:firstIFrame];
+    NSArray *iFrames = [self expireIFrames];///<  删除一个I帧（但一个I帧可能对应多个nal）
+    if(iFrames){
+        [self.list removeObjectsInArray:iFrames];
         return;
     }
     
@@ -111,7 +111,7 @@ static const NSUInteger defaultSendBufferMaxCount = 600;///< 最大缓冲区为6
             LFVideoFrame *videoFrame = (LFVideoFrame*)frame;
             if(videoFrame.isKeyFrame && pframes.count > 0){
                 break;
-            }else{
+            }else if(!videoFrame.isKeyFrame){
                 [pframes addObject:frame];
             }
         }
@@ -119,14 +119,18 @@ static const NSUInteger defaultSendBufferMaxCount = 600;///< 最大缓冲区为6
     return pframes;
 }
 
-- (LFFrame*)firstIFrame{
+- (NSArray*)expireIFrames{
+    NSMutableArray *iframes = [[NSMutableArray alloc] init];
+    uint64_t timeStamp = 0;
     for(NSInteger index = 0;index < self.list.count;index++){
         LFFrame *frame = [self.list objectAtIndex:index];
         if([frame isKindOfClass:[LFVideoFrame class]] && ((LFVideoFrame*)frame).isKeyFrame){
-            return frame;
+            if(timeStamp != 0 && timeStamp != frame.timestamp) break;
+            [iframes addObject:frame];
+            timeStamp = frame.timestamp;
         }
     }
-    return nil;
+    return iframes;
 }
 
 NSInteger frameDataCompare(id obj1, id obj2, void *context){

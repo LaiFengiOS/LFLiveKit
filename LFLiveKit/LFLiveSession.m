@@ -282,7 +282,7 @@
 - (id<LFStreamSocket>)socket{
     if(!_socket){
         if(self.liveType == LFLiveRTMP){
-            _socket = [[LFStreamRtmpSocket alloc] initWithStream:self.streamInfo];
+            _socket = [[LFStreamRtmpSocket alloc] initWithStream:self.streamInfo videoSize:self.videoConfiguration.videoSize reconnectInterval:self.reconnectInterval reconnectCount:self.reconnectCount];
         }else if(self.liveType == LFLiveFLV){
             _socket = [[LFStreamTcpSocket alloc] initWithStream:self.streamInfo videoSize:self.videoConfiguration.videoSize reconnectInterval:self.reconnectInterval reconnectCount:self.reconnectCount];
         }

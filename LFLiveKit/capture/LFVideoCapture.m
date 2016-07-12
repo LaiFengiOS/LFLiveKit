@@ -14,6 +14,7 @@
 @interface LFVideoCapture ()
 
 @property(nonatomic, strong) GPUImageVideoCamera *videoCamera;
+@property(nonatomic, weak) LFGPUImageBeautyFilter *beautyFilter;
 @property(nonatomic, strong) GPUImageOutput<GPUImageInput> *filter;
 @property(nonatomic, strong) GPUImageOutput<GPUImageInput> *output;
 @property(nonatomic, strong) GPUImageCropFilter *cropfilter;
@@ -23,6 +24,10 @@
 @end
 
 @implementation LFVideoCapture
+@synthesize torch = _torch;
+@synthesize beautyLevel = _beautyLevel;
+@synthesize brightLevel = _brightLevel;
+@synthesize zoomScale = _zoomScale;
 
 #pragma mark -- LifeCycle
 - (instancetype)initWithVideoConfiguration:(LFLiveVideoConfiguration *)configuration{
@@ -43,6 +48,9 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationDidBecomeActiveNotification object:nil];
         
         self.beautyFace = YES;
+        self.beautyLevel = 0.5;
+        self.brightLevel = 0.5;
+        self.zoomScale = 1.0;
     }
     return self;
 }
@@ -100,6 +108,72 @@
     return _videoCamera.frameRate;
 }
 
+- (void)setTorch:(BOOL)torch {
+    BOOL ret;
+    if(!_videoCamera.captureSession) return;
+    AVCaptureSession* session = (AVCaptureSession*)_videoCamera.captureSession;
+    [session beginConfiguration];
+    if (_videoCamera.inputCamera) {
+        if (_videoCamera.inputCamera.torchAvailable) {
+            NSError* err = nil;
+            if ([_videoCamera.inputCamera lockForConfiguration:&err]) {
+                [_videoCamera.inputCamera setTorchMode:( torch ? AVCaptureTorchModeOn : AVCaptureTorchModeOff ) ];
+                [_videoCamera.inputCamera unlockForConfiguration];
+                ret = (_videoCamera.inputCamera.torchMode == AVCaptureTorchModeOn);
+            } else {
+                NSLog(@"Error while locking device for torch: %@", err);
+                ret = false;
+            }
+        } else {
+            NSLog(@"Torch not available in current camera input");
+        }
+    }
+    [session commitConfiguration];
+    _torch = ret;
+}
+- (BOOL)torch {
+    return _videoCamera.inputCamera.torchMode;
+}
+- (void)setMirror:(BOOL)mirror {
+    _videoCamera.horizontallyMirrorFrontFacingCamera = mirror;
+    _videoCamera.horizontallyMirrorRearFacingCamera = mirror;
+}
+- (BOOL)mirror {
+    return _videoCamera.horizontallyMirrorFrontFacingCamera;
+}
+- (void)setBeautyLevel:(CGFloat)beautyLevel {
+    _beautyLevel = beautyLevel;
+    if (_beautyFilter) {
+        [_beautyFilter setBeautyLevel:_beautyLevel];
+    }
+}
+- (CGFloat)beautyLevel {
+    return _beautyLevel;
+}
+- (void)setBrightLevel:(CGFloat)brightLevel {
+    _brightLevel = brightLevel;
+    if (_beautyFilter) {
+        [_beautyFilter setBrightLevel:brightLevel];
+    }
+}
+- (CGFloat)brightLevel {
+    return _brightLevel;
+}
+- (void)setZoomScale:(CGFloat)zoomScale {
+    if (self.videoCamera && self.videoCamera.inputCamera) {
+        AVCaptureDevice* device = (AVCaptureDevice*)self.videoCamera.inputCamera;
+        if ([device lockForConfiguration:nil]) {
+            device.videoZoomFactor = zoomScale;
+            [device unlockForConfiguration];
+            _zoomScale = zoomScale;
+        }
+    }
+}
+
+- (CGFloat)zoomScale {
+    return _zoomScale;
+}
+
 - (void)setBeautyFace:(BOOL)beautyFace{
     if(_beautyFace == beautyFace) return;
     
@@ -111,14 +185,14 @@
     if (_beautyFace) {
         _output = [[LFGPUImageEmptyFilter alloc] init];
         _filter = [[LFGPUImageBeautyFilter alloc] init];
-        
+        _beautyFilter = _filter;
         __weak typeof(self) _self = self;
         [_output setFrameProcessingCompletionBlock:^(GPUImageOutput *output, CMTime time) {
             [_self processVideo:output];
         }];
     } else {
         _filter = [[LFGPUImageEmptyFilter alloc] init];
-        
+        _beautyFilter = nil;
         __weak typeof(self) _self = self;
         [_filter setFrameProcessingCompletionBlock:^(GPUImageOutput *output, CMTime time) {
             [_self processVideo:output];

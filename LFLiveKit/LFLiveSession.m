@@ -14,6 +14,7 @@
 #import "LFStreamRtmpSocket.h"
 #import "LFStreamTcpSocket.h"
 #import "LFLiveStreamInfo.h"
+#import "LFGPUImageBeautyFilter.h"
 
 #define LFLiveReportKey @"com.youku.liveSessionReport"
 
@@ -153,12 +154,12 @@
     NSUInteger videoBitRate = [_videoEncoder videoBitRate];
     if(status == LFLiveBuffferIncrease){
         if(videoBitRate < _videoConfiguration.videoMaxBitRate){
-            videoBitRate = videoBitRate + 50*1024;
+            videoBitRate = videoBitRate + 50 * 1000;
             [_videoEncoder setVideoBitRate:videoBitRate];
         }
     }else{
         if(videoBitRate > _videoConfiguration.videoMinBitRate){
-            videoBitRate = videoBitRate - 100*1024;
+            videoBitRate = videoBitRate - 100 * 1000;
             [_videoEncoder setVideoBitRate:videoBitRate];
         }
     }
@@ -196,6 +197,46 @@
 
 - (BOOL)beautyFace{
     return self.videoCaptureSource.beautyFace;
+}
+
+- (void)setBeautyLevel:(CGFloat)beautyLevel {
+    [self.videoCaptureSource setBeautyLevel:beautyLevel];
+}
+
+- (CGFloat)beautyLevel {
+    return self.videoCaptureSource.beautyLevel;
+}
+
+- (void)setBrightLevel:(CGFloat)brightLevel {
+    [self.videoCaptureSource setBrightLevel:brightLevel];
+}
+
+- (CGFloat)brightLevel {
+    return self.videoCaptureSource.brightLevel;
+}
+
+- (void)setZoomScale:(CGFloat)zoomScale {
+    [self.videoCaptureSource setZoomScale:zoomScale];
+}
+
+- (CGFloat)zoomScale {
+    return self.videoCaptureSource.zoomScale;
+}
+
+- (void)setTorch:(BOOL)torch {
+    [self.videoCaptureSource setTorch:torch];
+}
+
+- (BOOL)torch {
+    return self.videoCaptureSource.torch;
+}
+
+- (void)setMirror:(BOOL)mirror {
+    [self.videoCaptureSource setMirror:mirror];
+}
+
+- (BOOL)mirror {
+    return self.videoCaptureSource.mirror;
 }
 
 - (void)setMuted:(BOOL)muted{
@@ -264,8 +305,7 @@
         _timestamp = NOW;
         _isFirstFrame = false;
         currentts = 0;
-    }
-    else {
+    } else {
         currentts = NOW - _timestamp;
     }
     dispatch_semaphore_signal(_lock);

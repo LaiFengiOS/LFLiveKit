@@ -20,6 +20,7 @@
 @property (nonatomic, strong) UIView *containerView;
 @property (nonatomic, strong) LFLiveDebug *debugInfo;
 @property (nonatomic, strong) LFLiveSession *session;
+@property (nonatomic, strong) UILabel *stateLabel;
 
 @end
 
@@ -31,6 +32,7 @@
         [self requestAccessForVideo];
         [self requestAccessForAudio];
         [self addSubview:self.containerView];
+        [self.containerView addSubview:self.stateLabel];
         [self.containerView addSubview:self.closeButton];
         [self.containerView addSubview:self.cameraButton];
         [self.containerView addSubview:self.beautyButton];
@@ -93,17 +95,36 @@
 #pragma mark -- LFStreamingSessionDelegate
 /** live status changed will callback */
 - (void)liveSession:(nullable LFLiveSession *)session liveStateDidChange:(LFLiveState)state{
-    
+    NSLog(@"liveStateDidChange: %ld", state);
+    switch (state) {
+        case LFLiveReady:
+            _stateLabel.text = @"未连接";
+            break;
+        case LFLivePending:
+            _stateLabel.text = @"连接中";
+            break;
+        case LFLiveStart:
+            _stateLabel.text = @"已连接";
+            break;
+        case LFLiveError:
+            _stateLabel.text = @"连接错误";
+            break;
+        case LFLiveStop:
+            _stateLabel.text = @"未连接";
+            break;
+        default:
+            break;
+    }
 }
 
 /** live debug info callback */
 - (void)liveSession:(nullable LFLiveSession *)session debugInfo:(nullable LFLiveDebug*)debugInfo{
-    
+    NSLog(@"debugInfo: %lf", debugInfo.dataFlow);
 }
 
 /** callback socket errorcode */
 - (void)liveSession:(nullable LFLiveSession*)session errorCode:(LFLiveSocketErrorCode)errorCode{
-    
+    NSLog(@"errorCode: %ld", errorCode);
 }
 
 #pragma mark -- Getter Setter
@@ -111,6 +132,7 @@
     if(!_session){
         /***   默认分辨率368 ＊ 640  音频：44.1 iphone6以上48  双声道  方向竖屏 ***/
         _session = [[LFLiveSession alloc] initWithAudioConfiguration:[LFLiveAudioConfiguration defaultConfiguration] videoConfiguration:[LFLiveVideoConfiguration defaultConfigurationForQuality:LFLiveVideoQuality_Medium2] liveType:LFLiveRTMP];
+        _session.delegate = self;
         
         /**    自己定制单声道  */
         /*
@@ -210,6 +232,16 @@
         _containerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     }
     return _containerView;
+}
+
+- (UILabel*)stateLabel{
+    if(!_stateLabel){
+        _stateLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, 80, 40)];
+        _stateLabel.text = @"未连接";
+        _stateLabel.textColor = [UIColor whiteColor];
+        _stateLabel.font = [UIFont boldSystemFontOfSize:14.f];
+    }
+    return _stateLabel;
 }
 
 - (UIButton*)closeButton{

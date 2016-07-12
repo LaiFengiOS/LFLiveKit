@@ -495,4 +495,11 @@ void ConnectionTimeCallback(PILI_CONNECTION_TIME* conn_time, void *userData){
     return _buffer;
 }
 
+- (LFLiveDebug*)debugInfo{
+    if(!_debugInfo){
+        _debugInfo = [[LFLiveDebug alloc] init];
+    }
+    return _debugInfo;
+}
+
 @end

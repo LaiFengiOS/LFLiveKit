@@ -46,7 +46,6 @@ SAVC(mp4a);
 @property (nonatomic, weak) id<LFStreamSocketDelegate> delegate;
 @property (nonatomic, strong) LFLiveStreamInfo *stream;
 @property (nonatomic, strong) LFStreamingBuffer *buffer;
-@property (nonatomic, strong) dispatch_queue_t socketQueue;
 @property (nonatomic, strong) LFLiveDebug *debugInfo;
 //错误信息
 @property (nonatomic, assign) RTMPError error;
@@ -83,36 +82,31 @@ SAVC(mp4a);
 }
 
 - (void) start{
-    dispatch_async(self.socketQueue, ^{
-        if(!_stream) return;
-        if(_isConnecting) return;
-        if(_rtmp != NULL) return;
-        self.debugInfo.streamId = self.stream.streamId;
-        self.debugInfo.uploadUrl = self.stream.url;
-        self.debugInfo.isRtmp = YES;
-        [self clean];
-        [self RTMP264_Connect:(char*)[_stream.url cStringUsingEncoding:NSASCIIStringEncoding]];
-    });
+    if(!_stream) return;
+    if(_isConnecting) return;
+    if(_rtmp != NULL) return;
+    self.debugInfo.streamId = self.stream.streamId;
+    self.debugInfo.uploadUrl = self.stream.url;
+    self.debugInfo.isRtmp = YES;
+    [self clean];
+    [self RTMP264_Connect:(char*)[_stream.url cStringUsingEncoding:NSASCIIStringEncoding]];
 }
 
 - (void) stop{
-    dispatch_async(self.socketQueue, ^{
-        if(_rtmp != NULL){
-            PILI_RTMP_Close(_rtmp, &_error);
-            PILI_RTMP_Free(_rtmp);
-            _rtmp = NULL;
-        }
-    });
+    if(self.delegate && [self.delegate respondsToSelector:@selector(socketStatus:status:)]){
+        [self.delegate socketStatus:self status:LFLiveStop];
+    }
+    if(_rtmp != NULL){
+        PILI_RTMP_Close(_rtmp, &_error);
+        PILI_RTMP_Free(_rtmp);
+        _rtmp = NULL;
+    }
 }
 
 - (void) sendFrame:(LFFrame*)frame{
-    __weak typeof(self) _self = self;
-    dispatch_async(self.socketQueue, ^{
-        __strong typeof(_self) self = _self;
-        if(!frame) return;
-        [self.buffer appendObject:frame];
-        [self sendFrame];
-    });
+    if(!frame) return;
+    [self.buffer appendObject:frame];
+    [self sendFrame];
 }
 
 - (void) setDelegate:(id<LFStreamSocketDelegate>)delegate{
@@ -398,7 +392,10 @@ Failed:
         int success = PILI_RTMP_SendPacket(_rtmp,packet,0,&_error);
         if(success){
             self.isSending = NO;
-            [self sendFrame];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self sendFrame];
+            });
+            
         }
         return success;
     }
@@ -461,7 +458,7 @@ void RTMPErrorCallback(RTMPError *error, void *userData){
             socket.isConnected = NO;
             socket.isConnecting = NO;
             socket.isReconnecting = YES;
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(socket.reconnectInterval * NSEC_PER_SEC)), socket.socketQueue, ^{
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(socket.reconnectInterval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [socket reconnect];
             });
         }else if(socket.retryTimes4netWorkBreaken >= socket.reconnectCount){
@@ -480,12 +477,6 @@ void ConnectionTimeCallback(PILI_CONNECTION_TIME* conn_time, void *userData){
 }
 
 #pragma mark -- Getter Setter
-- (dispatch_queue_t)socketQueue{
-    if(!_socketQueue){
-        _socketQueue = dispatch_queue_create("com.youku.LaiFeng.live.socketQueue", NULL);
-    }
-    return _socketQueue;
-}
 
 - (LFStreamingBuffer*)buffer{
     if(!_buffer){

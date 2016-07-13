@@ -5,6 +5,6 @@ target "LFLiveKit" do
 
 pod 'CocoaAsyncSocket', '~> 7.4.1'
 pod 'pili-librtmp', '~> 1.0.2'
-pod 'GPUImage', :git=>’https://github.com/BradLarson/GPUImage’
+pod 'LMGPUImage', '~> 0.1.9'
 
 end

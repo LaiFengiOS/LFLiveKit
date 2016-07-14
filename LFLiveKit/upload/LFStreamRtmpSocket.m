@@ -90,28 +90,36 @@ SAVC(mp4a);
 
 - (void) start{
     dispatch_async(YYRtmpSendQueue(), ^{
-        if(!_stream) return;
-        if(_isConnecting) return;
-        if(_rtmp != NULL) return;
-        self.debugInfo.streamId = self.stream.streamId;
-        self.debugInfo.uploadUrl = self.stream.url;
-        self.debugInfo.isRtmp = YES;
-        [self clean];
-        [self RTMP264_Connect:(char*)[_stream.url cStringUsingEncoding:NSASCIIStringEncoding]];
+        [self _start];
     });
+}
+
+- (void)_start{
+    if(!_stream) return;
+    if(_isConnecting) return;
+    if(_rtmp != NULL) return;
+    self.debugInfo.streamId = self.stream.streamId;
+    self.debugInfo.uploadUrl = self.stream.url;
+    self.debugInfo.isRtmp = YES;
+    [self clean];
+    [self RTMP264_Connect:(char*)[_stream.url cStringUsingEncoding:NSASCIIStringEncoding]];
 }
 
 - (void) stop{
     dispatch_async(YYRtmpSendQueue(), ^{
-        if(self.delegate && [self.delegate respondsToSelector:@selector(socketStatus:status:)]){
-            [self.delegate socketStatus:self status:LFLiveStop];
-        }
-        if(_rtmp != NULL){
-            PILI_RTMP_Close(_rtmp, &_error);
-            PILI_RTMP_Free(_rtmp);
-            _rtmp = NULL;
-        }
+        [self _stop];
     });
+}
+
+- (void)_stop{
+    if(self.delegate && [self.delegate respondsToSelector:@selector(socketStatus:status:)]){
+        [self.delegate socketStatus:self status:LFLiveStop];
+    }
+    if(_rtmp != NULL){
+        PILI_RTMP_Close(_rtmp, &_error);
+        PILI_RTMP_Free(_rtmp);
+        _rtmp = NULL;
+    }
 }
 
 - (void) sendFrame:(LFFrame*)frame{
@@ -452,8 +460,8 @@ Failed:
         _isReconnecting = NO;
         if(_isConnected) return;
         
-        [self stop];
-        [self start];
+        [self _stop];
+        [self _start];
     });
 }
 

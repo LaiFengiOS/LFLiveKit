@@ -170,7 +170,9 @@ NSString *const LFAudioComponentFailedToCreateNotification = @"LFAudioComponentF
     }
     NSLog(@"handleRouteChange reason is %@",seccReason);
     
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
     [[AVAudioSession sharedInstance] setActive:YES error:nil];
+    
     AVAudioSessionPortDescription *input = [[session.currentRoute.inputs count]?session.currentRoute.inputs:nil objectAtIndex:0];
     if (input.portType == AVAudioSessionPortHeadsetMic) {
         

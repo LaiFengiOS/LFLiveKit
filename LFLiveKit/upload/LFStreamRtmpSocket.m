@@ -437,12 +437,9 @@ Failed:
 -(void) reconnect {
     _isReconnecting = NO;
     if(_isConnected) return;
-    if(_rtmp){
-        PILI_RTMP_ReconnectStream(_rtmp, 0, &_error);
-    }else{
-        [self stop];
-        [self start];
-    }
+    
+    [self stop];
+    [self start];
 }
 
 #pragma mark -- CallBack

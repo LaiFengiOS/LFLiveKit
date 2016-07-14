@@ -59,7 +59,9 @@
         }
         case AVAuthorizationStatusAuthorized:{
             // 已经开启授权，可继续
-            [_self.session setRunning:YES];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [_self.session setRunning:YES];
+            });
             break;
         }
         case AVAuthorizationStatusDenied:
@@ -218,7 +220,7 @@
         */
         
         
-        _session.running = YES;
+        _session.delegate = self;
         _session.preView = self;
     }
     return _session;

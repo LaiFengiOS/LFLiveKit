@@ -445,12 +445,7 @@ Failed:
 #pragma mark -- CallBack
 void RTMPErrorCallback(RTMPError *error, void *userData){
     LFStreamRtmpSocket *socket = (__bridge LFStreamRtmpSocket*)userData;
-    if(error->code == RTMPErrorSocketClosedByPeer){
-        [socket stop];
-        if(socket.delegate && [socket.delegate respondsToSelector:@selector(socketStatus:status:)]){
-            [socket.delegate socketStatus:socket status:LFLiveError];
-        }
-    }else{
+    if(error->code < 0){
         if(socket.retryTimes4netWorkBreaken++ < socket.reconnectCount && !socket.isReconnecting){
             socket.isConnected = NO;
             socket.isConnecting = NO;

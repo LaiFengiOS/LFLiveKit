@@ -8,9 +8,14 @@
 
 #import "LFStreamRtmpSocket.h"
 #import "rtmp.h"
+#import "YYDispatchQueuePool.h"
 
 static const NSInteger RetryTimesBreaken = 20;///<  重连1分钟  3秒一次 一共20次
 static const NSInteger RetryTimesMargin = 3;
+
+static dispatch_queue_t YYRtmpSendQueue() {
+    return YYDispatchQueueGetForQOS(NSQualityOfServiceUserInitiated);
+}
 
 #define DATA_ITEMS_MAX_COUNT 100
 #define RTMP_DATA_RESERVE_SIZE 400
@@ -82,31 +87,37 @@ SAVC(mp4a);
 }
 
 - (void) start{
-    if(!_stream) return;
-    if(_isConnecting) return;
-    if(_rtmp != NULL) return;
-    self.debugInfo.streamId = self.stream.streamId;
-    self.debugInfo.uploadUrl = self.stream.url;
-    self.debugInfo.isRtmp = YES;
-    [self clean];
-    [self RTMP264_Connect:(char*)[_stream.url cStringUsingEncoding:NSASCIIStringEncoding]];
+    dispatch_async(YYRtmpSendQueue(), ^{
+        if(!_stream) return;
+        if(_isConnecting) return;
+        if(_rtmp != NULL) return;
+        self.debugInfo.streamId = self.stream.streamId;
+        self.debugInfo.uploadUrl = self.stream.url;
+        self.debugInfo.isRtmp = YES;
+        [self clean];
+        [self RTMP264_Connect:(char*)[_stream.url cStringUsingEncoding:NSASCIIStringEncoding]];
+    });
 }
 
 - (void) stop{
-    if(self.delegate && [self.delegate respondsToSelector:@selector(socketStatus:status:)]){
-        [self.delegate socketStatus:self status:LFLiveStop];
-    }
-    if(_rtmp != NULL){
-        PILI_RTMP_Close(_rtmp, &_error);
-        PILI_RTMP_Free(_rtmp);
-        _rtmp = NULL;
-    }
+    dispatch_async(YYRtmpSendQueue(), ^{
+        if(self.delegate && [self.delegate respondsToSelector:@selector(socketStatus:status:)]){
+            [self.delegate socketStatus:self status:LFLiveStop];
+        }
+        if(_rtmp != NULL){
+            PILI_RTMP_Close(_rtmp, &_error);
+            PILI_RTMP_Free(_rtmp);
+            _rtmp = NULL;
+        }
+    });
 }
 
 - (void) sendFrame:(LFFrame*)frame{
-    if(!frame) return;
-    [self.buffer appendObject:frame];
-    [self sendFrame];
+    dispatch_async(YYRtmpSendQueue(), ^{
+        if(!frame) return;
+        [self.buffer appendObject:frame];
+        [self sendFrame];
+    });
 }
 
 - (void) setDelegate:(id<LFStreamSocketDelegate>)delegate{
@@ -435,11 +446,13 @@ Failed:
 
 // 断线重连
 -(void) reconnect {
-    _isReconnecting = NO;
-    if(_isConnected) return;
-    
-    [self stop];
-    [self start];
+    dispatch_async(YYRtmpSendQueue(), ^{
+        _isReconnecting = NO;
+        if(_isConnected) return;
+        
+        [self stop];
+        [self start];
+    });
 }
 
 #pragma mark -- CallBack

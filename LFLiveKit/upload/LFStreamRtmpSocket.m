@@ -18,7 +18,7 @@ static dispatch_queue_t YYRtmpSendQueue() {
     dispatch_queue_t queue = [pool queue];
     return queue;
 }
-
+#define RTMP_RECEIVE_TIMEOUT    2
 #define DATA_ITEMS_MAX_COUNT 100
 #define RTMP_DATA_RESERVE_SIZE 400
 #define RTMP_HEAD_SIZE (sizeof(RTMPPacket)+RTMP_MAX_HEADER_SIZE)
@@ -224,6 +224,7 @@ SAVC(mp4a);
     _rtmp->m_connCallback = ConnectionTimeCallback;
     _rtmp->m_userData = (__bridge void*)self;
     _rtmp->m_msgCounter = 1;
+    _rtmp->Link.timeout = RTMP_RECEIVE_TIMEOUT;
     //设置可写，即发布流，这个函数必须在连接前使用，否则无效
     PILI_RTMP_EnableWrite(_rtmp);
     

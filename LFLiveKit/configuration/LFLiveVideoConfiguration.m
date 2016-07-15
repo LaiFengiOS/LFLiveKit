@@ -195,6 +195,15 @@
     _videoMinFrameRate = videoMinFrameRate;
 }
 
+- (void)setLandscape:(BOOL)landscape{
+    _landscape = landscape;
+    CGSize size = self.videoSize;
+    if(landscape){
+        self.videoSize = CGSizeMake(size.height, size.width);
+    }else{
+        self.videoSize = CGSizeMake(size.width, size.height);
+    }
+}
 
 #pragma mark -- Custom Method
 - (LFLiveVideoSessionPreset)supportSessionPreset:(LFLiveVideoSessionPreset)sessionPreset{

@@ -15,8 +15,6 @@
 #import "LFLiveVideoConfiguration.h"
 #import "LFLiveDebug.h"
 
-typedef void (^ LFRequestComplete)(_Nullable id info,NSError *_Nullable errorMsg);
-
 
 @class LFLiveSession;
 @protocol LFLiveSessionDelegate <NSObject>

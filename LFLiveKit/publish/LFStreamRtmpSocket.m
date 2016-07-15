@@ -26,7 +26,7 @@ static dispatch_queue_t YYRtmpSendQueue() {
 #define SAVC(x)    static const AVal av_##x = AVC(#x)
 
 static const AVal av_setDataFrame = AVC("@setDataFrame");
-static const AVal av_SDKVersion = AVC("LFLiveKit 1.6");
+static const AVal av_SDKVersion = AVC("LFLiveKit 1.7.3");
 SAVC(onMetaData);
 SAVC(duration);
 SAVC(width);

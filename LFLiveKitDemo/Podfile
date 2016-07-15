@@ -3,6 +3,7 @@ platform :ios,'8.0'
 
 target "LFLiveKitDemo" do
 
-pod 'LFLiveKit', '~> 1.5.2'
+pod 'LFLiveKit', '~> 1.7.1'
+pod 'YYDispatchQueuePool'
 
 end

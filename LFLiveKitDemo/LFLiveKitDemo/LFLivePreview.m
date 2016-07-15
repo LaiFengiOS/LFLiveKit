@@ -59,7 +59,9 @@
         }
         case AVAuthorizationStatusAuthorized:{
             // 已经开启授权，可继续
-            [_self.session setRunning:YES];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [_self.session setRunning:YES];
+            });
             break;
         }
         case AVAuthorizationStatusDenied:
@@ -218,7 +220,7 @@
         */
         
         
-        _session.running = YES;
+        _session.delegate = self;
         _session.preView = self;
     }
     return _session;
@@ -310,7 +312,7 @@
             if(_self.startLiveButton.selected){
                 [_self.startLiveButton setTitle:@"结束直播" forState:UIControlStateNormal];
                 LFLiveStreamInfo *stream = [LFLiveStreamInfo new];
-                stream.url = @"rtmp://30.96.179.95:1935/live/1234";
+                stream.url = @"rtmp://live.hkstv.hk.lxdns.com:1935/live/stream789";
                 //stream.url = @"rtmp://daniulive.com:1935/live/stream2399";
                 [_self.session startLive:stream];
             }else{

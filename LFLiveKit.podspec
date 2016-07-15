@@ -2,7 +2,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "LFLiveKit"
-  s.version      = "1.6.3"
+  s.version      = "1.7.1"
   s.summary      = "LaiFeng ios Live. LFLiveKit."
   s.homepage     = "https://github.com/chenliming777"
   s.license      = { :type => "MIT", :file => "LICENSE" }
@@ -21,5 +21,6 @@ Pod::Spec.new do |s|
   s.dependency "CocoaAsyncSocket", "~> 7.4.1"
   s.dependency 'LMGPUImage', '~> 0.1.9'
   s.dependency "pili-librtmp", "~> 1.0.2"
+  s.dependency "YYDispatchQueuePool"
 
 end

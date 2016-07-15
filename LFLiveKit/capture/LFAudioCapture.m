@@ -32,7 +32,7 @@ NSString *const LFAudioComponentFailedToCreateNotification = @"LFAudioComponentF
         self.taskQueue = dispatch_queue_create("com.youku.Laifeng.audioCapture.Queue", NULL);
         
         AVAudioSession *session = [AVAudioSession sharedInstance];
-        [session setActive:YES withOptions:kAudioSessionSetActiveFlag_NotifyOthersOnDeactivation error:nil];
+        [session setActive:YES  error:nil];
         
         [[NSNotificationCenter defaultCenter] addObserver: self
                                                  selector: @selector(handleRouteChange:)
@@ -45,7 +45,7 @@ NSString *const LFAudioComponentFailedToCreateNotification = @"LFAudioComponentF
         
         NSError *error = nil;
         
-        [session setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker | AVAudioSessionCategoryOptionMixWithOthers error:nil];
+        [session setCategory:AVAudioSessionCategoryPlayAndRecord  error:nil];
         
         [session setMode:AVAudioSessionModeVideoRecording error:&error];
         
@@ -169,6 +169,7 @@ NSString *const LFAudioComponentFailedToCreateNotification = @"LFAudioComponentF
             break;
     }
     NSLog(@"handleRouteChange reason is %@",seccReason);
+    
     AVAudioSessionPortDescription *input = [[session.currentRoute.inputs count]?session.currentRoute.inputs:nil objectAtIndex:0];
     if (input.portType == AVAudioSessionPortHeadsetMic) {
         

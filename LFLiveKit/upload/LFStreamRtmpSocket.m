@@ -8,10 +8,17 @@
 
 #import "LFStreamRtmpSocket.h"
 #import "rtmp.h"
+#import "YYDispatchQueuePool.h"
 
 static const NSInteger RetryTimesBreaken = 20;///<  重连1分钟  3秒一次 一共20次
 static const NSInteger RetryTimesMargin = 3;
 
+static dispatch_queue_t YYRtmpSendQueue() {
+    YYDispatchQueuePool *pool = [[YYDispatchQueuePool alloc] initWithName:@"com.youku.laifeng.rtmpsendQueue" queueCount:1 qos:NSQualityOfServiceDefault];
+    dispatch_queue_t queue = [pool queue];
+    return queue;
+}
+#define RTMP_RECEIVE_TIMEOUT    2
 #define DATA_ITEMS_MAX_COUNT 100
 #define RTMP_DATA_RESERVE_SIZE 400
 #define RTMP_HEAD_SIZE (sizeof(RTMPPacket)+RTMP_MAX_HEADER_SIZE)
@@ -46,7 +53,6 @@ SAVC(mp4a);
 @property (nonatomic, weak) id<LFStreamSocketDelegate> delegate;
 @property (nonatomic, strong) LFLiveStreamInfo *stream;
 @property (nonatomic, strong) LFStreamingBuffer *buffer;
-@property (nonatomic, strong) dispatch_queue_t socketQueue;
 @property (nonatomic, strong) LFLiveDebug *debugInfo;
 //错误信息
 @property (nonatomic, assign) RTMPError error;
@@ -83,32 +89,41 @@ SAVC(mp4a);
 }
 
 - (void) start{
-    dispatch_async(self.socketQueue, ^{
-        if(!_stream) return;
-        if(_isConnecting) return;
-        if(_rtmp != NULL) return;
-        self.debugInfo.streamId = self.stream.streamId;
-        self.debugInfo.uploadUrl = self.stream.url;
-        self.debugInfo.isRtmp = YES;
-        [self clean];
-        [self RTMP264_Connect:(char*)[_stream.url cStringUsingEncoding:NSASCIIStringEncoding]];
+    dispatch_async(YYRtmpSendQueue(), ^{
+        [self _start];
     });
+}
+
+- (void)_start{
+    if(!_stream) return;
+    if(_isConnecting) return;
+    if(_rtmp != NULL) return;
+    self.debugInfo.streamId = self.stream.streamId;
+    self.debugInfo.uploadUrl = self.stream.url;
+    self.debugInfo.isRtmp = YES;
+    [self clean];
+    [self RTMP264_Connect:(char*)[_stream.url cStringUsingEncoding:NSASCIIStringEncoding]];
 }
 
 - (void) stop{
-    dispatch_async(self.socketQueue, ^{
-        if(_rtmp != NULL){
-            PILI_RTMP_Close(_rtmp, &_error);
-            PILI_RTMP_Free(_rtmp);
-            _rtmp = NULL;
-        }
+    dispatch_async(YYRtmpSendQueue(), ^{
+        [self _stop];
     });
 }
 
+- (void)_stop{
+    if(self.delegate && [self.delegate respondsToSelector:@selector(socketStatus:status:)]){
+        [self.delegate socketStatus:self status:LFLiveStop];
+    }
+    if(_rtmp != NULL){
+        PILI_RTMP_Close(_rtmp, &_error);
+        PILI_RTMP_Free(_rtmp);
+        _rtmp = NULL;
+    }
+}
+
 - (void) sendFrame:(LFFrame*)frame{
-    __weak typeof(self) _self = self;
-    dispatch_async(self.socketQueue, ^{
-        __strong typeof(_self) self = _self;
+    dispatch_async(YYRtmpSendQueue(), ^{
         if(!frame) return;
         [self.buffer appendObject:frame];
         [self sendFrame];
@@ -209,6 +224,7 @@ SAVC(mp4a);
     _rtmp->m_connCallback = ConnectionTimeCallback;
     _rtmp->m_userData = (__bridge void*)self;
     _rtmp->m_msgCounter = 1;
+    _rtmp->Link.timeout = RTMP_RECEIVE_TIMEOUT;
     //设置可写，即发布流，这个函数必须在连接前使用，否则无效
     PILI_RTMP_EnableWrite(_rtmp);
     
@@ -398,7 +414,10 @@ Failed:
         int success = PILI_RTMP_SendPacket(_rtmp,packet,0,&_error);
         if(success){
             self.isSending = NO;
-            [self sendFrame];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self sendFrame];
+            });
+            
         }
         return success;
     }
@@ -438,30 +457,24 @@ Failed:
 
 // 断线重连
 -(void) reconnect {
-    _isReconnecting = NO;
-    if(_isConnected) return;
-    if(_rtmp){
-        PILI_RTMP_ReconnectStream(_rtmp, 0, &_error);
-    }else{
-        [self stop];
-        [self start];
-    }
+    dispatch_async(YYRtmpSendQueue(), ^{
+        _isReconnecting = NO;
+        if(_isConnected) return;
+        
+        [self _stop];
+        [self _start];
+    });
 }
 
 #pragma mark -- CallBack
 void RTMPErrorCallback(RTMPError *error, void *userData){
     LFStreamRtmpSocket *socket = (__bridge LFStreamRtmpSocket*)userData;
-    if(error->code == RTMPErrorSocketClosedByPeer){
-        [socket stop];
-        if(socket.delegate && [socket.delegate respondsToSelector:@selector(socketStatus:status:)]){
-            [socket.delegate socketStatus:socket status:LFLiveError];
-        }
-    }else{
+    if(error->code < 0){
         if(socket.retryTimes4netWorkBreaken++ < socket.reconnectCount && !socket.isReconnecting){
             socket.isConnected = NO;
             socket.isConnecting = NO;
             socket.isReconnecting = YES;
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(socket.reconnectInterval * NSEC_PER_SEC)), socket.socketQueue, ^{
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(socket.reconnectInterval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [socket reconnect];
             });
         }else if(socket.retryTimes4netWorkBreaken >= socket.reconnectCount){
@@ -480,12 +493,6 @@ void ConnectionTimeCallback(PILI_CONNECTION_TIME* conn_time, void *userData){
 }
 
 #pragma mark -- Getter Setter
-- (dispatch_queue_t)socketQueue{
-    if(!_socketQueue){
-        _socketQueue = dispatch_queue_create("com.youku.LaiFeng.live.socketQueue", NULL);
-    }
-    return _socketQueue;
-}
 
 - (LFStreamingBuffer*)buffer{
     if(!_buffer){

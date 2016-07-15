@@ -50,8 +50,8 @@ typedef NS_ENUM(NSUInteger, LFLiveVideoQuality){
 /// 视频配置(质量)
 + (instancetype)defaultConfigurationForQuality:(LFLiveVideoQuality)videoQuality;
 
-/// 视频配置(质量 & 方向)
-+ (instancetype)defaultConfigurationForQuality:(LFLiveVideoQuality)videoQuality orientation:(UIInterfaceOrientation)orientation;
+/// 视频配置(质量 & 是否是横屏)
++ (instancetype)defaultConfigurationForQuality:(LFLiveVideoQuality)videoQuality landscape:(BOOL)landscape;
 
 #pragma mark - Attribute
 ///=============================================================================
@@ -61,7 +61,7 @@ typedef NS_ENUM(NSUInteger, LFLiveVideoQuality){
 @property (nonatomic, assign) CGSize videoSize;
 
 /// 视频输出方向
-@property (nonatomic, assign) UIInterfaceOrientation orientation;
+@property (nonatomic, assign) BOOL landscape;
 
 /// 视频的帧率，即 fps
 @property (nonatomic, assign) NSUInteger videoFrameRate;

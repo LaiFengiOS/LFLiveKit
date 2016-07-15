@@ -101,7 +101,6 @@ SAVC(mp4a);
     self.debugInfo.streamId = self.stream.streamId;
     self.debugInfo.uploadUrl = self.stream.url;
     self.debugInfo.isRtmp = YES;
-    [self clean];
     [self RTMP264_Connect:(char*)[_stream.url cStringUsingEncoding:NSASCIIStringEncoding]];
 }
 
@@ -120,6 +119,7 @@ SAVC(mp4a);
         PILI_RTMP_Free(_rtmp);
         _rtmp = NULL;
     }
+    [self clean];
 }
 
 - (void) sendFrame:(LFFrame*)frame{

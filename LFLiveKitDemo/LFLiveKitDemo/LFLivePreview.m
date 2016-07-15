@@ -140,7 +140,7 @@
         
         /***   默认分辨率368 ＊ 640  音频：44.1 iphone6以上48  双声道  方向竖屏 ***/
         
-        _session = [[LFLiveSession alloc] initWithAudioConfiguration:[LFLiveAudioConfiguration defaultConfiguration] videoConfiguration:[LFLiveVideoConfiguration defaultConfigurationForQuality:LFLiveVideoQuality_Medium2 landscape:NO]];
+        //_session = [[LFLiveSession alloc] initWithAudioConfiguration:[LFLiveAudioConfiguration defaultConfiguration] videoConfiguration:[LFLiveVideoConfiguration defaultConfigurationForQuality:LFLiveVideoQuality_Medium2 landscape:NO]];
         
         
         /**    自己定制单声道  */
@@ -207,7 +207,7 @@
         
         /**    自己定制高质量音频128K 分辨率设置为720*1280 方向横屏  */
         
-        /*
+        
          LFLiveAudioConfiguration *audioConfiguration = [LFLiveAudioConfiguration new];
          audioConfiguration.numberOfChannels = 2;
          audioConfiguration.audioBitrate = LFLiveAudioBitRate_128Kbps;
@@ -224,7 +224,7 @@
          videoConfiguration.sessionPreset = LFCaptureSessionPreset720x1280;
          
          _session = [[LFLiveSession alloc] initWithAudioConfiguration:audioConfiguration videoConfiguration:videoConfiguration];
-        */
+        
         
         _session.delegate = self;
         _session.preView = self;

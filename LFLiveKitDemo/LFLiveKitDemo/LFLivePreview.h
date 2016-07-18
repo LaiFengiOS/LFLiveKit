@@ -10,5 +10,4 @@
 
 @interface LFLivePreview : UIView
 
-
 @end

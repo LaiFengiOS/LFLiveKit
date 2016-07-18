@@ -11,10 +11,10 @@
 @interface NSMutableArray (YYAdd)
 
 /**
- Removes and returns the object with the lowest-valued index in the array.
- If the array is empty, it just returns nil.
- 
- @return The first object, or nil.
+   Removes and returns the object with the lowest-valued index in the array.
+   If the array is empty, it just returns nil.
+
+   @return The first object, or nil.
  */
 - (nullable id)lfPopFirstObject;
 

@@ -23,9 +23,9 @@
 /** live status changed will callback */
 - (void)liveSession:(nullable LFLiveSession *)session liveStateDidChange:(LFLiveState)state;
 /** live debug info callback */
-- (void)liveSession:(nullable LFLiveSession *)session debugInfo:(nullable LFLiveDebug*)debugInfo;
+- (void)liveSession:(nullable LFLiveSession *)session debugInfo:(nullable LFLiveDebug *)debugInfo;
 /** callback socket errorcode */
-- (void)liveSession:(nullable LFLiveSession*)session errorCode:(LFLiveSocketErrorCode)errorCode;
+- (void)liveSession:(nullable LFLiveSession *)session errorCode:(LFLiveSocketErrorCode)errorCode;
 @end
 
 @class LFLiveStreamInfo;
@@ -37,13 +37,13 @@
 /// @name Attribute
 ///=============================================================================
 /** The delegate of the capture. captureData callback */
-@property (nullable,nonatomic, weak) id<LFLiveSessionDelegate> delegate;
+@property (nullable, nonatomic, weak) id<LFLiveSessionDelegate> delegate;
 
 /** The running control start capture or stop capture*/
 @property (nonatomic, assign) BOOL running;
 
 /** The preView will show OpenGL ES view*/
-@property (nonatomic, strong,null_resettable) UIView *preView;
+@property (nonatomic, strong, null_resettable) UIView *preView;
 
 /** The captureDevicePosition control camraPosition ,default front*/
 @property (nonatomic, assign) AVCaptureDevicePosition captureDevicePosition;
@@ -67,22 +67,22 @@
 @property (nonatomic, assign) BOOL mirror;
 
 /** The muted control callbackAudioData,muted will memset 0.*/
-@property (nonatomic,assign) BOOL muted;
+@property (nonatomic, assign) BOOL muted;
 
 /** The stream control upload and package*/
-@property (nullable,nonatomic, strong,readonly) LFLiveStreamInfo * streamInfo;
+@property (nullable, nonatomic, strong, readonly) LFLiveStreamInfo *streamInfo;
 
 /** The status of the stream .*/
-@property (nonatomic,assign,readonly) LFLiveState state;
+@property (nonatomic, assign, readonly) LFLiveState state;
 
 /** The showDebugInfo control streamInfo and uploadInfo(1s) *.*/
-@property (nonatomic,assign) BOOL showDebugInfo;
+@property (nonatomic, assign) BOOL showDebugInfo;
 
 /** The reconnectInterval control reconnect timeInterval(重连间隔) *.*/
-@property (nonatomic,assign) NSUInteger reconnectInterval;
+@property (nonatomic, assign) NSUInteger reconnectInterval;
 
 /** The reconnectCount control reconnect count (重连次数) *.*/
-@property (nonatomic,assign) NSUInteger reconnectCount;
+@property (nonatomic, assign) NSUInteger reconnectCount;
 
 #pragma mark - Initializer
 ///=============================================================================
@@ -92,13 +92,13 @@
 + (nullable instancetype)new UNAVAILABLE_ATTRIBUTE;
 
 /**
- The designated initializer. Multiple instances with the same configuration will make the
- capture unstable.
+   The designated initializer. Multiple instances with the same configuration will make the
+   capture unstable.
  */
-- (nullable instancetype)initWithAudioConfiguration:(nullable LFLiveAudioConfiguration*)audioConfiguration videoConfiguration:(nullable LFLiveVideoConfiguration*)videoConfiguration NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithAudioConfiguration:(nullable LFLiveAudioConfiguration *)audioConfiguration videoConfiguration:(nullable LFLiveVideoConfiguration *)videoConfiguration NS_DESIGNATED_INITIALIZER;
 
 /** The start stream .*/
-- (void)startLive:(nonnull LFLiveStreamInfo*)streamInfo;
+- (void)startLive:(nonnull LFLiveStreamInfo *)streamInfo;
 
 /** The stop stream .*/
 - (void)stopLive;

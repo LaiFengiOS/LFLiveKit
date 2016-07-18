@@ -11,6 +11,25 @@
 #import "UIView+YYAdd.h"
 #import "LFLiveSession.h"
 
+inline static NSString *formatedSpeed(float bytes, float elapsed_milli) {
+    if (elapsed_milli <= 0) {
+        return @"N/A";
+    }
+
+    if (bytes <= 0) {
+        return @"0 KB/s";
+    }
+
+    float bytes_per_sec = ((float)bytes) * 1000.f /  elapsed_milli;
+    if (bytes_per_sec >= 1000 * 1000) {
+        return [NSString stringWithFormat:@"%.2f MB/s", ((float)bytes_per_sec) / 1000 / 1000];
+    } else if (bytes_per_sec >= 1000) {
+        return [NSString stringWithFormat:@"%.1f KB/s", ((float)bytes_per_sec) / 1000];
+    } else {
+        return [NSString stringWithFormat:@"%ld B/s", (long)bytes_per_sec];
+    }
+}
+
 @interface LFLivePreview ()<LFLiveSessionDelegate>
 
 @property (nonatomic, strong) UIButton *beautyButton;
@@ -26,8 +45,8 @@
 
 @implementation LFLivePreview
 
-- (instancetype)initWithFrame:(CGRect)frame{
-    if(self = [super initWithFrame:frame]){
+- (instancetype)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
         self.backgroundColor = [UIColor clearColor];
         [self requestAccessForVideo];
         [self requestAccessForAudio];
@@ -42,198 +61,193 @@
 }
 
 #pragma mark -- Public Method
-- (void)requestAccessForVideo{
+- (void)requestAccessForVideo {
     __weak typeof(self) _self = self;
     AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
     switch (status) {
-        case AVAuthorizationStatusNotDetermined:{
-            // 许可对话没有出现，发起授权许可
-            [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
+    case AVAuthorizationStatusNotDetermined: {
+        // 许可对话没有出现，发起授权许可
+        [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
                 if (granted) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [_self.session setRunning:YES];
                     });
                 }
             }];
-            break;
-        }
-        case AVAuthorizationStatusAuthorized:{
-            // 已经开启授权，可继续
-            //dispatch_async(dispatch_get_main_queue(), ^{
-                [_self.session setRunning:YES];
-            //});
-            break;
-        }
-        case AVAuthorizationStatusDenied:
-        case AVAuthorizationStatusRestricted:
-            // 用户明确地拒绝授权，或者相机设备无法访问
-            
-            break;
-        default:
-            break;
+        break;
+    }
+    case AVAuthorizationStatusAuthorized: {
+        // 已经开启授权，可继续
+        [_self.session setRunning:YES];
+        break;
+    }
+    case AVAuthorizationStatusDenied:
+    case AVAuthorizationStatusRestricted:
+        // 用户明确地拒绝授权，或者相机设备无法访问
+
+        break;
+    default:
+        break;
     }
 }
 
-- (void)requestAccessForAudio{
+- (void)requestAccessForAudio {
     AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeAudio];
     switch (status) {
-        case AVAuthorizationStatusNotDetermined:{
-            [AVCaptureDevice requestAccessForMediaType:AVMediaTypeAudio completionHandler:^(BOOL granted) {
+    case AVAuthorizationStatusNotDetermined: {
+        [AVCaptureDevice requestAccessForMediaType:AVMediaTypeAudio completionHandler:^(BOOL granted) {
             }];
-            break;
-        }
-        case AVAuthorizationStatusAuthorized:{
-            break;
-        }
-        case AVAuthorizationStatusDenied:
-        case AVAuthorizationStatusRestricted:
-            break;
-        default:
-            break;
+        break;
+    }
+    case AVAuthorizationStatusAuthorized: {
+        break;
+    }
+    case AVAuthorizationStatusDenied:
+    case AVAuthorizationStatusRestricted:
+        break;
+    default:
+        break;
     }
 }
-
 
 #pragma mark -- LFStreamingSessionDelegate
 /** live status changed will callback */
-- (void)liveSession:(nullable LFLiveSession *)session liveStateDidChange:(LFLiveState)state{
+- (void)liveSession:(nullable LFLiveSession *)session liveStateDidChange:(LFLiveState)state {
     NSLog(@"liveStateDidChange: %ld", state);
     switch (state) {
-        case LFLiveReady:
-            _stateLabel.text = @"未连接";
-            break;
-        case LFLivePending:
-            _stateLabel.text = @"连接中";
-            break;
-        case LFLiveStart:
-            _stateLabel.text = @"已连接";
-            break;
-        case LFLiveError:
-            _stateLabel.text = @"连接错误";
-            break;
-        case LFLiveStop:
-            _stateLabel.text = @"未连接";
-            break;
-        default:
-            break;
+    case LFLiveReady:
+        _stateLabel.text = @"未连接";
+        break;
+    case LFLivePending:
+        _stateLabel.text = @"连接中";
+        break;
+    case LFLiveStart:
+        _stateLabel.text = @"已连接";
+        break;
+    case LFLiveError:
+        _stateLabel.text = @"连接错误";
+        break;
+    case LFLiveStop:
+        _stateLabel.text = @"未连接";
+        break;
+    default:
+        break;
     }
 }
 
 /** live debug info callback */
-- (void)liveSession:(nullable LFLiveSession *)session debugInfo:(nullable LFLiveDebug*)debugInfo{
-    NSLog(@"debugInfo: %lf", debugInfo.dataFlow);
+- (void)liveSession:(nullable LFLiveSession *)session debugInfo:(nullable LFLiveDebug *)debugInfo {
+    NSLog(@"debugInfo uploadSpeed: %@", formatedSpeed(debugInfo.currentBandwidth, debugInfo.elapsedMilli));
 }
 
 /** callback socket errorcode */
-- (void)liveSession:(nullable LFLiveSession*)session errorCode:(LFLiveSocketErrorCode)errorCode{
+- (void)liveSession:(nullable LFLiveSession *)session errorCode:(LFLiveSocketErrorCode)errorCode {
     NSLog(@"errorCode: %ld", errorCode);
 }
 
 #pragma mark -- Getter Setter
-- (LFLiveSession*)session{
-    if(!_session){
+- (LFLiveSession *)session {
+    if (!_session) {
         /**      发现大家有不会用横屏的请注意啦，横屏需要在ViewController  supportedInterfaceOrientations修改方向  默认竖屏  ****/
         /**      发现大家有不会用横屏的请注意啦，横屏需要在ViewController  supportedInterfaceOrientations修改方向  默认竖屏  ****/
         /**      发现大家有不会用横屏的请注意啦，横屏需要在ViewController  supportedInterfaceOrientations修改方向  默认竖屏  ****/
-        
-        
-        
+
+
         /***   默认分辨率368 ＊ 640  音频：44.1 iphone6以上48  双声道  方向竖屏 ***/
-        
         _session = [[LFLiveSession alloc] initWithAudioConfiguration:[LFLiveAudioConfiguration defaultConfiguration] videoConfiguration:[LFLiveVideoConfiguration defaultConfigurationForQuality:LFLiveVideoQuality_Medium2 landscape:NO]];
-        
-        
+
         /**    自己定制单声道  */
         /*
-        LFLiveAudioConfiguration *audioConfiguration = [LFLiveAudioConfiguration new];
-        audioConfiguration.numberOfChannels = 1;
-        audioConfiguration.audioBitrate = LFLiveAudioBitRate_64Kbps;
-        audioConfiguration.audioSampleRate = LFLiveAudioSampleRate_44100Hz;
-        _session = [[LFLiveSession alloc] initWithAudioConfiguration:audioConfiguration videoConfiguration:[LFLiveVideoConfiguration defaultConfiguration]];
-        */
-        
+           LFLiveAudioConfiguration *audioConfiguration = [LFLiveAudioConfiguration new];
+           audioConfiguration.numberOfChannels = 1;
+           audioConfiguration.audioBitrate = LFLiveAudioBitRate_64Kbps;
+           audioConfiguration.audioSampleRate = LFLiveAudioSampleRate_44100Hz;
+           _session = [[LFLiveSession alloc] initWithAudioConfiguration:audioConfiguration videoConfiguration:[LFLiveVideoConfiguration defaultConfiguration]];
+         */
+
         /**    自己定制高质量音频96K */
         /*
-        LFLiveAudioConfiguration *audioConfiguration = [LFLiveAudioConfiguration new];
-        audioConfiguration.numberOfChannels = 2;
-        audioConfiguration.audioBitrate = LFLiveAudioBitRate_96Kbps;
-        audioConfiguration.audioSampleRate = LFLiveAudioSampleRate_44100Hz;
-        _session = [[LFLiveSession alloc] initWithAudioConfiguration:audioConfiguration videoConfiguration:[LFLiveVideoConfiguration defaultConfiguration]];
+           LFLiveAudioConfiguration *audioConfiguration = [LFLiveAudioConfiguration new];
+           audioConfiguration.numberOfChannels = 2;
+           audioConfiguration.audioBitrate = LFLiveAudioBitRate_96Kbps;
+           audioConfiguration.audioSampleRate = LFLiveAudioSampleRate_44100Hz;
+           _session = [[LFLiveSession alloc] initWithAudioConfiguration:audioConfiguration videoConfiguration:[LFLiveVideoConfiguration defaultConfiguration]];
          */
-    
+
         /**    自己定制高质量音频96K 分辨率设置为540*960 方向竖屏 */
-        
+
         /*
-        LFLiveAudioConfiguration *audioConfiguration = [LFLiveAudioConfiguration new];
-        audioConfiguration.numberOfChannels = 2;
-        audioConfiguration.audioBitrate = LFLiveAudioBitRate_96Kbps;
-        audioConfiguration.audioSampleRate = LFLiveAudioSampleRate_44100Hz;
-        
-        LFLiveVideoConfiguration *videoConfiguration = [LFLiveVideoConfiguration new];
-        videoConfiguration.videoSize = CGSizeMake(540, 960);
-        videoConfiguration.videoBitRate = 800*1024;
-        videoConfiguration.videoMaxBitRate = 1000*1024;
-        videoConfiguration.videoMinBitRate = 500*1024;
-        videoConfiguration.videoFrameRate = 24;
-        videoConfiguration.videoMaxKeyframeInterval = 48;
-        videoConfiguration.orientation = UIInterfaceOrientationPortrait;
-        videoConfiguration.sessionPreset = LFCaptureSessionPreset540x960;
-        
-        _session = [[LFLiveSession alloc] initWithAudioConfiguration:audioConfiguration videoConfiguration:videoConfiguration];
-        */
-        
-        
+           LFLiveAudioConfiguration *audioConfiguration = [LFLiveAudioConfiguration new];
+           audioConfiguration.numberOfChannels = 2;
+           audioConfiguration.audioBitrate = LFLiveAudioBitRate_96Kbps;
+           audioConfiguration.audioSampleRate = LFLiveAudioSampleRate_44100Hz;
+
+           LFLiveVideoConfiguration *videoConfiguration = [LFLiveVideoConfiguration new];
+           videoConfiguration.videoSize = CGSizeMake(540, 960);
+           videoConfiguration.videoBitRate = 800*1024;
+           videoConfiguration.videoMaxBitRate = 1000*1024;
+           videoConfiguration.videoMinBitRate = 500*1024;
+           videoConfiguration.videoFrameRate = 24;
+           videoConfiguration.videoMaxKeyframeInterval = 48;
+           videoConfiguration.orientation = UIInterfaceOrientationPortrait;
+           videoConfiguration.sessionPreset = LFCaptureSessionPreset540x960;
+
+           _session = [[LFLiveSession alloc] initWithAudioConfiguration:audioConfiguration videoConfiguration:videoConfiguration];
+         */
+
+
         /**    自己定制高质量音频128K 分辨率设置为720*1280 方向竖屏 */
-        
+
         /*
-         LFLiveAudioConfiguration *audioConfiguration = [LFLiveAudioConfiguration new];
-         audioConfiguration.numberOfChannels = 2;
-         audioConfiguration.audioBitrate = LFLiveAudioBitRate_128Kbps;
-         audioConfiguration.audioSampleRate = LFLiveAudioSampleRate_44100Hz;
-         
-         LFLiveVideoConfiguration *videoConfiguration = [LFLiveVideoConfiguration new];
-         videoConfiguration.videoSize = CGSizeMake(720, 1280);
-         videoConfiguration.videoBitRate = 800*1024;
-         videoConfiguration.videoMaxBitRate = 1000*1024;
-         videoConfiguration.videoMinBitRate = 500*1024;
-         videoConfiguration.videoFrameRate = 15;
-         videoConfiguration.videoMaxKeyframeInterval = 30;
-         videoConfiguration.orientation = UIInterfaceOrientationPortrait;
-         videoConfiguration.sessionPreset = LFCaptureSessionPreset720x1280;
-         
-         _session = [[LFLiveSession alloc] initWithAudioConfiguration:audioConfiguration videoConfiguration:videoConfiguration];
-        */
-        
-        
+           LFLiveAudioConfiguration *audioConfiguration = [LFLiveAudioConfiguration new];
+           audioConfiguration.numberOfChannels = 2;
+           audioConfiguration.audioBitrate = LFLiveAudioBitRate_128Kbps;
+           audioConfiguration.audioSampleRate = LFLiveAudioSampleRate_44100Hz;
+
+           LFLiveVideoConfiguration *videoConfiguration = [LFLiveVideoConfiguration new];
+           videoConfiguration.videoSize = CGSizeMake(720, 1280);
+           videoConfiguration.videoBitRate = 800*1024;
+           videoConfiguration.videoMaxBitRate = 1000*1024;
+           videoConfiguration.videoMinBitRate = 500*1024;
+           videoConfiguration.videoFrameRate = 15;
+           videoConfiguration.videoMaxKeyframeInterval = 30;
+           videoConfiguration.orientation = UIInterfaceOrientationPortrait;
+           videoConfiguration.sessionPreset = LFCaptureSessionPreset720x1280;
+
+           _session = [[LFLiveSession alloc] initWithAudioConfiguration:audioConfiguration videoConfiguration:videoConfiguration];
+         */
+
+
         /**    自己定制高质量音频128K 分辨率设置为720*1280 方向横屏  */
-        
+
         /*
-         LFLiveAudioConfiguration *audioConfiguration = [LFLiveAudioConfiguration new];
-         audioConfiguration.numberOfChannels = 2;
-         audioConfiguration.audioBitrate = LFLiveAudioBitRate_128Kbps;
-         audioConfiguration.audioSampleRate = LFLiveAudioSampleRate_44100Hz;
-         
-         LFLiveVideoConfiguration *videoConfiguration = [LFLiveVideoConfiguration new];
-         videoConfiguration.videoSize = CGSizeMake(1280, 720);
-         videoConfiguration.videoBitRate = 800*1024;
-         videoConfiguration.videoMaxBitRate = 1000*1024;
-         videoConfiguration.videoMinBitRate = 500*1024;
-         videoConfiguration.videoFrameRate = 15;
-         videoConfiguration.videoMaxKeyframeInterval = 30;
-         videoConfiguration.landscape = YES;
-         videoConfiguration.sessionPreset = LFCaptureSessionPreset720x1280;
-         
-         _session = [[LFLiveSession alloc] initWithAudioConfiguration:audioConfiguration videoConfiguration:videoConfiguration];
-        */
-        
+           LFLiveAudioConfiguration *audioConfiguration = [LFLiveAudioConfiguration new];
+           audioConfiguration.numberOfChannels = 2;
+           audioConfiguration.audioBitrate = LFLiveAudioBitRate_128Kbps;
+           audioConfiguration.audioSampleRate = LFLiveAudioSampleRate_44100Hz;
+
+           LFLiveVideoConfiguration *videoConfiguration = [LFLiveVideoConfiguration new];
+           videoConfiguration.videoSize = CGSizeMake(1280, 720);
+           videoConfiguration.videoBitRate = 800*1024;
+           videoConfiguration.videoMaxBitRate = 1000*1024;
+           videoConfiguration.videoMinBitRate = 500*1024;
+           videoConfiguration.videoFrameRate = 15;
+           videoConfiguration.videoMaxKeyframeInterval = 30;
+           videoConfiguration.landscape = YES;
+           videoConfiguration.sessionPreset = LFCaptureSessionPreset720x1280;
+
+           _session = [[LFLiveSession alloc] initWithAudioConfiguration:audioConfiguration videoConfiguration:videoConfiguration];
+         */
+
         _session.delegate = self;
+        _session.showDebugInfo = NO;
         _session.preView = self;
     }
     return _session;
 }
 
-- (UIView*)containerView{
-    if(!_containerView){
+- (UIView *)containerView {
+    if (!_containerView) {
         _containerView = [UIView new];
         _containerView.frame = self.bounds;
         _containerView.backgroundColor = [UIColor clearColor];
@@ -242,8 +256,8 @@
     return _containerView;
 }
 
-- (UILabel*)stateLabel{
-    if(!_stateLabel){
+- (UILabel *)stateLabel {
+    if (!_stateLabel) {
         _stateLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, 80, 40)];
         _stateLabel.text = @"未连接";
         _stateLabel.textColor = [UIColor whiteColor];
@@ -252,8 +266,8 @@
     return _stateLabel;
 }
 
-- (UIButton*)closeButton{
-    if(!_closeButton){
+- (UIButton *)closeButton {
+    if (!_closeButton) {
         _closeButton = [UIButton new];
         _closeButton.size = CGSizeMake(44, 44);
         _closeButton.left = self.width - 10 - _closeButton.width;
@@ -261,14 +275,14 @@
         [_closeButton setImage:[UIImage imageNamed:@"close_preview"] forState:UIControlStateNormal];
         _closeButton.exclusiveTouch = YES;
         [_closeButton addBlockForControlEvents:UIControlEventTouchUpInside block:^(id sender) {
-            
+
         }];
     }
     return _closeButton;
 }
 
-- (UIButton*)cameraButton{
-    if(!_cameraButton){
+- (UIButton *)cameraButton {
+    if (!_cameraButton) {
         _cameraButton = [UIButton new];
         _cameraButton.size = CGSizeMake(44, 44);
         _cameraButton.origin = CGPointMake(_closeButton.left - 10 - _cameraButton.width, 20);
@@ -283,11 +297,11 @@
     return _cameraButton;
 }
 
-- (UIButton*)beautyButton{
-    if(!_beautyButton){
+- (UIButton *)beautyButton {
+    if (!_beautyButton) {
         _beautyButton = [UIButton new];
         _beautyButton.size = CGSizeMake(44, 44);
-        _beautyButton.origin = CGPointMake(_cameraButton.left - 10 - _beautyButton.width,20);
+        _beautyButton.origin = CGPointMake(_cameraButton.left - 10 - _beautyButton.width, 20);
         [_beautyButton setImage:[UIImage imageNamed:@"camra_beauty"] forState:UIControlStateSelected];
         [_beautyButton setImage:[UIImage imageNamed:@"camra_beauty_close"] forState:UIControlStateNormal];
         _beautyButton.exclusiveTouch = YES;
@@ -300,8 +314,8 @@
     return _beautyButton;
 }
 
-- (UIButton*)startLiveButton{
-    if(!_startLiveButton){
+- (UIButton *)startLiveButton {
+    if (!_startLiveButton) {
         _startLiveButton = [UIButton new];
         _startLiveButton.size = CGSizeMake(self.width - 60, 44);
         _startLiveButton.left = 30;
@@ -315,13 +329,13 @@
         __weak typeof(self) _self = self;
         [_startLiveButton addBlockForControlEvents:UIControlEventTouchUpInside block:^(id sender) {
             _self.startLiveButton.selected = !_self.startLiveButton.selected;
-            if(_self.startLiveButton.selected){
+            if (_self.startLiveButton.selected) {
                 [_self.startLiveButton setTitle:@"结束直播" forState:UIControlStateNormal];
                 LFLiveStreamInfo *stream = [LFLiveStreamInfo new];
-                stream.url = @"rtmp://live.hkstv.hk.lxdns.com:1935/live/stream789";
-                //stream.url = @"rtmp://daniulive.com:1935/live/stream2399";
+//                stream.url = @"rtmp://30.96.179.95:1935/live/1234";
+                stream.url = @"rtmp://dlrtmpup.cdn.zhanqi.tv/zqlive/60156_LxdsN?k=1ca07961706095f6feb9df1667d838ed&t=5763b617";
                 [_self.session startLive:stream];
-            }else{
+            } else {
                 [_self.startLiveButton setTitle:@"开始直播" forState:UIControlStateNormal];
                 [_self.session stopLive];
             }
@@ -331,3 +345,4 @@
 }
 
 @end
+

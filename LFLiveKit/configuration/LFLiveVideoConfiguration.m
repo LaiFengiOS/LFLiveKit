@@ -18,14 +18,14 @@
 }
 
 + (instancetype)defaultConfigurationForQuality:(LFLiveVideoQuality)videoQuality{
-    LFLiveVideoConfiguration *configuration = [LFLiveVideoConfiguration defaultConfigurationForQuality:videoQuality orientation:UIInterfaceOrientationPortrait];
+    LFLiveVideoConfiguration *configuration = [LFLiveVideoConfiguration defaultConfigurationForQuality:videoQuality landscape:NO];
     return configuration;
 }
 
-+ (instancetype)defaultConfigurationForQuality:(LFLiveVideoQuality)videoQuality orientation:(UIInterfaceOrientation)orientation{
++ (instancetype)defaultConfigurationForQuality:(LFLiveVideoQuality)videoQuality landscape:(BOOL)landscape{
     LFLiveVideoConfiguration *configuration = [LFLiveVideoConfiguration new];
     switch (videoQuality) {
-            case LFLiveVideoQuality_Low1:
+        case LFLiveVideoQuality_Low1:
         {
             configuration.sessionPreset = LFCaptureSessionPreset360x640;
             configuration.videoFrameRate = 15;
@@ -37,7 +37,7 @@
             configuration.videoSize = CGSizeMake(360, 640);
         }
             break;
-            case LFLiveVideoQuality_Low2:
+        case LFLiveVideoQuality_Low2:
         {
             configuration.sessionPreset = LFCaptureSessionPreset360x640;
             configuration.videoFrameRate = 24;
@@ -49,7 +49,7 @@
             configuration.videoSize = CGSizeMake(360, 640);
         }
             break;
-            case LFLiveVideoQuality_Low3:
+        case LFLiveVideoQuality_Low3:
         {
             configuration.sessionPreset = LFCaptureSessionPreset360x640;
             configuration.videoFrameRate = 30;
@@ -61,7 +61,7 @@
             configuration.videoSize = CGSizeMake(360, 640);
         }
             break;
-            case LFLiveVideoQuality_Medium1:
+        case LFLiveVideoQuality_Medium1:
         {
             configuration.sessionPreset = LFCaptureSessionPreset540x960;
             configuration.videoFrameRate = 15;
@@ -73,7 +73,7 @@
             configuration.videoSize = CGSizeMake(540, 960);
         }
             break;
-            case LFLiveVideoQuality_Medium2:
+        case LFLiveVideoQuality_Medium2:
         {
             configuration.sessionPreset = LFCaptureSessionPreset540x960;
             configuration.videoFrameRate = 24;
@@ -85,7 +85,7 @@
             configuration.videoSize = CGSizeMake(540, 960);
         }
             break;
-            case LFLiveVideoQuality_Medium3:
+        case LFLiveVideoQuality_Medium3:
         {
             configuration.sessionPreset = LFCaptureSessionPreset540x960;
             configuration.videoFrameRate = 30;
@@ -97,7 +97,7 @@
             configuration.videoSize = CGSizeMake(540, 960);
         }
             break;
-            case LFLiveVideoQuality_High1:
+        case LFLiveVideoQuality_High1:
         {
             configuration.sessionPreset = LFCaptureSessionPreset720x1280;
             configuration.videoFrameRate = 15;
@@ -109,7 +109,7 @@
             configuration.videoSize = CGSizeMake(720, 1280);
         }
             break;
-            case LFLiveVideoQuality_High2:
+        case LFLiveVideoQuality_High2:
         {
             configuration.sessionPreset = LFCaptureSessionPreset720x1280;
             configuration.videoFrameRate = 24;
@@ -121,7 +121,7 @@
             configuration.videoSize = CGSizeMake(720, 1280);
         }
             break;
-            case LFLiveVideoQuality_High3:
+        case LFLiveVideoQuality_High3:
         {
             configuration.sessionPreset = LFCaptureSessionPreset720x1280;
             configuration.videoFrameRate = 30;
@@ -138,12 +138,12 @@
     }
     configuration.sessionPreset = [configuration supportSessionPreset:configuration.sessionPreset];
     configuration.videoMaxKeyframeInterval = configuration.videoFrameRate*2;
-    configuration.orientation = orientation;
+    configuration.landscape = landscape;
     CGSize size = configuration.videoSize;
-    if(orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown){
-        configuration.videoSize = CGSizeMake(size.width, size.height);
-    }else{
+    if(landscape){
         configuration.videoSize = CGSizeMake(size.height, size.width);
+    }else{
+        configuration.videoSize = CGSizeMake(size.width, size.height);
     }
     return configuration;
 }
@@ -152,17 +152,17 @@
 - (NSString*)avSessionPreset{
     NSString *avSessionPreset = nil;
     switch (self.sessionPreset) {
-            case LFCaptureSessionPreset360x640:
+        case LFCaptureSessionPreset360x640:
         {
             avSessionPreset = AVCaptureSessionPreset640x480;
         }
             break;
-            case LFCaptureSessionPreset540x960:
+        case LFCaptureSessionPreset540x960:
         {
             avSessionPreset = AVCaptureSessionPresetiFrame960x540;
         }
             break;
-            case LFCaptureSessionPreset720x1280:
+        case LFCaptureSessionPreset720x1280:
         {
             avSessionPreset = AVCaptureSessionPreset1280x720;
         }
@@ -195,7 +195,6 @@
     _videoMinFrameRate = videoMinFrameRate;
 }
 
-
 #pragma mark -- Custom Method
 - (LFLiveVideoSessionPreset)supportSessionPreset:(LFLiveVideoSessionPreset)sessionPreset{
     NSString *avSessionPreset = [self avSessionPreset];
@@ -225,7 +224,7 @@
     [aCoder encodeObject:@(self.videoMaxKeyframeInterval) forKey:@"videoMaxKeyframeInterval"];
     [aCoder encodeObject:@(self.videoBitRate) forKey:@"videoBitRate"];
     [aCoder encodeObject:@(self.sessionPreset) forKey:@"sessionPreset"];
-    [aCoder encodeObject:@(self.orientation) forKey:@"orientation"];
+    [aCoder encodeObject:@(self.landscape) forKey:@"landscape"];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -235,7 +234,7 @@
     _videoMaxKeyframeInterval = [[aDecoder decodeObjectForKey:@"videoMaxKeyframeInterval"] unsignedIntegerValue];
     _videoBitRate = [[aDecoder decodeObjectForKey:@"videoBitRate"] unsignedIntegerValue];
     _sessionPreset = [[aDecoder decodeObjectForKey:@"sessionPreset"] unsignedIntegerValue];
-    _orientation = [[aDecoder decodeObjectForKey:@"orientation"] unsignedIntegerValue];
+    _landscape = [[aDecoder decodeObjectForKey:@"landscape"] unsignedIntegerValue];
     return self;
 }
 
@@ -252,7 +251,7 @@
                         @(self.isClipVideo),
                         self.avSessionPreset,
                         @(self.sessionPreset),
-                        @(self.orientation),];
+                        @(self.landscape),];
     
     for (NSObject *value in values) {
         hash ^= value.hash;
@@ -279,7 +278,7 @@
         object.isClipVideo == self.isClipVideo &&
         [object.avSessionPreset isEqualToString:self.avSessionPreset] &&
         object.sessionPreset == self.sessionPreset &&
-        object.orientation == self.orientation;
+        object.landscape == self.landscape;
     }
 }
 
@@ -302,7 +301,7 @@
     [desc appendFormat:@" isClipVideo:%zi",self.isClipVideo];
     [desc appendFormat:@" avSessionPreset:%@",self.avSessionPreset];
     [desc appendFormat:@" sessionPreset:%zi",self.sessionPreset];
-    [desc appendFormat:@" orientation:%zi",self.orientation];
+    [desc appendFormat:@" landscape:%zi",self.landscape];
     return desc;
 }
 

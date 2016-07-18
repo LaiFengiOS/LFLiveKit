@@ -26,7 +26,7 @@ static dispatch_queue_t YYRtmpSendQueue() {
 #define SAVC(x)    static const AVal av_##x = AVC(#x)
 
 static const AVal av_setDataFrame = AVC("@setDataFrame");
-static const AVal av_SDKVersion = AVC("LFLiveKit 1.6");
+static const AVal av_SDKVersion = AVC("LFLiveKit 1.7.3");
 SAVC(onMetaData);
 SAVC(duration);
 SAVC(width);
@@ -101,7 +101,6 @@ SAVC(mp4a);
     self.debugInfo.streamId = self.stream.streamId;
     self.debugInfo.uploadUrl = self.stream.url;
     self.debugInfo.isRtmp = YES;
-    [self clean];
     [self RTMP264_Connect:(char*)[_stream.url cStringUsingEncoding:NSASCIIStringEncoding]];
 }
 
@@ -120,6 +119,7 @@ SAVC(mp4a);
         PILI_RTMP_Free(_rtmp);
         _rtmp = NULL;
     }
+    [self clean];
 }
 
 - (void) sendFrame:(LFFrame*)frame{
@@ -215,7 +215,7 @@ SAVC(mp4a);
     PILI_RTMP_Init(_rtmp);
     
     //设置URL
-    if (PILI_RTMP_SetupURL(_rtmp, push_url, &_error) < 0){
+    if (PILI_RTMP_SetupURL(_rtmp, push_url, &_error) == FALSE){
         //log(LOG_ERR, "RTMP_SetupURL() failed!");
         goto Failed;
     }
@@ -229,12 +229,12 @@ SAVC(mp4a);
     PILI_RTMP_EnableWrite(_rtmp);
     
     //连接服务器
-    if (PILI_RTMP_Connect(_rtmp, NULL, &_error) < 0){
+    if (PILI_RTMP_Connect(_rtmp, NULL, &_error) == FALSE){
         goto Failed;
     }
     
     //连接流
-    if (PILI_RTMP_ConnectStream(_rtmp, 0, &_error) < 0) {
+    if (PILI_RTMP_ConnectStream(_rtmp, 0, &_error) == FALSE) {
         goto Failed;
     }
     
@@ -254,6 +254,13 @@ SAVC(mp4a);
 Failed:
     PILI_RTMP_Close(_rtmp, &_error);
     PILI_RTMP_Free(_rtmp);
+    _rtmp = NULL;
+    if(self.delegate && [self.delegate respondsToSelector:@selector(socketDidError:errorCode:)]){
+        [self.delegate socketDidError:self errorCode:LFLiveSocketError_ConnectSocket];
+    }
+    if(self.delegate && [self.delegate respondsToSelector:@selector(socketStatus:status:)]){
+        [self.delegate socketStatus:self status:LFLiveError];
+    }
     return -1;
 }
 

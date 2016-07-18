@@ -8,7 +8,7 @@
 
 LFLiveKit
 
-	LFLiveKit IOS mobile phone push code，Default format support RTMP and FLV，At the same time, the structure is very easy to extend.
+	LFLiveKit IOS mobile phone push code，Default format support RTMP，At the same time, the structure is very easy to extend.
 
 Podfile
 	To integrate LFLiveKit into your Xcode project using CocoaPods, specify it in your Podfile:
@@ -43,41 +43,41 @@ Architecture
 
 	capture: LFAudioCapture and  LFVideoCapture
 	encode:  LFHardwareAudioEncoder and LFHardwareVideoEncoder
-	publish: LFStreamRtmpSocket LFStreamTcpSocket
+	publish: LFStreamRtmpSocket
 	
 Usage
 	
 	- (LFLiveSession*)session{
-    if(!_session){
-_session = [[LFLiveSession alloc] initWithAudioConfiguration:[LFLiveAudioConfiguration defaultConfiguration] videoConfiguration:[LFLiveVideoConfiguration defaultConfiguration] liveType:LFLiveRTMP];
-        _session.running = YES;
-        _session.preView = self;
-    }
-    return _session;
+        if(!_session){
+            _session = [[LFLiveSession alloc] initWithAudioConfiguration:[LFLiveAudioConfiguration defaultConfiguration] videoConfiguration:[LFLiveVideoConfiguration defaultConfiguration]];
+            _session.preView = self;
+            _session.delegate = self;
+        }
+        return _session;
 	}
 	
 	- (LFLiveSession*)session{
-    if(!_session){
-        LFLiveAudioConfiguration *audioConfiguration = [LFLiveAudioConfiguration new];
-         audioConfiguration.numberOfChannels = 2;
-         audioConfiguration.audioBitrate = LFLiveAudioBitRate_128Kbps;
-         audioConfiguration.audioSampleRate = LFLiveAudioSampleRate_44100Hz;
-         
-         LFLiveVideoConfiguration *videoConfiguration = [LFLiveVideoConfiguration new];
-         videoConfiguration.videoSize = CGSizeMake(1280, 720);
-         videoConfiguration.videoBitRate = 800*1024;
-         videoConfiguration.videoMaxBitRate = 1000*1024;
-         videoConfiguration.videoMinBitRate = 500*1024;
-         videoConfiguration.videoFrameRate = 15;
-         videoConfiguration.videoMaxKeyframeInterval = 30;
-         videoConfiguration.orientation = UIInterfaceOrientationLandscapeLeft;
-         videoConfiguration.sessionPreset = LFCaptureSessionPreset720x1280;
-         
-         _session = [[LFLiveSession alloc] initWithAudioConfiguration:audioConfiguration 				videoConfiguration:videoConfiguration liveType:LFLiveRTMP];
-        _session.running = YES;
-        _session.preView = self;
-    }
-    return _session;
+        if(!_session){
+            LFLiveAudioConfiguration *audioConfiguration = [LFLiveAudioConfiguration new];
+             audioConfiguration.numberOfChannels = 2;
+             audioConfiguration.audioBitrate = LFLiveAudioBitRate_128Kbps;
+             audioConfiguration.audioSampleRate = LFLiveAudioSampleRate_44100Hz;
+             
+             LFLiveVideoConfiguration *videoConfiguration = [LFLiveVideoConfiguration new];
+             videoConfiguration.videoSize = CGSizeMake(1280, 720);
+             videoConfiguration.videoBitRate = 800*1024;
+             videoConfiguration.videoMaxBitRate = 1000*1024;
+             videoConfiguration.videoMinBitRate = 500*1024;
+             videoConfiguration.videoFrameRate = 15;
+             videoConfiguration.videoMaxKeyframeInterval = 30;
+             videoConfiguration.landscape = YES;
+             videoConfiguration.sessionPreset = LFCaptureSessionPreset720x1280;
+             
+             _session = [[LFLiveSession alloc] initWithAudioConfiguration:audioConfiguration videoConfiguration:videoConfiguration];
+            _session.running = YES;
+            _session.preView = self;
+        }
+        return _session;
 	}
 	
 	LFLiveStreamInfo *streamInfo = [LFLiveStreamInfo new];

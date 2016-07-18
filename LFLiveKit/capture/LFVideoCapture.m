@@ -34,7 +34,27 @@
     if(self = [super init]){
         _configuration = configuration;
         _videoCamera = [[GPUImageVideoCamera alloc] initWithSessionPreset:_configuration.avSessionPreset cameraPosition:AVCaptureDevicePositionFront];
-        _videoCamera.outputImageOrientation = _configuration.orientation;
+        UIInterfaceOrientation statusBar = [[UIApplication sharedApplication] statusBarOrientation];
+        if(configuration.landscape){
+            if(statusBar != UIInterfaceOrientationLandscapeLeft && statusBar != UIInterfaceOrientationLandscapeRight){
+                NSLog(@"当前设置方向出错");
+                NSLog(@"当前设置方向出错");
+                NSLog(@"当前设置方向出错");
+                _videoCamera.outputImageOrientation = UIInterfaceOrientationLandscapeLeft;
+            }else{
+                _videoCamera.outputImageOrientation = statusBar;
+            }
+        }else{
+            if(statusBar != UIInterfaceOrientationPortrait && statusBar != UIInterfaceOrientationPortraitUpsideDown){
+                NSLog(@"当前设置方向出错");
+                NSLog(@"当前设置方向出错");
+                NSLog(@"当前设置方向出错");
+                _videoCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
+            }else{
+                _videoCamera.outputImageOrientation = statusBar;
+            }
+        }
+        
         _videoCamera.horizontallyMirrorFrontFacingCamera = NO;
         _videoCamera.horizontallyMirrorRearFacingCamera = NO;
         _videoCamera.frameRate = (int32_t)_configuration.videoFrameRate;
@@ -46,7 +66,7 @@
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterBackground:) name:UIApplicationWillResignActiveNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationDidBecomeActiveNotification object:nil];
-        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarChanged:) name:UIApplicationWillChangeStatusBarOrientationNotification object:nil];
         self.beautyFace = YES;
         self.beautyLevel = 0.5;
         self.brightLevel = 0.5;
@@ -200,7 +220,7 @@
     }
     
     if (_configuration.isClipVideo) {
-        if (_configuration.orientation == UIInterfaceOrientationPortrait || _configuration.orientation == UIInterfaceOrientationPortraitUpsideDown){
+        if (_configuration.landscape){
             _cropfilter = [[GPUImageCropFilter alloc] initWithCropRegion:CGRectMake(0.125, 0, 0.75, 1)];
         } else {
             _cropfilter = [[GPUImageCropFilter alloc] initWithCropRegion:CGRectMake(0, 0.125, 1, 0.75)];
@@ -235,7 +255,7 @@
         if(pixelBuffer && _self.delegate && [_self.delegate respondsToSelector:@selector(captureOutput:pixelBuffer:)]){
             [_self.delegate captureOutput:_self pixelBuffer:pixelBuffer];
         }
-
+        
     }
 }
 
@@ -252,6 +272,24 @@
 - (void)willEnterForeground:(NSNotification*)notification{
     [_videoCamera resumeCameraCapture];
     [UIApplication sharedApplication].idleTimerDisabled = YES;
+}
+
+- (void)statusBarChanged:(NSNotification*)notification{
+    NSLog(@"UIApplicationWillChangeStatusBarOrientationNotification. UserInfo: %@",  notification.userInfo);
+    UIInterfaceOrientation statusBar = [[UIApplication sharedApplication] statusBarOrientation];
+    if(_configuration.landscape){
+        if(statusBar == UIInterfaceOrientationLandscapeLeft){
+            self.videoCamera.outputImageOrientation = UIInterfaceOrientationLandscapeRight;
+        }else if(statusBar == UIInterfaceOrientationLandscapeRight){
+            self.videoCamera.outputImageOrientation = UIInterfaceOrientationLandscapeLeft;
+        }
+    }else{
+        if(statusBar == UIInterfaceOrientationPortrait){
+            self.videoCamera.outputImageOrientation = UIInterfaceOrientationPortraitUpsideDown;
+        }else if(statusBar == UIInterfaceOrientationPortraitUpsideDown){
+            self.videoCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
+        }
+    }
 }
 
 @end

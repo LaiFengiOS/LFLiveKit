@@ -118,8 +118,7 @@ class ViewController: UIViewController, LFLiveSessionDelegate {
         if (startLiveButton.selected) {
             startLiveButton.setTitle("结束直播", forState: UIControlState.Normal)
             let stream = LFLiveStreamInfo()
-            //            stream.url = "rtmp://30.96.179.95:1935/live/1234";
-            stream.url = "rtmp://dlrtmpup.cdn.zhanqi.tv/zqlive/60156_LxdsN?k=1ca07961706095f6feb9df1667d838ed&t=5763b617";
+            stream.url = "rtmp://30.96.179.95:1935/live/1234"
             session.startLive(stream)
         } else {
             startLiveButton.setTitle("开始直播", forState: UIControlState.Normal)

@@ -47,13 +47,13 @@
 		84001FFF1D00176C0026C63F /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84001FFE1D00176C0026C63F /* VideoToolbox.framework */; };
 		840020011D0017850026C63F /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 840020001D0017850026C63F /* libz.tbd */; };
 		AD7F89B4621A7EFEBEA72D49 /* libPods-LFLiveKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B8CB02D2A92EA1F5A262F154 /* libPods-LFLiveKit.a */; };
-		B289F1CD1D3DE06C00D9C7A5 /* LFStreamingBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = B289F1C61D3DE06C00D9C7A5 /* LFStreamingBuffer.h */; };
-		B289F1CE1D3DE06C00D9C7A5 /* LFStreamingBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = B289F1C71D3DE06C00D9C7A5 /* LFStreamingBuffer.m */; };
-		B289F1CF1D3DE06C00D9C7A5 /* LFStreamRtmpSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = B289F1C81D3DE06C00D9C7A5 /* LFStreamRtmpSocket.h */; };
-		B289F1D01D3DE06C00D9C7A5 /* LFStreamRtmpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = B289F1C91D3DE06C00D9C7A5 /* LFStreamRtmpSocket.m */; };
-		B289F1D11D3DE06C00D9C7A5 /* LFStreamSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = B289F1CA1D3DE06C00D9C7A5 /* LFStreamSocket.h */; };
-		B289F1D21D3DE06C00D9C7A5 /* NSMutableArray+LFAdd.h in Headers */ = {isa = PBXBuildFile; fileRef = B289F1CB1D3DE06C00D9C7A5 /* NSMutableArray+LFAdd.h */; };
-		B289F1D31D3DE06C00D9C7A5 /* NSMutableArray+LFAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = B289F1CC1D3DE06C00D9C7A5 /* NSMutableArray+LFAdd.m */; };
+		B289F1DB1D3DE77F00D9C7A5 /* LFStreamingBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = B289F1D41D3DE77F00D9C7A5 /* LFStreamingBuffer.h */; };
+		B289F1DC1D3DE77F00D9C7A5 /* LFStreamingBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = B289F1D51D3DE77F00D9C7A5 /* LFStreamingBuffer.m */; };
+		B289F1DD1D3DE77F00D9C7A5 /* LFStreamRtmpSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = B289F1D61D3DE77F00D9C7A5 /* LFStreamRtmpSocket.h */; };
+		B289F1DE1D3DE77F00D9C7A5 /* LFStreamRtmpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = B289F1D71D3DE77F00D9C7A5 /* LFStreamRtmpSocket.m */; };
+		B289F1DF1D3DE77F00D9C7A5 /* LFStreamSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = B289F1D81D3DE77F00D9C7A5 /* LFStreamSocket.h */; };
+		B289F1E01D3DE77F00D9C7A5 /* NSMutableArray+LFAdd.h in Headers */ = {isa = PBXBuildFile; fileRef = B289F1D91D3DE77F00D9C7A5 /* NSMutableArray+LFAdd.h */; };
+		B289F1E11D3DE77F00D9C7A5 /* NSMutableArray+LFAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = B289F1DA1D3DE77F00D9C7A5 /* NSMutableArray+LFAdd.m */; };
 		BE55DA79155500CDEF87FB5C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B5758EB2A15DAA132D8BF380 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -111,13 +111,13 @@
 		84001FFE1D00176C0026C63F /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
 		840020001D0017850026C63F /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		A17586B27CD6843997425CCF /* Pods-LFLiveKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LFLiveKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LFLiveKit/Pods-LFLiveKit.debug.xcconfig"; sourceTree = "<group>"; };
-		B289F1C61D3DE06C00D9C7A5 /* LFStreamingBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFStreamingBuffer.h; sourceTree = "<group>"; };
-		B289F1C71D3DE06C00D9C7A5 /* LFStreamingBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFStreamingBuffer.m; sourceTree = "<group>"; };
-		B289F1C81D3DE06C00D9C7A5 /* LFStreamRtmpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFStreamRtmpSocket.h; sourceTree = "<group>"; };
-		B289F1C91D3DE06C00D9C7A5 /* LFStreamRtmpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFStreamRtmpSocket.m; sourceTree = "<group>"; };
-		B289F1CA1D3DE06C00D9C7A5 /* LFStreamSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFStreamSocket.h; sourceTree = "<group>"; };
-		B289F1CB1D3DE06C00D9C7A5 /* NSMutableArray+LFAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+LFAdd.h"; sourceTree = "<group>"; };
-		B289F1CC1D3DE06C00D9C7A5 /* NSMutableArray+LFAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+LFAdd.m"; sourceTree = "<group>"; };
+		B289F1D41D3DE77F00D9C7A5 /* LFStreamingBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LFStreamingBuffer.h; path = LFLiveKit/publish/LFStreamingBuffer.h; sourceTree = SOURCE_ROOT; };
+		B289F1D51D3DE77F00D9C7A5 /* LFStreamingBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LFStreamingBuffer.m; path = LFLiveKit/publish/LFStreamingBuffer.m; sourceTree = SOURCE_ROOT; };
+		B289F1D61D3DE77F00D9C7A5 /* LFStreamRtmpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LFStreamRtmpSocket.h; path = LFLiveKit/publish/LFStreamRtmpSocket.h; sourceTree = SOURCE_ROOT; };
+		B289F1D71D3DE77F00D9C7A5 /* LFStreamRtmpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LFStreamRtmpSocket.m; path = LFLiveKit/publish/LFStreamRtmpSocket.m; sourceTree = SOURCE_ROOT; };
+		B289F1D81D3DE77F00D9C7A5 /* LFStreamSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LFStreamSocket.h; path = LFLiveKit/publish/LFStreamSocket.h; sourceTree = SOURCE_ROOT; };
+		B289F1D91D3DE77F00D9C7A5 /* NSMutableArray+LFAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableArray+LFAdd.h"; path = "LFLiveKit/publish/NSMutableArray+LFAdd.h"; sourceTree = SOURCE_ROOT; };
+		B289F1DA1D3DE77F00D9C7A5 /* NSMutableArray+LFAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableArray+LFAdd.m"; path = "LFLiveKit/publish/NSMutableArray+LFAdd.m"; sourceTree = SOURCE_ROOT; };
 		B5758EB2A15DAA132D8BF380 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B75B965E6B94DE4CBCC82EA7 /* Pods-LFLiveKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LFLiveKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-LFLiveKit/Pods-LFLiveKit.release.xcconfig"; sourceTree = "<group>"; };
 		B8CB02D2A92EA1F5A262F154 /* libPods-LFLiveKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LFLiveKit.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -277,13 +277,13 @@
 		84001FC91D0016380026C63F /* publish */ = {
 			isa = PBXGroup;
 			children = (
-				B289F1C61D3DE06C00D9C7A5 /* LFStreamingBuffer.h */,
-				B289F1C71D3DE06C00D9C7A5 /* LFStreamingBuffer.m */,
-				B289F1C81D3DE06C00D9C7A5 /* LFStreamRtmpSocket.h */,
-				B289F1C91D3DE06C00D9C7A5 /* LFStreamRtmpSocket.m */,
-				B289F1CA1D3DE06C00D9C7A5 /* LFStreamSocket.h */,
-				B289F1CB1D3DE06C00D9C7A5 /* NSMutableArray+LFAdd.h */,
-				B289F1CC1D3DE06C00D9C7A5 /* NSMutableArray+LFAdd.m */,
+				B289F1D41D3DE77F00D9C7A5 /* LFStreamingBuffer.h */,
+				B289F1D51D3DE77F00D9C7A5 /* LFStreamingBuffer.m */,
+				B289F1D61D3DE77F00D9C7A5 /* LFStreamRtmpSocket.h */,
+				B289F1D71D3DE77F00D9C7A5 /* LFStreamRtmpSocket.m */,
+				B289F1D81D3DE77F00D9C7A5 /* LFStreamSocket.h */,
+				B289F1D91D3DE77F00D9C7A5 /* NSMutableArray+LFAdd.h */,
+				B289F1DA1D3DE77F00D9C7A5 /* NSMutableArray+LFAdd.m */,
 			);
 			name = publish;
 			path = upload;
@@ -306,24 +306,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				84001FDB1D0016380026C63F /* LFLiveAudioConfiguration.h in Headers */,
+				B289F1DD1D3DE77F00D9C7A5 /* LFStreamRtmpSocket.h in Headers */,
 				84001FDD1D0016380026C63F /* LFLiveVideoConfiguration.h in Headers */,
 				84001FE31D0016380026C63F /* LFLiveSession.h in Headers */,
+				B289F1DB1D3DE77F00D9C7A5 /* LFStreamingBuffer.h in Headers */,
 				84001FEB1D0016380026C63F /* LFLiveStreamInfo.h in Headers */,
 				84001FE91D0016380026C63F /* LFLiveDebug.h in Headers */,
 				84001FE71D0016380026C63F /* LFFrame.h in Headers */,
 				84001FD61D0016380026C63F /* LFHardwareAudioEncoder.h in Headers */,
+				B289F1E01D3DE77F00D9C7A5 /* NSMutableArray+LFAdd.h in Headers */,
 				84001FDF1D0016380026C63F /* LFGPUImageBeautyFilter.h in Headers */,
 				84001FD31D0016380026C63F /* LFVideoCapture.h in Headers */,
 				84001FD11D0016380026C63F /* LFAudioCapture.h in Headers */,
-				B289F1D21D3DE06C00D9C7A5 /* NSMutableArray+LFAdd.h in Headers */,
-				B289F1D11D3DE06C00D9C7A5 /* LFStreamSocket.h in Headers */,
-				B289F1CF1D3DE06C00D9C7A5 /* LFStreamRtmpSocket.h in Headers */,
-				B289F1CD1D3DE06C00D9C7A5 /* LFStreamingBuffer.h in Headers */,
 				84001FE11D0016380026C63F /* LFGPUImageEmptyFilter.h in Headers */,
 				84001FDA1D0016380026C63F /* LFVideoEncoding.h in Headers */,
 				84001FE51D0016380026C63F /* LFAudioFrame.h in Headers */,
 				84001FED1D0016380026C63F /* LFVideoFrame.h in Headers */,
 				84001FD81D0016380026C63F /* LFHardwareVideoEncoder.h in Headers */,
+				B289F1DF1D3DE77F00D9C7A5 /* LFStreamSocket.h in Headers */,
 				84001FD51D0016380026C63F /* LFAudioEncoding.h in Headers */,
 				84001F8E1D0015D10026C63F /* LFLiveKit.h in Headers */,
 			);
@@ -498,16 +498,16 @@
 				84001FDC1D0016380026C63F /* LFLiveAudioConfiguration.m in Sources */,
 				84001FD41D0016380026C63F /* LFVideoCapture.m in Sources */,
 				84001FE81D0016380026C63F /* LFFrame.m in Sources */,
-				B289F1CE1D3DE06C00D9C7A5 /* LFStreamingBuffer.m in Sources */,
+				B289F1DC1D3DE77F00D9C7A5 /* LFStreamingBuffer.m in Sources */,
+				B289F1E11D3DE77F00D9C7A5 /* NSMutableArray+LFAdd.m in Sources */,
 				84001FDE1D0016380026C63F /* LFLiveVideoConfiguration.m in Sources */,
 				84001FD21D0016380026C63F /* LFAudioCapture.m in Sources */,
+				B289F1DE1D3DE77F00D9C7A5 /* LFStreamRtmpSocket.m in Sources */,
 				84001FD91D0016380026C63F /* LFHardwareVideoEncoder.m in Sources */,
-				B289F1D01D3DE06C00D9C7A5 /* LFStreamRtmpSocket.m in Sources */,
 				84001FEC1D0016380026C63F /* LFLiveStreamInfo.m in Sources */,
 				84001FEA1D0016380026C63F /* LFLiveDebug.m in Sources */,
 				84001FEE1D0016380026C63F /* LFVideoFrame.m in Sources */,
 				84001FD71D0016380026C63F /* LFHardwareAudioEncoder.m in Sources */,
-				B289F1D31D3DE06C00D9C7A5 /* NSMutableArray+LFAdd.m in Sources */,
 				84001FE01D0016380026C63F /* LFGPUImageBeautyFilter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

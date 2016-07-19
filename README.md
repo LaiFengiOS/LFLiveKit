@@ -3,99 +3,113 @@
 [![License MIT](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://raw.githubusercontent.com/chenliming777/LFLiveKit/master/LICENSE)&nbsp;
 [![CocoaPods](http://img.shields.io/cocoapods/v/LFLiveKit.svg?style=flat)](http://cocoapods.org/?q=LFLiveKit)&nbsp;
 [![Support](https://img.shields.io/badge/support-ios8%2B-orange.svg)](https://www.apple.com/nl/ios/)&nbsp;
-
 ![platform](https://img.shields.io/badge/platform-ios-ff69b4.svg)&nbsp;
 
-LFLiveKit
+## LFLiveKit
 
-	LFLiveKit IOS mobile phone push code，Default format support RTMP，At the same time, the structure is very easy to extend.
+**LFLiveKit is a opensource RTMP streaming SDK for iOS.**  
 
-Podfile
-	To integrate LFLiveKit into your Xcode project using CocoaPods, specify it in your Podfile:
-	
+## Features
+
+- [x] 	Background recording
+- [x] 	Support horizontal vertical recording
+- [x] 	Support Beauty Face With GPUImage
+- [x] 	Support H264+AAC Hardware Encoding
+- [x] 	Drop frames on bad network 
+- [x] 	Dynamic switching rate
+- [x] 	Audio configuration
+- [x] 	Video configuration
+- [x] 	RTMP Transport
+- [x] 	Switch camera position
+- [x] 	Audio Mute
+- [x] 	Support Send Buffer
+- [x] 	Swift Support
+- [ ] 	~~FLV package and send~~
+
+  
+## Installation
+
+#### CocoaPods
+	# To integrate LFLiveKit into your Xcode project using CocoaPods, specify it in your Podfile:
+
 	source 'https://github.com/CocoaPods/Specs.git'
 	platform :ios, '8.0'
 	pod 'LFLiveKit'
 	
-	Then, run the following command:
+	# Then, run the following command:
 	$ pod install
 
 
-Functional
-
-	Background recording
-	Support horizontal vertical recording
-	GPUImage Beauty
-	H264 Hard coding
-	AAC Hard coding
-	Weak network lost frame
-	Dynamic switching rate
-	Audio configuration
-	Video configuration
-	RTMP Transport
-	Switch camera
-	Audio Mute
-	Support Send Buffer
-	FLV package and send
-  
-
-Architecture
+## Architecture:
 
 	capture: LFAudioCapture and  LFVideoCapture
 	encode:  LFHardwareAudioEncoder and LFHardwareVideoEncoder
 	publish: LFStreamRtmpSocket
 	
-Usage
+## Usage:
+#### Objective-C
+```
+- (LFLiveSession*)session {
+    if (!_session) {
+        _session = [[LFLiveSession alloc] initWithAudioConfiguration:[LFLiveAudioConfiguration defaultConfiguration] videoConfiguration:[LFLiveVideoConfiguration defaultConfiguration]];
+        _session.preView = self;
+        _session.delegate = self;
+    }
+    return _session;
+}
 	
-	- (LFLiveSession*)session{
-        if(!_session){
-            _session = [[LFLiveSession alloc] initWithAudioConfiguration:[LFLiveAudioConfiguration defaultConfiguration] videoConfiguration:[LFLiveVideoConfiguration defaultConfiguration]];
-            _session.preView = self;
-            _session.delegate = self;
-        }
-        return _session;
-	}
-	
-	- (LFLiveSession*)session{
-        if(!_session){
-            LFLiveAudioConfiguration *audioConfiguration = [LFLiveAudioConfiguration new];
-             audioConfiguration.numberOfChannels = 2;
-             audioConfiguration.audioBitrate = LFLiveAudioBitRate_128Kbps;
-             audioConfiguration.audioSampleRate = LFLiveAudioSampleRate_44100Hz;
-             
-             LFLiveVideoConfiguration *videoConfiguration = [LFLiveVideoConfiguration new];
-             videoConfiguration.videoSize = CGSizeMake(1280, 720);
-             videoConfiguration.videoBitRate = 800*1024;
-             videoConfiguration.videoMaxBitRate = 1000*1024;
-             videoConfiguration.videoMinBitRate = 500*1024;
-             videoConfiguration.videoFrameRate = 15;
-             videoConfiguration.videoMaxKeyframeInterval = 30;
-             videoConfiguration.landscape = YES;
-             videoConfiguration.sessionPreset = LFCaptureSessionPreset720x1280;
-             
-             _session = [[LFLiveSession alloc] initWithAudioConfiguration:audioConfiguration videoConfiguration:videoConfiguration];
-            _session.running = YES;
-            _session.preView = self;
-        }
-        return _session;
-	}
-	
+- (void)startLive {	
 	LFLiveStreamInfo *streamInfo = [LFLiveStreamInfo new];
 	streamInfo.url = @"your server rtmp url";
 	[self.session startLive:streamInfo];
+}
+
+- (void)stopLive {
 	[self.session stopLive];
-	
-	CallBack:
-	- (void)liveSession:(nullable LFLiveSession *)session liveStateDidChange: (LFLiveState)state;
-	- (void)liveSession:(nullable LFLiveSession *)session debugInfo:(nullable LFLiveDebug*)debugInfo;
-	- (void)liveSession:(nullable LFLiveSession*)session errorCode:(LFLiveSocketErrorCode)errorCode;
-	
- License
- 
- 	LFLiveKit is released under the MIT license. See LICENSE for details.
-	
+}
 
+//MARK: - CallBack:
+- (void)liveSession:(nullable LFLiveSession *)session liveStateDidChange: (LFLiveState)state;
+- (void)liveSession:(nullable LFLiveSession *)session debugInfo:(nullable LFLiveDebug*)debugInfo;
+- (void)liveSession:(nullable LFLiveSession*)session errorCode:(LFLiveSocketErrorCode)errorCode;
+	
+```
+#### Swift
 
+```
+// import LFLiveKit in [ProjectName]-Bridging-Header.h
+import <LFLiveKit.h> 
+
+//MARK: - Getters and Setters
+lazy var session: LFLiveSession = {
+    let audioConfiguration = LFLiveAudioConfiguration.defaultConfiguration()
+    let videoConfiguration = LFLiveVideoConfiguration.defaultConfigurationForQuality(LFLiveVideoQuality.Low3, landscape: false)
+    let session = LFLiveSession(audioConfiguration: audioConfiguration, videoConfiguration: videoConfiguration)
+        
+    session?.delegate = self
+    session?.preView = self.view
+    return session!
+}()
+
+//MARK: - Event
+func startLive() -> Void { 
+    let stream = LFLiveStreamInfo()
+    stream.url = "your server rtmp url";
+    session.startLive(stream)
+}
+
+func stopLive() -> Void {
+    session.stopLive()
+}
+
+//MARK: - Callback
+func liveSession(session: LFLiveSession?, debugInfo: LFLiveDebug?) 
+func liveSession(session: LFLiveSession?, errorCode: LFLiveSocketErrorCode)
+func liveSession(session: LFLiveSession?, liveStateDidChange state: LFLiveState)
+```
+
+## License
+ **LFLiveKit is released under the MIT license. See LICENSE for details.**
 
 
 

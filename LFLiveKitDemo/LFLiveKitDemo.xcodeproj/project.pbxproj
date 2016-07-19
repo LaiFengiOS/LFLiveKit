@@ -7,191 +7,185 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		57B42059E84CC681C5C99B68 /* libPods-LFLiveKitDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D506B5639A1D45519536773 /* libPods-LFLiveKitDemo.a */; };
-		840762F11D07C7D0000FD0BF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 840762F01D07C7D0000FD0BF /* main.m */; };
-		840762F41D07C7D0000FD0BF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 840762F31D07C7D0000FD0BF /* AppDelegate.m */; };
-		840762F71D07C7D0000FD0BF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 840762F61D07C7D0000FD0BF /* ViewController.m */; };
-		840762FC1D07C7D0000FD0BF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 840762FB1D07C7D0000FD0BF /* Assets.xcassets */; };
-		840762FF1D07C7D0000FD0BF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 840762FD1D07C7D0000FD0BF /* LaunchScreen.storyboard */; };
-		840763291D07C894000FD0BF /* UIControl+YYAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 840763241D07C894000FD0BF /* UIControl+YYAdd.m */; };
-		8407632A1D07C894000FD0BF /* UIView+YYAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 840763261D07C894000FD0BF /* UIView+YYAdd.m */; };
-		8407632B1D07C894000FD0BF /* LFLivePreview.m in Sources */ = {isa = PBXBuildFile; fileRef = 840763281D07C894000FD0BF /* LFLivePreview.m */; };
-		840763351D07C899000FD0BF /* camra_beauty@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8407632D1D07C899000FD0BF /* camra_beauty@2x.png */; };
-		840763361D07C899000FD0BF /* camra_beauty@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8407632E1D07C899000FD0BF /* camra_beauty@3x.png */; };
-		840763371D07C899000FD0BF /* camra_beauty_close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8407632F1D07C899000FD0BF /* camra_beauty_close@2x.png */; };
-		840763381D07C899000FD0BF /* camra_beauty_close@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 840763301D07C899000FD0BF /* camra_beauty_close@3x.png */; };
-		840763391D07C899000FD0BF /* camra_preview@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 840763311D07C899000FD0BF /* camra_preview@2x.png */; };
-		8407633A1D07C899000FD0BF /* camra_preview@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 840763321D07C899000FD0BF /* camra_preview@3x.png */; };
-		8407633B1D07C899000FD0BF /* close_preview@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 840763331D07C899000FD0BF /* close_preview@2x.png */; };
-		8407633C1D07C899000FD0BF /* close_preview@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 840763341D07C899000FD0BF /* close_preview@3x.png */; };
+		48030CC801EBECA515F55CA1 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 752951DE2C76DAD969BAFB60 /* libPods.a */; };
+		81E848D8BD2C446C2DD4876A /* libPods-LFLiveKitDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FD9F92833FE7856CDDD3CED /* libPods-LFLiveKitDemo.a */; };
+		B2D23E7F1D348F3D00B34CA8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B2D23E7E1D348F3D00B34CA8 /* main.m */; };
+		B2D23E821D348F3D00B34CA8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B2D23E811D348F3D00B34CA8 /* AppDelegate.m */; };
+		B2D23E851D348F3D00B34CA8 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2D23E841D348F3D00B34CA8 /* ViewController.m */; };
+		B2D23E881D348F3D00B34CA8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2D23E861D348F3D00B34CA8 /* Main.storyboard */; };
+		B2D23E8D1D348F3D00B34CA8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2D23E8B1D348F3D00B34CA8 /* LaunchScreen.storyboard */; };
+		B2D23EAA1D348F7100B34CA8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B2D23E941D348F7100B34CA8 /* Assets.xcassets */; };
+		B2D23EAB1D348F7100B34CA8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2D23E961D348F7100B34CA8 /* LaunchScreen.storyboard */; };
+		B2D23EAC1D348F7100B34CA8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2D23E981D348F7100B34CA8 /* Main.storyboard */; };
+		B2D23EAD1D348F7100B34CA8 /* UIControl+YYAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = B2D23E9C1D348F7100B34CA8 /* UIControl+YYAdd.m */; };
+		B2D23EAE1D348F7100B34CA8 /* UIView+YYAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = B2D23E9E1D348F7100B34CA8 /* UIView+YYAdd.m */; };
+		B2D23EAF1D348F7100B34CA8 /* camra_beauty@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B2D23EA01D348F7100B34CA8 /* camra_beauty@2x.png */; };
+		B2D23EB01D348F7100B34CA8 /* camra_beauty@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B2D23EA11D348F7100B34CA8 /* camra_beauty@3x.png */; };
+		B2D23EB11D348F7100B34CA8 /* camra_beauty_close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B2D23EA21D348F7100B34CA8 /* camra_beauty_close@2x.png */; };
+		B2D23EB21D348F7100B34CA8 /* camra_beauty_close@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B2D23EA31D348F7100B34CA8 /* camra_beauty_close@3x.png */; };
+		B2D23EB31D348F7100B34CA8 /* camra_preview@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B2D23EA41D348F7100B34CA8 /* camra_preview@2x.png */; };
+		B2D23EB41D348F7100B34CA8 /* camra_preview@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B2D23EA51D348F7100B34CA8 /* camra_preview@3x.png */; };
+		B2D23EB51D348F7100B34CA8 /* close_preview@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B2D23EA61D348F7100B34CA8 /* close_preview@2x.png */; };
+		B2D23EB61D348F7100B34CA8 /* close_preview@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B2D23EA71D348F7100B34CA8 /* close_preview@3x.png */; };
+		B2D23EB71D348F7100B34CA8 /* LFLivePreview.m in Sources */ = {isa = PBXBuildFile; fileRef = B2D23EA91D348F7100B34CA8 /* LFLivePreview.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		195672426061368F86F1F4FA /* Pods-LFLiveKitDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LFLiveKitDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-LFLiveKitDemo/Pods-LFLiveKitDemo.release.xcconfig"; sourceTree = "<group>"; };
-		5D506B5639A1D45519536773 /* libPods-LFLiveKitDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LFLiveKitDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		7FAA55DD93CD7AB58E7A977A /* Pods-LFLiveKitDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LFLiveKitDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LFLiveKitDemo/Pods-LFLiveKitDemo.debug.xcconfig"; sourceTree = "<group>"; };
-		840762EC1D07C7D0000FD0BF /* LFLiveKitDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LFLiveKitDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		840762F01D07C7D0000FD0BF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		840762F21D07C7D0000FD0BF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		840762F31D07C7D0000FD0BF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		840762F51D07C7D0000FD0BF /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		840762F61D07C7D0000FD0BF /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		840762FB1D07C7D0000FD0BF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		840762FE1D07C7D0000FD0BF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		840763001D07C7D0000FD0BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		840763091D07C7D0000FD0BF /* LFLiveKitDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LFLiveKitDemoTests.m; sourceTree = "<group>"; };
-		8407630B1D07C7D0000FD0BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		840763141D07C7D0000FD0BF /* LFLiveKitDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LFLiveKitDemoUITests.m; sourceTree = "<group>"; };
-		840763161D07C7D0000FD0BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		840763231D07C894000FD0BF /* UIControl+YYAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIControl+YYAdd.h"; sourceTree = "<group>"; };
-		840763241D07C894000FD0BF /* UIControl+YYAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIControl+YYAdd.m"; sourceTree = "<group>"; };
-		840763251D07C894000FD0BF /* UIView+YYAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+YYAdd.h"; sourceTree = "<group>"; };
-		840763261D07C894000FD0BF /* UIView+YYAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+YYAdd.m"; sourceTree = "<group>"; };
-		840763271D07C894000FD0BF /* LFLivePreview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFLivePreview.h; sourceTree = "<group>"; };
-		840763281D07C894000FD0BF /* LFLivePreview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFLivePreview.m; sourceTree = "<group>"; };
-		8407632D1D07C899000FD0BF /* camra_beauty@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camra_beauty@2x.png"; sourceTree = "<group>"; };
-		8407632E1D07C899000FD0BF /* camra_beauty@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camra_beauty@3x.png"; sourceTree = "<group>"; };
-		8407632F1D07C899000FD0BF /* camra_beauty_close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camra_beauty_close@2x.png"; sourceTree = "<group>"; };
-		840763301D07C899000FD0BF /* camra_beauty_close@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camra_beauty_close@3x.png"; sourceTree = "<group>"; };
-		840763311D07C899000FD0BF /* camra_preview@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camra_preview@2x.png"; sourceTree = "<group>"; };
-		840763321D07C899000FD0BF /* camra_preview@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camra_preview@3x.png"; sourceTree = "<group>"; };
-		840763331D07C899000FD0BF /* close_preview@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close_preview@2x.png"; sourceTree = "<group>"; };
-		840763341D07C899000FD0BF /* close_preview@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close_preview@3x.png"; sourceTree = "<group>"; };
+		3031CA15BBC71F3C893B86E7 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		6FD9F92833FE7856CDDD3CED /* libPods-LFLiveKitDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LFLiveKitDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		752951DE2C76DAD969BAFB60 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		B2D23E7A1D348F3D00B34CA8 /* LFLiveKitDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LFLiveKitDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B2D23E7E1D348F3D00B34CA8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		B2D23E801D348F3D00B34CA8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		B2D23E811D348F3D00B34CA8 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		B2D23E831D348F3D00B34CA8 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		B2D23E841D348F3D00B34CA8 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		B2D23E871D348F3D00B34CA8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		B2D23E8C1D348F3D00B34CA8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		B2D23E8E1D348F3D00B34CA8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B2D23E941D348F7100B34CA8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B2D23E971D348F7100B34CA8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		B2D23E991D348F7100B34CA8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Main.storyboard; sourceTree = "<group>"; };
+		B2D23E9B1D348F7100B34CA8 /* UIControl+YYAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIControl+YYAdd.h"; sourceTree = "<group>"; };
+		B2D23E9C1D348F7100B34CA8 /* UIControl+YYAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIControl+YYAdd.m"; sourceTree = "<group>"; };
+		B2D23E9D1D348F7100B34CA8 /* UIView+YYAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+YYAdd.h"; sourceTree = "<group>"; };
+		B2D23E9E1D348F7100B34CA8 /* UIView+YYAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+YYAdd.m"; sourceTree = "<group>"; };
+		B2D23EA01D348F7100B34CA8 /* camra_beauty@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camra_beauty@2x.png"; sourceTree = "<group>"; };
+		B2D23EA11D348F7100B34CA8 /* camra_beauty@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camra_beauty@3x.png"; sourceTree = "<group>"; };
+		B2D23EA21D348F7100B34CA8 /* camra_beauty_close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camra_beauty_close@2x.png"; sourceTree = "<group>"; };
+		B2D23EA31D348F7100B34CA8 /* camra_beauty_close@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camra_beauty_close@3x.png"; sourceTree = "<group>"; };
+		B2D23EA41D348F7100B34CA8 /* camra_preview@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camra_preview@2x.png"; sourceTree = "<group>"; };
+		B2D23EA51D348F7100B34CA8 /* camra_preview@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camra_preview@3x.png"; sourceTree = "<group>"; };
+		B2D23EA61D348F7100B34CA8 /* close_preview@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close_preview@2x.png"; sourceTree = "<group>"; };
+		B2D23EA71D348F7100B34CA8 /* close_preview@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close_preview@3x.png"; sourceTree = "<group>"; };
+		B2D23EA81D348F7100B34CA8 /* LFLivePreview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFLivePreview.h; sourceTree = "<group>"; };
+		B2D23EA91D348F7100B34CA8 /* LFLivePreview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFLivePreview.m; sourceTree = "<group>"; };
+		DA52B6142E4AF28B542AB885 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		840762E91D07C7D0000FD0BF /* Frameworks */ = {
+		B2D23E771D348F3D00B34CA8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				57B42059E84CC681C5C99B68 /* libPods-LFLiveKitDemo.a in Frameworks */,
+				48030CC801EBECA515F55CA1 /* libPods.a in Frameworks */,
+				81E848D8BD2C446C2DD4876A /* libPods-LFLiveKitDemo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		713DA9EBCA308093C74917F9 /* Frameworks */ = {
+		2A74A5AD65CD9450ED23C3E0 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				5D506B5639A1D45519536773 /* libPods-LFLiveKitDemo.a */,
+				3031CA15BBC71F3C893B86E7 /* Pods.debug.xcconfig */,
+				DA52B6142E4AF28B542AB885 /* Pods.release.xcconfig */,
 			);
-			name = Frameworks;
+			name = Pods;
 			sourceTree = "<group>";
 		};
-		840762E31D07C7D0000FD0BF = {
+		B2D23E711D348F3D00B34CA8 = {
 			isa = PBXGroup;
 			children = (
-				840762EE1D07C7D0000FD0BF /* LFLiveKitDemo */,
-				840763081D07C7D0000FD0BF /* LFLiveKitDemoTests */,
-				840763131D07C7D0000FD0BF /* LFLiveKitDemoUITests */,
-				840762ED1D07C7D0000FD0BF /* Products */,
-				9BA1F10CECEAF692D0035AED /* Pods */,
-				713DA9EBCA308093C74917F9 /* Frameworks */,
+				B2D23E7C1D348F3D00B34CA8 /* LFLiveKitDemo */,
+				B2D23E7B1D348F3D00B34CA8 /* Products */,
+				2A74A5AD65CD9450ED23C3E0 /* Pods */,
+				E6AF2D0BFA2946745BB5F365 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
-		840762ED1D07C7D0000FD0BF /* Products */ = {
+		B2D23E7B1D348F3D00B34CA8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				840762EC1D07C7D0000FD0BF /* LFLiveKitDemo.app */,
+				B2D23E7A1D348F3D00B34CA8 /* LFLiveKitDemo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		840762EE1D07C7D0000FD0BF /* LFLiveKitDemo */ = {
+		B2D23E7C1D348F3D00B34CA8 /* LFLiveKitDemo */ = {
 			isa = PBXGroup;
 			children = (
-				840763221D07C894000FD0BF /* category */,
-				840763271D07C894000FD0BF /* LFLivePreview.h */,
-				840763281D07C894000FD0BF /* LFLivePreview.m */,
-				840762F21D07C7D0000FD0BF /* AppDelegate.h */,
-				840762F31D07C7D0000FD0BF /* AppDelegate.m */,
-				840762F51D07C7D0000FD0BF /* ViewController.h */,
-				840762F61D07C7D0000FD0BF /* ViewController.m */,
-				840762FB1D07C7D0000FD0BF /* Assets.xcassets */,
-				840762FD1D07C7D0000FD0BF /* LaunchScreen.storyboard */,
-				840763001D07C7D0000FD0BF /* Info.plist */,
-				840762EF1D07C7D0000FD0BF /* Supporting Files */,
+				B2D23E941D348F7100B34CA8 /* Assets.xcassets */,
+				B2D23E951D348F7100B34CA8 /* Base.lproj */,
+				B2D23E9A1D348F7100B34CA8 /* category */,
+				B2D23E9F1D348F7100B34CA8 /* images */,
+				B2D23EA81D348F7100B34CA8 /* LFLivePreview.h */,
+				B2D23EA91D348F7100B34CA8 /* LFLivePreview.m */,
+				B2D23E801D348F3D00B34CA8 /* AppDelegate.h */,
+				B2D23E811D348F3D00B34CA8 /* AppDelegate.m */,
+				B2D23E831D348F3D00B34CA8 /* ViewController.h */,
+				B2D23E841D348F3D00B34CA8 /* ViewController.m */,
+				B2D23E861D348F3D00B34CA8 /* Main.storyboard */,
+				B2D23E8B1D348F3D00B34CA8 /* LaunchScreen.storyboard */,
+				B2D23E8E1D348F3D00B34CA8 /* Info.plist */,
+				B2D23E7D1D348F3D00B34CA8 /* Supporting Files */,
 			);
 			path = LFLiveKitDemo;
 			sourceTree = "<group>";
 		};
-		840762EF1D07C7D0000FD0BF /* Supporting Files */ = {
+		B2D23E7D1D348F3D00B34CA8 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				8407632C1D07C899000FD0BF /* images */,
-				840762F01D07C7D0000FD0BF /* main.m */,
+				B2D23E7E1D348F3D00B34CA8 /* main.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		840763081D07C7D0000FD0BF /* LFLiveKitDemoTests */ = {
+		B2D23E951D348F7100B34CA8 /* Base.lproj */ = {
 			isa = PBXGroup;
 			children = (
-				840763091D07C7D0000FD0BF /* LFLiveKitDemoTests.m */,
-				8407630B1D07C7D0000FD0BF /* Info.plist */,
+				B2D23E961D348F7100B34CA8 /* LaunchScreen.storyboard */,
+				B2D23E981D348F7100B34CA8 /* Main.storyboard */,
 			);
-			path = LFLiveKitDemoTests;
+			path = Base.lproj;
 			sourceTree = "<group>";
 		};
-		840763131D07C7D0000FD0BF /* LFLiveKitDemoUITests */ = {
+		B2D23E9A1D348F7100B34CA8 /* category */ = {
 			isa = PBXGroup;
 			children = (
-				840763141D07C7D0000FD0BF /* LFLiveKitDemoUITests.m */,
-				840763161D07C7D0000FD0BF /* Info.plist */,
-			);
-			path = LFLiveKitDemoUITests;
-			sourceTree = "<group>";
-		};
-		840763221D07C894000FD0BF /* category */ = {
-			isa = PBXGroup;
-			children = (
-				840763231D07C894000FD0BF /* UIControl+YYAdd.h */,
-				840763241D07C894000FD0BF /* UIControl+YYAdd.m */,
-				840763251D07C894000FD0BF /* UIView+YYAdd.h */,
-				840763261D07C894000FD0BF /* UIView+YYAdd.m */,
+				B2D23E9B1D348F7100B34CA8 /* UIControl+YYAdd.h */,
+				B2D23E9C1D348F7100B34CA8 /* UIControl+YYAdd.m */,
+				B2D23E9D1D348F7100B34CA8 /* UIView+YYAdd.h */,
+				B2D23E9E1D348F7100B34CA8 /* UIView+YYAdd.m */,
 			);
 			path = category;
 			sourceTree = "<group>";
 		};
-		8407632C1D07C899000FD0BF /* images */ = {
+		B2D23E9F1D348F7100B34CA8 /* images */ = {
 			isa = PBXGroup;
 			children = (
-				8407632D1D07C899000FD0BF /* camra_beauty@2x.png */,
-				8407632E1D07C899000FD0BF /* camra_beauty@3x.png */,
-				8407632F1D07C899000FD0BF /* camra_beauty_close@2x.png */,
-				840763301D07C899000FD0BF /* camra_beauty_close@3x.png */,
-				840763311D07C899000FD0BF /* camra_preview@2x.png */,
-				840763321D07C899000FD0BF /* camra_preview@3x.png */,
-				840763331D07C899000FD0BF /* close_preview@2x.png */,
-				840763341D07C899000FD0BF /* close_preview@3x.png */,
+				B2D23EA01D348F7100B34CA8 /* camra_beauty@2x.png */,
+				B2D23EA11D348F7100B34CA8 /* camra_beauty@3x.png */,
+				B2D23EA21D348F7100B34CA8 /* camra_beauty_close@2x.png */,
+				B2D23EA31D348F7100B34CA8 /* camra_beauty_close@3x.png */,
+				B2D23EA41D348F7100B34CA8 /* camra_preview@2x.png */,
+				B2D23EA51D348F7100B34CA8 /* camra_preview@3x.png */,
+				B2D23EA61D348F7100B34CA8 /* close_preview@2x.png */,
+				B2D23EA71D348F7100B34CA8 /* close_preview@3x.png */,
 			);
 			path = images;
 			sourceTree = "<group>";
 		};
-		9BA1F10CECEAF692D0035AED /* Pods */ = {
+		E6AF2D0BFA2946745BB5F365 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				7FAA55DD93CD7AB58E7A977A /* Pods-LFLiveKitDemo.debug.xcconfig */,
-				195672426061368F86F1F4FA /* Pods-LFLiveKitDemo.release.xcconfig */,
+				752951DE2C76DAD969BAFB60 /* libPods.a */,
+				6FD9F92833FE7856CDDD3CED /* libPods-LFLiveKitDemo.a */,
 			);
-			name = Pods;
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		840762EB1D07C7D0000FD0BF /* LFLiveKitDemo */ = {
+		B2D23E791D348F3D00B34CA8 /* LFLiveKitDemo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 840763191D07C7D0000FD0BF /* Build configuration list for PBXNativeTarget "LFLiveKitDemo" */;
+			buildConfigurationList = B2D23E911D348F3D00B34CA8 /* Build configuration list for PBXNativeTarget "LFLiveKitDemo" */;
 			buildPhases = (
-				7E4C7C5523618A0595228010 /* 📦 Check Pods Manifest.lock */,
-				840762E81D07C7D0000FD0BF /* Sources */,
-				840762E91D07C7D0000FD0BF /* Frameworks */,
-				840762EA1D07C7D0000FD0BF /* Resources */,
-				E4007BB7D4B0E165011BF22F /* 📦 Embed Pods Frameworks */,
-				64FCFF97E6544B1C8F282394 /* 📦 Copy Pods Resources */,
+				B2D23E761D348F3D00B34CA8 /* Sources */,
+				B2D23E771D348F3D00B34CA8 /* Frameworks */,
+				B2D23E781D348F3D00B34CA8 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -199,29 +193,24 @@
 			);
 			name = LFLiveKitDemo;
 			productName = LFLiveKitDemo;
-			productReference = 840762EC1D07C7D0000FD0BF /* LFLiveKitDemo.app */;
+			productReference = B2D23E7A1D348F3D00B34CA8 /* LFLiveKitDemo.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		840762E41D07C7D0000FD0BF /* Project object */ = {
+		B2D23E721D348F3D00B34CA8 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0730;
-				ORGANIZATIONNAME = admin;
+				ORGANIZATIONNAME = zhanqi.tv;
 				TargetAttributes = {
-					840762EB1D07C7D0000FD0BF = {
+					B2D23E791D348F3D00B34CA8 = {
 						CreatedOnToolsVersion = 7.3;
-						SystemCapabilities = {
-							com.apple.BackgroundModes = {
-								enabled = 1;
-							};
-						};
 					};
 				};
 			};
-			buildConfigurationList = 840762E71D07C7D0000FD0BF /* Build configuration list for PBXProject "LFLiveKitDemo" */;
+			buildConfigurationList = B2D23E751D348F3D00B34CA8 /* Build configuration list for PBXProject "LFLiveKitDemo" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -229,113 +218,92 @@
 				en,
 				Base,
 			);
-			mainGroup = 840762E31D07C7D0000FD0BF;
-			productRefGroup = 840762ED1D07C7D0000FD0BF /* Products */;
+			mainGroup = B2D23E711D348F3D00B34CA8;
+			productRefGroup = B2D23E7B1D348F3D00B34CA8 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				840762EB1D07C7D0000FD0BF /* LFLiveKitDemo */,
+				B2D23E791D348F3D00B34CA8 /* LFLiveKitDemo */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		840762EA1D07C7D0000FD0BF /* Resources */ = {
+		B2D23E781D348F3D00B34CA8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				840763371D07C899000FD0BF /* camra_beauty_close@2x.png in Resources */,
-				840762FF1D07C7D0000FD0BF /* LaunchScreen.storyboard in Resources */,
-				840763351D07C899000FD0BF /* camra_beauty@2x.png in Resources */,
-				840762FC1D07C7D0000FD0BF /* Assets.xcassets in Resources */,
-				8407633A1D07C899000FD0BF /* camra_preview@3x.png in Resources */,
-				840763381D07C899000FD0BF /* camra_beauty_close@3x.png in Resources */,
-				8407633C1D07C899000FD0BF /* close_preview@3x.png in Resources */,
-				8407633B1D07C899000FD0BF /* close_preview@2x.png in Resources */,
-				840763391D07C899000FD0BF /* camra_preview@2x.png in Resources */,
-				840763361D07C899000FD0BF /* camra_beauty@3x.png in Resources */,
+				B2D23E8D1D348F3D00B34CA8 /* LaunchScreen.storyboard in Resources */,
+				B2D23EAA1D348F7100B34CA8 /* Assets.xcassets in Resources */,
+				B2D23EAC1D348F7100B34CA8 /* Main.storyboard in Resources */,
+				B2D23EAB1D348F7100B34CA8 /* LaunchScreen.storyboard in Resources */,
+				B2D23EB21D348F7100B34CA8 /* camra_beauty_close@3x.png in Resources */,
+				B2D23EAF1D348F7100B34CA8 /* camra_beauty@2x.png in Resources */,
+				B2D23EB61D348F7100B34CA8 /* close_preview@3x.png in Resources */,
+				B2D23EB41D348F7100B34CA8 /* camra_preview@3x.png in Resources */,
+				B2D23EB51D348F7100B34CA8 /* close_preview@2x.png in Resources */,
+				B2D23EB11D348F7100B34CA8 /* camra_beauty_close@2x.png in Resources */,
+				B2D23EB01D348F7100B34CA8 /* camra_beauty@3x.png in Resources */,
+				B2D23EB31D348F7100B34CA8 /* camra_preview@2x.png in Resources */,
+				B2D23E881D348F3D00B34CA8 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		64FCFF97E6544B1C8F282394 /* 📦 Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "📦 Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LFLiveKitDemo/Pods-LFLiveKitDemo-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7E4C7C5523618A0595228010 /* 📦 Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "📦 Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		E4007BB7D4B0E165011BF22F /* 📦 Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "📦 Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LFLiveKitDemo/Pods-LFLiveKitDemo-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
-		840762E81D07C7D0000FD0BF /* Sources */ = {
+		B2D23E761D348F3D00B34CA8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8407632B1D07C894000FD0BF /* LFLivePreview.m in Sources */,
-				840762F71D07C7D0000FD0BF /* ViewController.m in Sources */,
-				840763291D07C894000FD0BF /* UIControl+YYAdd.m in Sources */,
-				840762F41D07C7D0000FD0BF /* AppDelegate.m in Sources */,
-				8407632A1D07C894000FD0BF /* UIView+YYAdd.m in Sources */,
-				840762F11D07C7D0000FD0BF /* main.m in Sources */,
+				B2D23EB71D348F7100B34CA8 /* LFLivePreview.m in Sources */,
+				B2D23E851D348F3D00B34CA8 /* ViewController.m in Sources */,
+				B2D23EAD1D348F7100B34CA8 /* UIControl+YYAdd.m in Sources */,
+				B2D23E821D348F3D00B34CA8 /* AppDelegate.m in Sources */,
+				B2D23EAE1D348F7100B34CA8 /* UIView+YYAdd.m in Sources */,
+				B2D23E7F1D348F3D00B34CA8 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		840762FD1D07C7D0000FD0BF /* LaunchScreen.storyboard */ = {
+		B2D23E861D348F3D00B34CA8 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				840762FE1D07C7D0000FD0BF /* Base */,
+				B2D23E871D348F3D00B34CA8 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		B2D23E8B1D348F3D00B34CA8 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B2D23E8C1D348F3D00B34CA8 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		B2D23E961D348F7100B34CA8 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B2D23E971D348F7100B34CA8 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		B2D23E981D348F7100B34CA8 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B2D23E991D348F7100B34CA8 /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		840763171D07C7D0000FD0BF /* Debug */ = {
+		B2D23E8F1D348F3D00B34CA8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -358,6 +326,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -372,15 +341,17 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "$(inherited)";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		840763181D07C7D0000FD0BF /* Release */ = {
+		B2D23E901D348F3D00B34CA8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -403,6 +374,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -411,38 +383,46 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "$(inherited)";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
-		8407631A1D07C7D0000FD0BF /* Debug */ = {
+		B2D23E921D348F3D00B34CA8 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7FAA55DD93CD7AB58E7A977A /* Pods-LFLiveKitDemo.debug.xcconfig */;
+			baseConfigurationReference = 3031CA15BBC71F3C893B86E7 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = LFLiveKitDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.youku.LFLiveKit.LFLiveKitDemo;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gameabc.LFLiveKitDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
-		8407631B1D07C7D0000FD0BF /* Release */ = {
+		B2D23E931D348F3D00B34CA8 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 195672426061368F86F1F4FA /* Pods-LFLiveKitDemo.release.xcconfig */;
+			baseConfigurationReference = DA52B6142E4AF28B542AB885 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = LFLiveKitDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.youku.LFLiveKit.LFLiveKitDemo;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gameabc.LFLiveKitDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -450,25 +430,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		840762E71D07C7D0000FD0BF /* Build configuration list for PBXProject "LFLiveKitDemo" */ = {
+		B2D23E751D348F3D00B34CA8 /* Build configuration list for PBXProject "LFLiveKitDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				840763171D07C7D0000FD0BF /* Debug */,
-				840763181D07C7D0000FD0BF /* Release */,
+				B2D23E8F1D348F3D00B34CA8 /* Debug */,
+				B2D23E901D348F3D00B34CA8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		840763191D07C7D0000FD0BF /* Build configuration list for PBXNativeTarget "LFLiveKitDemo" */ = {
+		B2D23E911D348F3D00B34CA8 /* Build configuration list for PBXNativeTarget "LFLiveKitDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				8407631A1D07C7D0000FD0BF /* Debug */,
-				8407631B1D07C7D0000FD0BF /* Release */,
+				B2D23E921D348F3D00B34CA8 /* Debug */,
+				B2D23E931D348F3D00B34CA8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 840762E41D07C7D0000FD0BF /* Project object */;
+	rootObject = B2D23E721D348F3D00B34CA8 /* Project object */;
 }

@@ -13,7 +13,7 @@
 @class LFVideoCapture;
 /** LFVideoCapture callback videoData */
 @protocol LFVideoCaptureDelegate <NSObject>
-- (void)captureOutput:(nullable LFVideoCapture*)capture pixelBuffer:(nullable CVImageBufferRef)pixelBuffer;
+- (void)captureOutput:(nullable LFVideoCapture *)capture pixelBuffer:(nullable CVImageBufferRef)pixelBuffer;
 @end
 
 @interface LFVideoCapture : NSObject
@@ -24,13 +24,13 @@
 ///=============================================================================
 
 /** The delegate of the capture. captureData callback */
-@property (nullable,nonatomic, weak) id<LFVideoCaptureDelegate> delegate;
+@property (nullable, nonatomic, weak) id<LFVideoCaptureDelegate> delegate;
 
 /** The running control start capture or stop capture*/
 @property (nonatomic, assign) BOOL running;
 
 /** The preView will show OpenGL ES view*/
-@property (null_resettable,nonatomic, strong) UIView * preView;
+@property (null_resettable, nonatomic, strong) UIView *preView;
 
 /** The captureDevicePosition control camraPosition ,default front*/
 @property (nonatomic, assign) AVCaptureDevicePosition captureDevicePosition;
@@ -64,8 +64,8 @@
 + (nullable instancetype)new UNAVAILABLE_ATTRIBUTE;
 
 /**
- The designated initializer. Multiple instances with the same configuration will make the
- capture unstable.
+   The designated initializer. Multiple instances with the same configuration will make the
+   capture unstable.
  */
 - (nullable instancetype)initWithVideoConfiguration:(nullable LFLiveVideoConfiguration *)configuration NS_DESIGNATED_INITIALIZER;
 

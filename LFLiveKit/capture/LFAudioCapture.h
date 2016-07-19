@@ -17,7 +17,7 @@ extern NSString *_Nullable const LFAudioComponentFailedToCreateNotification;
 @class LFAudioCapture;
 /** LFAudioCapture callback audioData */
 @protocol LFAudioCaptureDelegate <NSObject>
-- (void)captureOutput:(nullable LFAudioCapture*)capture audioBuffer:(AudioBufferList)inBufferList;
+- (void)captureOutput:(nullable LFAudioCapture *)capture audioBuffer:(AudioBufferList)inBufferList;
 @end
 
 
@@ -29,10 +29,10 @@ extern NSString *_Nullable const LFAudioComponentFailedToCreateNotification;
 ///=============================================================================
 
 /** The delegate of the capture. captureData callback */
-@property (nullable,nonatomic, weak) id<LFAudioCaptureDelegate> delegate;
+@property (nullable, nonatomic, weak) id<LFAudioCaptureDelegate> delegate;
 
 /** The muted control callbackAudioData,muted will memset 0.*/
-@property (nonatomic,assign) BOOL muted;
+@property (nonatomic, assign) BOOL muted;
 
 /** The running control start capture or stop capture*/
 @property (nonatomic, assign) BOOL running;
@@ -45,8 +45,8 @@ extern NSString *_Nullable const LFAudioComponentFailedToCreateNotification;
 + (nullable instancetype)new UNAVAILABLE_ATTRIBUTE;
 
 /**
- The designated initializer. Multiple instances with the same configuration will make the
- capture unstable.
+   The designated initializer. Multiple instances with the same configuration will make the
+   capture unstable.
  */
 - (nullable instancetype)initWithAudioConfiguration:(nullable LFLiveAudioConfiguration *)configuration NS_DESIGNATED_INITIALIZER;
 

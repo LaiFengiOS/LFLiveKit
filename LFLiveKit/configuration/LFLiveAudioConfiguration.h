@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 /// 音频码率
-typedef NS_ENUM(NSUInteger, LFLiveAudioBitRate) {
+typedef NS_ENUM (NSUInteger, LFLiveAudioBitRate) {
     /// 32Kbps 音频码率
     LFLiveAudioBitRate_32Kbps = 32000,
     /// 64Kbps 音频码率
@@ -23,7 +23,7 @@ typedef NS_ENUM(NSUInteger, LFLiveAudioBitRate) {
 };
 
 /// 采样率 (默认44.1Hz iphoneg6以上48Hz)
-typedef NS_ENUM(NSUInteger, LFLiveAudioSampleRate){
+typedef NS_ENUM (NSUInteger, LFLiveAudioSampleRate){
     /// 44.1Hz 采样率
     LFLiveAudioSampleRate_44100Hz = 44100,
     /// 48Hz 采样率
@@ -33,7 +33,7 @@ typedef NS_ENUM(NSUInteger, LFLiveAudioSampleRate){
 };
 
 ///  Audio Live quality（音频质量）
-typedef NS_ENUM(NSUInteger, LFLiveAudioQuality){
+typedef NS_ENUM (NSUInteger, LFLiveAudioQuality){
     /// 高音频质量 audio sample rate: 44MHz(默认44.1Hz iphoneg6以上48Hz), audio bitrate: 32Kbps
     LFLiveAudioQuality_Low = 0,
     /// 高音频质量 audio sample rate: 44MHz(默认44.1Hz iphoneg6以上48Hz), audio bitrate: 64Kbps
@@ -46,7 +46,7 @@ typedef NS_ENUM(NSUInteger, LFLiveAudioQuality){
     LFLiveAudioQuality_Default = LFLiveAudioQuality_Medium
 };
 
-@interface LFLiveAudioConfiguration : NSObject<NSCoding,NSCopying>
+@interface LFLiveAudioConfiguration : NSObject<NSCoding, NSCopying>
 
 /// 默认音频配置
 + (instancetype)defaultConfiguration;
@@ -64,6 +64,6 @@ typedef NS_ENUM(NSUInteger, LFLiveAudioQuality){
 // 码率
 @property (nonatomic, assign) LFLiveAudioBitRate audioBitrate;
 /// flv编码音频头 44100 为0x12 0x10
-@property (nonatomic ,assign,readonly) char *asc;
+@property (nonatomic, assign, readonly) char *asc;
 
 @end

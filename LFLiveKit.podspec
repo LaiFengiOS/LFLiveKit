@@ -18,9 +18,8 @@ Pod::Spec.new do |s|
 
   s.requires_arc = true
 
-  s.dependency "CocoaAsyncSocket", "~> 7.4.1"
   s.dependency 'LMGPUImage', '~> 0.1.9'
-  s.dependency "pili-librtmp", "~> 1.0.2"
+  s.dependency "pili-librtmp", "~>  1.0.3"
   s.dependency "YYDispatchQueuePool"
 
 end

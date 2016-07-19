@@ -73,6 +73,11 @@ SAVC(mp4a);
 @property (nonatomic, assign) BOOL sendVideoHead;
 @property (nonatomic, assign) BOOL sendAudioHead;
 
+@property(nonatomic, assign)
+BOOL isFirstKeyframeSended;  //强制第一帧必须是关键帧
+@property(nonatomic, assign)
+BOOL isAudioSendStart;  //在发送视频第一帧之后再发送音频
+
 @end
 
 @implementation LFStreamRtmpSocket
@@ -129,6 +134,30 @@ SAVC(mp4a);
 - (void)sendFrame:(LFFrame *)frame {
     dispatch_async(YYRtmpSendQueue(), ^{
         if (!frame) return;
+        
+        //强制第一帧必须是关键帧
+        if (!self.isFirstKeyframeSended) {
+            if ([frame isKindOfClass:[LFVideoFrame class]]) {
+                LFVideoFrame *videoFrame = (LFVideoFrame *)frame;
+                if (videoFrame.isKeyFrame) {
+                    self.isFirstKeyframeSended = YES;
+                    dispatch_after(
+                                   dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)),
+                                   dispatch_get_main_queue(), ^{
+                                       self.isAudioSendStart = YES;
+                                   });
+                } else {
+                    return;
+                }
+            }
+        }
+        
+        //在发送视频第一帧之后再发送音频
+        if ([frame isKindOfClass:[LFAudioFrame class]] && !self.isAudioSendStart) {
+            return;
+        }
+
+        
         [self.buffer appendObject:frame];
         [self sendFrame];
     });

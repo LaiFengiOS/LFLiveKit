@@ -123,6 +123,7 @@ SAVC(mp4a);
         _rtmp = NULL;
     }
     [self clean];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(reconnect) object:nil];
 }
 
 - (void)sendFrame:(LFFrame *)frame {
@@ -488,9 +489,7 @@ void RTMPErrorCallback(RTMPError *error, void *userData) {
             socket.isConnected = NO;
             socket.isConnecting = NO;
             socket.isReconnecting = YES;
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(socket.reconnectInterval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [socket reconnect];
-            });
+            [socket performSelector:@selector(reconnect) withObject:nil afterDelay:socket.reconnectInterval];
         } else if (socket.retryTimes4netWorkBreaken >= socket.reconnectCount) {
             if (socket.delegate && [socket.delegate respondsToSelector:@selector(socketStatus:status:)]) {
                 [socket.delegate socketStatus:socket status:LFLiveError];

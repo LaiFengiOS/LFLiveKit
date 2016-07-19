@@ -14,7 +14,11 @@ static const NSInteger RetryTimesBreaken = 20;  ///<  重连1分钟  3秒一次 
 static const NSInteger RetryTimesMargin = 3;
 
 static dispatch_queue_t YYRtmpSendQueue() {
-    YYDispatchQueuePool *pool = [[YYDispatchQueuePool alloc] initWithName:@"com.youku.laifeng.rtmpsendQueue" queueCount:1 qos:NSQualityOfServiceDefault];
+    static YYDispatchQueuePool *pool;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        pool = [[YYDispatchQueuePool alloc] initWithName:@"com.youku.laifeng.rtmpsendQueue" queueCount:1 qos:NSQualityOfServiceDefault];
+    });
     dispatch_queue_t queue = [pool queue];
     return queue;
 }

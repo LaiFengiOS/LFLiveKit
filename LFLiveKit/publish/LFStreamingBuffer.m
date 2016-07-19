@@ -34,11 +34,13 @@ static const NSUInteger defaultSendBufferMaxCount = 600;///< 最大缓冲区为6
 
 - (instancetype)init {
     if (self = [super init]) {
+        
         _lock = dispatch_semaphore_create(1);
         self.updateInterval = defaultUpdateInterval;
         self.callBackInterval = defaultCallBackInterval;
         self.maxCount = defaultSendBufferMaxCount;
         self.lastDropFrames = 0;
+        self.startTimer = NO;
     }
     return self;
 }

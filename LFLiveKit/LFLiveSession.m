@@ -94,11 +94,11 @@
 
 #pragma mark -- CaptureDelegate
 - (void)captureOutput:(nullable LFAudioCapture *)capture audioBuffer:(AudioBufferList)inBufferList {
-    [self.audioEncoder encodeAudioData:inBufferList timeStamp:self.currentTimestamp];
+    if (self.uploading) [self.audioEncoder encodeAudioData:inBufferList timeStamp:self.currentTimestamp];
 }
 
 - (void)captureOutput:(nullable LFVideoCapture *)capture pixelBuffer:(nullable CVImageBufferRef)pixelBuffer {
-    [self.videoEncoder encodeVideoData:pixelBuffer timeStamp:self.currentTimestamp];
+    if (self.uploading) [self.videoEncoder encodeVideoData:pixelBuffer timeStamp:self.currentTimestamp];
 }
 
 #pragma mark -- EncoderDelegate
@@ -118,6 +118,8 @@
             self.isFirstFrame = YES;
             self.uploading = YES;
         }
+    }else if(status == LFLiveStop || status == LFLiveError){
+        self.uploading = NO;
     }
     dispatch_async(dispatch_get_main_queue(), ^{
         self.state = status;

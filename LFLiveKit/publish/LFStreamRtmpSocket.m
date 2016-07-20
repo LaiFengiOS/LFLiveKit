@@ -8,20 +8,10 @@
 
 #import "LFStreamRtmpSocket.h"
 #import "rtmp.h"
-#import "YYDispatchQueuePool.h"
 
 static const NSInteger RetryTimesBreaken = 20;  ///<  重连1分钟  3秒一次 一共20次
 static const NSInteger RetryTimesMargin = 3;
 
-static dispatch_queue_t YYRtmpSendQueue() {
-    static YYDispatchQueuePool *pool;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        pool = [[YYDispatchQueuePool alloc] initWithName:@"com.youku.laifeng.rtmpsendQueue" queueCount:1 qos:NSQualityOfServiceDefault];
-    });
-    dispatch_queue_t queue = [pool queue];
-    return queue;
-}
 
 #define RTMP_RECEIVE_TIMEOUT    2
 #define DATA_ITEMS_MAX_COUNT 100
@@ -59,24 +49,20 @@ SAVC(mp4a);
 @property (nonatomic, strong) LFLiveStreamInfo *stream;
 @property (nonatomic, strong) LFStreamingBuffer *buffer;
 @property (nonatomic, strong) LFLiveDebug *debugInfo;
+@property (nonatomic, strong) dispatch_queue_t rtmpSendQueue;
 //错误信息
 @property (nonatomic, assign) RTMPError error;
 @property (nonatomic, assign) NSInteger retryTimes4netWorkBreaken;
 @property (nonatomic, assign) NSInteger reconnectInterval;
 @property (nonatomic, assign) NSInteger reconnectCount;
 
-@property (nonatomic, assign) BOOL isSending;
+@property (atomic, assign) BOOL isSending;
 @property (nonatomic, assign) BOOL isConnected;
 @property (nonatomic, assign) BOOL isConnecting;
 @property (nonatomic, assign) BOOL isReconnecting;
 
 @property (nonatomic, assign) BOOL sendVideoHead;
 @property (nonatomic, assign) BOOL sendAudioHead;
-
-@property(nonatomic, assign)
-BOOL isFirstKeyframeSended;  //强制第一帧必须是关键帧
-@property(nonatomic, assign)
-BOOL isAudioSendStart;  //在发送视频第一帧之后再发送音频
 
 @end
 
@@ -97,7 +83,7 @@ BOOL isAudioSendStart;  //在发送视频第一帧之后再发送音频
 }
 
 - (void)start {
-    dispatch_async(YYRtmpSendQueue(), ^{
+    dispatch_async(self.rtmpSendQueue, ^{
         [self _start];
     });
 }
@@ -113,7 +99,7 @@ BOOL isAudioSendStart;  //在发送视频第一帧之后再发送音频
 }
 
 - (void)stop {
-    dispatch_async(YYRtmpSendQueue(), ^{
+    dispatch_async(self.rtmpSendQueue, ^{
         [self _stop];
     });
 }
@@ -132,35 +118,13 @@ BOOL isAudioSendStart;  //在发送视频第一帧之后再发送音频
 }
 
 - (void)sendFrame:(LFFrame *)frame {
-    dispatch_async(YYRtmpSendQueue(), ^{
-        if (!frame) return;
-        
-        //强制第一帧必须是关键帧
-        if (!self.isFirstKeyframeSended) {
-            if ([frame isKindOfClass:[LFVideoFrame class]]) {
-                LFVideoFrame *videoFrame = (LFVideoFrame *)frame;
-                if (videoFrame.isKeyFrame) {
-                    self.isFirstKeyframeSended = YES;
-                    dispatch_after(
-                                   dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)),
-                                   dispatch_get_main_queue(), ^{
-                                       self.isAudioSendStart = YES;
-                                   });
-                } else {
-                    return;
-                }
-            }
-        }
-        
-        //在发送视频第一帧之后再发送音频
-        if ([frame isKindOfClass:[LFAudioFrame class]] && !self.isAudioSendStart) {
-            return;
-        }
-
-        
-        [self.buffer appendObject:frame];
-        [self sendFrame];
-    });
+    if (!frame) return;
+    [self.buffer appendObject:frame];
+    if(!self.isSending){
+        dispatch_async(self.rtmpSendQueue, ^{
+            [self sendFrame];
+        });
+    }
 }
 
 - (void)setDelegate:(id<LFStreamSocketDelegate>)delegate {
@@ -172,13 +136,20 @@ BOOL isAudioSendStart;  //在发送视频第一帧之后再发送音频
     if (!self.isSending && self.buffer.list.count > 0) {
         self.isSending = YES;
 
-        if (!_isConnected || _isReconnecting || _isConnecting || !_rtmp) return;
+        if (!_isConnected || _isReconnecting || _isConnecting || !_rtmp){
+            self.isSending = NO;
+            return;
+        }
 
         // 调用发送接口
         LFFrame *frame = [self.buffer popFirstObject];
         if ([frame isKindOfClass:[LFVideoFrame class]]) {
             if (!self.sendVideoHead) {
                 self.sendVideoHead = YES;
+                if(!((LFVideoFrame*)frame).sps || !((LFVideoFrame*)frame).pps){
+                    self.isSending = NO;
+                    return;
+                }
                 [self sendVideoHeader:(LFVideoFrame *)frame];
             } else {
                 [self sendVideo:(LFVideoFrame *)frame];
@@ -186,6 +157,10 @@ BOOL isAudioSendStart;  //在发送视频第一帧之后再发送音频
         } else {
             if (!self.sendAudioHead) {
                 self.sendAudioHead = YES;
+                if(!((LFAudioFrame*)frame).audioInfo){
+                    self.isSending = NO;
+                    return;
+                }
                 [self sendAudioHeader:(LFAudioFrame *)frame];
             } else {
                 [self sendAudio:frame];
@@ -358,7 +333,6 @@ Failed:
 }
 
 - (void)sendVideoHeader:(LFVideoFrame *)videoFrame {
-    if (!videoFrame || !videoFrame.sps || !videoFrame.pps) return;
 
     unsigned char *body = NULL;
     NSInteger iIndex = 0;
@@ -403,7 +377,6 @@ Failed:
 }
 
 - (void)sendVideo:(LFVideoFrame *)frame {
-    if (!frame || !frame.data || frame.data.length < 11) return;
 
     NSInteger i = 0;
     NSInteger rtmpLength = frame.data.length + 9;
@@ -454,23 +427,20 @@ Failed:
 }
 
 - (NSInteger)RtmpPacketSend:(PILI_RTMPPacket *)packet {
-    if (PILI_RTMP_IsConnected(_rtmp)) {
+    if (_rtmp && PILI_RTMP_IsConnected(_rtmp)) {
         int success = PILI_RTMP_SendPacket(_rtmp, packet, 0, &_error);
         if (success) {
             self.isSending = NO;
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self sendFrame];
-            });
-
         }
         return success;
+    }else{
+        self.isSending = NO;
     }
 
     return -1;
 }
 
 - (void)sendAudioHeader:(LFAudioFrame *)audioFrame {
-    if (!audioFrame || !audioFrame.audioInfo) return;
 
     NSInteger rtmpLength = audioFrame.audioInfo.length + 2;     /*spec data长度,一般是2*/
     unsigned char *body = (unsigned char *)malloc(rtmpLength);
@@ -485,7 +455,6 @@ Failed:
 }
 
 - (void)sendAudio:(LFFrame *)frame {
-    if (!frame) return;
 
     NSInteger rtmpLength = frame.data.length + 2;    /*spec data长度,一般是2*/
     unsigned char *body = (unsigned char *)malloc(rtmpLength);
@@ -501,7 +470,7 @@ Failed:
 
 // 断线重连
 - (void)reconnect {
-    dispatch_async(YYRtmpSendQueue(), ^{
+    dispatch_async(self.rtmpSendQueue, ^{
         _isReconnecting = NO;
         if (_isConnected) return;
 
@@ -518,7 +487,7 @@ void RTMPErrorCallback(RTMPError *error, void *userData) {
             socket.isConnected = NO;
             socket.isConnecting = NO;
             socket.isReconnecting = YES;
-            [socket performSelector:@selector(reconnect) withObject:nil afterDelay:socket.reconnectInterval];
+            [socket performSelectorOnMainThread:@selector(reconnect) withObject:nil waitUntilDone:socket.reconnectInterval];
         } else if (socket.retryTimes4netWorkBreaken >= socket.reconnectCount) {
             if (socket.delegate && [socket.delegate respondsToSelector:@selector(socketStatus:status:)]) {
                 [socket.delegate socketStatus:socket status:LFLiveError];
@@ -549,6 +518,13 @@ void ConnectionTimeCallback(PILI_CONNECTION_TIME *conn_time, void *userData) {
         _debugInfo = [[LFLiveDebug alloc] init];
     }
     return _debugInfo;
+}
+
+- (dispatch_queue_t)rtmpSendQueue{
+    if(!_rtmpSendQueue){
+        _rtmpSendQueue = dispatch_queue_create("com.youku.LaiFeng.RtmpSendQueue", NULL);
+    }
+    return _rtmpSendQueue;
 }
 
 @end

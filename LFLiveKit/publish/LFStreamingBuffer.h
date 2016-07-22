@@ -13,8 +13,8 @@
 /** current buffer status */
 typedef NS_ENUM (NSUInteger, LFLiveBuffferState) {
     LFLiveBuffferUnknown = 0,      //< 未知
-    LFLiveBuffferIncrease = 1,    //< 缓冲区状态好可以增加码率
-    LFLiveBuffferDecline = 2      //< 缓冲区状态差应该降低码率
+    LFLiveBuffferIncrease = 1,    //< 缓冲区状态差应该降低码率
+    LFLiveBuffferDecline = 2      //< 缓冲区状态好应该提升码率
 };
 
 @class LFStreamingBuffer;

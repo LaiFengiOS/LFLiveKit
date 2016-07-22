@@ -172,6 +172,7 @@ SAVC(mp4a);
                 }
             }
 
+            //debug更新
             self.debugInfo.totalFrame++;
             self.debugInfo.dropFrame += self.buffer.lastDropFrames;
             self.buffer.lastDropFrames = 0;
@@ -199,6 +200,8 @@ SAVC(mp4a);
                 self.debugInfo.capturedVideoCount = 0;
                 self.debugInfo.timeStamp = CACurrentMediaTime() * 1000;
             }
+            
+            //修改发送状态
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 //< 这里只为了不循环调用sendFrame方法 调用栈是保证先出栈再进栈
                 self.isSending = NO;

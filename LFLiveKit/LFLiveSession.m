@@ -11,7 +11,7 @@
 #import "LFAudioCapture.h"
 #import "LFHardwareVideoEncoder.h"
 #import "LFHardwareAudioEncoder.h"
-#import "LFStreamRtmpSocket.h"
+#import "LFStreamRTMPSocket.h"
 #import "LFLiveStreamInfo.h"
 #import "LFGPUImageBeautyFilter.h"
 
@@ -94,11 +94,11 @@
 
 #pragma mark -- CaptureDelegate
 - (void)captureOutput:(nullable LFAudioCapture *)capture audioBuffer:(AudioBufferList)inBufferList {
-    [self.audioEncoder encodeAudioData:inBufferList timeStamp:self.currentTimestamp];
+    if (self.uploading) [self.audioEncoder encodeAudioData:inBufferList timeStamp:self.currentTimestamp];
 }
 
 - (void)captureOutput:(nullable LFVideoCapture *)capture pixelBuffer:(nullable CVImageBufferRef)pixelBuffer {
-    [self.videoEncoder encodeVideoData:pixelBuffer timeStamp:self.currentTimestamp];
+    if (self.uploading) [self.videoEncoder encodeVideoData:pixelBuffer timeStamp:self.currentTimestamp];
 }
 
 #pragma mark -- EncoderDelegate
@@ -118,6 +118,8 @@
             self.isFirstFrame = YES;
             self.uploading = YES;
         }
+    }else if(status == LFLiveStop || status == LFLiveError){
+        self.uploading = NO;
     }
     dispatch_async(dispatch_get_main_queue(), ^{
         self.state = status;
@@ -148,7 +150,7 @@
 
 - (void)socketBufferStatus:(nullable id<LFStreamSocket>)socket status:(LFLiveBuffferState)status {
     NSUInteger videoBitRate = [_videoEncoder videoBitRate];
-    if (status == LFLiveBuffferIncrease) {
+    if (status == LFLiveBuffferDecline) {
         if (videoBitRate < _videoConfiguration.videoMaxBitRate) {
             videoBitRate = videoBitRate + 50 * 1000;
             [_videoEncoder setVideoBitRate:videoBitRate];
@@ -172,7 +174,9 @@
 }
 
 - (void)setPreView:(UIView *)preView {
+    [self willChangeValueForKey:@"preView"];
     [self.videoCaptureSource setPreView:preView];
+    [self didChangeValueForKey:@"preView"];
 }
 
 - (UIView *)preView {
@@ -180,7 +184,9 @@
 }
 
 - (void)setCaptureDevicePosition:(AVCaptureDevicePosition)captureDevicePosition {
+    [self willChangeValueForKey:@"captureDevicePosition"];
     [self.videoCaptureSource setCaptureDevicePosition:captureDevicePosition];
+    [self didChangeValueForKey:@"captureDevicePosition"];
 }
 
 - (AVCaptureDevicePosition)captureDevicePosition {
@@ -188,7 +194,9 @@
 }
 
 - (void)setBeautyFace:(BOOL)beautyFace {
+    [self willChangeValueForKey:@"beautyFace"];
     [self.videoCaptureSource setBeautyFace:beautyFace];
+    [self didChangeValueForKey:@"beautyFace"];
 }
 
 - (BOOL)beautyFace {
@@ -196,7 +204,9 @@
 }
 
 - (void)setBeautyLevel:(CGFloat)beautyLevel {
+    [self willChangeValueForKey:@"beautyLevel"];
     [self.videoCaptureSource setBeautyLevel:beautyLevel];
+    [self didChangeValueForKey:@"beautyLevel"];
 }
 
 - (CGFloat)beautyLevel {
@@ -204,7 +214,9 @@
 }
 
 - (void)setBrightLevel:(CGFloat)brightLevel {
+    [self willChangeValueForKey:@"brightLevel"];
     [self.videoCaptureSource setBrightLevel:brightLevel];
+    [self didChangeValueForKey:@"brightLevel"];
 }
 
 - (CGFloat)brightLevel {
@@ -212,7 +224,9 @@
 }
 
 - (void)setZoomScale:(CGFloat)zoomScale {
+    [self willChangeValueForKey:@"zoomScale"];
     [self.videoCaptureSource setZoomScale:zoomScale];
+    [self didChangeValueForKey:@"zoomScale"];
 }
 
 - (CGFloat)zoomScale {
@@ -220,7 +234,9 @@
 }
 
 - (void)setTorch:(BOOL)torch {
+    [self willChangeValueForKey:@"torch"];
     [self.videoCaptureSource setTorch:torch];
+    [self didChangeValueForKey:@"torch"];
 }
 
 - (BOOL)torch {
@@ -228,7 +244,9 @@
 }
 
 - (void)setMirror:(BOOL)mirror {
+    [self willChangeValueForKey:@"mirror"];
     [self.videoCaptureSource setMirror:mirror];
+    [self didChangeValueForKey:@"mirror"];
 }
 
 - (BOOL)mirror {
@@ -236,7 +254,9 @@
 }
 
 - (void)setMuted:(BOOL)muted {
+    [self willChangeValueForKey:@"muted"];
     [self.audioCaptureSource setMuted:muted];
+    [self didChangeValueForKey:@"muted"];
 }
 
 - (BOOL)muted {
@@ -277,7 +297,7 @@
 
 - (id<LFStreamSocket>)socket {
     if (!_socket) {
-        _socket = [[LFStreamRtmpSocket alloc] initWithStream:self.streamInfo videoSize:self.videoConfiguration.videoSize reconnectInterval:self.reconnectInterval reconnectCount:self.reconnectCount];
+        _socket = [[LFStreamRTMPSocket alloc] initWithStream:self.streamInfo videoSize:self.videoConfiguration.videoSize reconnectInterval:self.reconnectInterval reconnectCount:self.reconnectCount];
         [_socket setDelegate:self];
     }
     return _socket;

@@ -46,8 +46,8 @@ NSString *const LFAudioComponentFailedToCreateNotification = @"LFAudioComponentF
         NSError *error = nil;
 
         [session setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
-
-        [session setMode:AVAudioSessionModeVideoRecording error:&error];
+        
+        [session overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:nil];
 
         if (![session setActive:YES error:&error]) {
             [self handleAudioComponentCreationFailure];
@@ -55,7 +55,7 @@ NSString *const LFAudioComponentFailedToCreateNotification = @"LFAudioComponentF
 
         AudioComponentDescription acd;
         acd.componentType = kAudioUnitType_Output;
-        acd.componentSubType = kAudioUnitSubType_RemoteIO;
+        acd.componentSubType = kAudioUnitSubType_VoiceProcessingIO;
         acd.componentManufacturer = kAudioUnitManufacturer_Apple;
         acd.componentFlags = 0;
         acd.componentFlagsMask = 0;

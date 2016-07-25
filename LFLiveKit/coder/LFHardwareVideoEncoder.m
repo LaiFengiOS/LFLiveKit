@@ -30,6 +30,7 @@
 #pragma mark -- LifeCycle
 - (instancetype)initWithVideoStreamConfiguration:(LFLiveVideoConfiguration *)configuration {
     if (self = [super init]) {
+        NSLog(@"USE LFHardwareVideoEncoder");
         _configuration = configuration;
         [self initCompressionSession];
 
@@ -225,7 +226,7 @@ static void VideoCompressonOutputCallback(void *VTref, void *VTFrameRef, OSStatu
 }
 
 - (void)initForFilePath {
-    char *path = [self GetFilePathByfileName:"IOSCamDemo.h264"];
+    char *path = [self GetFilePathByfileName:"IOSCamDemo_HW.h264"];
     NSLog(@"%s", path);
     self->fp = fopen(path, "wb");
 }

@@ -1,1994 +1,767 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-	<key>archiveVersion</key>
-	<string>1</string>
-	<key>classes</key>
-	<dict/>
-	<key>objectVersion</key>
-	<string>46</string>
-	<key>objects</key>
-	<dict>
-		<key>0C07D14560B9E91EA1B59306</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>840020001D0017850026C63F</string>
-				<string>84001FFE1D00176C0026C63F</string>
-				<string>84001FFC1D0017680026C63F</string>
-				<string>84001FFA1D0017630026C63F</string>
-				<string>84001FF81D00175D0026C63F</string>
-				<string>84001FF61D0017590026C63F</string>
-				<string>B8CB02D2A92EA1F5A262F154</string>
-				<string>B5758EB2A15DAA132D8BF380</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Frameworks</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>817C22141AD3F2EB34365AA3</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array/>
-			<key>inputPaths</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXShellScriptBuildPhase</string>
-			<key>name</key>
-			<string>&#128230; Copy Pods Resources</string>
-			<key>outputPaths</key>
-			<array/>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-			<key>shellPath</key>
-			<string>/bin/sh</string>
-			<key>shellScript</key>
-			<string>"${SRCROOT}/Pods/Target Support Files/Pods-LFLiveKit/Pods-LFLiveKit-resources.sh"
-</string>
-			<key>showEnvVarsInLog</key>
-			<string>0</string>
-		</dict>
-		<key>84001F801D0015D10026C63F</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>84001F8C1D0015D10026C63F</string>
-				<string>84001F981D0015D10026C63F</string>
-				<string>84001F8B1D0015D10026C63F</string>
-				<string>EDD4B76A07A6817C79BB4E5C</string>
-				<string>0C07D14560B9E91EA1B59306</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001F811D0015D10026C63F</key>
-		<dict>
-			<key>attributes</key>
-			<dict>
-				<key>LastUpgradeCheck</key>
-				<string>0730</string>
-				<key>ORGANIZATIONNAME</key>
-				<string>admin</string>
-				<key>TargetAttributes</key>
-				<dict>
-					<key>84001F891D0015D10026C63F</key>
-					<dict>
-						<key>CreatedOnToolsVersion</key>
-						<string>7.3</string>
-					</dict>
-					<key>84001F931D0015D10026C63F</key>
-					<dict>
-						<key>CreatedOnToolsVersion</key>
-						<string>7.3</string>
-					</dict>
-				</dict>
-			</dict>
-			<key>buildConfigurationList</key>
-			<string>84001F841D0015D10026C63F</string>
-			<key>compatibilityVersion</key>
-			<string>Xcode 3.2</string>
-			<key>developmentRegion</key>
-			<string>English</string>
-			<key>hasScannedForEncodings</key>
-			<string>0</string>
-			<key>isa</key>
-			<string>PBXProject</string>
-			<key>knownRegions</key>
-			<array>
-				<string>en</string>
-			</array>
-			<key>mainGroup</key>
-			<string>84001F801D0015D10026C63F</string>
-			<key>productRefGroup</key>
-			<string>84001F8B1D0015D10026C63F</string>
-			<key>projectDirPath</key>
-			<string></string>
-			<key>projectReferences</key>
-			<array/>
-			<key>projectRoot</key>
-			<string></string>
-			<key>targets</key>
-			<array>
-				<string>84001F891D0015D10026C63F</string>
-				<string>84001F931D0015D10026C63F</string>
-			</array>
-		</dict>
-		<key>84001F841D0015D10026C63F</key>
-		<dict>
-			<key>buildConfigurations</key>
-			<array>
-				<string>84001F9C1D0015D10026C63F</string>
-				<string>84001F9D1D0015D10026C63F</string>
-			</array>
-			<key>defaultConfigurationIsVisible</key>
-			<string>0</string>
-			<key>defaultConfigurationName</key>
-			<string>Release</string>
-			<key>isa</key>
-			<string>XCConfigurationList</string>
-		</dict>
-		<key>84001F851D0015D10026C63F</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>84001FE21D0016380026C63F</string>
-				<string>84001FE41D0016380026C63F</string>
-				<string>84001FE61D0016380026C63F</string>
-				<string>84001FDC1D0016380026C63F</string>
-				<string>84001FD41D0016380026C63F</string>
-				<string>84001FE81D0016380026C63F</string>
-				<string>B289F1DC1D3DE77F00D9C7A5</string>
-				<string>B289F1E11D3DE77F00D9C7A5</string>
-				<string>84001FDE1D0016380026C63F</string>
-				<string>84001FD21D0016380026C63F</string>
-				<string>B289F1DE1D3DE77F00D9C7A5</string>
-				<string>84001FD91D0016380026C63F</string>
-				<string>84001FEC1D0016380026C63F</string>
-				<string>84001FEA1D0016380026C63F</string>
-				<string>84001FEE1D0016380026C63F</string>
-				<string>84001FD71D0016380026C63F</string>
-				<string>84001FE01D0016380026C63F</string>
-			</array>
-			<key>isa</key>
-			<string>PBXSourcesBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>84001F861D0015D10026C63F</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>840020011D0017850026C63F</string>
-				<string>84001FFF1D00176C0026C63F</string>
-				<string>84001FFD1D0017680026C63F</string>
-				<string>84001FFB1D0017630026C63F</string>
-				<string>84001FF91D00175D0026C63F</string>
-				<string>84001FF71D0017590026C63F</string>
-				<string>AD7F89B4621A7EFEBEA72D49</string>
-				<string>BE55DA79155500CDEF87FB5C</string>
-			</array>
-			<key>isa</key>
-			<string>PBXFrameworksBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>84001F871D0015D10026C63F</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>84001FDB1D0016380026C63F</string>
-				<string>B289F1DD1D3DE77F00D9C7A5</string>
-				<string>84001FDD1D0016380026C63F</string>
-				<string>84001FE31D0016380026C63F</string>
-				<string>B289F1DB1D3DE77F00D9C7A5</string>
-				<string>84001FEB1D0016380026C63F</string>
-				<string>84001FE91D0016380026C63F</string>
-				<string>84001FE71D0016380026C63F</string>
-				<string>84001FD61D0016380026C63F</string>
-				<string>B289F1E01D3DE77F00D9C7A5</string>
-				<string>84001FDF1D0016380026C63F</string>
-				<string>84001FD31D0016380026C63F</string>
-				<string>84001FD11D0016380026C63F</string>
-				<string>84001FE11D0016380026C63F</string>
-				<string>84001FDA1D0016380026C63F</string>
-				<string>84001FE51D0016380026C63F</string>
-				<string>84001FED1D0016380026C63F</string>
-				<string>84001FD81D0016380026C63F</string>
-				<string>B289F1DF1D3DE77F00D9C7A5</string>
-				<string>84001FD51D0016380026C63F</string>
-				<string>84001F8E1D0015D10026C63F</string>
-			</array>
-			<key>isa</key>
-			<string>PBXHeadersBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>84001F881D0015D10026C63F</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXResourcesBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>84001F891D0015D10026C63F</key>
-		<dict>
-			<key>buildConfigurationList</key>
-			<string>84001F9E1D0015D10026C63F</string>
-			<key>buildPhases</key>
-			<array>
-				<string>98F2C3F394BD79A6D6B8424F</string>
-				<string>8EE9401DCA9508E918B7FB68</string>
-				<string>84001F851D0015D10026C63F</string>
-				<string>84001F861D0015D10026C63F</string>
-				<string>84001F871D0015D10026C63F</string>
-				<string>84001F881D0015D10026C63F</string>
-				<string>817C22141AD3F2EB34365AA3</string>
-				<string>8A5D8B623E50AAC1575D1741</string>
-			</array>
-			<key>buildRules</key>
-			<array/>
-			<key>dependencies</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXNativeTarget</string>
-			<key>name</key>
-			<string>LFLiveKit</string>
-			<key>productName</key>
-			<string>LFLiveKit</string>
-			<key>productReference</key>
-			<string>84001F8A1D0015D10026C63F</string>
-			<key>productType</key>
-			<string>com.apple.product-type.framework</string>
-		</dict>
-		<key>84001F8A1D0015D10026C63F</key>
-		<dict>
-			<key>explicitFileType</key>
-			<string>wrapper.framework</string>
-			<key>includeInIndex</key>
-			<string>0</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>path</key>
-			<string>LFLiveKit.framework</string>
-			<key>sourceTree</key>
-			<string>BUILT_PRODUCTS_DIR</string>
-		</dict>
-		<key>84001F8B1D0015D10026C63F</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>84001F8A1D0015D10026C63F</string>
-				<string>84001F941D0015D10026C63F</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Products</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001F8C1D0015D10026C63F</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>84001F8D1D0015D10026C63F</string>
-				<string>84001FBA1D0016380026C63F</string>
-				<string>84001FBB1D0016380026C63F</string>
-				<string>84001FBC1D0016380026C63F</string>
-				<string>84001FB01D0016380026C63F</string>
-				<string>84001FA41D0016380026C63F</string>
-				<string>84001FA91D0016380026C63F</string>
-				<string>84001FB51D0016380026C63F</string>
-				<string>84001FC91D0016380026C63F</string>
-				<string>84001F8F1D0015D10026C63F</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string>LFLiveKit</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001F8D1D0015D10026C63F</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>LFLiveKit.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001F8E1D0015D10026C63F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>84001F8D1D0015D10026C63F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>84001F8F1D0015D10026C63F</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.plist.xml</string>
-			<key>path</key>
-			<string>Info.plist</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001F901D0015D10026C63F</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>84001F9A1D0015D10026C63F</string>
-			</array>
-			<key>isa</key>
-			<string>PBXSourcesBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>84001F911D0015D10026C63F</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>84001F951D0015D10026C63F</string>
-			</array>
-			<key>isa</key>
-			<string>PBXFrameworksBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>84001F921D0015D10026C63F</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXResourcesBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>84001F931D0015D10026C63F</key>
-		<dict>
-			<key>buildConfigurationList</key>
-			<string>84001FA11D0015D10026C63F</string>
-			<key>buildPhases</key>
-			<array>
-				<string>84001F901D0015D10026C63F</string>
-				<string>84001F911D0015D10026C63F</string>
-				<string>84001F921D0015D10026C63F</string>
-			</array>
-			<key>buildRules</key>
-			<array/>
-			<key>dependencies</key>
-			<array>
-				<string>84001F971D0015D10026C63F</string>
-			</array>
-			<key>isa</key>
-			<string>PBXNativeTarget</string>
-			<key>name</key>
-			<string>LFLiveKitTests</string>
-			<key>productName</key>
-			<string>LFLiveKitTests</string>
-			<key>productReference</key>
-			<string>84001F941D0015D10026C63F</string>
-			<key>productType</key>
-			<string>com.apple.product-type.bundle.unit-test</string>
-		</dict>
-		<key>84001F941D0015D10026C63F</key>
-		<dict>
-			<key>explicitFileType</key>
-			<string>wrapper.cfbundle</string>
-			<key>includeInIndex</key>
-			<string>0</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>path</key>
-			<string>LFLiveKitTests.xctest</string>
-			<key>sourceTree</key>
-			<string>BUILT_PRODUCTS_DIR</string>
-		</dict>
-		<key>84001F951D0015D10026C63F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>84001F8A1D0015D10026C63F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>84001F961D0015D10026C63F</key>
-		<dict>
-			<key>containerPortal</key>
-			<string>84001F811D0015D10026C63F</string>
-			<key>isa</key>
-			<string>PBXContainerItemProxy</string>
-			<key>proxyType</key>
-			<string>1</string>
-			<key>remoteGlobalIDString</key>
-			<string>84001F891D0015D10026C63F</string>
-			<key>remoteInfo</key>
-			<string>LFLiveKit</string>
-		</dict>
-		<key>84001F971D0015D10026C63F</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXTargetDependency</string>
-			<key>target</key>
-			<string>84001F891D0015D10026C63F</string>
-			<key>targetProxy</key>
-			<string>84001F961D0015D10026C63F</string>
-		</dict>
-		<key>84001F981D0015D10026C63F</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>84001F991D0015D10026C63F</string>
-				<string>84001F9B1D0015D10026C63F</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string>LFLiveKitTests</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001F991D0015D10026C63F</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>LFLiveKitTests.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001F9A1D0015D10026C63F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>84001F991D0015D10026C63F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>84001F9B1D0015D10026C63F</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.plist.xml</string>
-			<key>path</key>
-			<string>Info.plist</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001F9C1D0015D10026C63F</key>
-		<dict>
-			<key>buildSettings</key>
-			<dict>
-				<key>ALWAYS_SEARCH_USER_PATHS</key>
-				<string>NO</string>
-				<key>CLANG_ANALYZER_NONNULL</key>
-				<string>YES</string>
-				<key>CLANG_CXX_LANGUAGE_STANDARD</key>
-				<string>gnu++0x</string>
-				<key>CLANG_CXX_LIBRARY</key>
-				<string>libc++</string>
-				<key>CLANG_ENABLE_MODULES</key>
-				<string>YES</string>
-				<key>CLANG_ENABLE_OBJC_ARC</key>
-				<string>YES</string>
-				<key>CLANG_WARN_BOOL_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_CONSTANT_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_DIRECT_OBJC_ISA_USAGE</key>
-				<string>YES_ERROR</string>
-				<key>CLANG_WARN_EMPTY_BODY</key>
-				<string>YES</string>
-				<key>CLANG_WARN_ENUM_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_INT_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_OBJC_ROOT_CLASS</key>
-				<string>YES_ERROR</string>
-				<key>CLANG_WARN_UNREACHABLE_CODE</key>
-				<string>YES</string>
-				<key>CLANG_WARN__DUPLICATE_METHOD_MATCH</key>
-				<string>YES</string>
-				<key>CODE_SIGN_IDENTITY[sdk=iphoneos*]</key>
-				<string>iPhone Developer</string>
-				<key>COPY_PHASE_STRIP</key>
-				<string>NO</string>
-				<key>CURRENT_PROJECT_VERSION</key>
-				<string>1</string>
-				<key>DEBUG_INFORMATION_FORMAT</key>
-				<string>dwarf</string>
-				<key>ENABLE_STRICT_OBJC_MSGSEND</key>
-				<string>YES</string>
-				<key>ENABLE_TESTABILITY</key>
-				<string>YES</string>
-				<key>GCC_C_LANGUAGE_STANDARD</key>
-				<string>gnu99</string>
-				<key>GCC_DYNAMIC_NO_PIC</key>
-				<string>NO</string>
-				<key>GCC_NO_COMMON_BLOCKS</key>
-				<string>YES</string>
-				<key>GCC_OPTIMIZATION_LEVEL</key>
-				<string>0</string>
-				<key>GCC_PREPROCESSOR_DEFINITIONS</key>
-				<array>
-					<string>DEBUG=1</string>
-					<string>$(inherited)</string>
-				</array>
-				<key>GCC_WARN_64_TO_32_BIT_CONVERSION</key>
-				<string>YES</string>
-				<key>GCC_WARN_ABOUT_RETURN_TYPE</key>
-				<string>YES_ERROR</string>
-				<key>GCC_WARN_UNDECLARED_SELECTOR</key>
-				<string>YES</string>
-				<key>GCC_WARN_UNINITIALIZED_AUTOS</key>
-				<string>YES_AGGRESSIVE</string>
-				<key>GCC_WARN_UNUSED_FUNCTION</key>
-				<string>YES</string>
-				<key>GCC_WARN_UNUSED_VARIABLE</key>
-				<string>YES</string>
-				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
-				<string>9.3</string>
-				<key>MTL_ENABLE_DEBUG_INFO</key>
-				<string>YES</string>
-				<key>ONLY_ACTIVE_ARCH</key>
-				<string>YES</string>
-				<key>SDKROOT</key>
-				<string>iphoneos</string>
-				<key>TARGETED_DEVICE_FAMILY</key>
-				<string>1,2</string>
-				<key>VERSIONING_SYSTEM</key>
-				<string>apple-generic</string>
-				<key>VERSION_INFO_PREFIX</key>
-				<string></string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Debug</string>
-		</dict>
-		<key>84001F9D1D0015D10026C63F</key>
-		<dict>
-			<key>buildSettings</key>
-			<dict>
-				<key>ALWAYS_SEARCH_USER_PATHS</key>
-				<string>NO</string>
-				<key>CLANG_ANALYZER_NONNULL</key>
-				<string>YES</string>
-				<key>CLANG_CXX_LANGUAGE_STANDARD</key>
-				<string>gnu++0x</string>
-				<key>CLANG_CXX_LIBRARY</key>
-				<string>libc++</string>
-				<key>CLANG_ENABLE_MODULES</key>
-				<string>YES</string>
-				<key>CLANG_ENABLE_OBJC_ARC</key>
-				<string>YES</string>
-				<key>CLANG_WARN_BOOL_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_CONSTANT_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_DIRECT_OBJC_ISA_USAGE</key>
-				<string>YES_ERROR</string>
-				<key>CLANG_WARN_EMPTY_BODY</key>
-				<string>YES</string>
-				<key>CLANG_WARN_ENUM_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_INT_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_OBJC_ROOT_CLASS</key>
-				<string>YES_ERROR</string>
-				<key>CLANG_WARN_UNREACHABLE_CODE</key>
-				<string>YES</string>
-				<key>CLANG_WARN__DUPLICATE_METHOD_MATCH</key>
-				<string>YES</string>
-				<key>CODE_SIGN_IDENTITY[sdk=iphoneos*]</key>
-				<string>iPhone Developer</string>
-				<key>COPY_PHASE_STRIP</key>
-				<string>NO</string>
-				<key>CURRENT_PROJECT_VERSION</key>
-				<string>1</string>
-				<key>DEBUG_INFORMATION_FORMAT</key>
-				<string>dwarf-with-dsym</string>
-				<key>ENABLE_NS_ASSERTIONS</key>
-				<string>NO</string>
-				<key>ENABLE_STRICT_OBJC_MSGSEND</key>
-				<string>YES</string>
-				<key>GCC_C_LANGUAGE_STANDARD</key>
-				<string>gnu99</string>
-				<key>GCC_NO_COMMON_BLOCKS</key>
-				<string>YES</string>
-				<key>GCC_WARN_64_TO_32_BIT_CONVERSION</key>
-				<string>YES</string>
-				<key>GCC_WARN_ABOUT_RETURN_TYPE</key>
-				<string>YES_ERROR</string>
-				<key>GCC_WARN_UNDECLARED_SELECTOR</key>
-				<string>YES</string>
-				<key>GCC_WARN_UNINITIALIZED_AUTOS</key>
-				<string>YES_AGGRESSIVE</string>
-				<key>GCC_WARN_UNUSED_FUNCTION</key>
-				<string>YES</string>
-				<key>GCC_WARN_UNUSED_VARIABLE</key>
-				<string>YES</string>
-				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
-				<string>9.3</string>
-				<key>MTL_ENABLE_DEBUG_INFO</key>
-				<string>NO</string>
-				<key>SDKROOT</key>
-				<string>iphoneos</string>
-				<key>TARGETED_DEVICE_FAMILY</key>
-				<string>1,2</string>
-				<key>VALIDATE_PRODUCT</key>
-				<string>YES</string>
-				<key>VERSIONING_SYSTEM</key>
-				<string>apple-generic</string>
-				<key>VERSION_INFO_PREFIX</key>
-				<string></string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Release</string>
-		</dict>
-		<key>84001F9E1D0015D10026C63F</key>
-		<dict>
-			<key>buildConfigurations</key>
-			<array>
-				<string>84001F9F1D0015D10026C63F</string>
-				<string>84001FA01D0015D10026C63F</string>
-			</array>
-			<key>defaultConfigurationIsVisible</key>
-			<string>0</string>
-			<key>defaultConfigurationName</key>
-			<string>Release</string>
-			<key>isa</key>
-			<string>XCConfigurationList</string>
-		</dict>
-		<key>84001F9F1D0015D10026C63F</key>
-		<dict>
-			<key>baseConfigurationReference</key>
-			<string>A17586B27CD6843997425CCF</string>
-			<key>buildSettings</key>
-			<dict>
-				<key>DEFINES_MODULE</key>
-				<string>YES</string>
-				<key>DYLIB_COMPATIBILITY_VERSION</key>
-				<string>1</string>
-				<key>DYLIB_CURRENT_VERSION</key>
-				<string>1</string>
-				<key>DYLIB_INSTALL_NAME_BASE</key>
-				<string>@rpath</string>
-				<key>ENABLE_BITCODE</key>
-				<string>NO</string>
-				<key>INFOPLIST_FILE</key>
-				<string>LFLiveKit/Info.plist</string>
-				<key>INSTALL_PATH</key>
-				<string>$(LOCAL_LIBRARY_DIR)/Frameworks</string>
-				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
-				<string>8.0</string>
-				<key>LD_RUNPATH_SEARCH_PATHS</key>
-				<string>$(inherited) @executable_path/Frameworks @loader_path/Frameworks</string>
-				<key>PRODUCT_BUNDLE_IDENTIFIER</key>
-				<string>com.youku.LFLiveKit.LFLiveKit</string>
-				<key>PRODUCT_NAME</key>
-				<string>$(TARGET_NAME)</string>
-				<key>SKIP_INSTALL</key>
-				<string>YES</string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Debug</string>
-		</dict>
-		<key>84001FA01D0015D10026C63F</key>
-		<dict>
-			<key>baseConfigurationReference</key>
-			<string>B75B965E6B94DE4CBCC82EA7</string>
-			<key>buildSettings</key>
-			<dict>
-				<key>DEFINES_MODULE</key>
-				<string>YES</string>
-				<key>DYLIB_COMPATIBILITY_VERSION</key>
-				<string>1</string>
-				<key>DYLIB_CURRENT_VERSION</key>
-				<string>1</string>
-				<key>DYLIB_INSTALL_NAME_BASE</key>
-				<string>@rpath</string>
-				<key>ENABLE_BITCODE</key>
-				<string>NO</string>
-				<key>INFOPLIST_FILE</key>
-				<string>LFLiveKit/Info.plist</string>
-				<key>INSTALL_PATH</key>
-				<string>$(LOCAL_LIBRARY_DIR)/Frameworks</string>
-				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
-				<string>8.0</string>
-				<key>LD_RUNPATH_SEARCH_PATHS</key>
-				<string>$(inherited) @executable_path/Frameworks @loader_path/Frameworks</string>
-				<key>PRODUCT_BUNDLE_IDENTIFIER</key>
-				<string>com.youku.LFLiveKit.LFLiveKit</string>
-				<key>PRODUCT_NAME</key>
-				<string>$(TARGET_NAME)</string>
-				<key>SKIP_INSTALL</key>
-				<string>YES</string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Release</string>
-		</dict>
-		<key>84001FA11D0015D10026C63F</key>
-		<dict>
-			<key>buildConfigurations</key>
-			<array>
-				<string>84001FA21D0015D10026C63F</string>
-				<string>84001FA31D0015D10026C63F</string>
-			</array>
-			<key>defaultConfigurationIsVisible</key>
-			<string>0</string>
-			<key>defaultConfigurationName</key>
-			<string>Release</string>
-			<key>isa</key>
-			<string>XCConfigurationList</string>
-		</dict>
-		<key>84001FA21D0015D10026C63F</key>
-		<dict>
-			<key>buildSettings</key>
-			<dict>
-				<key>INFOPLIST_FILE</key>
-				<string>LFLiveKitTests/Info.plist</string>
-				<key>LD_RUNPATH_SEARCH_PATHS</key>
-				<string>$(inherited) @executable_path/Frameworks @loader_path/Frameworks</string>
-				<key>PRODUCT_BUNDLE_IDENTIFIER</key>
-				<string>com.youku.LFLiveKit.LFLiveKitTests</string>
-				<key>PRODUCT_NAME</key>
-				<string>$(TARGET_NAME)</string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Debug</string>
-		</dict>
-		<key>84001FA31D0015D10026C63F</key>
-		<dict>
-			<key>buildSettings</key>
-			<dict>
-				<key>INFOPLIST_FILE</key>
-				<string>LFLiveKitTests/Info.plist</string>
-				<key>LD_RUNPATH_SEARCH_PATHS</key>
-				<string>$(inherited) @executable_path/Frameworks @loader_path/Frameworks</string>
-				<key>PRODUCT_BUNDLE_IDENTIFIER</key>
-				<string>com.youku.LFLiveKit.LFLiveKitTests</string>
-				<key>PRODUCT_NAME</key>
-				<string>$(TARGET_NAME)</string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Release</string>
-		</dict>
-		<key>84001FA41D0016380026C63F</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>84001FA51D0016380026C63F</string>
-				<string>84001FA61D0016380026C63F</string>
-				<string>84001FA71D0016380026C63F</string>
-				<string>84001FA81D0016380026C63F</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string>capture</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001FA51D0016380026C63F</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>LFAudioCapture.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001FA61D0016380026C63F</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>LFAudioCapture.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001FA71D0016380026C63F</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>LFVideoCapture.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001FA81D0016380026C63F</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>LFVideoCapture.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001FA91D0016380026C63F</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>84001FAA1D0016380026C63F</string>
-				<string>84001FAB1D0016380026C63F</string>
-				<string>84001FAC1D0016380026C63F</string>
-				<string>84001FAD1D0016380026C63F</string>
-				<string>84001FAE1D0016380026C63F</string>
-				<string>84001FAF1D0016380026C63F</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string>coder</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001FAA1D0016380026C63F</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>LFAudioEncoding.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001FAB1D0016380026C63F</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>LFHardwareAudioEncoder.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001FAC1D0016380026C63F</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>LFHardwareAudioEncoder.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001FAD1D0016380026C63F</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>LFHardwareVideoEncoder.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001FAE1D0016380026C63F</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>LFHardwareVideoEncoder.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001FAF1D0016380026C63F</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>LFVideoEncoding.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001FB01D0016380026C63F</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>84001FB11D0016380026C63F</string>
-				<string>84001FB21D0016380026C63F</string>
-				<string>84001FB31D0016380026C63F</string>
-				<string>84001FB41D0016380026C63F</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string>configuration</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001FB11D0016380026C63F</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>LFLiveAudioConfiguration.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001FB21D0016380026C63F</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>LFLiveAudioConfiguration.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001FB31D0016380026C63F</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>LFLiveVideoConfiguration.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001FB41D0016380026C63F</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>LFLiveVideoConfiguration.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001FB51D0016380026C63F</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>84001FB61D0016380026C63F</string>
-				<string>84001FB71D0016380026C63F</string>
-				<string>84001FB81D0016380026C63F</string>
-				<string>84001FB91D0016380026C63F</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string>filter</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001FB61D0016380026C63F</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>LFGPUImageBeautyFilter.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001FB71D0016380026C63F</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>LFGPUImageBeautyFilter.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001FB81D0016380026C63F</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>LFGPUImageEmptyFilter.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001FB91D0016380026C63F</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>LFGPUImageEmptyFilter.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001FBA1D0016380026C63F</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>LFLiveSession.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001FBB1D0016380026C63F</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>LFLiveSession.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001FBC1D0016380026C63F</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>84001FBD1D0016380026C63F</string>
-				<string>84001FBE1D0016380026C63F</string>
-				<string>84001FBF1D0016380026C63F</string>
-				<string>84001FC01D0016380026C63F</string>
-				<string>84001FC11D0016380026C63F</string>
-				<string>84001FC21D0016380026C63F</string>
-				<string>84001FC31D0016380026C63F</string>
-				<string>84001FC41D0016380026C63F</string>
-				<string>84001FC51D0016380026C63F</string>
-				<string>84001FC61D0016380026C63F</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string>objects</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001FBD1D0016380026C63F</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>LFAudioFrame.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001FBE1D0016380026C63F</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>LFAudioFrame.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001FBF1D0016380026C63F</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>LFFrame.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001FC01D0016380026C63F</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>LFFrame.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001FC11D0016380026C63F</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>LFLiveDebug.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001FC21D0016380026C63F</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>LFLiveDebug.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001FC31D0016380026C63F</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>LFLiveStreamInfo.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001FC41D0016380026C63F</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>LFLiveStreamInfo.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001FC51D0016380026C63F</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>LFVideoFrame.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001FC61D0016380026C63F</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>LFVideoFrame.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001FC91D0016380026C63F</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>B289F1D41D3DE77F00D9C7A5</string>
-				<string>B289F1D51D3DE77F00D9C7A5</string>
-				<string>B289F1D61D3DE77F00D9C7A5</string>
-				<string>B289F1D71D3DE77F00D9C7A5</string>
-				<string>B289F1D81D3DE77F00D9C7A5</string>
-				<string>B289F1D91D3DE77F00D9C7A5</string>
-				<string>B289F1DA1D3DE77F00D9C7A5</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>publish</string>
-			<key>path</key>
-			<string>upload</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>84001FD11D0016380026C63F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>84001FA51D0016380026C63F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>84001FD21D0016380026C63F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>84001FA61D0016380026C63F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>84001FD31D0016380026C63F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>84001FA71D0016380026C63F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>84001FD41D0016380026C63F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>84001FA81D0016380026C63F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>84001FD51D0016380026C63F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>84001FAA1D0016380026C63F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>84001FD61D0016380026C63F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>84001FAB1D0016380026C63F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>84001FD71D0016380026C63F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>84001FAC1D0016380026C63F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>84001FD81D0016380026C63F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>84001FAD1D0016380026C63F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>84001FD91D0016380026C63F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>84001FAE1D0016380026C63F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>84001FDA1D0016380026C63F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>84001FAF1D0016380026C63F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>84001FDB1D0016380026C63F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>84001FB11D0016380026C63F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>84001FDC1D0016380026C63F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>84001FB21D0016380026C63F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>84001FDD1D0016380026C63F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>84001FB31D0016380026C63F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>84001FDE1D0016380026C63F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>84001FB41D0016380026C63F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>84001FDF1D0016380026C63F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>84001FB61D0016380026C63F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>84001FE01D0016380026C63F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>84001FB71D0016380026C63F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>84001FE11D0016380026C63F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>84001FB81D0016380026C63F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>84001FE21D0016380026C63F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>84001FB91D0016380026C63F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>84001FE31D0016380026C63F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>84001FBA1D0016380026C63F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>84001FE41D0016380026C63F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>84001FBB1D0016380026C63F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>84001FE51D0016380026C63F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>84001FBD1D0016380026C63F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>84001FE61D0016380026C63F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>84001FBE1D0016380026C63F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>84001FE71D0016380026C63F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>84001FBF1D0016380026C63F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>84001FE81D0016380026C63F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>84001FC01D0016380026C63F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>84001FE91D0016380026C63F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>84001FC11D0016380026C63F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>84001FEA1D0016380026C63F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>84001FC21D0016380026C63F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>84001FEB1D0016380026C63F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>84001FC31D0016380026C63F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-			<key>settings</key>
-			<dict>
-				<key>ATTRIBUTES</key>
-				<array>
-					<string>Public</string>
-				</array>
-			</dict>
-		</dict>
-		<key>84001FEC1D0016380026C63F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>84001FC41D0016380026C63F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>84001FED1D0016380026C63F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>84001FC51D0016380026C63F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>84001FEE1D0016380026C63F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>84001FC61D0016380026C63F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>84001FF61D0017590026C63F</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>wrapper.framework</string>
-			<key>name</key>
-			<string>AVFoundation.framework</string>
-			<key>path</key>
-			<string>System/Library/Frameworks/AVFoundation.framework</string>
-			<key>sourceTree</key>
-			<string>SDKROOT</string>
-		</dict>
-		<key>84001FF71D0017590026C63F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>84001FF61D0017590026C63F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>84001FF81D00175D0026C63F</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>wrapper.framework</string>
-			<key>name</key>
-			<string>Foundation.framework</string>
-			<key>path</key>
-			<string>System/Library/Frameworks/Foundation.framework</string>
-			<key>sourceTree</key>
-			<string>SDKROOT</string>
-		</dict>
-		<key>84001FF91D00175D0026C63F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>84001FF81D00175D0026C63F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>84001FFA1D0017630026C63F</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>wrapper.framework</string>
-			<key>name</key>
-			<string>UIKit.framework</string>
-			<key>path</key>
-			<string>System/Library/Frameworks/UIKit.framework</string>
-			<key>sourceTree</key>
-			<string>SDKROOT</string>
-		</dict>
-		<key>84001FFB1D0017630026C63F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>84001FFA1D0017630026C63F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>84001FFC1D0017680026C63F</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>wrapper.framework</string>
-			<key>name</key>
-			<string>AudioToolbox.framework</string>
-			<key>path</key>
-			<string>System/Library/Frameworks/AudioToolbox.framework</string>
-			<key>sourceTree</key>
-			<string>SDKROOT</string>
-		</dict>
-		<key>84001FFD1D0017680026C63F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>84001FFC1D0017680026C63F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>84001FFE1D00176C0026C63F</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>wrapper.framework</string>
-			<key>name</key>
-			<string>VideoToolbox.framework</string>
-			<key>path</key>
-			<string>System/Library/Frameworks/VideoToolbox.framework</string>
-			<key>sourceTree</key>
-			<string>SDKROOT</string>
-		</dict>
-		<key>84001FFF1D00176C0026C63F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>84001FFE1D00176C0026C63F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>840020001D0017850026C63F</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.text-based-dylib-definition</string>
-			<key>name</key>
-			<string>libz.tbd</string>
-			<key>path</key>
-			<string>usr/lib/libz.tbd</string>
-			<key>sourceTree</key>
-			<string>SDKROOT</string>
-		</dict>
-		<key>840020011D0017850026C63F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>840020001D0017850026C63F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>8A5D8B623E50AAC1575D1741</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array/>
-			<key>inputPaths</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXShellScriptBuildPhase</string>
-			<key>name</key>
-			<string>Copy Pods Resources</string>
-			<key>outputPaths</key>
-			<array/>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-			<key>shellPath</key>
-			<string>/bin/sh</string>
-			<key>shellScript</key>
-			<string>"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh"
-</string>
-			<key>showEnvVarsInLog</key>
-			<string>0</string>
-		</dict>
-		<key>8EE9401DCA9508E918B7FB68</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array/>
-			<key>inputPaths</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXShellScriptBuildPhase</string>
-			<key>name</key>
-			<string>&#128230; Check Pods Manifest.lock</string>
-			<key>outputPaths</key>
-			<array/>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-			<key>shellPath</key>
-			<string>/bin/sh</string>
-			<key>shellScript</key>
-			<string>diff "${PODS_ROOT}/../Podfile.lock" "${PODS_ROOT}/Manifest.lock" &gt; /dev/null
-if [[ $? != 0 ]] ; then
-    cat &lt;&lt; EOM
-error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.
-EOM
-    exit 1
-fi
-</string>
-			<key>showEnvVarsInLog</key>
-			<string>0</string>
-		</dict>
-		<key>98F2C3F394BD79A6D6B8424F</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array/>
-			<key>inputPaths</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXShellScriptBuildPhase</string>
-			<key>name</key>
-			<string>Check Pods Manifest.lock</string>
-			<key>outputPaths</key>
-			<array/>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-			<key>shellPath</key>
-			<string>/bin/sh</string>
-			<key>shellScript</key>
-			<string>diff "${PODS_ROOT}/../Podfile.lock" "${PODS_ROOT}/Manifest.lock" &gt; /dev/null
-if [[ $? != 0 ]] ; then
-    cat &lt;&lt; EOM
-error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.
-EOM
-    exit 1
-fi
-</string>
-			<key>showEnvVarsInLog</key>
-			<string>0</string>
-		</dict>
-		<key>A17586B27CD6843997425CCF</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.xcconfig</string>
-			<key>name</key>
-			<string>Pods-LFLiveKit.debug.xcconfig</string>
-			<key>path</key>
-			<string>Pods/Target Support Files/Pods-LFLiveKit/Pods-LFLiveKit.debug.xcconfig</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>AD7F89B4621A7EFEBEA72D49</key>
-		<dict>
-			<key>fileRef</key>
-			<string>B8CB02D2A92EA1F5A262F154</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>B289F1D41D3DE77F00D9C7A5</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>LFStreamingBuffer.h</string>
-			<key>path</key>
-			<string>LFLiveKit/publish/LFStreamingBuffer.h</string>
-			<key>sourceTree</key>
-			<string>SOURCE_ROOT</string>
-		</dict>
-		<key>B289F1D51D3DE77F00D9C7A5</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>LFStreamingBuffer.m</string>
-			<key>path</key>
-			<string>LFLiveKit/publish/LFStreamingBuffer.m</string>
-			<key>sourceTree</key>
-			<string>SOURCE_ROOT</string>
-		</dict>
-		<key>B289F1D61D3DE77F00D9C7A5</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>LFStreamRtmpSocket.h</string>
-			<key>path</key>
-			<string>LFLiveKit/publish/LFStreamRtmpSocket.h</string>
-			<key>sourceTree</key>
-			<string>SOURCE_ROOT</string>
-		</dict>
-		<key>B289F1D71D3DE77F00D9C7A5</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>LFStreamRtmpSocket.m</string>
-			<key>path</key>
-			<string>LFLiveKit/publish/LFStreamRtmpSocket.m</string>
-			<key>sourceTree</key>
-			<string>SOURCE_ROOT</string>
-		</dict>
-		<key>B289F1D81D3DE77F00D9C7A5</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>LFStreamSocket.h</string>
-			<key>path</key>
-			<string>LFLiveKit/publish/LFStreamSocket.h</string>
-			<key>sourceTree</key>
-			<string>SOURCE_ROOT</string>
-		</dict>
-		<key>B289F1D91D3DE77F00D9C7A5</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>NSMutableArray+LFAdd.h</string>
-			<key>path</key>
-			<string>LFLiveKit/publish/NSMutableArray+LFAdd.h</string>
-			<key>sourceTree</key>
-			<string>SOURCE_ROOT</string>
-		</dict>
-		<key>B289F1DA1D3DE77F00D9C7A5</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>NSMutableArray+LFAdd.m</string>
-			<key>path</key>
-			<string>LFLiveKit/publish/NSMutableArray+LFAdd.m</string>
-			<key>sourceTree</key>
-			<string>SOURCE_ROOT</string>
-		</dict>
-		<key>B289F1DB1D3DE77F00D9C7A5</key>
-		<dict>
-			<key>fileRef</key>
-			<string>B289F1D41D3DE77F00D9C7A5</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>B289F1DC1D3DE77F00D9C7A5</key>
-		<dict>
-			<key>fileRef</key>
-			<string>B289F1D51D3DE77F00D9C7A5</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>B289F1DD1D3DE77F00D9C7A5</key>
-		<dict>
-			<key>fileRef</key>
-			<string>B289F1D61D3DE77F00D9C7A5</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>B289F1DE1D3DE77F00D9C7A5</key>
-		<dict>
-			<key>fileRef</key>
-			<string>B289F1D71D3DE77F00D9C7A5</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>B289F1DF1D3DE77F00D9C7A5</key>
-		<dict>
-			<key>fileRef</key>
-			<string>B289F1D81D3DE77F00D9C7A5</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>B289F1E01D3DE77F00D9C7A5</key>
-		<dict>
-			<key>fileRef</key>
-			<string>B289F1D91D3DE77F00D9C7A5</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>B289F1E11D3DE77F00D9C7A5</key>
-		<dict>
-			<key>fileRef</key>
-			<string>B289F1DA1D3DE77F00D9C7A5</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>B5758EB2A15DAA132D8BF380</key>
-		<dict>
-			<key>explicitFileType</key>
-			<string>archive.ar</string>
-			<key>includeInIndex</key>
-			<string>0</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>path</key>
-			<string>libPods.a</string>
-			<key>sourceTree</key>
-			<string>BUILT_PRODUCTS_DIR</string>
-		</dict>
-		<key>B75B965E6B94DE4CBCC82EA7</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.xcconfig</string>
-			<key>name</key>
-			<string>Pods-LFLiveKit.release.xcconfig</string>
-			<key>path</key>
-			<string>Pods/Target Support Files/Pods-LFLiveKit/Pods-LFLiveKit.release.xcconfig</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>B8CB02D2A92EA1F5A262F154</key>
-		<dict>
-			<key>explicitFileType</key>
-			<string>archive.ar</string>
-			<key>includeInIndex</key>
-			<string>0</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>path</key>
-			<string>libPods-LFLiveKit.a</string>
-			<key>sourceTree</key>
-			<string>BUILT_PRODUCTS_DIR</string>
-		</dict>
-		<key>BE55DA79155500CDEF87FB5C</key>
-		<dict>
-			<key>fileRef</key>
-			<string>B5758EB2A15DAA132D8BF380</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>EDD4B76A07A6817C79BB4E5C</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>A17586B27CD6843997425CCF</string>
-				<string>B75B965E6B94DE4CBCC82EA7</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Pods</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-	</dict>
-	<key>rootObject</key>
-	<string>84001F811D0015D10026C63F</string>
-</dict>
-</plist>
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		84001F8E1D0015D10026C63F /* LFLiveKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 84001F8D1D0015D10026C63F /* LFLiveKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		84001F951D0015D10026C63F /* LFLiveKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84001F8A1D0015D10026C63F /* LFLiveKit.framework */; };
+		84001F9A1D0015D10026C63F /* LFLiveKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 84001F991D0015D10026C63F /* LFLiveKitTests.m */; };
+		84001FD11D0016380026C63F /* LFAudioCapture.h in Headers */ = {isa = PBXBuildFile; fileRef = 84001FA51D0016380026C63F /* LFAudioCapture.h */; };
+		84001FD21D0016380026C63F /* LFAudioCapture.m in Sources */ = {isa = PBXBuildFile; fileRef = 84001FA61D0016380026C63F /* LFAudioCapture.m */; };
+		84001FD31D0016380026C63F /* LFVideoCapture.h in Headers */ = {isa = PBXBuildFile; fileRef = 84001FA71D0016380026C63F /* LFVideoCapture.h */; };
+		84001FD41D0016380026C63F /* LFVideoCapture.m in Sources */ = {isa = PBXBuildFile; fileRef = 84001FA81D0016380026C63F /* LFVideoCapture.m */; };
+		84001FD51D0016380026C63F /* LFAudioEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 84001FAA1D0016380026C63F /* LFAudioEncoding.h */; };
+		84001FD61D0016380026C63F /* LFHardwareAudioEncoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 84001FAB1D0016380026C63F /* LFHardwareAudioEncoder.h */; };
+		84001FD71D0016380026C63F /* LFHardwareAudioEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 84001FAC1D0016380026C63F /* LFHardwareAudioEncoder.m */; };
+		84001FD81D0016380026C63F /* LFHardwareVideoEncoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 84001FAD1D0016380026C63F /* LFHardwareVideoEncoder.h */; };
+		84001FD91D0016380026C63F /* LFHardwareVideoEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 84001FAE1D0016380026C63F /* LFHardwareVideoEncoder.m */; };
+		84001FDA1D0016380026C63F /* LFVideoEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 84001FAF1D0016380026C63F /* LFVideoEncoding.h */; };
+		84001FDB1D0016380026C63F /* LFLiveAudioConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 84001FB11D0016380026C63F /* LFLiveAudioConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		84001FDC1D0016380026C63F /* LFLiveAudioConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 84001FB21D0016380026C63F /* LFLiveAudioConfiguration.m */; };
+		84001FDD1D0016380026C63F /* LFLiveVideoConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 84001FB31D0016380026C63F /* LFLiveVideoConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		84001FDE1D0016380026C63F /* LFLiveVideoConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 84001FB41D0016380026C63F /* LFLiveVideoConfiguration.m */; };
+		84001FDF1D0016380026C63F /* LFGPUImageBeautyFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 84001FB61D0016380026C63F /* LFGPUImageBeautyFilter.h */; };
+		84001FE01D0016380026C63F /* LFGPUImageBeautyFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 84001FB71D0016380026C63F /* LFGPUImageBeautyFilter.m */; };
+		84001FE11D0016380026C63F /* LFGPUImageEmptyFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 84001FB81D0016380026C63F /* LFGPUImageEmptyFilter.h */; };
+		84001FE21D0016380026C63F /* LFGPUImageEmptyFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 84001FB91D0016380026C63F /* LFGPUImageEmptyFilter.m */; };
+		84001FE31D0016380026C63F /* LFLiveSession.h in Headers */ = {isa = PBXBuildFile; fileRef = 84001FBA1D0016380026C63F /* LFLiveSession.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		84001FE41D0016380026C63F /* LFLiveSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 84001FBB1D0016380026C63F /* LFLiveSession.m */; };
+		84001FE51D0016380026C63F /* LFAudioFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = 84001FBD1D0016380026C63F /* LFAudioFrame.h */; };
+		84001FE61D0016380026C63F /* LFAudioFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 84001FBE1D0016380026C63F /* LFAudioFrame.m */; };
+		84001FE71D0016380026C63F /* LFFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = 84001FBF1D0016380026C63F /* LFFrame.h */; };
+		84001FE81D0016380026C63F /* LFFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 84001FC01D0016380026C63F /* LFFrame.m */; };
+		84001FE91D0016380026C63F /* LFLiveDebug.h in Headers */ = {isa = PBXBuildFile; fileRef = 84001FC11D0016380026C63F /* LFLiveDebug.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		84001FEA1D0016380026C63F /* LFLiveDebug.m in Sources */ = {isa = PBXBuildFile; fileRef = 84001FC21D0016380026C63F /* LFLiveDebug.m */; };
+		84001FEB1D0016380026C63F /* LFLiveStreamInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 84001FC31D0016380026C63F /* LFLiveStreamInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		84001FEC1D0016380026C63F /* LFLiveStreamInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 84001FC41D0016380026C63F /* LFLiveStreamInfo.m */; };
+		84001FED1D0016380026C63F /* LFVideoFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = 84001FC51D0016380026C63F /* LFVideoFrame.h */; };
+		84001FEE1D0016380026C63F /* LFVideoFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 84001FC61D0016380026C63F /* LFVideoFrame.m */; };
+		84001FF71D0017590026C63F /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84001FF61D0017590026C63F /* AVFoundation.framework */; };
+		84001FF91D00175D0026C63F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84001FF81D00175D0026C63F /* Foundation.framework */; };
+		84001FFB1D0017630026C63F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84001FFA1D0017630026C63F /* UIKit.framework */; };
+		84001FFD1D0017680026C63F /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84001FFC1D0017680026C63F /* AudioToolbox.framework */; };
+		84001FFF1D00176C0026C63F /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84001FFE1D00176C0026C63F /* VideoToolbox.framework */; };
+		840020011D0017850026C63F /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 840020001D0017850026C63F /* libz.tbd */; };
+		AD7F89B4621A7EFEBEA72D49 /* libPods-LFLiveKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B8CB02D2A92EA1F5A262F154 /* libPods-LFLiveKit.a */; };
+		B243DD7A1D409BC4007CCDB5 /* AVEncoder.h in Headers */ = {isa = PBXBuildFile; fileRef = B243DD711D409BC4007CCDB5 /* AVEncoder.h */; };
+		B243DD7B1D409BC4007CCDB5 /* AVEncoder.mm in Sources */ = {isa = PBXBuildFile; fileRef = B243DD721D409BC4007CCDB5 /* AVEncoder.mm */; };
+		B243DD7C1D409BC4007CCDB5 /* LICENSE.markdown in Sources */ = {isa = PBXBuildFile; fileRef = B243DD731D409BC4007CCDB5 /* LICENSE.markdown */; };
+		B243DD7D1D409BC4007CCDB5 /* MP4Atom.h in Headers */ = {isa = PBXBuildFile; fileRef = B243DD741D409BC4007CCDB5 /* MP4Atom.h */; };
+		B243DD7E1D409BC4007CCDB5 /* MP4Atom.m in Sources */ = {isa = PBXBuildFile; fileRef = B243DD751D409BC4007CCDB5 /* MP4Atom.m */; };
+		B243DD7F1D409BC4007CCDB5 /* NALUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B243DD761D409BC4007CCDB5 /* NALUnit.cpp */; };
+		B243DD801D409BC4007CCDB5 /* NALUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = B243DD771D409BC4007CCDB5 /* NALUnit.h */; };
+		B243DD811D409BC4007CCDB5 /* VideoEncoder.h in Headers */ = {isa = PBXBuildFile; fileRef = B243DD781D409BC4007CCDB5 /* VideoEncoder.h */; };
+		B243DD821D409BC4007CCDB5 /* VideoEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = B243DD791D409BC4007CCDB5 /* VideoEncoder.m */; };
+		B289F1DB1D3DE77F00D9C7A5 /* LFStreamingBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = B289F1D41D3DE77F00D9C7A5 /* LFStreamingBuffer.h */; };
+		B289F1DC1D3DE77F00D9C7A5 /* LFStreamingBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = B289F1D51D3DE77F00D9C7A5 /* LFStreamingBuffer.m */; };
+		B289F1DD1D3DE77F00D9C7A5 /* LFStreamRtmpSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = B289F1D61D3DE77F00D9C7A5 /* LFStreamRtmpSocket.h */; };
+		B289F1DE1D3DE77F00D9C7A5 /* LFStreamRtmpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = B289F1D71D3DE77F00D9C7A5 /* LFStreamRtmpSocket.m */; };
+		B289F1DF1D3DE77F00D9C7A5 /* LFStreamSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = B289F1D81D3DE77F00D9C7A5 /* LFStreamSocket.h */; };
+		B289F1E01D3DE77F00D9C7A5 /* NSMutableArray+LFAdd.h in Headers */ = {isa = PBXBuildFile; fileRef = B289F1D91D3DE77F00D9C7A5 /* NSMutableArray+LFAdd.h */; };
+		B289F1E11D3DE77F00D9C7A5 /* NSMutableArray+LFAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = B289F1DA1D3DE77F00D9C7A5 /* NSMutableArray+LFAdd.m */; };
+		B2EA938E1D3E9537006D1055 /* LFH264VideoEncoder.h in Headers */ = {isa = PBXBuildFile; fileRef = B2EA93771D3E9537006D1055 /* LFH264VideoEncoder.h */; };
+		B2EA938F1D3E9537006D1055 /* LFH264VideoEncoder.mm in Sources */ = {isa = PBXBuildFile; fileRef = B2EA93781D3E9537006D1055 /* LFH264VideoEncoder.mm */; };
+		BE55DA79155500CDEF87FB5C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B5758EB2A15DAA132D8BF380 /* libPods.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		84001F961D0015D10026C63F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 84001F811D0015D10026C63F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 84001F891D0015D10026C63F;
+			remoteInfo = LFLiveKit;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		84001F8A1D0015D10026C63F /* LFLiveKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LFLiveKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		84001F8D1D0015D10026C63F /* LFLiveKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LFLiveKit.h; sourceTree = "<group>"; };
+		84001F8F1D0015D10026C63F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		84001F941D0015D10026C63F /* LFLiveKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LFLiveKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		84001F991D0015D10026C63F /* LFLiveKitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LFLiveKitTests.m; sourceTree = "<group>"; };
+		84001F9B1D0015D10026C63F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		84001FA51D0016380026C63F /* LFAudioCapture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFAudioCapture.h; sourceTree = "<group>"; };
+		84001FA61D0016380026C63F /* LFAudioCapture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFAudioCapture.m; sourceTree = "<group>"; };
+		84001FA71D0016380026C63F /* LFVideoCapture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFVideoCapture.h; sourceTree = "<group>"; };
+		84001FA81D0016380026C63F /* LFVideoCapture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFVideoCapture.m; sourceTree = "<group>"; };
+		84001FAA1D0016380026C63F /* LFAudioEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFAudioEncoding.h; sourceTree = "<group>"; };
+		84001FAB1D0016380026C63F /* LFHardwareAudioEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFHardwareAudioEncoder.h; sourceTree = "<group>"; };
+		84001FAC1D0016380026C63F /* LFHardwareAudioEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFHardwareAudioEncoder.m; sourceTree = "<group>"; };
+		84001FAD1D0016380026C63F /* LFHardwareVideoEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFHardwareVideoEncoder.h; sourceTree = "<group>"; };
+		84001FAE1D0016380026C63F /* LFHardwareVideoEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFHardwareVideoEncoder.m; sourceTree = "<group>"; };
+		84001FAF1D0016380026C63F /* LFVideoEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFVideoEncoding.h; sourceTree = "<group>"; };
+		84001FB11D0016380026C63F /* LFLiveAudioConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFLiveAudioConfiguration.h; sourceTree = "<group>"; };
+		84001FB21D0016380026C63F /* LFLiveAudioConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFLiveAudioConfiguration.m; sourceTree = "<group>"; };
+		84001FB31D0016380026C63F /* LFLiveVideoConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFLiveVideoConfiguration.h; sourceTree = "<group>"; };
+		84001FB41D0016380026C63F /* LFLiveVideoConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFLiveVideoConfiguration.m; sourceTree = "<group>"; };
+		84001FB61D0016380026C63F /* LFGPUImageBeautyFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFGPUImageBeautyFilter.h; sourceTree = "<group>"; };
+		84001FB71D0016380026C63F /* LFGPUImageBeautyFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFGPUImageBeautyFilter.m; sourceTree = "<group>"; };
+		84001FB81D0016380026C63F /* LFGPUImageEmptyFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFGPUImageEmptyFilter.h; sourceTree = "<group>"; };
+		84001FB91D0016380026C63F /* LFGPUImageEmptyFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFGPUImageEmptyFilter.m; sourceTree = "<group>"; };
+		84001FBA1D0016380026C63F /* LFLiveSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFLiveSession.h; sourceTree = "<group>"; };
+		84001FBB1D0016380026C63F /* LFLiveSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFLiveSession.m; sourceTree = "<group>"; };
+		84001FBD1D0016380026C63F /* LFAudioFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFAudioFrame.h; sourceTree = "<group>"; };
+		84001FBE1D0016380026C63F /* LFAudioFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFAudioFrame.m; sourceTree = "<group>"; };
+		84001FBF1D0016380026C63F /* LFFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFFrame.h; sourceTree = "<group>"; };
+		84001FC01D0016380026C63F /* LFFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFFrame.m; sourceTree = "<group>"; };
+		84001FC11D0016380026C63F /* LFLiveDebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFLiveDebug.h; sourceTree = "<group>"; };
+		84001FC21D0016380026C63F /* LFLiveDebug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFLiveDebug.m; sourceTree = "<group>"; };
+		84001FC31D0016380026C63F /* LFLiveStreamInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFLiveStreamInfo.h; sourceTree = "<group>"; };
+		84001FC41D0016380026C63F /* LFLiveStreamInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFLiveStreamInfo.m; sourceTree = "<group>"; };
+		84001FC51D0016380026C63F /* LFVideoFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFVideoFrame.h; sourceTree = "<group>"; };
+		84001FC61D0016380026C63F /* LFVideoFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFVideoFrame.m; sourceTree = "<group>"; };
+		84001FF61D0017590026C63F /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		84001FF81D00175D0026C63F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		84001FFA1D0017630026C63F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		84001FFC1D0017680026C63F /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		84001FFE1D00176C0026C63F /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
+		840020001D0017850026C63F /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		A17586B27CD6843997425CCF /* Pods-LFLiveKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LFLiveKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LFLiveKit/Pods-LFLiveKit.debug.xcconfig"; sourceTree = "<group>"; };
+		B243DD711D409BC4007CCDB5 /* AVEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVEncoder.h; sourceTree = "<group>"; };
+		B243DD721D409BC4007CCDB5 /* AVEncoder.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AVEncoder.mm; sourceTree = "<group>"; };
+		B243DD731D409BC4007CCDB5 /* LICENSE.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.markdown; sourceTree = "<group>"; };
+		B243DD741D409BC4007CCDB5 /* MP4Atom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MP4Atom.h; sourceTree = "<group>"; };
+		B243DD751D409BC4007CCDB5 /* MP4Atom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MP4Atom.m; sourceTree = "<group>"; };
+		B243DD761D409BC4007CCDB5 /* NALUnit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NALUnit.cpp; sourceTree = "<group>"; };
+		B243DD771D409BC4007CCDB5 /* NALUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NALUnit.h; sourceTree = "<group>"; };
+		B243DD781D409BC4007CCDB5 /* VideoEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoEncoder.h; sourceTree = "<group>"; };
+		B243DD791D409BC4007CCDB5 /* VideoEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoEncoder.m; sourceTree = "<group>"; };
+		B289F1D41D3DE77F00D9C7A5 /* LFStreamingBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LFStreamingBuffer.h; path = LFLiveKit/publish/LFStreamingBuffer.h; sourceTree = SOURCE_ROOT; };
+		B289F1D51D3DE77F00D9C7A5 /* LFStreamingBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LFStreamingBuffer.m; path = LFLiveKit/publish/LFStreamingBuffer.m; sourceTree = SOURCE_ROOT; };
+		B289F1D61D3DE77F00D9C7A5 /* LFStreamRtmpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LFStreamRtmpSocket.h; path = LFLiveKit/publish/LFStreamRtmpSocket.h; sourceTree = SOURCE_ROOT; };
+		B289F1D71D3DE77F00D9C7A5 /* LFStreamRtmpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LFStreamRtmpSocket.m; path = LFLiveKit/publish/LFStreamRtmpSocket.m; sourceTree = SOURCE_ROOT; };
+		B289F1D81D3DE77F00D9C7A5 /* LFStreamSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LFStreamSocket.h; path = LFLiveKit/publish/LFStreamSocket.h; sourceTree = SOURCE_ROOT; };
+		B289F1D91D3DE77F00D9C7A5 /* NSMutableArray+LFAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableArray+LFAdd.h"; path = "LFLiveKit/publish/NSMutableArray+LFAdd.h"; sourceTree = SOURCE_ROOT; };
+		B289F1DA1D3DE77F00D9C7A5 /* NSMutableArray+LFAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableArray+LFAdd.m"; path = "LFLiveKit/publish/NSMutableArray+LFAdd.m"; sourceTree = SOURCE_ROOT; };
+		B2EA93771D3E9537006D1055 /* LFH264VideoEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFH264VideoEncoder.h; sourceTree = "<group>"; };
+		B2EA93781D3E9537006D1055 /* LFH264VideoEncoder.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LFH264VideoEncoder.mm; sourceTree = "<group>"; };
+		B5758EB2A15DAA132D8BF380 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		B75B965E6B94DE4CBCC82EA7 /* Pods-LFLiveKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LFLiveKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-LFLiveKit/Pods-LFLiveKit.release.xcconfig"; sourceTree = "<group>"; };
+		B8CB02D2A92EA1F5A262F154 /* libPods-LFLiveKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LFLiveKit.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		84001F861D0015D10026C63F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				840020011D0017850026C63F /* libz.tbd in Frameworks */,
+				84001FFF1D00176C0026C63F /* VideoToolbox.framework in Frameworks */,
+				84001FFD1D0017680026C63F /* AudioToolbox.framework in Frameworks */,
+				84001FFB1D0017630026C63F /* UIKit.framework in Frameworks */,
+				84001FF91D00175D0026C63F /* Foundation.framework in Frameworks */,
+				84001FF71D0017590026C63F /* AVFoundation.framework in Frameworks */,
+				AD7F89B4621A7EFEBEA72D49 /* libPods-LFLiveKit.a in Frameworks */,
+				BE55DA79155500CDEF87FB5C /* libPods.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84001F911D0015D10026C63F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84001F951D0015D10026C63F /* LFLiveKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0C07D14560B9E91EA1B59306 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				840020001D0017850026C63F /* libz.tbd */,
+				84001FFE1D00176C0026C63F /* VideoToolbox.framework */,
+				84001FFC1D0017680026C63F /* AudioToolbox.framework */,
+				84001FFA1D0017630026C63F /* UIKit.framework */,
+				84001FF81D00175D0026C63F /* Foundation.framework */,
+				84001FF61D0017590026C63F /* AVFoundation.framework */,
+				B8CB02D2A92EA1F5A262F154 /* libPods-LFLiveKit.a */,
+				B5758EB2A15DAA132D8BF380 /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		84001F801D0015D10026C63F = {
+			isa = PBXGroup;
+			children = (
+				84001F8C1D0015D10026C63F /* LFLiveKit */,
+				84001F981D0015D10026C63F /* LFLiveKitTests */,
+				84001F8B1D0015D10026C63F /* Products */,
+				EDD4B76A07A6817C79BB4E5C /* Pods */,
+				0C07D14560B9E91EA1B59306 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		84001F8B1D0015D10026C63F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				84001F8A1D0015D10026C63F /* LFLiveKit.framework */,
+				84001F941D0015D10026C63F /* LFLiveKitTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		84001F8C1D0015D10026C63F /* LFLiveKit */ = {
+			isa = PBXGroup;
+			children = (
+				84001F8D1D0015D10026C63F /* LFLiveKit.h */,
+				84001FBA1D0016380026C63F /* LFLiveSession.h */,
+				84001FBB1D0016380026C63F /* LFLiveSession.m */,
+				84001FBC1D0016380026C63F /* objects */,
+				84001FB01D0016380026C63F /* configuration */,
+				84001FA41D0016380026C63F /* capture */,
+				84001FA91D0016380026C63F /* coder */,
+				84001FB51D0016380026C63F /* filter */,
+				84001FC91D0016380026C63F /* publish */,
+				84001F8F1D0015D10026C63F /* Info.plist */,
+			);
+			path = LFLiveKit;
+			sourceTree = "<group>";
+		};
+		84001F981D0015D10026C63F /* LFLiveKitTests */ = {
+			isa = PBXGroup;
+			children = (
+				84001F991D0015D10026C63F /* LFLiveKitTests.m */,
+				84001F9B1D0015D10026C63F /* Info.plist */,
+			);
+			path = LFLiveKitTests;
+			sourceTree = "<group>";
+		};
+		84001FA41D0016380026C63F /* capture */ = {
+			isa = PBXGroup;
+			children = (
+				84001FA51D0016380026C63F /* LFAudioCapture.h */,
+				84001FA61D0016380026C63F /* LFAudioCapture.m */,
+				84001FA71D0016380026C63F /* LFVideoCapture.h */,
+				84001FA81D0016380026C63F /* LFVideoCapture.m */,
+			);
+			path = capture;
+			sourceTree = "<group>";
+		};
+		84001FA91D0016380026C63F /* coder */ = {
+			isa = PBXGroup;
+			children = (
+				B243DD701D409BC4007CCDB5 /* H264 */,
+				B2EA93771D3E9537006D1055 /* LFH264VideoEncoder.h */,
+				B2EA93781D3E9537006D1055 /* LFH264VideoEncoder.mm */,
+				84001FAA1D0016380026C63F /* LFAudioEncoding.h */,
+				84001FAB1D0016380026C63F /* LFHardwareAudioEncoder.h */,
+				84001FAC1D0016380026C63F /* LFHardwareAudioEncoder.m */,
+				84001FAD1D0016380026C63F /* LFHardwareVideoEncoder.h */,
+				84001FAE1D0016380026C63F /* LFHardwareVideoEncoder.m */,
+				84001FAF1D0016380026C63F /* LFVideoEncoding.h */,
+			);
+			path = coder;
+			sourceTree = "<group>";
+		};
+		84001FB01D0016380026C63F /* configuration */ = {
+			isa = PBXGroup;
+			children = (
+				84001FB11D0016380026C63F /* LFLiveAudioConfiguration.h */,
+				84001FB21D0016380026C63F /* LFLiveAudioConfiguration.m */,
+				84001FB31D0016380026C63F /* LFLiveVideoConfiguration.h */,
+				84001FB41D0016380026C63F /* LFLiveVideoConfiguration.m */,
+			);
+			path = configuration;
+			sourceTree = "<group>";
+		};
+		84001FB51D0016380026C63F /* filter */ = {
+			isa = PBXGroup;
+			children = (
+				84001FB61D0016380026C63F /* LFGPUImageBeautyFilter.h */,
+				84001FB71D0016380026C63F /* LFGPUImageBeautyFilter.m */,
+				84001FB81D0016380026C63F /* LFGPUImageEmptyFilter.h */,
+				84001FB91D0016380026C63F /* LFGPUImageEmptyFilter.m */,
+			);
+			path = filter;
+			sourceTree = "<group>";
+		};
+		84001FBC1D0016380026C63F /* objects */ = {
+			isa = PBXGroup;
+			children = (
+				84001FBD1D0016380026C63F /* LFAudioFrame.h */,
+				84001FBE1D0016380026C63F /* LFAudioFrame.m */,
+				84001FBF1D0016380026C63F /* LFFrame.h */,
+				84001FC01D0016380026C63F /* LFFrame.m */,
+				84001FC11D0016380026C63F /* LFLiveDebug.h */,
+				84001FC21D0016380026C63F /* LFLiveDebug.m */,
+				84001FC31D0016380026C63F /* LFLiveStreamInfo.h */,
+				84001FC41D0016380026C63F /* LFLiveStreamInfo.m */,
+				84001FC51D0016380026C63F /* LFVideoFrame.h */,
+				84001FC61D0016380026C63F /* LFVideoFrame.m */,
+			);
+			path = objects;
+			sourceTree = "<group>";
+		};
+		84001FC91D0016380026C63F /* publish */ = {
+			isa = PBXGroup;
+			children = (
+				B289F1D41D3DE77F00D9C7A5 /* LFStreamingBuffer.h */,
+				B289F1D51D3DE77F00D9C7A5 /* LFStreamingBuffer.m */,
+				B289F1D61D3DE77F00D9C7A5 /* LFStreamRtmpSocket.h */,
+				B289F1D71D3DE77F00D9C7A5 /* LFStreamRtmpSocket.m */,
+				B289F1D81D3DE77F00D9C7A5 /* LFStreamSocket.h */,
+				B289F1D91D3DE77F00D9C7A5 /* NSMutableArray+LFAdd.h */,
+				B289F1DA1D3DE77F00D9C7A5 /* NSMutableArray+LFAdd.m */,
+			);
+			name = publish;
+			path = upload;
+			sourceTree = "<group>";
+		};
+		B243DD701D409BC4007CCDB5 /* H264 */ = {
+			isa = PBXGroup;
+			children = (
+				B243DD711D409BC4007CCDB5 /* AVEncoder.h */,
+				B243DD721D409BC4007CCDB5 /* AVEncoder.mm */,
+				B243DD731D409BC4007CCDB5 /* LICENSE.markdown */,
+				B243DD741D409BC4007CCDB5 /* MP4Atom.h */,
+				B243DD751D409BC4007CCDB5 /* MP4Atom.m */,
+				B243DD761D409BC4007CCDB5 /* NALUnit.cpp */,
+				B243DD771D409BC4007CCDB5 /* NALUnit.h */,
+				B243DD781D409BC4007CCDB5 /* VideoEncoder.h */,
+				B243DD791D409BC4007CCDB5 /* VideoEncoder.m */,
+			);
+			path = H264;
+			sourceTree = "<group>";
+		};
+		EDD4B76A07A6817C79BB4E5C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A17586B27CD6843997425CCF /* Pods-LFLiveKit.debug.xcconfig */,
+				B75B965E6B94DE4CBCC82EA7 /* Pods-LFLiveKit.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		84001F871D0015D10026C63F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84001FDB1D0016380026C63F /* LFLiveAudioConfiguration.h in Headers */,
+				B243DD7D1D409BC4007CCDB5 /* MP4Atom.h in Headers */,
+				B289F1DD1D3DE77F00D9C7A5 /* LFStreamRtmpSocket.h in Headers */,
+				84001FDD1D0016380026C63F /* LFLiveVideoConfiguration.h in Headers */,
+				84001FE31D0016380026C63F /* LFLiveSession.h in Headers */,
+				B289F1DB1D3DE77F00D9C7A5 /* LFStreamingBuffer.h in Headers */,
+				84001FEB1D0016380026C63F /* LFLiveStreamInfo.h in Headers */,
+				B243DD801D409BC4007CCDB5 /* NALUnit.h in Headers */,
+				84001FE91D0016380026C63F /* LFLiveDebug.h in Headers */,
+				84001FE71D0016380026C63F /* LFFrame.h in Headers */,
+				84001FD61D0016380026C63F /* LFHardwareAudioEncoder.h in Headers */,
+				B289F1E01D3DE77F00D9C7A5 /* NSMutableArray+LFAdd.h in Headers */,
+				84001FDF1D0016380026C63F /* LFGPUImageBeautyFilter.h in Headers */,
+				B243DD811D409BC4007CCDB5 /* VideoEncoder.h in Headers */,
+				84001FD31D0016380026C63F /* LFVideoCapture.h in Headers */,
+				84001FD11D0016380026C63F /* LFAudioCapture.h in Headers */,
+				84001FE11D0016380026C63F /* LFGPUImageEmptyFilter.h in Headers */,
+				84001FDA1D0016380026C63F /* LFVideoEncoding.h in Headers */,
+				84001FE51D0016380026C63F /* LFAudioFrame.h in Headers */,
+				B2EA938E1D3E9537006D1055 /* LFH264VideoEncoder.h in Headers */,
+				84001FED1D0016380026C63F /* LFVideoFrame.h in Headers */,
+				84001FD81D0016380026C63F /* LFHardwareVideoEncoder.h in Headers */,
+				B289F1DF1D3DE77F00D9C7A5 /* LFStreamSocket.h in Headers */,
+				B243DD7A1D409BC4007CCDB5 /* AVEncoder.h in Headers */,
+				84001FD51D0016380026C63F /* LFAudioEncoding.h in Headers */,
+				84001F8E1D0015D10026C63F /* LFLiveKit.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		84001F891D0015D10026C63F /* LFLiveKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 84001F9E1D0015D10026C63F /* Build configuration list for PBXNativeTarget "LFLiveKit" */;
+			buildPhases = (
+				98F2C3F394BD79A6D6B8424F /* Check Pods Manifest.lock */,
+				8EE9401DCA9508E918B7FB68 /* 📦 Check Pods Manifest.lock */,
+				84001F851D0015D10026C63F /* Sources */,
+				84001F861D0015D10026C63F /* Frameworks */,
+				84001F871D0015D10026C63F /* Headers */,
+				84001F881D0015D10026C63F /* Resources */,
+				817C22141AD3F2EB34365AA3 /* 📦 Copy Pods Resources */,
+				8A5D8B623E50AAC1575D1741 /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LFLiveKit;
+			productName = LFLiveKit;
+			productReference = 84001F8A1D0015D10026C63F /* LFLiveKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		84001F931D0015D10026C63F /* LFLiveKitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 84001FA11D0015D10026C63F /* Build configuration list for PBXNativeTarget "LFLiveKitTests" */;
+			buildPhases = (
+				84001F901D0015D10026C63F /* Sources */,
+				84001F911D0015D10026C63F /* Frameworks */,
+				84001F921D0015D10026C63F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				84001F971D0015D10026C63F /* PBXTargetDependency */,
+			);
+			name = LFLiveKitTests;
+			productName = LFLiveKitTests;
+			productReference = 84001F941D0015D10026C63F /* LFLiveKitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		84001F811D0015D10026C63F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = admin;
+				TargetAttributes = {
+					84001F891D0015D10026C63F = {
+						CreatedOnToolsVersion = 7.3;
+					};
+					84001F931D0015D10026C63F = {
+						CreatedOnToolsVersion = 7.3;
+					};
+				};
+			};
+			buildConfigurationList = 84001F841D0015D10026C63F /* Build configuration list for PBXProject "LFLiveKit" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 84001F801D0015D10026C63F;
+			productRefGroup = 84001F8B1D0015D10026C63F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				84001F891D0015D10026C63F /* LFLiveKit */,
+				84001F931D0015D10026C63F /* LFLiveKitTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		84001F881D0015D10026C63F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84001F921D0015D10026C63F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		817C22141AD3F2EB34365AA3 /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LFLiveKit/Pods-LFLiveKit-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8A5D8B623E50AAC1575D1741 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8EE9401DCA9508E918B7FB68 /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		98F2C3F394BD79A6D6B8424F /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		84001F851D0015D10026C63F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84001FE21D0016380026C63F /* LFGPUImageEmptyFilter.m in Sources */,
+				84001FE41D0016380026C63F /* LFLiveSession.m in Sources */,
+				84001FE61D0016380026C63F /* LFAudioFrame.m in Sources */,
+				84001FDC1D0016380026C63F /* LFLiveAudioConfiguration.m in Sources */,
+				B243DD7C1D409BC4007CCDB5 /* LICENSE.markdown in Sources */,
+				84001FD41D0016380026C63F /* LFVideoCapture.m in Sources */,
+				84001FE81D0016380026C63F /* LFFrame.m in Sources */,
+				B243DD7F1D409BC4007CCDB5 /* NALUnit.cpp in Sources */,
+				B243DD7E1D409BC4007CCDB5 /* MP4Atom.m in Sources */,
+				B289F1DC1D3DE77F00D9C7A5 /* LFStreamingBuffer.m in Sources */,
+				B289F1E11D3DE77F00D9C7A5 /* NSMutableArray+LFAdd.m in Sources */,
+				84001FDE1D0016380026C63F /* LFLiveVideoConfiguration.m in Sources */,
+				84001FD21D0016380026C63F /* LFAudioCapture.m in Sources */,
+				B289F1DE1D3DE77F00D9C7A5 /* LFStreamRtmpSocket.m in Sources */,
+				84001FD91D0016380026C63F /* LFHardwareVideoEncoder.m in Sources */,
+				B2EA938F1D3E9537006D1055 /* LFH264VideoEncoder.mm in Sources */,
+				84001FEC1D0016380026C63F /* LFLiveStreamInfo.m in Sources */,
+				84001FEA1D0016380026C63F /* LFLiveDebug.m in Sources */,
+				84001FEE1D0016380026C63F /* LFVideoFrame.m in Sources */,
+				84001FD71D0016380026C63F /* LFHardwareAudioEncoder.m in Sources */,
+				B243DD7B1D409BC4007CCDB5 /* AVEncoder.mm in Sources */,
+				84001FE01D0016380026C63F /* LFGPUImageBeautyFilter.m in Sources */,
+				B243DD821D409BC4007CCDB5 /* VideoEncoder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84001F901D0015D10026C63F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84001F9A1D0015D10026C63F /* LFLiveKitTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		84001F971D0015D10026C63F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 84001F891D0015D10026C63F /* LFLiveKit */;
+			targetProxy = 84001F961D0015D10026C63F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		84001F9C1D0015D10026C63F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		84001F9D1D0015D10026C63F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		84001F9F1D0015D10026C63F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A17586B27CD6843997425CCF /* Pods-LFLiveKit.debug.xcconfig */;
+			buildSettings = {
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = LFLiveKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.youku.LFLiveKit.LFLiveKit;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		84001FA01D0015D10026C63F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B75B965E6B94DE4CBCC82EA7 /* Pods-LFLiveKit.release.xcconfig */;
+			buildSettings = {
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = LFLiveKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.youku.LFLiveKit.LFLiveKit;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		84001FA21D0015D10026C63F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = LFLiveKitTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.youku.LFLiveKit.LFLiveKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		84001FA31D0015D10026C63F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = LFLiveKitTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.youku.LFLiveKit.LFLiveKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		84001F841D0015D10026C63F /* Build configuration list for PBXProject "LFLiveKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84001F9C1D0015D10026C63F /* Debug */,
+				84001F9D1D0015D10026C63F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		84001F9E1D0015D10026C63F /* Build configuration list for PBXNativeTarget "LFLiveKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84001F9F1D0015D10026C63F /* Debug */,
+				84001FA01D0015D10026C63F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		84001FA11D0015D10026C63F /* Build configuration list for PBXNativeTarget "LFLiveKitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84001FA21D0015D10026C63F /* Debug */,
+				84001FA31D0015D10026C63F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 84001F811D0015D10026C63F /* Project object */;
+}

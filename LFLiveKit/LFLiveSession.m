@@ -11,9 +11,15 @@
 #import "LFAudioCapture.h"
 #import "LFHardwareVideoEncoder.h"
 #import "LFHardwareAudioEncoder.h"
+#import "LFH264VideoEncoder.h"
 #import "LFStreamRtmpSocket.h"
 #import "LFLiveStreamInfo.h"
 #import "LFGPUImageBeautyFilter.h"
+
+/**  时间戳 */
+#define NOW (CACurrentMediaTime()*1000)
+
+#define SYSTEM_VERSION_LESS_THAN(v) ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 
 #define LFLiveReportKey @"com.youku.liveSessionReport"
 
@@ -50,8 +56,6 @@
 
 @end
 
-/**  时间戳 */
-#define NOW (CACurrentMediaTime()*1000)
 @interface LFLiveSession ()
 
 @property (nonatomic, assign) uint64_t timestamp;
@@ -69,6 +73,8 @@
         _audioConfiguration = audioConfiguration;
         _videoConfiguration = videoConfiguration;
         _lock = dispatch_semaphore_create(1);
+        _timestamp = 0;
+        _isFirstFrame = YES;
     }
     return self;
 }
@@ -114,8 +120,8 @@
 - (void)socketStatus:(nullable id<LFStreamSocket>)socket status:(LFLiveState)status {
     if (status == LFLiveStart) {
         if (!self.uploading) {
-            self.timestamp = 0;
-            self.isFirstFrame = YES;
+//            self.timestamp = 0;
+//            self.isFirstFrame = YES;
             self.uploading = YES;
         }
     }
@@ -269,7 +275,11 @@
 
 - (id<LFVideoEncoding>)videoEncoder {
     if (!_videoEncoder) {
-        _videoEncoder = [[LFHardwareVideoEncoder alloc] initWithVideoStreamConfiguration:_videoConfiguration];
+        if (SYSTEM_VERSION_LESS_THAN(@"8.0")) {
+            _videoEncoder = [[LFH264VideoEncoder alloc] initWithVideoStreamConfiguration:_videoConfiguration];
+        } else {
+            _videoEncoder = [[LFHardwareVideoEncoder alloc] initWithVideoStreamConfiguration:_videoConfiguration];
+        }
         [_videoEncoder setDelegate:self];
     }
     return _videoEncoder;
@@ -293,9 +303,9 @@
 - (uint64_t)currentTimestamp {
     dispatch_semaphore_wait(_lock, DISPATCH_TIME_FOREVER);
     uint64_t currentts = 0;
-    if (_isFirstFrame == true) {
+    if (_isFirstFrame) {
         _timestamp = NOW;
-        _isFirstFrame = false;
+        _isFirstFrame = NO;
         currentts = 0;
     } else {
         currentts = NOW - _timestamp;

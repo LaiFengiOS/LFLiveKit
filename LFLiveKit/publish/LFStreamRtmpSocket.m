@@ -73,11 +73,22 @@ SAVC(mp4a);
 @property (nonatomic, assign) BOOL sendVideoHead;
 @property (nonatomic, assign) BOOL sendAudioHead;
 
+@property(nonatomic, assign) BOOL isFirstKeyframeSended;  //强制第一帧必须是关键帧
+@property(nonatomic, assign) BOOL isAudioSendStart;  //在发送视频第一帧之后再发送音频
+
 @end
 
 @implementation LFStreamRtmpSocket
 
 #pragma mark -- LFStreamSocket
+- (instancetype)initWithStream:(LFLiveStreamInfo*)stream {
+    return [self initWithStream:stream videoSize:stream.videoConfiguration.videoSize reconnectInterval:RetryTimesMargin reconnectCount:RetryTimesBreaken];
+}
+
+- (instancetype)initWithStream:(LFLiveStreamInfo *)stream videoSize:(CGSize)videoSize {
+    return [self initWithStream:stream videoSize:videoSize reconnectInterval:RetryTimesMargin reconnectCount:RetryTimesBreaken];
+}
+
 - (nullable instancetype)initWithStream:(nullable LFLiveStreamInfo *)stream videoSize:(CGSize)videoSize reconnectInterval:(NSInteger)reconnectInterval reconnectCount:(NSInteger)reconnectCount {
     if (!stream) @throw [NSException exceptionWithName:@"LFStreamRtmpSocket init error" reason:@"stream is nil" userInfo:nil];
     if (self = [super init]) {
@@ -128,6 +139,29 @@ SAVC(mp4a);
 - (void)sendFrame:(LFFrame *)frame {
     dispatch_async(YYRtmpSendQueue(), ^{
         if (!frame) return;
+        
+        //强制第一帧必须是关键帧
+        if (!self.isFirstKeyframeSended) {
+            if ([frame isKindOfClass:[LFVideoFrame class]]) {
+                LFVideoFrame *videoFrame = (LFVideoFrame *)frame;
+                if (videoFrame.isKeyFrame) {
+                    self.isFirstKeyframeSended = YES;
+                    dispatch_after(
+                                   dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)),
+                                   dispatch_get_main_queue(), ^{
+                                       self.isAudioSendStart = YES;
+                                   });
+                } else {
+                    return;
+                }
+            }
+        }
+        
+        //在发送视频第一帧之后再发送音频
+        if ([frame isKindOfClass:[LFAudioFrame class]] && !self.isAudioSendStart) {
+            return;
+        }
+        
         [self.buffer appendObject:frame];
         [self sendFrame];
     });
@@ -199,6 +233,8 @@ SAVC(mp4a);
     _isConnected = NO;
     _sendAudioHead = NO;
     _sendVideoHead = NO;
+    _isFirstKeyframeSended = NO;
+    _isAudioSendStart = NO;
     self.debugInfo = nil;
     [self.buffer removeAllObject];
     self.retryTimes4netWorkBreaken = 0;

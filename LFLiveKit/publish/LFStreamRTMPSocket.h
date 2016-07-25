@@ -1,5 +1,5 @@
 //
-//  LFStreamRtmpSocket.h
+//  LFStreamRTMPSocket.h
 //  LaiFeng
 //
 //  Created by admin on 16/5/18.
@@ -8,7 +8,7 @@
 
 #import "LFStreamSocket.h"
 
-@interface LFStreamRtmpSocket : NSObject<LFStreamSocket>
+@interface LFStreamRTMPSocket : NSObject<LFStreamSocket>
 
 #pragma mark - Initializer
 ///=============================================================================

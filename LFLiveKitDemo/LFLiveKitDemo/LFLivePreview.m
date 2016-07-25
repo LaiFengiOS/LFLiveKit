@@ -78,7 +78,9 @@ inline static NSString *formatedSpeed(float bytes, float elapsed_milli) {
     }
     case AVAuthorizationStatusAuthorized: {
         // 已经开启授权，可继续
-        [_self.session setRunning:YES];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_self.session setRunning:YES];
+        });
         break;
     }
     case AVAuthorizationStatusDenied:
@@ -332,7 +334,7 @@ inline static NSString *formatedSpeed(float bytes, float elapsed_milli) {
             if (_self.startLiveButton.selected) {
                 [_self.startLiveButton setTitle:@"结束直播" forState:UIControlStateNormal];
                 LFLiveStreamInfo *stream = [LFLiveStreamInfo new];
-                stream.url = @"rtmp://30.96.179.95:1935/live/1234";
+                stream.url = @"rtmp://live.hkstv.hk.lxdns.com:1935/live/stream123";
                 [_self.session startLive:stream];
             } else {
                 [_self.startLiveButton setTitle:@"开始直播" forState:UIControlStateNormal];

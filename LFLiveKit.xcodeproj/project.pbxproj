@@ -1511,6 +1511,7 @@
 				843724AD1D4F260A002B398B /* GPUImageSolidColorGenerator.h in Headers */,
 				8437244D1D4F260A002B398B /* GPUImageMaskFilter.h in Headers */,
 				843723E91D4F260A002B398B /* GPUImageDivideBlendFilter.h in Headers */,
+				B2CD14701D45F18B008082E8 /* LFMP4Atom.h in Headers */,
 				84001FE31D0016380026C63F /* LFLiveSession.h in Headers */,
 				843724411D4F260A002B398B /* GPUImageLookupFilter.h in Headers */,
 				843724E91D4F260A002B398B /* GPUImageFramework.h in Headers */,
@@ -1643,6 +1644,10 @@
 				843724691D4F260A002B398B /* GPUImageOpeningFilter.h in Headers */,
 				843723C11D4F260A002B398B /* GPUImageColorBlendFilter.h in Headers */,
 				8437249F1D4F260A002B398B /* GPUImageSketchFilter.h in Headers */,
+				84001FE51D0016380026C63F /* LFAudioFrame.h in Headers */,
+				84001FED1D0016380026C63F /* LFVideoFrame.h in Headers */,
+				B2CD14741D45F18B008082E8 /* LFVideoEncoder.h in Headers */,
+				B2CD14731D45F18B008082E8 /* LFNALUnit.h in Headers */,
 				84001FD81D0016380026C63F /* LFHardwareVideoEncoder.h in Headers */,
 				843724A91D4F260A002B398B /* GPUImageSoftLightBlendFilter.h in Headers */,
 				843723A91D4F260A002B398B /* GPUImageAverageColor.h in Headers */,
@@ -1664,7 +1669,6 @@
 				843723A11D4F260A002B398B /* GPUImageAdaptiveThresholdFilter.h in Headers */,
 				843723CF1D4F260A002B398B /* GPUImageColorPackingFilter.h in Headers */,
 				843723B91D4F260A002B398B /* GPUImageCGAColorspaceFilter.h in Headers */,
-
 				843724051D4F260A002B398B /* GPUImageGaussianBlurFilter.h in Headers */,
 				843724B31D4F260A002B398B /* GPUImageStillCamera.h in Headers */,
 				843724D51D4F260A002B398B /* GPUImageTwoPassTextureSamplingFilter.h in Headers */,
@@ -1676,6 +1680,7 @@
 				843724551D4F260A002B398B /* GPUImageMosaicFilter.h in Headers */,
 				843723BD1D4F260A002B398B /* GPUImageChromaKeyFilter.h in Headers */,
 				843724171D4F260A002B398B /* GPUImageHighlightShadowFilter.h in Headers */,
+				B2CD146D1D45F18B008082E8 /* LFAVEncoder.h in Headers */,
 				84001F8E1D0015D10026C63F /* LFLiveKit.h in Headers */,
 				843724671D4F260A002B398B /* GPUImageOpacityFilter.h in Headers */,
 				8437247F1D4F260A002B398B /* GPUImagePosterizeFilter.h in Headers */,
@@ -1795,6 +1800,7 @@
 				843724201D4F260A002B398B /* GPUImageHistogramFilter.m in Sources */,
 				8437246E1D4F260A002B398B /* GPUImageOverlayBlendFilter.m in Sources */,
 				843723A81D4F260A002B398B /* GPUImageAmatorkaFilter.m in Sources */,
+				B2CD14711D45F18B008082E8 /* LFMP4Atom.m in Sources */,
 				84001FE61D0016380026C63F /* LFAudioFrame.m in Sources */,
 				843724C41D4F260A002B398B /* GPUImageThresholdedNonMaximumSuppressionFilter.m in Sources */,
 				843724F91D4F260A002B398B /* error.c in Sources */,
@@ -1806,7 +1812,10 @@
 				84001FD41D0016380026C63F /* LFVideoCapture.m in Sources */,
 				843723B81D4F260A002B398B /* GPUImageCannyEdgeDetectionFilter.m in Sources */,
 				84001FE81D0016380026C63F /* LFFrame.m in Sources */,
+<<<<<<< HEAD
 				B2CD14721D45F18B008082E8 /* LFNALUnit.cpp in Sources */,
+=======
+>>>>>>> rename h264 encode lib to avoid duplicate symbol error
 				843724CE1D4F260A002B398B /* GPUImageTransformFilter.m in Sources */,
 				843723E81D4F260A002B398B /* GPUImageDissolveBlendFilter.m in Sources */,
 				843723D81D4F260A002B398B /* GPUImageCropFilter.m in Sources */,
@@ -1815,6 +1824,7 @@
 				843723F21D4F260A002B398B /* GPUImageExposureFilter.m in Sources */,
 				8437244E1D4F260A002B398B /* GPUImageMaskFilter.m in Sources */,
 				843724841D4F260A002B398B /* GPUImageRawDataInput.m in Sources */,
+				B2CD14721D45F18B008082E8 /* LFNALUnit.cpp in Sources */,
 				B289F1DC1D3DE77F00D9C7A5 /* LFStreamingBuffer.m in Sources */,
 				843723F01D4F260A002B398B /* GPUImageExclusionBlendFilter.m in Sources */,
 				843724F31D4F260A002B398B /* GPUImageView.m in Sources */,
@@ -1868,6 +1878,7 @@
 				843723D61D4F260A002B398B /* GPUImageContrastFilter.m in Sources */,
 				843724BC1D4F260A002B398B /* GPUImageTextureInput.m in Sources */,
 				843724521D4F260A002B398B /* GPUImageMissEtikateFilter.m in Sources */,
+				B2CD14751D45F18B008082E8 /* LFVideoEncoder.m in Sources */,
 				B2CD146F1D45F18B008082E8 /* LICENSE.markdown in Sources */,
 				B289F1DE1D3DE77F00D9C7A5 /* LFStreamRtmpSocket.m in Sources */,
 				843724CA1D4F260A002B398B /* GPUImageToneCurveFilter.m in Sources */,
@@ -1982,6 +1993,7 @@
 				843724221D4F260A002B398B /* GPUImageHistogramGenerator.m in Sources */,
 				843724621D4F260A002B398B /* GPUImageNobleCornerDetectionFilter.m in Sources */,
 				843724341D4F260A002B398B /* GPUImageLanczosResamplingFilter.m in Sources */,
+				B2CD146E1D45F18B008082E8 /* LFAVEncoder.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

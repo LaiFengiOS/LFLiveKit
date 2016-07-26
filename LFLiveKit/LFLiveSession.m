@@ -11,6 +11,7 @@
 #import "LFAudioCapture.h"
 #import "LFHardwareVideoEncoder.h"
 #import "LFHardwareAudioEncoder.h"
+#import "LFH264VideoEncoder.h"
 #import "LFStreamRTMPSocket.h"
 #import "LFLiveStreamInfo.h"
 #import "LFGPUImageBeautyFilter.h"
@@ -52,6 +53,8 @@
 
 /**  时间戳 */
 #define NOW (CACurrentMediaTime()*1000)
+#define SYSTEM_VERSION_LESS_THAN(v) ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
+
 @interface LFLiveSession ()
 
 @property (nonatomic, assign) uint64_t timestamp;
@@ -69,6 +72,8 @@
         _audioConfiguration = audioConfiguration;
         _videoConfiguration = videoConfiguration;
         _lock = dispatch_semaphore_create(1);
+        _adaptiveBitrate = NO;
+        _isFirstFrame = YES;
     }
     return self;
 }
@@ -118,7 +123,7 @@
             self.isFirstFrame = YES;
             self.uploading = YES;
         }
-    }else if(status == LFLiveStop || status == LFLiveError){
+    } else if(status == LFLiveStop || status == LFLiveError){
         self.uploading = NO;
     }
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -149,16 +154,20 @@
 }
 
 - (void)socketBufferStatus:(nullable id<LFStreamSocket>)socket status:(LFLiveBuffferState)status {
-    NSUInteger videoBitRate = [_videoEncoder videoBitRate];
-    if (status == LFLiveBuffferDecline) {
-        if (videoBitRate < _videoConfiguration.videoMaxBitRate) {
-            videoBitRate = videoBitRate + 50 * 1000;
-            [_videoEncoder setVideoBitRate:videoBitRate];
-        }
-    } else {
-        if (videoBitRate > _videoConfiguration.videoMinBitRate) {
-            videoBitRate = videoBitRate - 100 * 1000;
-            [_videoEncoder setVideoBitRate:videoBitRate];
+    if (self.adaptiveBitrate) {
+        NSUInteger videoBitRate = [_videoEncoder videoBitRate];
+        if (status == LFLiveBuffferDecline) {
+            if (videoBitRate < _videoConfiguration.videoMaxBitRate) {
+                videoBitRate = videoBitRate + 50 * 1000;
+                [_videoEncoder setVideoBitRate:videoBitRate];
+                NSLog(@"Increase bitrate %@", @(videoBitRate));
+            }
+        } else {
+            if (videoBitRate > _videoConfiguration.videoMinBitRate) {
+                videoBitRate = videoBitRate - 100 * 1000;
+                [_videoEncoder setVideoBitRate:videoBitRate];
+                NSLog(@"Decline bitrate %@", @(videoBitRate));
+            }
         }
     }
 }
@@ -289,7 +298,11 @@
 
 - (id<LFVideoEncoding>)videoEncoder {
     if (!_videoEncoder) {
-        _videoEncoder = [[LFHardwareVideoEncoder alloc] initWithVideoStreamConfiguration:_videoConfiguration];
+        if (SYSTEM_VERSION_LESS_THAN(@"8.0")) {
+            _videoEncoder = [[LFH264VideoEncoder alloc] initWithVideoStreamConfiguration:_videoConfiguration];
+        } else {
+            _videoEncoder = [[LFHardwareVideoEncoder alloc] initWithVideoStreamConfiguration:_videoConfiguration];
+        }
         [_videoEncoder setDelegate:self];
     }
     return _videoEncoder;
@@ -313,9 +326,9 @@
 - (uint64_t)currentTimestamp {
     dispatch_semaphore_wait(_lock, DISPATCH_TIME_FOREVER);
     uint64_t currentts = 0;
-    if (_isFirstFrame == true) {
+    if (_isFirstFrame) {
         _timestamp = NOW;
-        _isFirstFrame = false;
+        _isFirstFrame = NO;
         currentts = 0;
     } else {
         currentts = NOW - _timestamp;

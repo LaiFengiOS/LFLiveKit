@@ -21,6 +21,7 @@
 
 - (instancetype)initWithAudioStreamConfiguration:(LFLiveAudioConfiguration *)configuration {
     if (self = [super init]) {
+        NSLog(@"USE LFHardwareAudioEncoder");
         _configuration = configuration;
     }
     return self;
@@ -108,8 +109,6 @@
         }
     };
     OSStatus result = AudioConverterNewSpecific(&inputFormat, &outputFormat, 2, requestedCodecs, &m_converter);
-
-
     if (result != noErr) return NO;
 
     return YES;

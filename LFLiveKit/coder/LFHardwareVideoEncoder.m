@@ -30,6 +30,7 @@
 #pragma mark -- LifeCycle
 - (instancetype)initWithVideoStreamConfiguration:(LFLiveVideoConfiguration *)configuration {
     if (self = [super init]) {
+        NSLog(@"USE LFHardwareVideoEncoder");
         _configuration = configuration;
         [self initCompressionSession];
 
@@ -67,7 +68,7 @@
     VTSessionSetProperty(compressionSession, kVTCompressionPropertyKey_DataRateLimits, (__bridge CFArrayRef)limit);
     VTSessionSetProperty(compressionSession, kVTCompressionPropertyKey_RealTime, kCFBooleanFalse);
     VTSessionSetProperty(compressionSession, kVTCompressionPropertyKey_ProfileLevel, kVTProfileLevel_H264_Main_AutoLevel);
-    VTSessionSetProperty(compressionSession, kVTCompressionPropertyKey_AllowFrameReordering, kCFBooleanFalse);
+    VTSessionSetProperty(compressionSession, kVTCompressionPropertyKey_AllowFrameReordering, kCFBooleanTrue);
     VTSessionSetProperty(compressionSession, kVTCompressionPropertyKey_H264EntropyMode, kVTH264EntropyMode_CABAC);
     VTCompressionSessionPrepareToEncodeFrames(compressionSession);
 
@@ -225,7 +226,7 @@ static void VideoCompressonOutputCallback(void *VTref, void *VTFrameRef, OSStatu
 }
 
 - (void)initForFilePath {
-    char *path = [self GetFilePathByfileName:"IOSCamDemo.h264"];
+    char *path = [self GetFilePathByfileName:"IOSCamDemo_HW.h264"];
     NSLog(@"%s", path);
     self->fp = fopen(path, "wb");
 }

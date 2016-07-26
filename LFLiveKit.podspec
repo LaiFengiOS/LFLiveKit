@@ -19,6 +19,5 @@ Pod::Spec.new do |s|
   s.requires_arc = true
 
   s.dependency 'LMGPUImage', '~> 0.1.9'
-  s.dependency "YYDispatchQueuePool"
   s.dependency "pili-librtmp", '1.0.3'
 end

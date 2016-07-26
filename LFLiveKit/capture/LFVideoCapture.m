@@ -203,7 +203,6 @@
 }
 
 - (void)setBeautyFace:(BOOL)beautyFace {
-    if (_beautyFace == beautyFace) return;
 
     _beautyFace = beautyFace;
     [_filter removeAllTargets];

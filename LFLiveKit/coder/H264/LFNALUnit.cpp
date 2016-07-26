@@ -10,18 +10,18 @@
 
 
 
-#include "NALUnit.h"
+#include "LFNALUnit.h"
 
 
 // --- core NAL Unit implementation ------------------------------
 
-NALUnit::NALUnit()
+LFNALUnit::LFNALUnit()
     : m_pStart(NULL),
     m_cBytes(0){
 }
 
 bool
-NALUnit::GetStartCode(const BYTE *& pBegin, const BYTE *& pStart, int& cRemain){
+LFNALUnit::GetStartCode(const BYTE *& pBegin, const BYTE *& pStart, int& cRemain){
     // start code is any number of 00 followed by 00 00 01
     // We need to record the first 00 in pBegin and the first byte
     // following the startcode in pStart.
@@ -54,7 +54,7 @@ NALUnit::GetStartCode(const BYTE *& pBegin, const BYTE *& pStart, int& cRemain){
 }
 
 bool
-NALUnit::Parse(const BYTE *pBuffer, int cSpace, int LengthSize, bool bEnd){
+LFNALUnit::Parse(const BYTE *pBuffer, int cSpace, int LengthSize, bool bEnd){
     // if we get the start code but not the whole
     // NALU, we can return false but still have the length property valid
     m_cBytes = 0;
@@ -102,14 +102,14 @@ NALUnit::Parse(const BYTE *pBuffer, int cSpace, int LengthSize, bool bEnd){
 
 // bitwise access to data
 void
-NALUnit::ResetBitstream(){
+LFNALUnit::ResetBitstream(){
     m_idx = 0;
     m_nBits = 0;
     m_cZeros = 0;
 }
 
 void
-NALUnit::Skip(int nBits){
+LFNALUnit::Skip(int nBits){
     if (nBits < m_nBits) {
         m_nBits -= nBits;
     } else {
@@ -129,7 +129,7 @@ NALUnit::Skip(int nBits){
 
 // get the next byte, removing emulation prevention bytes
 BYTE
-NALUnit::GetBYTE(){
+LFNALUnit::GetBYTE(){
     if (m_idx >= m_cBytes) {
         return 0;
     }
@@ -151,7 +151,7 @@ NALUnit::GetBYTE(){
 }
 
 unsigned long
-NALUnit::GetBit(){
+LFNALUnit::GetBit(){
     if (m_nBits == 0) {
         m_byte = GetBYTE();
         m_nBits = 8;
@@ -161,7 +161,7 @@ NALUnit::GetBit(){
 }
 
 unsigned long
-NALUnit::GetWord(int nBits){
+LFNALUnit::GetWord(int nBits){
     unsigned long u = 0;
     while (nBits > 0) {
         u <<= 1;
@@ -172,7 +172,7 @@ NALUnit::GetWord(int nBits){
 }
 
 unsigned long
-NALUnit::GetUE(){
+LFNALUnit::GetUE(){
     // Exp-Golomb entropy coding: leading zeros, then a one, then
     // the data bits. The number of leading zeros is the number of
     // data bits, counting up from that number of 1s as the base.
@@ -188,7 +188,7 @@ NALUnit::GetUE(){
 }
 
 long
-NALUnit::GetSE(){
+LFNALUnit::GetSE(){
     // same as UE but signed.
     // basically the unsigned numbers are used as codes to indicate signed numbers in pairs
     // in increasing value. Thus the encoded values
@@ -206,7 +206,7 @@ NALUnit::GetSE(){
 }
 
 // --- sequence params parsing ---------------
-SeqParamSet::SeqParamSet()
+LFSeqParamSet::LFSeqParamSet()
     : m_cx(0),
     m_cy(0),
     m_FrameBits(0){
@@ -214,7 +214,7 @@ SeqParamSet::SeqParamSet()
 }
 
 void
-ScalingList(int size, NALUnit *pnalu){
+ScalingList(int size, LFNALUnit *pnalu){
     long lastScale = 8;
     long nextScale = 8;
     for (int j = 0; j < size; j++) {
@@ -228,8 +228,8 @@ ScalingList(int size, NALUnit *pnalu){
 }
 
 bool
-SeqParamSet::Parse(NALUnit *pnalu){
-    if (pnalu->Type() != NALUnit::NAL_Sequence_Params) {
+LFSeqParamSet::Parse(LFNALUnit *pnalu){
+    if (pnalu->Type() != LFNALUnit::NAL_Sequence_Params) {
         return false;
     }
 
@@ -339,11 +339,11 @@ SeqParamSet::Parse(NALUnit *pnalu){
 
 // --- slice header --------------------
 bool
-SliceHeader::Parse(NALUnit *pnalu){
+LFSliceHeader::Parse(LFNALUnit *pnalu){
     switch (pnalu->Type()) {
-    case NALUnit::NAL_IDR_Slice:
-    case NALUnit::NAL_Slice:
-    case NALUnit::NAL_PartitionA:
+    case LFNALUnit::NAL_IDR_Slice:
+    case LFNALUnit::NAL_Slice:
+    case LFNALUnit::NAL_PartitionA:
         // all these begin with a slice header
         break;
 
@@ -366,7 +366,7 @@ SliceHeader::Parse(NALUnit *pnalu){
 // --- SEI ----------------------
 
 
-SEIMessage::SEIMessage(NALUnit *pnalu){
+LFSEIMessage::LFSEIMessage(LFNALUnit *pnalu){
     m_pnalu = pnalu;
     const BYTE *p = pnalu->Start();
     p++;                // nalu type byte
@@ -387,7 +387,7 @@ SEIMessage::SEIMessage(NALUnit *pnalu){
     m_idxPayload = int(p - m_pnalu->Start());
 }
 
-avcCHeader::avcCHeader(const BYTE *header, int cBytes){
+LFavcCHeader::LFavcCHeader(const BYTE *header, int cBytes){
     if (cBytes < 8) {
         return;
     }
@@ -405,7 +405,7 @@ avcCHeader::avcCHeader(const BYTE *header, int cBytes){
             return;
         }
         if (i == 0) {
-            NALUnit n(header, cThis);
+            LFNALUnit n(header, cThis);
             m_sps = n;
         }
         header += cThis;
@@ -417,7 +417,7 @@ avcCHeader::avcCHeader(const BYTE *header, int cBytes){
     if (cPPS > 0) {
         int cThis = (header[1] << 8) + header[2];
         header += 3;
-        NALUnit n(header, cThis);
+        LFNALUnit n(header, cThis);
         m_pps = n;
     }
 }

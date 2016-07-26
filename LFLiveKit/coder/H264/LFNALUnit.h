@@ -18,25 +18,25 @@ typedef unsigned long ULONG;
 #define NULL 0
 #endif
 
-class NALUnit
+class LFNALUnit
 {
 public:
-    NALUnit();
-    NALUnit(const BYTE* pStart, int len){
+    LFNALUnit();
+    LFNALUnit(const BYTE* pStart, int len){
         m_pStart = m_pStartCodeStart = pStart;
         m_cBytes = len;
         ResetBitstream();
     }
-    virtual ~NALUnit() {
+    virtual ~LFNALUnit() {
     }
 
     // assignment copies a pointer into a fixed buffer managed elsewhere. We do not copy the data
-    NALUnit(const NALUnit &r){
+    LFNALUnit(const LFNALUnit &r){
         m_pStart = r.m_pStart;
         m_cBytes = r.m_cBytes;
         ResetBitstream();
     }
-    const NALUnit& operator = (const NALUnit &r)
+    const LFNALUnit& operator = (const LFNALUnit &r)
     {
         m_pStart = r.m_pStart;
         m_cBytes = r.m_cBytes;
@@ -109,11 +109,11 @@ private:
 
 
 // simple parser for the Sequence parameter set things that we need
-class SeqParamSet
+class LFSeqParamSet
 {
 public:
-    SeqParamSet();
-    bool Parse(NALUnit *pnalu);
+    LFSeqParamSet();
+    bool Parse(LFNALUnit *pnalu);
     int FrameBits(){
         return m_FrameBits;
     }
@@ -162,12 +162,12 @@ public:
         return m_Compatibility;
     }
 
-    NALUnit *NALU() {
+    LFNALUnit *NALU() {
         return &m_nalu;
     }
 
 private:
-    NALUnit m_nalu;
+    LFNALUnit m_nalu;
     int m_FrameBits;
     long m_cx;
     long m_cy;
@@ -180,15 +180,15 @@ private:
 };
 
 // extract frame num from slice headers
-class SliceHeader
+class LFSliceHeader
 {
 public:
-    SliceHeader(int nBitsFrame)
+    LFSliceHeader(int nBitsFrame)
         : m_framenum(0),
         m_nBitsFrame(nBitsFrame){
     }
 
-    bool Parse(NALUnit *pnalu);
+    bool Parse(LFNALUnit *pnalu);
     int FrameNum(){
         return m_framenum;
     }
@@ -199,10 +199,10 @@ private:
 };
 
 // SEI message structure
-class SEIMessage
+class LFSEIMessage
 {
 public:
-    SEIMessage(NALUnit* pnalu);
+    LFSEIMessage(LFNALUnit* pnalu);
     int Type() {
         return m_type;
     }
@@ -216,27 +216,27 @@ public:
     }
 
 private:
-    NALUnit *m_pnalu;
+    LFNALUnit *m_pnalu;
     int m_type;
     int m_length;
     int m_idxPayload;
 };
 
 // avcC structure from MP4
-class avcCHeader
+class LFavcCHeader
 {
 public:
-    avcCHeader(const BYTE* header, int cBytes);
-    NALUnit *sps() {
+    LFavcCHeader(const BYTE* header, int cBytes);
+    LFNALUnit *sps() {
         return &m_sps;
     }
 
-    NALUnit *pps() {
+    LFNALUnit *pps() {
         return &m_pps;
     }
 
 private:
-    NALUnit m_sps;
-    NALUnit m_pps;
+    LFNALUnit m_sps;
+    LFNALUnit m_pps;
 };
 

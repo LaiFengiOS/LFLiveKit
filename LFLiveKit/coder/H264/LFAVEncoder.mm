@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 GDCL http://www.gdcl.co.uk/license.htm
 //
 
-#import "AVEncoder.h"
-#import "NALUnit.h"
+#import "LFAVEncoder.h"
+#import "LFNALUnit.h"
 
 static void *AVEncoderContext = &AVEncoderContext;
 
@@ -19,14 +19,14 @@ static unsigned int to_host(unsigned char *p){
 #define MAX_FILENAME_INDEX  5                       // filenames "capture1.mp4" wraps at capture5.mp4
 
 
-@interface AVEncoder ()
+@interface LFAVEncoder ()
 
 {
     // initial writer, used to obtain SPS/PPS from header
-    VideoEncoder *_headerWriter;
+    LFVideoEncoder *_headerWriter;
 
     // main encoder/writer
-    VideoEncoder *_writer;
+    LFVideoEncoder *_writer;
 
     // writer output file (input to our extractor) and monitoring
     NSFileHandle *_inputFile;
@@ -70,12 +70,12 @@ static unsigned int to_host(unsigned char *p){
 
 @end
 
-@implementation AVEncoder
+@implementation LFAVEncoder
 
 @synthesize bitspersecond = _bitspersecond;
 
-+ (AVEncoder *)encoderForHeight:(int)height andWidth:(int)width bitrate:(int)bitrate {
-    AVEncoder *enc = [AVEncoder alloc];
++ (LFAVEncoder *)encoderForHeight:(int)height andWidth:(int)width bitrate:(int)bitrate {
+    LFAVEncoder *enc = [LFAVEncoder alloc];
     [enc initForHeight:height andWidth:width bitrate:bitrate];
     return enc;
 }
@@ -91,12 +91,12 @@ static unsigned int to_host(unsigned char *p){
     _width = width;
     _bitrate = bitrate;
     NSString *path = [NSTemporaryDirectory() stringByAppendingPathComponent:@"params.mp4"];
-    _headerWriter = [VideoEncoder encoderForPath:path Height:height andWidth:width bitrate:self.bitrate];
+    _headerWriter = [LFVideoEncoder encoderForPath:path Height:height andWidth:width bitrate:self.bitrate];
     _times = [NSMutableArray arrayWithCapacity:10];
 
     // swap between 3 filenames
     _currentFile = 1;
-    _writer = [VideoEncoder encoderForPath:[self makeFilename] Height:height andWidth:width bitrate:self.bitrate];
+    _writer = [LFVideoEncoder encoderForPath:[self makeFilename] Height:height andWidth:width bitrate:self.bitrate];
 
     [self addObserver:self forKeyPath:NSStringFromSelector(@selector(bitrate)) options:0 context:AVEncoderContext];
 }
@@ -123,9 +123,9 @@ static unsigned int to_host(unsigned char *p){
     NSFileHandle *file = [NSFileHandle fileHandleForReadingAtPath:path];
     struct stat s;
     fstat([file fileDescriptor], &s);
-    MP4Atom *movie = [MP4Atom atomAt:0 size:s.st_size type:(OSType)('file') inFile:file];
-    MP4Atom *moov = [movie childOfType:(OSType)('moov') startAt:0];
-    MP4Atom *trak = nil;
+    LFMP4Atom *movie = [LFMP4Atom atomAt:0 size:s.st_size type:(OSType)('file') inFile:file];
+    LFMP4Atom *moov = [movie childOfType:(OSType)('moov') startAt:0];
+    LFMP4Atom *trak = nil;
     if (moov != nil) {
         for (;; ) {
             trak = [moov nextChild];
@@ -134,7 +134,7 @@ static unsigned int to_host(unsigned char *p){
             }
 
             if (trak.type == (OSType)('trak')) {
-                MP4Atom *tkhd = [trak childOfType:(OSType)('tkhd') startAt:0];
+                LFMP4Atom *tkhd = [trak childOfType:(OSType)('tkhd') startAt:0];
                 NSData *verflags = [tkhd readAt:0 size:4];
                 unsigned char *p = (unsigned char *)[verflags bytes];
                 if (p[3] & 1) {
@@ -145,13 +145,13 @@ static unsigned int to_host(unsigned char *p){
             }
         }
     }
-    MP4Atom *stsd = nil;
+    LFMP4Atom *stsd = nil;
     if (trak != nil) {
-        MP4Atom *media = [trak childOfType:(OSType)('mdia') startAt:0];
+        LFMP4Atom *media = [trak childOfType:(OSType)('mdia') startAt:0];
         if (media != nil) {
-            MP4Atom *minf = [media childOfType:(OSType)('minf') startAt:0];
+            LFMP4Atom *minf = [media childOfType:(OSType)('minf') startAt:0];
             if (minf != nil) {
-                MP4Atom *stbl = [minf childOfType:(OSType)('stbl') startAt:0];
+                LFMP4Atom *stbl = [minf childOfType:(OSType)('stbl') startAt:0];
                 if (stbl != nil) {
                     stsd = [stbl childOfType:(OSType)('stsd') startAt:0];
                 }
@@ -159,9 +159,9 @@ static unsigned int to_host(unsigned char *p){
         }
     }
     if (stsd != nil) {
-        MP4Atom *avc1 = [stsd childOfType:(OSType)('avc1') startAt:8];
+        LFMP4Atom *avc1 = [stsd childOfType:(OSType)('avc1') startAt:8];
         if (avc1 != nil) {
-            MP4Atom *esd = [avc1 childOfType:(OSType)('avcC') startAt:78];
+            LFMP4Atom *esd = [avc1 childOfType:(OSType)('avcC') startAt:78];
             if (esd != nil) {
                 // this is the avcC record that we are looking for
                 _avcC = [esd readAt:0 size:esd.length];
@@ -229,14 +229,14 @@ static unsigned int to_host(unsigned char *p){
             if (st.st_size > OUTPUT_FILE_SWITCH_POINT || self.bitrateChanged) {
                 self.bitrateChanged = NO;
                 _swapping = YES;
-                VideoEncoder *oldVideo = _writer;
+                LFVideoEncoder *oldVideo = _writer;
 
                 // construct a new writer to the next filename
                 if (++_currentFile > MAX_FILENAME_INDEX) {
                     _currentFile = 1;
                 }
                 //NSLog(@"Swap to file %d", _currentFile);
-                _writer = [VideoEncoder encoderForPath:[self makeFilename] Height:_height andWidth:_width bitrate:self.bitrate];
+                _writer = [LFVideoEncoder encoderForPath:[self makeFilename] Height:_height andWidth:_width bitrate:self.bitrate];
 
                 // to do this seamlessly requires a few steps in the right order
                 // first, suspend the read source
@@ -385,7 +385,7 @@ static unsigned int to_host(unsigned char *p){
     int naltype = pNal[0] & 0x1f;
 
     if (_pendingNALU) {
-        NALUnit nal(pNal, [nalu length]);
+        LFNALUnit nal(pNal, [nalu length]);
 
         // we have existing data —is this the same frame?
         // typically there are a couple of NALUs per frame in iOS encoding.

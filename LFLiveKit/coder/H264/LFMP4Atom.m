@@ -1,24 +1,24 @@
 //
-//  MP4Atom.m
+//  LFMP4Atom.m
 //  Encoder Demo
 //
 //  Created by Geraint Davies on 15/01/2013.
 //  Copyright (c) 2013 GDCL http://www.gdcl.co.uk/license.htm
 //
 
-#import "MP4Atom.h"
+#import "LFMP4Atom.h"
 
 static unsigned int to_host(unsigned char *p){
     return (p[0] << 24) + (p[1] << 16) + (p[2] << 8) + p[3];
 }
 
-@implementation MP4Atom
+@implementation LFMP4Atom
 
 @synthesize type = _type;
 @synthesize length = _length;
 
-+ (MP4Atom *)atomAt:(int64_t)offset size:(int)length type:(OSType)fourcc inFile:(NSFileHandle *)handle {
-    MP4Atom *atom = [MP4Atom alloc];
++ (LFMP4Atom *)atomAt:(int64_t)offset size:(int)length type:(OSType)fourcc inFile:(NSFileHandle *)handle {
+    LFMP4Atom *atom = [LFMP4Atom alloc];
     if (![atom init:offset size:length type:fourcc inFile:handle]) {
         return nil;
     }
@@ -45,7 +45,7 @@ static unsigned int to_host(unsigned char *p){
     return YES;
 }
 
-- (MP4Atom *)nextChild {
+- (LFMP4Atom *)nextChild {
     if (_nextChild <= (_length - 8)) {
         [_file seekToFileOffset:_offset + _nextChild];
         NSData *data = [_file readDataOfLength:8];
@@ -73,14 +73,14 @@ static unsigned int to_host(unsigned char *p){
         int64_t offset = _nextChild + cHeader;
         _nextChild += len;
         len -= cHeader;
-        return [MP4Atom atomAt:offset+_offset size:len type:fourcc inFile:_file];
+        return [LFMP4Atom atomAt:offset+_offset size:len type:fourcc inFile:_file];
     }
     return nil;
 }
 
-- (MP4Atom *)childOfType:(OSType)fourcc startAt:(int64_t)offset {
+- (LFMP4Atom *)childOfType:(OSType)fourcc startAt:(int64_t)offset {
     [self setChildOffset:offset];
-    MP4Atom *child = nil;
+    LFMP4Atom *child = nil;
     do {
         child = [self nextChild];
     } while ((child != nil) && (child.type != fourcc));

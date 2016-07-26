@@ -54,15 +54,15 @@
 		B289F1DF1D3DE77F00D9C7A5 /* LFStreamSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = B289F1D81D3DE77F00D9C7A5 /* LFStreamSocket.h */; };
 		B289F1E01D3DE77F00D9C7A5 /* NSMutableArray+LFAdd.h in Headers */ = {isa = PBXBuildFile; fileRef = B289F1D91D3DE77F00D9C7A5 /* NSMutableArray+LFAdd.h */; };
 		B289F1E11D3DE77F00D9C7A5 /* NSMutableArray+LFAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = B289F1DA1D3DE77F00D9C7A5 /* NSMutableArray+LFAdd.m */; };
-		B2CD146D1D45F18B008082E8 /* AVEncoder.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD14621D45F18B008082E8 /* AVEncoder.h */; };
-		B2CD146E1D45F18B008082E8 /* AVEncoder.mm in Sources */ = {isa = PBXBuildFile; fileRef = B2CD14631D45F18B008082E8 /* AVEncoder.mm */; };
+		B2CD146D1D45F18B008082E8 /* LFAVEncoder.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD14621D45F18B008082E8 /* LFAVEncoder.h */; };
+		B2CD146E1D45F18B008082E8 /* LFAVEncoder.mm in Sources */ = {isa = PBXBuildFile; fileRef = B2CD14631D45F18B008082E8 /* LFAVEncoder.mm */; };
 		B2CD146F1D45F18B008082E8 /* LICENSE.markdown in Sources */ = {isa = PBXBuildFile; fileRef = B2CD14641D45F18B008082E8 /* LICENSE.markdown */; };
-		B2CD14701D45F18B008082E8 /* MP4Atom.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD14651D45F18B008082E8 /* MP4Atom.h */; };
-		B2CD14711D45F18B008082E8 /* MP4Atom.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD14661D45F18B008082E8 /* MP4Atom.m */; };
-		B2CD14721D45F18B008082E8 /* NALUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B2CD14671D45F18B008082E8 /* NALUnit.cpp */; };
-		B2CD14731D45F18B008082E8 /* NALUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD14681D45F18B008082E8 /* NALUnit.h */; };
-		B2CD14741D45F18B008082E8 /* VideoEncoder.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD14691D45F18B008082E8 /* VideoEncoder.h */; };
-		B2CD14751D45F18B008082E8 /* VideoEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD146A1D45F18B008082E8 /* VideoEncoder.m */; };
+		B2CD14701D45F18B008082E8 /* LFMP4Atom.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD14651D45F18B008082E8 /* LFMP4Atom.h */; };
+		B2CD14711D45F18B008082E8 /* LFMP4Atom.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD14661D45F18B008082E8 /* LFMP4Atom.m */; };
+		B2CD14721D45F18B008082E8 /* LFNALUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B2CD14671D45F18B008082E8 /* LFNALUnit.cpp */; };
+		B2CD14731D45F18B008082E8 /* LFNALUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD14681D45F18B008082E8 /* LFNALUnit.h */; };
+		B2CD14741D45F18B008082E8 /* LFVideoEncoder.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD14691D45F18B008082E8 /* LFVideoEncoder.h */; };
+		B2CD14751D45F18B008082E8 /* LFVideoEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD146A1D45F18B008082E8 /* LFVideoEncoder.m */; };
 		B2CD14761D45F18B008082E8 /* LFH264VideoEncoder.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD146B1D45F18B008082E8 /* LFH264VideoEncoder.h */; };
 		B2CD14771D45F18B008082E8 /* LFH264VideoEncoder.mm in Sources */ = {isa = PBXBuildFile; fileRef = B2CD146C1D45F18B008082E8 /* LFH264VideoEncoder.mm */; };
 		BE55DA79155500CDEF87FB5C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B5758EB2A15DAA132D8BF380 /* libPods.a */; };
@@ -129,15 +129,15 @@
 		B289F1D81D3DE77F00D9C7A5 /* LFStreamSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LFStreamSocket.h; path = LFLiveKit/publish/LFStreamSocket.h; sourceTree = SOURCE_ROOT; };
 		B289F1D91D3DE77F00D9C7A5 /* NSMutableArray+LFAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableArray+LFAdd.h"; path = "LFLiveKit/publish/NSMutableArray+LFAdd.h"; sourceTree = SOURCE_ROOT; };
 		B289F1DA1D3DE77F00D9C7A5 /* NSMutableArray+LFAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableArray+LFAdd.m"; path = "LFLiveKit/publish/NSMutableArray+LFAdd.m"; sourceTree = SOURCE_ROOT; };
-		B2CD14621D45F18B008082E8 /* AVEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVEncoder.h; sourceTree = "<group>"; };
-		B2CD14631D45F18B008082E8 /* AVEncoder.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AVEncoder.mm; sourceTree = "<group>"; };
+		B2CD14621D45F18B008082E8 /* LFAVEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFAVEncoder.h; sourceTree = "<group>"; };
+		B2CD14631D45F18B008082E8 /* LFAVEncoder.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LFAVEncoder.mm; sourceTree = "<group>"; };
 		B2CD14641D45F18B008082E8 /* LICENSE.markdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.markdown; sourceTree = "<group>"; };
-		B2CD14651D45F18B008082E8 /* MP4Atom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MP4Atom.h; sourceTree = "<group>"; };
-		B2CD14661D45F18B008082E8 /* MP4Atom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MP4Atom.m; sourceTree = "<group>"; };
-		B2CD14671D45F18B008082E8 /* NALUnit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NALUnit.cpp; sourceTree = "<group>"; };
-		B2CD14681D45F18B008082E8 /* NALUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NALUnit.h; sourceTree = "<group>"; };
-		B2CD14691D45F18B008082E8 /* VideoEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoEncoder.h; sourceTree = "<group>"; };
-		B2CD146A1D45F18B008082E8 /* VideoEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoEncoder.m; sourceTree = "<group>"; };
+		B2CD14651D45F18B008082E8 /* LFMP4Atom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFMP4Atom.h; sourceTree = "<group>"; };
+		B2CD14661D45F18B008082E8 /* LFMP4Atom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFMP4Atom.m; sourceTree = "<group>"; };
+		B2CD14671D45F18B008082E8 /* LFNALUnit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LFNALUnit.cpp; sourceTree = "<group>"; };
+		B2CD14681D45F18B008082E8 /* LFNALUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFNALUnit.h; sourceTree = "<group>"; };
+		B2CD14691D45F18B008082E8 /* LFVideoEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFVideoEncoder.h; sourceTree = "<group>"; };
+		B2CD146A1D45F18B008082E8 /* LFVideoEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFVideoEncoder.m; sourceTree = "<group>"; };
 		B2CD146B1D45F18B008082E8 /* LFH264VideoEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFH264VideoEncoder.h; sourceTree = "<group>"; };
 		B2CD146C1D45F18B008082E8 /* LFH264VideoEncoder.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LFH264VideoEncoder.mm; sourceTree = "<group>"; };
 		B5758EB2A15DAA132D8BF380 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -317,15 +317,15 @@
 		B2CD14611D45F18B008082E8 /* H264 */ = {
 			isa = PBXGroup;
 			children = (
-				B2CD14621D45F18B008082E8 /* AVEncoder.h */,
-				B2CD14631D45F18B008082E8 /* AVEncoder.mm */,
+				B2CD14621D45F18B008082E8 /* LFAVEncoder.h */,
+				B2CD14631D45F18B008082E8 /* LFAVEncoder.mm */,
 				B2CD14641D45F18B008082E8 /* LICENSE.markdown */,
-				B2CD14651D45F18B008082E8 /* MP4Atom.h */,
-				B2CD14661D45F18B008082E8 /* MP4Atom.m */,
-				B2CD14671D45F18B008082E8 /* NALUnit.cpp */,
-				B2CD14681D45F18B008082E8 /* NALUnit.h */,
-				B2CD14691D45F18B008082E8 /* VideoEncoder.h */,
-				B2CD146A1D45F18B008082E8 /* VideoEncoder.m */,
+				B2CD14651D45F18B008082E8 /* LFMP4Atom.h */,
+				B2CD14661D45F18B008082E8 /* LFMP4Atom.m */,
+				B2CD14671D45F18B008082E8 /* LFNALUnit.cpp */,
+				B2CD14681D45F18B008082E8 /* LFNALUnit.h */,
+				B2CD14691D45F18B008082E8 /* LFVideoEncoder.h */,
+				B2CD146A1D45F18B008082E8 /* LFVideoEncoder.m */,
 			);
 			path = H264;
 			sourceTree = "<group>";
@@ -349,7 +349,7 @@
 				84001FDB1D0016380026C63F /* LFLiveAudioConfiguration.h in Headers */,
 				B289F1DD1D3DE77F00D9C7A5 /* LFStreamRtmpSocket.h in Headers */,
 				84001FDD1D0016380026C63F /* LFLiveVideoConfiguration.h in Headers */,
-				B2CD14701D45F18B008082E8 /* MP4Atom.h in Headers */,
+				B2CD14701D45F18B008082E8 /* LFMP4Atom.h in Headers */,
 				84001FE31D0016380026C63F /* LFLiveSession.h in Headers */,
 				B289F1DB1D3DE77F00D9C7A5 /* LFStreamingBuffer.h in Headers */,
 				84001FEB1D0016380026C63F /* LFLiveStreamInfo.h in Headers */,
@@ -365,12 +365,12 @@
 				84001FDA1D0016380026C63F /* LFVideoEncoding.h in Headers */,
 				84001FE51D0016380026C63F /* LFAudioFrame.h in Headers */,
 				84001FED1D0016380026C63F /* LFVideoFrame.h in Headers */,
-				B2CD14741D45F18B008082E8 /* VideoEncoder.h in Headers */,
-				B2CD14731D45F18B008082E8 /* NALUnit.h in Headers */,
+				B2CD14741D45F18B008082E8 /* LFVideoEncoder.h in Headers */,
+				B2CD14731D45F18B008082E8 /* LFNALUnit.h in Headers */,
 				84001FD81D0016380026C63F /* LFHardwareVideoEncoder.h in Headers */,
 				B289F1DF1D3DE77F00D9C7A5 /* LFStreamSocket.h in Headers */,
 				84001FD51D0016380026C63F /* LFAudioEncoding.h in Headers */,
-				B2CD146D1D45F18B008082E8 /* AVEncoder.h in Headers */,
+				B2CD146D1D45F18B008082E8 /* LFAVEncoder.h in Headers */,
 				84001F8E1D0015D10026C63F /* LFLiveKit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -540,18 +540,18 @@
 			files = (
 				84001FE21D0016380026C63F /* LFGPUImageEmptyFilter.m in Sources */,
 				84001FE41D0016380026C63F /* LFLiveSession.m in Sources */,
-				B2CD14711D45F18B008082E8 /* MP4Atom.m in Sources */,
+				B2CD14711D45F18B008082E8 /* LFMP4Atom.m in Sources */,
 				84001FE61D0016380026C63F /* LFAudioFrame.m in Sources */,
 				84001FDC1D0016380026C63F /* LFLiveAudioConfiguration.m in Sources */,
 				84001FD41D0016380026C63F /* LFVideoCapture.m in Sources */,
 				84001FE81D0016380026C63F /* LFFrame.m in Sources */,
-				B2CD14721D45F18B008082E8 /* NALUnit.cpp in Sources */,
+				B2CD14721D45F18B008082E8 /* LFNALUnit.cpp in Sources */,
 				B289F1DC1D3DE77F00D9C7A5 /* LFStreamingBuffer.m in Sources */,
 				B289F1E11D3DE77F00D9C7A5 /* NSMutableArray+LFAdd.m in Sources */,
 				B2CD14771D45F18B008082E8 /* LFH264VideoEncoder.mm in Sources */,
 				84001FDE1D0016380026C63F /* LFLiveVideoConfiguration.m in Sources */,
 				84001FD21D0016380026C63F /* LFAudioCapture.m in Sources */,
-				B2CD14751D45F18B008082E8 /* VideoEncoder.m in Sources */,
+				B2CD14751D45F18B008082E8 /* LFVideoEncoder.m in Sources */,
 				B2CD146F1D45F18B008082E8 /* LICENSE.markdown in Sources */,
 				B289F1DE1D3DE77F00D9C7A5 /* LFStreamRtmpSocket.m in Sources */,
 				84001FD91D0016380026C63F /* LFHardwareVideoEncoder.m in Sources */,
@@ -560,7 +560,7 @@
 				84001FEE1D0016380026C63F /* LFVideoFrame.m in Sources */,
 				84001FD71D0016380026C63F /* LFHardwareAudioEncoder.m in Sources */,
 				84001FE01D0016380026C63F /* LFGPUImageBeautyFilter.m in Sources */,
-				B2CD146E1D45F18B008082E8 /* AVEncoder.mm in Sources */,
+				B2CD146E1D45F18B008082E8 /* LFAVEncoder.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

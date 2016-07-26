@@ -95,6 +95,7 @@
 - (void)stopLive {
     self.uploading = NO;
     [self.socket stop];
+    self.socket = nil;
 }
 
 #pragma mark -- CaptureDelegate

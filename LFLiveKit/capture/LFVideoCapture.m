@@ -33,22 +33,23 @@
 - (instancetype)initWithVideoConfiguration:(LFLiveVideoConfiguration *)configuration {
     if (self = [super init]) {
         _configuration = configuration;
+        if([self pixelBufferImageSize].width < configuration.videoSize.width || [self pixelBufferImageSize].height < configuration.videoSize.height){
+            @throw [NSException exceptionWithName:@"当前videoSize大小出错" reason:@"LFLiveVideoConfiguration videoSize error" userInfo:nil];
+            return nil;
+        }
+        
         _videoCamera = [[GPUImageVideoCamera alloc] initWithSessionPreset:_configuration.avSessionPreset cameraPosition:AVCaptureDevicePositionFront];
         UIInterfaceOrientation statusBar = [[UIApplication sharedApplication] statusBarOrientation];
         if (configuration.landscape) {
             if (statusBar != UIInterfaceOrientationLandscapeLeft && statusBar != UIInterfaceOrientationLandscapeRight) {
-                NSLog(@"当前设置方向出错");
-                NSLog(@"当前设置方向出错");
-                NSLog(@"当前设置方向出错");
+                @throw [NSException exceptionWithName:@"当前设置方向出错" reason:@"LFLiveVideoConfiguration landscape error" userInfo:nil];
                 _videoCamera.outputImageOrientation = UIInterfaceOrientationLandscapeLeft;
             } else {
                 _videoCamera.outputImageOrientation = statusBar;
             }
         } else {
             if (statusBar != UIInterfaceOrientationPortrait && statusBar != UIInterfaceOrientationPortraitUpsideDown) {
-                NSLog(@"当前设置方向出错");
-                NSLog(@"当前设置方向出错");
-                NSLog(@"当前设置方向出错");
+                @throw [NSException exceptionWithName:@"当前设置方向出错" reason:@"LFLiveVideoConfiguration landscape error" userInfo:nil];
                 _videoCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
             } else {
                 _videoCamera.outputImageOrientation = statusBar;
@@ -226,18 +227,18 @@
         }];
     }
 
-    if (_configuration.isClipVideo) {
-        if (_configuration.landscape) {
-            _cropfilter = [[GPUImageCropFilter alloc] initWithCropRegion:CGRectMake(0.125, 0, 0.75, 1)];
-        } else {
-            _cropfilter = [[GPUImageCropFilter alloc] initWithCropRegion:CGRectMake(0, 0.125, 1, 0.75)];
-        }
+    CGSize imageSize = [self pixelBufferImageSize];
+    CGFloat cropLeft = (imageSize.width - self.configuration.videoSize.width)/2.0/imageSize.width;
+    CGFloat cropTop = (imageSize.height - self.configuration.videoSize.height)/2.0/imageSize.height;
+    
+    if(cropLeft == 0 && cropTop == 0){
+        [_videoCamera addTarget:_filter];
+    }else{
+        _cropfilter = [[GPUImageCropFilter alloc] initWithCropRegion:CGRectMake(cropLeft, cropTop, 1 - cropLeft*2, 1 - cropTop*2)];
         [_videoCamera addTarget:_cropfilter];
         [_cropfilter addTarget:_filter];
-    } else {
-        [_videoCamera addTarget:_filter];
     }
-
+    
     if (_beautyFace) {
         [_filter addTarget:_output];
         [_output addTarget:_gpuImageView];
@@ -297,6 +298,36 @@
             self.videoCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
         }
     }
+}
+
+#pragma mark -- 
+- (CGSize)pixelBufferImageSize{
+    CGSize videoSize = CGSizeZero;
+    switch (self.configuration.sessionPreset) {
+        case LFCaptureSessionPreset360x640:
+        {
+            videoSize = CGSizeMake(480, 640);
+        }
+            break;
+        case LFCaptureSessionPreset540x960:
+        {
+            videoSize = CGSizeMake(540, 960);
+        }
+            break;
+        case LFCaptureSessionPreset720x1280:
+        {
+            videoSize = CGSizeMake(720, 1280);
+        }
+            break;
+            
+        default:
+            break;
+    }
+    
+    if(self.configuration.landscape){
+        return CGSizeMake(videoSize.height, videoSize.width);
+    }
+    return videoSize;
 }
 
 @end

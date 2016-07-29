@@ -213,10 +213,6 @@
     return sessionPreset;
 }
 
-- (BOOL)isClipVideo {
-    return self.sessionPreset == LFCaptureSessionPreset360x640 ? YES : NO;
-}
-
 #pragma mark -- encoder
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [aCoder encodeObject:[NSValue valueWithCGSize:self.videoSize] forKey:@"videoSize"];
@@ -248,7 +244,6 @@
                         @(self.videoBitRate),
                         @(self.videoMaxBitRate),
                         @(self.videoMinBitRate),
-                        @(self.isClipVideo),
                         self.avSessionPreset,
                         @(self.sessionPreset),
                         @(self.landscape), ];
@@ -274,7 +269,6 @@
                object.videoBitRate == self.videoBitRate &&
                object.videoMaxBitRate == self.videoMaxBitRate &&
                object.videoMinBitRate == self.videoMinBitRate &&
-               object.isClipVideo == self.isClipVideo &&
                [object.avSessionPreset isEqualToString:self.avSessionPreset] &&
                object.sessionPreset == self.sessionPreset &&
                object.landscape == self.landscape;
@@ -297,7 +291,6 @@
     [desc appendFormat:@" videoBitRate:%zi", self.videoBitRate];
     [desc appendFormat:@" videoMaxBitRate:%zi", self.videoMaxBitRate];
     [desc appendFormat:@" videoMinBitRate:%zi", self.videoMinBitRate];
-    [desc appendFormat:@" isClipVideo:%zi", self.isClipVideo];
     [desc appendFormat:@" avSessionPreset:%@", self.avSessionPreset];
     [desc appendFormat:@" sessionPreset:%zi", self.sessionPreset];
     [desc appendFormat:@" landscape:%zi", self.landscape];

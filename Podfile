@@ -5,6 +5,6 @@ target 'LFLiveKit' do
 
 end
 
-pod 'pili-librtmp', '~> 1.0.3'
+pod 'pili-librtmp', '~> 1.0.3.1'
 pod 'LMGPUImage', '~> 0.1.9'
 

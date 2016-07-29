@@ -90,7 +90,4 @@ typedef NS_ENUM (NSUInteger, LFLiveVideoQuality){
 ///< ≈sde3分辨率
 @property (nonatomic, assign, readonly) NSString *avSessionPreset;
 
-///< 是否裁剪
-@property (nonatomic, assign, readonly) BOOL isClipVideo;
-
 @end

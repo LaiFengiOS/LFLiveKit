@@ -46,6 +46,22 @@
 		84001FFD1D0017680026C63F /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84001FFC1D0017680026C63F /* AudioToolbox.framework */; };
 		84001FFF1D00176C0026C63F /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84001FFE1D00176C0026C63F /* VideoToolbox.framework */; };
 		840020011D0017850026C63F /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 840020001D0017850026C63F /* libz.tbd */; };
+		849005B01D4B5C8400D2A3D5 /* amf.c in Sources */ = {isa = PBXBuildFile; fileRef = 849005A01D4B5C8400D2A3D5 /* amf.c */; };
+		849005B11D4B5C8400D2A3D5 /* amf.h in Headers */ = {isa = PBXBuildFile; fileRef = 849005A11D4B5C8400D2A3D5 /* amf.h */; };
+		849005B21D4B5C8400D2A3D5 /* bytes.h in Headers */ = {isa = PBXBuildFile; fileRef = 849005A21D4B5C8400D2A3D5 /* bytes.h */; };
+		849005B31D4B5C8400D2A3D5 /* dh.h in Headers */ = {isa = PBXBuildFile; fileRef = 849005A31D4B5C8400D2A3D5 /* dh.h */; };
+		849005B41D4B5C8400D2A3D5 /* dhgroups.h in Headers */ = {isa = PBXBuildFile; fileRef = 849005A41D4B5C8400D2A3D5 /* dhgroups.h */; };
+		849005B51D4B5C8400D2A3D5 /* error.c in Sources */ = {isa = PBXBuildFile; fileRef = 849005A51D4B5C8400D2A3D5 /* error.c */; };
+		849005B61D4B5C8400D2A3D5 /* error.h in Headers */ = {isa = PBXBuildFile; fileRef = 849005A61D4B5C8400D2A3D5 /* error.h */; };
+		849005B71D4B5C8400D2A3D5 /* handshake.h in Headers */ = {isa = PBXBuildFile; fileRef = 849005A71D4B5C8400D2A3D5 /* handshake.h */; };
+		849005B81D4B5C8400D2A3D5 /* hashswf.c in Sources */ = {isa = PBXBuildFile; fileRef = 849005A81D4B5C8400D2A3D5 /* hashswf.c */; };
+		849005B91D4B5C8400D2A3D5 /* http.h in Headers */ = {isa = PBXBuildFile; fileRef = 849005A91D4B5C8400D2A3D5 /* http.h */; };
+		849005BA1D4B5C8400D2A3D5 /* log.c in Sources */ = {isa = PBXBuildFile; fileRef = 849005AA1D4B5C8400D2A3D5 /* log.c */; };
+		849005BB1D4B5C8400D2A3D5 /* log.h in Headers */ = {isa = PBXBuildFile; fileRef = 849005AB1D4B5C8400D2A3D5 /* log.h */; };
+		849005BC1D4B5C8400D2A3D5 /* parseurl.c in Sources */ = {isa = PBXBuildFile; fileRef = 849005AC1D4B5C8400D2A3D5 /* parseurl.c */; };
+		849005BD1D4B5C8400D2A3D5 /* rtmp.c in Sources */ = {isa = PBXBuildFile; fileRef = 849005AD1D4B5C8400D2A3D5 /* rtmp.c */; };
+		849005BE1D4B5C8400D2A3D5 /* rtmp.h in Headers */ = {isa = PBXBuildFile; fileRef = 849005AE1D4B5C8400D2A3D5 /* rtmp.h */; };
+		849005BF1D4B5C8400D2A3D5 /* rtmp_sys.h in Headers */ = {isa = PBXBuildFile; fileRef = 849005AF1D4B5C8400D2A3D5 /* rtmp_sys.h */; };
 		AD7F89B4621A7EFEBEA72D49 /* libPods-LFLiveKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B8CB02D2A92EA1F5A262F154 /* libPods-LFLiveKit.a */; };
 		B289F1DB1D3DE77F00D9C7A5 /* LFStreamingBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = B289F1D41D3DE77F00D9C7A5 /* LFStreamingBuffer.h */; };
 		B289F1DC1D3DE77F00D9C7A5 /* LFStreamingBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = B289F1D51D3DE77F00D9C7A5 /* LFStreamingBuffer.m */; };
@@ -120,6 +136,22 @@
 		84001FFC1D0017680026C63F /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		84001FFE1D00176C0026C63F /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
 		840020001D0017850026C63F /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		849005A01D4B5C8400D2A3D5 /* amf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amf.c; sourceTree = "<group>"; };
+		849005A11D4B5C8400D2A3D5 /* amf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = amf.h; sourceTree = "<group>"; };
+		849005A21D4B5C8400D2A3D5 /* bytes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bytes.h; sourceTree = "<group>"; };
+		849005A31D4B5C8400D2A3D5 /* dh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dh.h; sourceTree = "<group>"; };
+		849005A41D4B5C8400D2A3D5 /* dhgroups.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dhgroups.h; sourceTree = "<group>"; };
+		849005A51D4B5C8400D2A3D5 /* error.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = error.c; sourceTree = "<group>"; };
+		849005A61D4B5C8400D2A3D5 /* error.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = error.h; sourceTree = "<group>"; };
+		849005A71D4B5C8400D2A3D5 /* handshake.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = handshake.h; sourceTree = "<group>"; };
+		849005A81D4B5C8400D2A3D5 /* hashswf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = hashswf.c; sourceTree = "<group>"; };
+		849005A91D4B5C8400D2A3D5 /* http.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = http.h; sourceTree = "<group>"; };
+		849005AA1D4B5C8400D2A3D5 /* log.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = log.c; sourceTree = "<group>"; };
+		849005AB1D4B5C8400D2A3D5 /* log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = log.h; sourceTree = "<group>"; };
+		849005AC1D4B5C8400D2A3D5 /* parseurl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = parseurl.c; sourceTree = "<group>"; };
+		849005AD1D4B5C8400D2A3D5 /* rtmp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rtmp.c; sourceTree = "<group>"; };
+		849005AE1D4B5C8400D2A3D5 /* rtmp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rtmp.h; sourceTree = "<group>"; };
+		849005AF1D4B5C8400D2A3D5 /* rtmp_sys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rtmp_sys.h; sourceTree = "<group>"; };
 		A17586B27CD6843997425CCF /* Pods-LFLiveKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LFLiveKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LFLiveKit/Pods-LFLiveKit.debug.xcconfig"; sourceTree = "<group>"; };
 		B289F1D41D3DE77F00D9C7A5 /* LFStreamingBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LFStreamingBuffer.h; path = LFLiveKit/publish/LFStreamingBuffer.h; sourceTree = SOURCE_ROOT; };
 		B289F1D51D3DE77F00D9C7A5 /* LFStreamingBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LFStreamingBuffer.m; path = LFLiveKit/publish/LFStreamingBuffer.m; sourceTree = SOURCE_ROOT; };
@@ -298,6 +330,7 @@
 		84001FC91D0016380026C63F /* publish */ = {
 			isa = PBXGroup;
 			children = (
+				8490059F1D4B5C8400D2A3D5 /* pili-librtmp */,
 				B289F1D41D3DE77F00D9C7A5 /* LFStreamingBuffer.h */,
 				B289F1D51D3DE77F00D9C7A5 /* LFStreamingBuffer.m */,
 				B289F1D61D3DE77F00D9C7A5 /* LFStreamRtmpSocket.h */,
@@ -309,6 +342,30 @@
 			name = publish;
 			path = upload;
 			sourceTree = "<group>";
+		};
+		8490059F1D4B5C8400D2A3D5 /* pili-librtmp */ = {
+			isa = PBXGroup;
+			children = (
+				849005A01D4B5C8400D2A3D5 /* amf.c */,
+				849005A11D4B5C8400D2A3D5 /* amf.h */,
+				849005A21D4B5C8400D2A3D5 /* bytes.h */,
+				849005A31D4B5C8400D2A3D5 /* dh.h */,
+				849005A41D4B5C8400D2A3D5 /* dhgroups.h */,
+				849005A51D4B5C8400D2A3D5 /* error.c */,
+				849005A61D4B5C8400D2A3D5 /* error.h */,
+				849005A71D4B5C8400D2A3D5 /* handshake.h */,
+				849005A81D4B5C8400D2A3D5 /* hashswf.c */,
+				849005A91D4B5C8400D2A3D5 /* http.h */,
+				849005AA1D4B5C8400D2A3D5 /* log.c */,
+				849005AB1D4B5C8400D2A3D5 /* log.h */,
+				849005AC1D4B5C8400D2A3D5 /* parseurl.c */,
+				849005AD1D4B5C8400D2A3D5 /* rtmp.c */,
+				849005AE1D4B5C8400D2A3D5 /* rtmp.h */,
+				849005AF1D4B5C8400D2A3D5 /* rtmp_sys.h */,
+			);
+			name = "pili-librtmp";
+			path = "LFLiveKit/publish/pili-librtmp";
+			sourceTree = SOURCE_ROOT;
 		};
 		B2CD14611D45F18B008082E8 /* H264 */ = {
 			isa = PBXGroup;
@@ -342,12 +399,16 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				849005B21D4B5C8400D2A3D5 /* bytes.h in Headers */,
 				84001FDB1D0016380026C63F /* LFLiveAudioConfiguration.h in Headers */,
 				B289F1DD1D3DE77F00D9C7A5 /* LFStreamRtmpSocket.h in Headers */,
 				84001FDD1D0016380026C63F /* LFLiveVideoConfiguration.h in Headers */,
 				B2CD14701D45F18B008082E8 /* LFMP4Atom.h in Headers */,
+				849005B61D4B5C8400D2A3D5 /* error.h in Headers */,
 				84001FE31D0016380026C63F /* LFLiveSession.h in Headers */,
 				B289F1DB1D3DE77F00D9C7A5 /* LFStreamingBuffer.h in Headers */,
+				849005B71D4B5C8400D2A3D5 /* handshake.h in Headers */,
+				849005BB1D4B5C8400D2A3D5 /* log.h in Headers */,
 				84001FEB1D0016380026C63F /* LFLiveStreamInfo.h in Headers */,
 				84001FE91D0016380026C63F /* LFLiveDebug.h in Headers */,
 				84001FE71D0016380026C63F /* LFFrame.h in Headers */,
@@ -357,16 +418,22 @@
 				84001FDF1D0016380026C63F /* LFGPUImageBeautyFilter.h in Headers */,
 				84001FD31D0016380026C63F /* LFVideoCapture.h in Headers */,
 				84001FD11D0016380026C63F /* LFAudioCapture.h in Headers */,
+				849005B91D4B5C8400D2A3D5 /* http.h in Headers */,
 				84001FE11D0016380026C63F /* LFGPUImageEmptyFilter.h in Headers */,
+				849005B31D4B5C8400D2A3D5 /* dh.h in Headers */,
 				84001FDA1D0016380026C63F /* LFVideoEncoding.h in Headers */,
 				84001FE51D0016380026C63F /* LFAudioFrame.h in Headers */,
 				84001FED1D0016380026C63F /* LFVideoFrame.h in Headers */,
 				B2CD14741D45F18B008082E8 /* LFVideoEncoder.h in Headers */,
 				B2CD14731D45F18B008082E8 /* LFNALUnit.h in Headers */,
+				849005BF1D4B5C8400D2A3D5 /* rtmp_sys.h in Headers */,
+				849005BE1D4B5C8400D2A3D5 /* rtmp.h in Headers */,
 				84001FD81D0016380026C63F /* LFHardwareVideoEncoder.h in Headers */,
+				849005B41D4B5C8400D2A3D5 /* dhgroups.h in Headers */,
 				B289F1DF1D3DE77F00D9C7A5 /* LFStreamSocket.h in Headers */,
 				84001FD51D0016380026C63F /* LFAudioEncoding.h in Headers */,
 				B2CD146D1D45F18B008082E8 /* LFAVEncoder.h in Headers */,
+				849005B11D4B5C8400D2A3D5 /* amf.h in Headers */,
 				84001F8E1D0015D10026C63F /* LFLiveKit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -505,24 +572,30 @@
 				84001FE21D0016380026C63F /* LFGPUImageEmptyFilter.m in Sources */,
 				84001FE41D0016380026C63F /* LFLiveSession.m in Sources */,
 				B2CD14711D45F18B008082E8 /* LFMP4Atom.m in Sources */,
+				849005B81D4B5C8400D2A3D5 /* hashswf.c in Sources */,
 				84001FE61D0016380026C63F /* LFAudioFrame.m in Sources */,
 				84001FDC1D0016380026C63F /* LFLiveAudioConfiguration.m in Sources */,
 				84001FD41D0016380026C63F /* LFVideoCapture.m in Sources */,
 				84001FE81D0016380026C63F /* LFFrame.m in Sources */,
 				B2CD14721D45F18B008082E8 /* LFNALUnit.cpp in Sources */,
 				B289F1DC1D3DE77F00D9C7A5 /* LFStreamingBuffer.m in Sources */,
+				849005B51D4B5C8400D2A3D5 /* error.c in Sources */,
 				B289F1E11D3DE77F00D9C7A5 /* NSMutableArray+LFAdd.m in Sources */,
 				B2CD14771D45F18B008082E8 /* LFH264VideoEncoder.mm in Sources */,
+				849005BC1D4B5C8400D2A3D5 /* parseurl.c in Sources */,
 				84001FDE1D0016380026C63F /* LFLiveVideoConfiguration.m in Sources */,
 				84001FD21D0016380026C63F /* LFAudioCapture.m in Sources */,
 				B2CD14751D45F18B008082E8 /* LFVideoEncoder.m in Sources */,
 				B2CD146F1D45F18B008082E8 /* LICENSE.markdown in Sources */,
 				B289F1DE1D3DE77F00D9C7A5 /* LFStreamRtmpSocket.m in Sources */,
+				849005BA1D4B5C8400D2A3D5 /* log.c in Sources */,
 				84001FD91D0016380026C63F /* LFHardwareVideoEncoder.m in Sources */,
 				84001FEC1D0016380026C63F /* LFLiveStreamInfo.m in Sources */,
+				849005B01D4B5C8400D2A3D5 /* amf.c in Sources */,
 				84001FEA1D0016380026C63F /* LFLiveDebug.m in Sources */,
 				84001FEE1D0016380026C63F /* LFVideoFrame.m in Sources */,
 				84001FD71D0016380026C63F /* LFHardwareAudioEncoder.m in Sources */,
+				849005BD1D4B5C8400D2A3D5 /* rtmp.c in Sources */,
 				84001FE01D0016380026C63F /* LFGPUImageBeautyFilter.m in Sources */,
 				B2CD146E1D45F18B008082E8 /* LFAVEncoder.mm in Sources */,
 			);
@@ -650,6 +723,10 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/LFLiveKit/publish/libpili-librtmp",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.youku.LFLiveKit.LFLiveKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -669,6 +746,10 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/LFLiveKit/publish/libpili-librtmp",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.youku.LFLiveKit.LFLiveKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

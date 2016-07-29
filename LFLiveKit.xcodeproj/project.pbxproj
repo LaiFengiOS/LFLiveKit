@@ -65,7 +65,6 @@
 		B2CD14751D45F18B008082E8 /* LFVideoEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = B2CD146A1D45F18B008082E8 /* LFVideoEncoder.m */; };
 		B2CD14761D45F18B008082E8 /* LFH264VideoEncoder.h in Headers */ = {isa = PBXBuildFile; fileRef = B2CD146B1D45F18B008082E8 /* LFH264VideoEncoder.h */; };
 		B2CD14771D45F18B008082E8 /* LFH264VideoEncoder.mm in Sources */ = {isa = PBXBuildFile; fileRef = B2CD146C1D45F18B008082E8 /* LFH264VideoEncoder.mm */; };
-		BE55DA79155500CDEF87FB5C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B5758EB2A15DAA132D8BF380 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -140,7 +139,6 @@
 		B2CD146A1D45F18B008082E8 /* LFVideoEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFVideoEncoder.m; sourceTree = "<group>"; };
 		B2CD146B1D45F18B008082E8 /* LFH264VideoEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFH264VideoEncoder.h; sourceTree = "<group>"; };
 		B2CD146C1D45F18B008082E8 /* LFH264VideoEncoder.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LFH264VideoEncoder.mm; sourceTree = "<group>"; };
-		B5758EB2A15DAA132D8BF380 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B75B965E6B94DE4CBCC82EA7 /* Pods-LFLiveKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LFLiveKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-LFLiveKit/Pods-LFLiveKit.release.xcconfig"; sourceTree = "<group>"; };
 		B8CB02D2A92EA1F5A262F154 /* libPods-LFLiveKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LFLiveKit.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -157,7 +155,6 @@
 				84001FF91D00175D0026C63F /* Foundation.framework in Frameworks */,
 				84001FF71D0017590026C63F /* AVFoundation.framework in Frameworks */,
 				AD7F89B4621A7EFEBEA72D49 /* libPods-LFLiveKit.a in Frameworks */,
-				BE55DA79155500CDEF87FB5C /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -182,7 +179,6 @@
 				84001FF81D00175D0026C63F /* Foundation.framework */,
 				84001FF61D0017590026C63F /* AVFoundation.framework */,
 				B8CB02D2A92EA1F5A262F154 /* libPods-LFLiveKit.a */,
-				B5758EB2A15DAA132D8BF380 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -382,14 +378,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 84001F9E1D0015D10026C63F /* Build configuration list for PBXNativeTarget "LFLiveKit" */;
 			buildPhases = (
-				8EE9401DCA9508E918B7FB68 /* 📦 Check Pods Manifest.lock */,
-				98F2C3F394BD79A6D6B8424F /* Check Pods Manifest.lock */,
+				5ED199EAC89EE599F1E56B19 /* 📦 Check Pods Manifest.lock */,
 				84001F851D0015D10026C63F /* Sources */,
 				84001F861D0015D10026C63F /* Frameworks */,
 				84001F871D0015D10026C63F /* Headers */,
 				84001F881D0015D10026C63F /* Resources */,
-				817C22141AD3F2EB34365AA3 /* 📦 Copy Pods Resources */,
-				8A5D8B623E50AAC1575D1741 /* Copy Pods Resources */,
+				36D0848EAED7999C442A99BD /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -471,7 +465,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		817C22141AD3F2EB34365AA3 /* 📦 Copy Pods Resources */ = {
+		36D0848EAED7999C442A99BD /* 📦 Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -486,22 +480,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LFLiveKit/Pods-LFLiveKit-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		8A5D8B623E50AAC1575D1741 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		8EE9401DCA9508E918B7FB68 /* 📦 Check Pods Manifest.lock */ = {
+		5ED199EAC89EE599F1E56B19 /* 📦 Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -509,21 +488,6 @@
 			inputPaths = (
 			);
 			name = "📦 Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		98F2C3F394BD79A6D6B8424F /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;

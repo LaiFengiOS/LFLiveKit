@@ -58,7 +58,6 @@ LFLiveKit
         * VideoToolbox
         * AudioToolbox
         * libz
-    5. Add `LMGPUImage and pili-librtmp`(static library) to your Xcode project.
 
 
 

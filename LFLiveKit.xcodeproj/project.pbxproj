@@ -120,7 +120,6 @@
 		84001FFC1D0017680026C63F /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		84001FFE1D00176C0026C63F /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
 		840020001D0017850026C63F /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
-		A17586B27CD6843997425CCF /* Pods-LFLiveKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LFLiveKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LFLiveKit/Pods-LFLiveKit.debug.xcconfig"; sourceTree = "<group>"; };
 		B289F1D41D3DE77F00D9C7A5 /* LFStreamingBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LFStreamingBuffer.h; path = LFLiveKit/publish/LFStreamingBuffer.h; sourceTree = SOURCE_ROOT; };
 		B289F1D51D3DE77F00D9C7A5 /* LFStreamingBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LFStreamingBuffer.m; path = LFLiveKit/publish/LFStreamingBuffer.m; sourceTree = SOURCE_ROOT; };
 		B289F1D61D3DE77F00D9C7A5 /* LFStreamRtmpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LFStreamRtmpSocket.h; path = LFLiveKit/publish/LFStreamRtmpSocket.h; sourceTree = SOURCE_ROOT; };
@@ -139,7 +138,6 @@
 		B2CD146A1D45F18B008082E8 /* VideoEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoEncoder.m; sourceTree = "<group>"; };
 		B2CD146B1D45F18B008082E8 /* LFH264VideoEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFH264VideoEncoder.h; sourceTree = "<group>"; };
 		B2CD146C1D45F18B008082E8 /* LFH264VideoEncoder.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LFH264VideoEncoder.mm; sourceTree = "<group>"; };
-		B75B965E6B94DE4CBCC82EA7 /* Pods-LFLiveKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LFLiveKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-LFLiveKit/Pods-LFLiveKit.release.xcconfig"; sourceTree = "<group>"; };
 		B8CB02D2A92EA1F5A262F154 /* libPods-LFLiveKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LFLiveKit.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -189,7 +187,6 @@
 				84001F8C1D0015D10026C63F /* LFLiveKit */,
 				84001F981D0015D10026C63F /* LFLiveKitTests */,
 				84001F8B1D0015D10026C63F /* Products */,
-				EDD4B76A07A6817C79BB4E5C /* Pods */,
 				0C07D14560B9E91EA1B59306 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -324,15 +321,6 @@
 				B2CD146A1D45F18B008082E8 /* VideoEncoder.m */,
 			);
 			path = H264;
-			sourceTree = "<group>";
-		};
-		EDD4B76A07A6817C79BB4E5C /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				A17586B27CD6843997425CCF /* Pods-LFLiveKit.debug.xcconfig */,
-				B75B965E6B94DE4CBCC82EA7 /* Pods-LFLiveKit.release.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -604,7 +592,6 @@
 		};
 		84001F9F1D0015D10026C63F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A17586B27CD6843997425CCF /* Pods-LFLiveKit.debug.xcconfig */;
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -637,7 +624,6 @@
 		};
 		84001FA01D0015D10026C63F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B75B965E6B94DE4CBCC82EA7 /* Pods-LFLiveKit.release.xcconfig */;
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;

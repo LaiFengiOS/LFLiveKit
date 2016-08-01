@@ -27,6 +27,9 @@ LFLiveKit
 - [x] 	Swift Support
 - [ ] 	~~FLV package and send~~
 
+## Requirements
+    - iOS 7.0+
+    - Xcode 7.3
   
 ## Installation
 
@@ -58,16 +61,9 @@ LFLiveKit
         * VideoToolbox
         * AudioToolbox
         * libz
-
-
-
-## Architecture:
-
-	capture: LFAudioCapture and  LFVideoCapture
-	encode:  LFHardwareAudioEncoder and LFHardwareVideoEncoder
-	publish: LFStreamRtmpSocket
 	
-## Usage:
+## Usage example 
+```
 #### Objective-C
 ```
 - (LFLiveSession*)session {
@@ -127,7 +123,12 @@ func stopLive() -> Void {
 func liveSession(session: LFLiveSession?, debugInfo: LFLiveDebug?) 
 func liveSession(session: LFLiveSession?, errorCode: LFLiveSocketErrorCode)
 func liveSession(session: LFLiveSession?, liveStateDidChange state: LFLiveState)
-```
+
+
+## Release History
+    * 2.0.0
+        * CHANGE: modify bugs,support ios7 live.
+
 
 ## License
  **LFLiveKit is released under the MIT license. See LICENSE for details.**

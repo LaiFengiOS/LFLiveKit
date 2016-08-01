@@ -30,15 +30,15 @@
 		84001FE21D0016380026C63F /* LFGPUImageEmptyFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 84001FB91D0016380026C63F /* LFGPUImageEmptyFilter.m */; };
 		84001FE31D0016380026C63F /* LFLiveSession.h in Headers */ = {isa = PBXBuildFile; fileRef = 84001FBA1D0016380026C63F /* LFLiveSession.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		84001FE41D0016380026C63F /* LFLiveSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 84001FBB1D0016380026C63F /* LFLiveSession.m */; };
-		84001FE51D0016380026C63F /* LFAudioFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = 84001FBD1D0016380026C63F /* LFAudioFrame.h */; };
+		84001FE51D0016380026C63F /* LFAudioFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = 84001FBD1D0016380026C63F /* LFAudioFrame.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		84001FE61D0016380026C63F /* LFAudioFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 84001FBE1D0016380026C63F /* LFAudioFrame.m */; };
-		84001FE71D0016380026C63F /* LFFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = 84001FBF1D0016380026C63F /* LFFrame.h */; };
+		84001FE71D0016380026C63F /* LFFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = 84001FBF1D0016380026C63F /* LFFrame.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		84001FE81D0016380026C63F /* LFFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 84001FC01D0016380026C63F /* LFFrame.m */; };
 		84001FE91D0016380026C63F /* LFLiveDebug.h in Headers */ = {isa = PBXBuildFile; fileRef = 84001FC11D0016380026C63F /* LFLiveDebug.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		84001FEA1D0016380026C63F /* LFLiveDebug.m in Sources */ = {isa = PBXBuildFile; fileRef = 84001FC21D0016380026C63F /* LFLiveDebug.m */; };
 		84001FEB1D0016380026C63F /* LFLiveStreamInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 84001FC31D0016380026C63F /* LFLiveStreamInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		84001FEC1D0016380026C63F /* LFLiveStreamInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 84001FC41D0016380026C63F /* LFLiveStreamInfo.m */; };
-		84001FED1D0016380026C63F /* LFVideoFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = 84001FC51D0016380026C63F /* LFVideoFrame.h */; };
+		84001FED1D0016380026C63F /* LFVideoFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = 84001FC51D0016380026C63F /* LFVideoFrame.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		84001FEE1D0016380026C63F /* LFVideoFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 84001FC61D0016380026C63F /* LFVideoFrame.m */; };
 		84001FF71D0017590026C63F /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84001FF61D0017590026C63F /* AVFoundation.framework */; };
 		84001FF91D00175D0026C63F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84001FF81D00175D0026C63F /* Foundation.framework */; };
@@ -342,6 +342,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84001FE51D0016380026C63F /* LFAudioFrame.h in Headers */,
+				84001FED1D0016380026C63F /* LFVideoFrame.h in Headers */,
+				84001FE71D0016380026C63F /* LFFrame.h in Headers */,
 				84001FDB1D0016380026C63F /* LFLiveAudioConfiguration.h in Headers */,
 				B289F1DD1D3DE77F00D9C7A5 /* LFStreamRtmpSocket.h in Headers */,
 				84001FDD1D0016380026C63F /* LFLiveVideoConfiguration.h in Headers */,
@@ -350,7 +353,6 @@
 				B289F1DB1D3DE77F00D9C7A5 /* LFStreamingBuffer.h in Headers */,
 				84001FEB1D0016380026C63F /* LFLiveStreamInfo.h in Headers */,
 				84001FE91D0016380026C63F /* LFLiveDebug.h in Headers */,
-				84001FE71D0016380026C63F /* LFFrame.h in Headers */,
 				B2CD14761D45F18B008082E8 /* LFH264VideoEncoder.h in Headers */,
 				84001FD61D0016380026C63F /* LFHardwareAudioEncoder.h in Headers */,
 				B289F1E01D3DE77F00D9C7A5 /* NSMutableArray+LFAdd.h in Headers */,
@@ -359,8 +361,6 @@
 				84001FD11D0016380026C63F /* LFAudioCapture.h in Headers */,
 				84001FE11D0016380026C63F /* LFGPUImageEmptyFilter.h in Headers */,
 				84001FDA1D0016380026C63F /* LFVideoEncoding.h in Headers */,
-				84001FE51D0016380026C63F /* LFAudioFrame.h in Headers */,
-				84001FED1D0016380026C63F /* LFVideoFrame.h in Headers */,
 				B2CD14741D45F18B008082E8 /* VideoEncoder.h in Headers */,
 				B2CD14731D45F18B008082E8 /* NALUnit.h in Headers */,
 				84001FD81D0016380026C63F /* LFHardwareVideoEncoder.h in Headers */,

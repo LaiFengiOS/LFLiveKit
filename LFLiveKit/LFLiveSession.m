@@ -15,6 +15,7 @@
 #import "LFStreamRTMPSocket.h"
 #import "LFLiveStreamInfo.h"
 #import "LFGPUImageBeautyFilter.h"
+#import "LFH264VideoEncoder.h"
 
 #define LFLiveReportKey @"com.youku.liveSessionReport"
 

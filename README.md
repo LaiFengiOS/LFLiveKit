@@ -46,12 +46,12 @@ LFLiveKit
 1. Download all the files in the `LFLiveKit` subdirectory.
 2. Add the source files to your Xcode project.
 3. Link with required frameworks:
-* UIKit
-* Foundation
-* AVFoundation
-* VideoToolbox
-* AudioToolbox
-* libz
+    * UIKit
+    * Foundation
+    * AVFoundation
+    * VideoToolbox
+    * AudioToolbox
+    * libz
 5. Add `LMGPUImage and pili-librtmp`(static library) to your Xcode project.
 
 ## Architecture:

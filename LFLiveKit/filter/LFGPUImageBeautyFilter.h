@@ -1,6 +1,4 @@
-#import "GPUImage.h"
-
-@class GPUImageFilter;
+#import "GPUImageFilter.h"
 
 @interface LFGPUImageBeautyFilter : GPUImageFilter {
 }

@@ -1,3 +1,5 @@
+LFLiveKit
+==============
 
 [![Build Status](https://travis-ci.org/LaiFengiOS/LFLiveKit.svg)](https://travis-ci.org/LaiFengiOS/LFLiveKit)&nbsp;
 [![License MIT](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://raw.githubusercontent.com/chenliming777/LFLiveKit/master/LICENSE)&nbsp;
@@ -5,7 +7,6 @@
 [![Support](https://img.shields.io/badge/support-ios8%2B-orange.svg)](https://www.apple.com/nl/ios/)&nbsp;
 ![platform](https://img.shields.io/badge/platform-ios-ff69b4.svg)&nbsp;
 
-## LFLiveKit
 
 **LFLiveKit is a opensource RTMP streaming SDK for iOS.**  
 
@@ -39,6 +40,19 @@
 	# Then, run the following command:
 	$ pod install
 
+
+### Manually
+
+1. Download all the files in the `LFLiveKit` subdirectory.
+2. Add the source files to your Xcode project.
+3. Link with required frameworks:
+* UIKit
+* Foundation
+* AVFoundation
+* VideoToolbox
+* AudioToolbox
+* libz
+5. Add `LMGPUImage and pili-librtmp`(static library) to your Xcode project.
 
 ## Architecture:
 

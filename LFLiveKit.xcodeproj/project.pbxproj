@@ -645,7 +645,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = LFLiveKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -653,6 +653,16 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/LFLiveKit/publish/libpili-librtmp",
+				);
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/LMGPUImage\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/pili-librtmp\"",
+					"-fembed-bitcode",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.youku.LFLiveKit.LFLiveKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -668,7 +678,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = LFLiveKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -676,6 +686,16 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/LFLiveKit/publish/libpili-librtmp",
+				);
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/LMGPUImage\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Public/pili-librtmp\"",
+					"-fembed-bitcode",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.youku.LFLiveKit.LFLiveKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";

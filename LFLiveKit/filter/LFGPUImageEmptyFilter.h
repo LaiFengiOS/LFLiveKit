@@ -1,4 +1,4 @@
-#import <GPUImage/GPUImage.h>
+#import "GPUImage.h"
 
 @class GPUImageFilter;
 

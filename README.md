@@ -63,9 +63,9 @@ LFLiveKit
         * libz
 	
 ## Usage example 
-```
+
 #### Objective-C
-```
+
     - (LFLiveSession*)session {
         if (!_session) {
             _session = [[LFLiveSession alloc] initWithAudioConfiguration:[LFLiveAudioConfiguration defaultConfiguration] videoConfiguration:[LFLiveVideoConfiguration defaultConfiguration]];
@@ -89,11 +89,9 @@ LFLiveKit
     - (void)liveSession:(nullable LFLiveSession *)session liveStateDidChange: (LFLiveState)state;
     - (void)liveSession:(nullable LFLiveSession *)session debugInfo:(nullable LFLiveDebug*)debugInfo;
     - (void)liveSession:(nullable LFLiveSession*)session errorCode:(LFLiveSocketErrorCode)errorCode;
-	
-```
+
 #### Swift
 
-```
     // import LFLiveKit in [ProjectName]-Bridging-Header.h
     import <LFLiveKit.h> 
 

@@ -41,7 +41,13 @@ LFLiveKit
 	$ pod install
 
 
-### Manually
+#### Carthage(1.9.7version after)
+1. Add `github "LaiFengiOS/LFLiveKit"` to your Cartfile.
+2. Run `carthage update --platform ios` and add the framework to your project.
+3. Import \<LFLiveKit/LFLiveKit.h\>.
+
+
+#### Manually
 
 1. Download all the files in the `LFLiveKit` subdirectory.
 2. Add the source files to your Xcode project.
@@ -53,6 +59,8 @@ LFLiveKit
     * AudioToolbox
     * libz
 5. Add `LMGPUImage and pili-librtmp`(static library) to your Xcode project.
+
+
 
 ## Architecture:
 

@@ -1,6 +1,6 @@
 LFLiveKit
 ==============
-![icon~](https://github.com/LaiFengiOS/LFLiveKit/tree/master/LFLiveKitDemo/LFLiveKitDemo/icon.png)
+![icon~](https://github.com/LaiFengiOS/LFLiveKit/tree/master/LFLiveKitDemo/LFLiveKitDemo/Icon.png)
 
 
 [![Build Status](https://travis-ci.org/LaiFengiOS/LFLiveKit.svg)](https://travis-ci.org/LaiFengiOS/LFLiveKit)&nbsp;

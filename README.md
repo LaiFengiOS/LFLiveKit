@@ -1,5 +1,7 @@
 LFLiveKit
 ==============
+![icon~](https://github.com/LaiFengiOS/LFLiveKit/tree/master/LFLiveKitDemo/icon.png)
+
 
 [![Build Status](https://travis-ci.org/LaiFengiOS/LFLiveKit.svg)](https://travis-ci.org/LaiFengiOS/LFLiveKit)&nbsp;
 [![License MIT](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://raw.githubusercontent.com/chenliming777/LFLiveKit/master/LICENSE)&nbsp;

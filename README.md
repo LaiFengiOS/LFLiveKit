@@ -37,7 +37,7 @@ LFLiveKit
 	# To integrate LFLiveKit into your Xcode project using CocoaPods, specify it in your Podfile:
 
 	source 'https://github.com/CocoaPods/Specs.git'
-	platform :ios, '8.0'
+	platform :ios, '7.0'
 	pod 'LFLiveKit'
 	
 	# Then, run the following command:

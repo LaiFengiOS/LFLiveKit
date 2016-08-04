@@ -26,6 +26,7 @@ LFLiveKit
 - [x] 	Switch camera position
 - [x] 	Audio Mute
 - [x] 	Support Send Buffer
+- [x] 	Support WaterMark
 - [x] 	Swift Support
 - [ ] 	~~FLV package and send~~
 

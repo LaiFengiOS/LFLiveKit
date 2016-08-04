@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		81E848D8BD2C446C2DD4876A /* libPods-LFLiveKitDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FD9F92833FE7856CDDD3CED /* libPods-LFLiveKitDemo.a */; };
+		84C7AFA71D52F75C00614703 /* ios-29x29.png in Resources */ = {isa = PBXBuildFile; fileRef = 84C7AFA61D52F75C00614703 /* ios-29x29.png */; };
 		B2D23E7F1D348F3D00B34CA8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B2D23E7E1D348F3D00B34CA8 /* main.m */; };
 		B2D23E821D348F3D00B34CA8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B2D23E811D348F3D00B34CA8 /* AppDelegate.m */; };
 		B2D23E851D348F3D00B34CA8 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B2D23E841D348F3D00B34CA8 /* ViewController.m */; };
@@ -31,6 +32,7 @@
 
 /* Begin PBXFileReference section */
 		6FD9F92833FE7856CDDD3CED /* libPods-LFLiveKitDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LFLiveKitDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		84C7AFA61D52F75C00614703 /* ios-29x29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios-29x29.png"; sourceTree = "<group>"; };
 		8FAAEBE1A4F099C69588B394 /* Pods-LFLiveKitDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LFLiveKitDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-LFLiveKitDemo/Pods-LFLiveKitDemo.release.xcconfig"; sourceTree = "<group>"; };
 		AFD491825C5DB2AD871189B5 /* Pods-LFLiveKitDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LFLiveKitDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LFLiveKitDemo/Pods-LFLiveKitDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		B2D23E7A1D348F3D00B34CA8 /* LFLiveKitDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LFLiveKitDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -160,6 +162,7 @@
 				B2D23EA51D348F7100B34CA8 /* camra_preview@3x.png */,
 				B2D23EA61D348F7100B34CA8 /* close_preview@2x.png */,
 				B2D23EA71D348F7100B34CA8 /* close_preview@3x.png */,
+				84C7AFA61D52F75C00614703 /* ios-29x29.png */,
 			);
 			path = images;
 			sourceTree = "<group>";
@@ -234,6 +237,7 @@
 			files = (
 				B2D23E8D1D348F3D00B34CA8 /* LaunchScreen.storyboard in Resources */,
 				B2D23EAA1D348F7100B34CA8 /* Assets.xcassets in Resources */,
+				84C7AFA71D52F75C00614703 /* ios-29x29.png in Resources */,
 				B2D23EAC1D348F7100B34CA8 /* Main.storyboard in Resources */,
 				B2D23EAB1D348F7100B34CA8 /* LaunchScreen.storyboard in Resources */,
 				B2D23EB21D348F7100B34CA8 /* camra_beauty_close@3x.png in Resources */,

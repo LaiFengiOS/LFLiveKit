@@ -265,6 +265,14 @@
     return self.audioCaptureSource.muted;
 }
 
+- (void)setWarterMarkView:(UIView *)warterMarkView{
+    [self.videoCaptureSource setWarterMarkView:warterMarkView];
+}
+
+- (UIView*)warterMarkView{
+    return self.videoCaptureSource.warterMarkView;
+}
+
 - (LFAudioCapture *)audioCaptureSource {
     if (!_audioCaptureSource) {
         _audioCaptureSource = [[LFAudioCapture alloc] initWithAudioConfiguration:_audioConfiguration];

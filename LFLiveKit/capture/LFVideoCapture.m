@@ -253,13 +253,9 @@
     }
     return _gpuImageView;
 }
--(UIImageView *)currentImageView{
-    if(!_currentImageView){
-       _currentImageView = [UIImageView new];
-    }
+-(UIImage *)currentImage{
     [_filter useNextFrameForImageCapture];
-    _currentImageView.image=_filter.imageFromCurrentFramebuffer;
-    return _currentImageView;
+    return _filter.imageFromCurrentFramebuffer;
 }
 #pragma mark -- Custom Method
 - (void)processVideo:(GPUImageOutput *)output {

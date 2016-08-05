@@ -102,8 +102,7 @@
 - (void)setPreView:(UIView *)preView {
     if (self.gpuImageView.superview) [self.gpuImageView removeFromSuperview];
     [preView insertSubview:self.gpuImageView atIndex:0];
-    self.gpuImageView.bounds = preView.bounds;
-    self.waterMarkContentView.bounds = preView.bounds;
+    self.gpuImageView.frame = CGRectMake(0, 0, preView.frame.size.width, preView.frame.size.height);
 }
 
 - (UIView *)preView {
@@ -257,7 +256,12 @@
         GPUImageFramebuffer *imageFramebuffer = output.framebufferForOutput;
         CVPixelBufferRef pixelBuffer = [imageFramebuffer pixelBuffer];
         if(!CGSizeEqualToSize(_self.configuration.videoSize, imageFramebuffer.size)){
-            _self.configuration.videoSize = imageFramebuffer.size;
+            NSInteger width = ceil(imageFramebuffer.size.width);
+            NSInteger height = ceil(imageFramebuffer.size.height);
+            if(width %2 != 0) width = width + 1;
+            if(height %2 != 0) height = height + 1;
+            _self.configuration.videoSize = CGSizeMake(width, height);
+            _self.waterMarkContentView.frame = CGRectMake(0, 0,_self.configuration.videoSize.width, _self.configuration.videoSize.height);
         }
         if (pixelBuffer && _self.delegate && [_self.delegate respondsToSelector:@selector(captureOutput:pixelBuffer:)]) {
             [_self.delegate captureOutput:_self pixelBuffer:pixelBuffer];

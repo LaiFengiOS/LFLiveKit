@@ -207,17 +207,17 @@ inline static NSString *formatedSpeed(float bytes, float elapsed_milli) {
            audioConfiguration.audioSampleRate = LFLiveAudioSampleRate_44100Hz;
 
            LFLiveVideoConfiguration *videoConfiguration = [LFLiveVideoConfiguration new];
-           videoConfiguration.videoSize = CGSizeMake(500, 700);
+           videoConfiguration.videoSize = CGSizeMake(720, 1280);
            videoConfiguration.videoBitRate = 800*1024;
            videoConfiguration.videoMaxBitRate = 1000*1024;
            videoConfiguration.videoMinBitRate = 500*1024;
            videoConfiguration.videoFrameRate = 15;
            videoConfiguration.videoMaxKeyframeInterval = 30;
            videoConfiguration.landscape = NO;
-           videoConfiguration.sessionPreset = LFCaptureSessionPreset720x1280;
+           videoConfiguration.sessionPreset = LFCaptureSessionPreset360x640;
 
            _session = [[LFLiveSession alloc] initWithAudioConfiguration:audioConfiguration videoConfiguration:videoConfiguration];
-        */
+         */
 
 
         /**    自己定制高质量音频128K 分辨率设置为720*1280 方向横屏  */
@@ -229,14 +229,14 @@ inline static NSString *formatedSpeed(float bytes, float elapsed_milli) {
            audioConfiguration.audioSampleRate = LFLiveAudioSampleRate_44100Hz;
 
            LFLiveVideoConfiguration *videoConfiguration = [LFLiveVideoConfiguration new];
-           videoConfiguration.videoSize = CGSizeMake(720, 1280);
+           videoConfiguration.videoSize = CGSizeMake(1280, 720);
            videoConfiguration.videoBitRate = 800*1024;
            videoConfiguration.videoMaxBitRate = 1000*1024;
            videoConfiguration.videoMinBitRate = 500*1024;
            videoConfiguration.videoFrameRate = 15;
            videoConfiguration.videoMaxKeyframeInterval = 30;
-           videoConfiguration.landscape = NO;
-           videoConfiguration.sessionPreset = LFCaptureSessionPreset360x640;
+           videoConfiguration.landscape = YES;
+           videoConfiguration.sessionPreset = LFCaptureSessionPreset720x1280;
 
            _session = [[LFLiveSession alloc] initWithAudioConfiguration:audioConfiguration videoConfiguration:videoConfiguration];
         */
@@ -247,7 +247,7 @@ inline static NSString *formatedSpeed(float bytes, float elapsed_milli) {
         
         UIImageView *imageView = [[UIImageView alloc] init];
         imageView.alpha = 0.8;
-        imageView.frame = CGRectMake(320-29, 100, 29, 29);
+        imageView.frame = CGRectMake(100, 100, 29, 29);
         imageView.image = [UIImage imageNamed:@"ios-29x29"];
         _session.warterMarkView = imageView;
         

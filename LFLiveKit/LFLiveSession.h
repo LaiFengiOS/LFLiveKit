@@ -85,7 +85,7 @@
 @property (nonatomic, assign) NSUInteger reconnectCount;
 
 /*** The warterMarkView control whether the watermark is displayed or not ,if set ni,will remove watermark,otherwise add. 
- set alpha represent mix.Position relative to preview.
+ set alpha represent mix.Position relative to outVideoSize.
  *.*/
 @property (nonatomic, strong) UIView *warterMarkView;
 

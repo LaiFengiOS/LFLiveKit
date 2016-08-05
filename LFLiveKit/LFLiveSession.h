@@ -87,6 +87,9 @@
 /** The reconnectCount control reconnect count (重连次数) *.*/
 @property (nonatomic, assign) NSUInteger reconnectCount;
 
+/*** The warterMarkView control whether the watermark is displayed or not ,if set ni,will remove watermark,otherwise add. set alpha represent mix *.*/
+@property (nonatomic, strong) UIView *warterMarkView;
+
 #pragma mark - Initializer
 ///=============================================================================
 /// @name Initializer

@@ -15,6 +15,7 @@
 #import "LFStreamRTMPSocket.h"
 #import "LFLiveStreamInfo.h"
 #import "LFGPUImageBeautyFilter.h"
+#import "LFH264VideoEncoder.h"
 
 #define LFLiveReportKey @"com.youku.liveSessionReport"
 
@@ -273,6 +274,14 @@
     return self.audioCaptureSource.muted;
 }
 
+- (void)setWarterMarkView:(UIView *)warterMarkView{
+    [self.videoCaptureSource setWarterMarkView:warterMarkView];
+}
+
+- (UIView*)warterMarkView{
+    return self.videoCaptureSource.warterMarkView;
+}
+
 - (LFAudioCapture *)audioCaptureSource {
     if (!_audioCaptureSource) {
         _audioCaptureSource = [[LFAudioCapture alloc] initWithAudioConfiguration:_audioConfiguration];
@@ -299,9 +308,9 @@
 
 - (id<LFVideoEncoding>)videoEncoder {
     if (!_videoEncoder) {
-        if (SYSTEM_VERSION_LESS_THAN(@"8.0")) {
+        if([[UIDevice currentDevice].systemVersion floatValue] < 8.0){
             _videoEncoder = [[LFH264VideoEncoder alloc] initWithVideoStreamConfiguration:_videoConfiguration];
-        } else {
+        }else{
             _videoEncoder = [[LFHardwareVideoEncoder alloc] initWithVideoStreamConfiguration:_videoConfiguration];
         }
         [_videoEncoder setDelegate:self];

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		768D63AD7BD5B7D2959CC88D /* libPods-LFLiveKitSwiftDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 051291DCF26E653942D6929D /* libPods-LFLiveKitSwiftDemo.a */; };
 		B289F1BE1D3DCD3000D9C7A5 /* camra_beauty@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B289F1B61D3DCD3000D9C7A5 /* camra_beauty@2x.png */; };
 		B289F1BF1D3DCD3000D9C7A5 /* camra_beauty@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B289F1B71D3DCD3000D9C7A5 /* camra_beauty@3x.png */; };
 		B289F1C01D3DCD3000D9C7A5 /* camra_beauty_close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B289F1B81D3DCD3000D9C7A5 /* camra_beauty_close@2x.png */; };
@@ -20,10 +21,12 @@
 		B2C8FACA1D3DB8B3008D44B5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2C8FAC81D3DB8B3008D44B5 /* Main.storyboard */; };
 		B2C8FACC1D3DB8B3008D44B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B2C8FACB1D3DB8B3008D44B5 /* Assets.xcassets */; };
 		B2C8FACF1D3DB8B4008D44B5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2C8FACD1D3DB8B4008D44B5 /* LaunchScreen.storyboard */; };
-		D76381970CDF6883DA800952 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C703895C713844AE5F37BC53 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		051291DCF26E653942D6929D /* libPods-LFLiveKitSwiftDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LFLiveKitSwiftDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		19A8327F404723C1C4B67B2C /* Pods-LFLiveKitSwiftDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LFLiveKitSwiftDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-LFLiveKitSwiftDemo/Pods-LFLiveKitSwiftDemo.release.xcconfig"; sourceTree = "<group>"; };
+		B16B5A0921F8F93D139F7961 /* Pods-LFLiveKitSwiftDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LFLiveKitSwiftDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LFLiveKitSwiftDemo/Pods-LFLiveKitSwiftDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		B289F1B61D3DCD3000D9C7A5 /* camra_beauty@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camra_beauty@2x.png"; sourceTree = "<group>"; };
 		B289F1B71D3DCD3000D9C7A5 /* camra_beauty@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camra_beauty@3x.png"; sourceTree = "<group>"; };
 		B289F1B81D3DCD3000D9C7A5 /* camra_beauty_close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camra_beauty_close@2x.png"; sourceTree = "<group>"; };
@@ -40,9 +43,6 @@
 		B2C8FACE1D3DB8B4008D44B5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B2C8FAD01D3DB8B4008D44B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B2C8FAD61D3DB9D6008D44B5 /* LFLiveKitSwiftDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LFLiveKitSwiftDemo-Bridging-Header.h"; sourceTree = "<group>"; };
-		C5E86117C8AB61338C12909E /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		C703895C713844AE5F37BC53 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		FD5AE5787FDCE4BA8C28E2EE /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,7 +50,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D76381970CDF6883DA800952 /* libPods.a in Frameworks */,
+				768D63AD7BD5B7D2959CC88D /* libPods-LFLiveKitSwiftDemo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,8 +60,8 @@
 		0044BAB3BCE83EE63FB6F37C /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				FD5AE5787FDCE4BA8C28E2EE /* Pods.debug.xcconfig */,
-				C5E86117C8AB61338C12909E /* Pods.release.xcconfig */,
+				B16B5A0921F8F93D139F7961 /* Pods-LFLiveKitSwiftDemo.debug.xcconfig */,
+				19A8327F404723C1C4B67B2C /* Pods-LFLiveKitSwiftDemo.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -69,7 +69,7 @@
 		656DB83DA3620FA72C6B7CF7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C703895C713844AE5F37BC53 /* libPods.a */,
+				051291DCF26E653942D6929D /* libPods-LFLiveKitSwiftDemo.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -129,11 +129,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B2C8FAD31D3DB8B4008D44B5 /* Build configuration list for PBXNativeTarget "LFLiveKitSwiftDemo" */;
 			buildPhases = (
-				BAC96C6840291F2B616FE902 /* Check Pods Manifest.lock */,
+				BAC96C6840291F2B616FE902 /* 📦 Check Pods Manifest.lock */,
 				B2C8FABD1D3DB8B3008D44B5 /* Sources */,
 				B2C8FABE1D3DB8B3008D44B5 /* Frameworks */,
 				B2C8FABF1D3DB8B3008D44B5 /* Resources */,
-				7490D167BE18C3C7DC2FE381 /* Copy Pods Resources */,
+				7490D167BE18C3C7DC2FE381 /* 📦 Copy Pods Resources */,
+				5683F74F0FF045A7193DAAD0 /* 📦 Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -199,29 +200,44 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		7490D167BE18C3C7DC2FE381 /* Copy Pods Resources */ = {
+		5683F74F0FF045A7193DAAD0 /* 📦 Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "📦 Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LFLiveKitSwiftDemo/Pods-LFLiveKitSwiftDemo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		BAC96C6840291F2B616FE902 /* Check Pods Manifest.lock */ = {
+		7490D167BE18C3C7DC2FE381 /* 📦 Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LFLiveKitSwiftDemo/Pods-LFLiveKitSwiftDemo-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BAC96C6840291F2B616FE902 /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -348,7 +364,7 @@
 		};
 		B2C8FAD41D3DB8B4008D44B5 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FD5AE5787FDCE4BA8C28E2EE /* Pods.debug.xcconfig */;
+			baseConfigurationReference = B16B5A0921F8F93D139F7961 /* Pods-LFLiveKitSwiftDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -364,7 +380,7 @@
 		};
 		B2C8FAD51D3DB8B4008D44B5 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C5E86117C8AB61338C12909E /* Pods.release.xcconfig */;
+			baseConfigurationReference = 19A8327F404723C1C4B67B2C /* Pods-LFLiveKitSwiftDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

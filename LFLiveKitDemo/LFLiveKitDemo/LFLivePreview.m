@@ -244,6 +244,12 @@ inline static NSString *formatedSpeed(float bytes, float elapsed_milli) {
         _session.delegate = self;
         _session.showDebugInfo = NO;
         _session.preView = self;
+        
+        UIImageView *imageView = [[UIImageView alloc] init];
+        imageView.alpha = 0.8;
+        imageView.frame = CGRectMake(100, 100, 29, 29);
+        imageView.image = [UIImage imageNamed:@"ios-29x29"];
+        _session.warterMarkView = imageView;
     }
     return _session;
 }
@@ -304,8 +310,8 @@ inline static NSString *formatedSpeed(float bytes, float elapsed_milli) {
         _beautyButton = [UIButton new];
         _beautyButton.size = CGSizeMake(44, 44);
         _beautyButton.origin = CGPointMake(_cameraButton.left - 10 - _beautyButton.width, 20);
-        [_beautyButton setImage:[UIImage imageNamed:@"camra_beauty"] forState:UIControlStateSelected];
-        [_beautyButton setImage:[UIImage imageNamed:@"camra_beauty_close"] forState:UIControlStateNormal];
+        [_beautyButton setImage:[UIImage imageNamed:@"camra_beauty"] forState:UIControlStateNormal];
+        [_beautyButton setImage:[UIImage imageNamed:@"camra_beauty_close"] forState:UIControlStateSelected];
         _beautyButton.exclusiveTouch = YES;
         __weak typeof(self) _self = self;
         [_beautyButton addBlockForControlEvents:UIControlEventTouchUpInside block:^(id sender) {
@@ -334,7 +340,7 @@ inline static NSString *formatedSpeed(float bytes, float elapsed_milli) {
             if (_self.startLiveButton.selected) {
                 [_self.startLiveButton setTitle:@"结束直播" forState:UIControlStateNormal];
                 LFLiveStreamInfo *stream = [LFLiveStreamInfo new];
-                stream.url = @"rtmp://live.hkstv.hk.lxdns.com:1935/live/stream123";
+                stream.url = @"rtmp://192.168.163.76:1935/test";
                 [_self.session startLive:stream];
             } else {
                 [_self.startLiveButton setTitle:@"开始直播" forState:UIControlStateNormal];

@@ -272,7 +272,9 @@
 - (UIView*)warterMarkView{
     return self.videoCaptureSource.warterMarkView;
 }
-
+-(UIImageView *)currentImageView{
+return self.videoCaptureSource.currentImageView;
+}
 - (LFAudioCapture *)audioCaptureSource {
     if (!_audioCaptureSource) {
         _audioCaptureSource = [[LFAudioCapture alloc] initWithAudioConfiguration:_audioConfiguration];

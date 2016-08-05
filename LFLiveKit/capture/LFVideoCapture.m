@@ -16,8 +16,8 @@
 @property (nonatomic, strong) GPUImageVideoCamera *videoCamera;
 @property (nonatomic, weak) LFGPUImageBeautyFilter *beautyFilter;
 @property (nonatomic, strong) GPUImageOutput<GPUImageInput> *filter;
-@property (nonatomic, strong) GPUImageOutput<GPUImageInput> *output;
 @property (nonatomic, strong) GPUImageCropFilter *cropfilter;
+@property (nonatomic, strong) GPUImageOutput<GPUImageInput> *output;
 @property (nonatomic, strong) GPUImageView *gpuImageView;
 @property (nonatomic, strong) LFLiveVideoConfiguration *configuration;
 
@@ -37,10 +37,6 @@
 - (instancetype)initWithVideoConfiguration:(LFLiveVideoConfiguration *)configuration {
     if (self = [super init]) {
         _configuration = configuration;
-        if([self pixelBufferImageSize].width < configuration.videoSize.width || [self pixelBufferImageSize].height < configuration.videoSize.height){
-            @throw [NSException exceptionWithName:@"当前videoSize大小出错" reason:@"LFLiveVideoConfiguration videoSize error" userInfo:nil];
-            return nil;
-        }
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterBackground:) name:UIApplicationWillResignActiveNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationDidBecomeActiveNotification object:nil];
@@ -260,66 +256,74 @@
     @autoreleasepool {
         GPUImageFramebuffer *imageFramebuffer = output.framebufferForOutput;
         CVPixelBufferRef pixelBuffer = [imageFramebuffer pixelBuffer];
-
+        if(!CGSizeEqualToSize(_self.configuration.videoSize, imageFramebuffer.size)){
+            _self.configuration.videoSize = imageFramebuffer.size;
+        }
         if (pixelBuffer && _self.delegate && [_self.delegate respondsToSelector:@selector(captureOutput:pixelBuffer:)]) {
             [_self.delegate captureOutput:_self pixelBuffer:pixelBuffer];
         }
     }
 }
 
+
 - (void)reloadFilter{
     [self.filter removeAllTargets];
-    [self.cropfilter removeAllTargets];
     [self.blendFilter removeAllTargets];
     [self.uiElementInput removeAllTargets];
     [self.videoCamera removeAllTargets];
-   
+    [self.output removeAllTargets];
+    [self.cropfilter removeAllTargets];
     
     if (self.beautyFace) {
         self.output = [[LFGPUImageEmptyFilter alloc] init];
         self.filter = [[LFGPUImageBeautyFilter alloc] init];
         self.beautyFilter = self.filter;
-        __weak typeof(self) _self = self;
-        [self.output setFrameProcessingCompletionBlock:^(GPUImageOutput *output, CMTime time) {
-            [_self processVideo:output];
-        }];
     } else {
+        self.output = [[LFGPUImageEmptyFilter alloc] init];
         self.filter = [[LFGPUImageEmptyFilter alloc] init];
         self.beautyFilter = nil;
-        __weak typeof(self) _self = self;
-        [self.filter setFrameProcessingCompletionBlock:^(GPUImageOutput *output, CMTime time) {
-            [_self processVideo:output];
-        }];
     }
     
-    CGSize imageSize = [self pixelBufferImageSize];
-    CGFloat cropLeft = (imageSize.width - self.configuration.videoSize.width)/2.0/imageSize.width;
-    CGFloat cropTop = (imageSize.height - self.configuration.videoSize.height)/2.0/imageSize.height;
-    
-    if(cropLeft == 0 && cropTop == 0){
-        [self.videoCamera addTarget:_filter];
-    }else{
-        self.cropfilter = [[GPUImageCropFilter alloc] initWithCropRegion:CGRectMake(cropLeft, cropTop, 1 - cropLeft*2, 1 - cropTop*2)];
+    //< 480*640 比例为4:3  强制转换为16:9
+    if([self.configuration.avSessionPreset isEqualToString:AVCaptureSessionPreset640x480]){
+        CGRect cropRect = self.configuration.landscape ? CGRectMake(0, 0.125, 1, 0.75) : CGRectMake(0.125, 0, 0.75, 1);
+        self.cropfilter = [[GPUImageCropFilter alloc] initWithCropRegion:cropRect];
         [self.videoCamera addTarget:self.cropfilter];
         [self.cropfilter addTarget:self.filter];
+    }else{
+        [self.videoCamera addTarget:self.filter];
     }
     
+    //< 添加水印
     if(self.warterMarkView){
         [self.filter addTarget:self.blendFilter];
         [self.uiElementInput addTarget:self.blendFilter];
         [self.blendFilter addTarget:self.gpuImageView];
-        if(self.beautyFace){
-            [self.filter addTarget:self.output];
-        }
+        [self.filter addTarget:self.output];
         [self.uiElementInput update];
     }else{
-        if (self.beautyFace) {
-            [self.filter addTarget:self.output];
-            [self.output addTarget:self.gpuImageView];
-        } else {
-            [self.filter addTarget:self.gpuImageView];
-        }
+        [self.filter addTarget:self.output];
+        [self.output addTarget:self.gpuImageView];
     }
+    
+    //< 输出大小自适应
+    if(self.configuration.videoSizeRespectingAspectRatio){
+        [self.filter forceProcessingAtSizeRespectingAspectRatio:self.configuration.videoSize];
+        [self.output forceProcessingAtSizeRespectingAspectRatio:self.configuration.videoSize];
+        [self.blendFilter forceProcessingAtSizeRespectingAspectRatio:self.configuration.videoSize];
+        [self.uiElementInput forceProcessingAtSizeRespectingAspectRatio:self.configuration.videoSize];
+    }else{
+        [self.filter forceProcessingAtSize:self.configuration.videoSize];
+        [self.output forceProcessingAtSize:self.configuration.videoSize];
+        [self.blendFilter forceProcessingAtSize:self.configuration.videoSize];
+        [self.uiElementInput forceProcessingAtSize:self.configuration.videoSize];
+    }
+    
+    //< 输出数据
+    __weak typeof(self) _self = self;
+    [self.output setFrameProcessingCompletionBlock:^(GPUImageOutput *output, CMTime time) {
+        [_self processVideo:output];
+    }];
     
 }
 
@@ -354,36 +358,6 @@
             self.videoCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
         }
     }
-}
-
-#pragma mark -- 
-- (CGSize)pixelBufferImageSize{
-    CGSize videoSize = CGSizeZero;
-    switch (self.configuration.sessionPreset) {
-        case LFCaptureSessionPreset360x640:
-        {
-            videoSize = CGSizeMake(480, 640);
-        }
-            break;
-        case LFCaptureSessionPreset540x960:
-        {
-            videoSize = CGSizeMake(540, 960);
-        }
-            break;
-        case LFCaptureSessionPreset720x1280:
-        {
-            videoSize = CGSizeMake(720, 1280);
-        }
-            break;
-            
-        default:
-            break;
-    }
-    
-    if(self.configuration.landscape){
-        return CGSizeMake(videoSize.height, videoSize.width);
-    }
-    return videoSize;
 }
 
 @end

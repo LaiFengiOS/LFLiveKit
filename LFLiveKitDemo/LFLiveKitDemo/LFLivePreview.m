@@ -156,7 +156,7 @@ inline static NSString *formatedSpeed(float bytes, float elapsed_milli) {
 
 
         /***   默认分辨率368 ＊ 640  音频：44.1 iphone6以上48  双声道  方向竖屏 ***/
-        _session = [[LFLiveSession alloc] initWithAudioConfiguration:[LFLiveAudioConfiguration defaultConfiguration] videoConfiguration:[LFLiveVideoConfiguration defaultConfigurationForQuality:LFLiveVideoQuality_Medium3 landscape:NO]];
+        _session = [[LFLiveSession alloc] initWithAudioConfiguration:[LFLiveAudioConfiguration defaultConfiguration] videoConfiguration:[LFLiveVideoConfiguration defaultConfigurationForQuality:LFLiveVideoQuality_Low2 landscape:NO]];
 
         /**    自己定制单声道  */
         /*
@@ -213,8 +213,8 @@ inline static NSString *formatedSpeed(float bytes, float elapsed_milli) {
            videoConfiguration.videoMinBitRate = 500*1024;
            videoConfiguration.videoFrameRate = 15;
            videoConfiguration.videoMaxKeyframeInterval = 30;
-           videoConfiguration.orientation = UIInterfaceOrientationPortrait;
-           videoConfiguration.sessionPreset = LFCaptureSessionPreset720x1280;
+           videoConfiguration.landscape = NO;
+           videoConfiguration.sessionPreset = LFCaptureSessionPreset360x640;
 
            _session = [[LFLiveSession alloc] initWithAudioConfiguration:audioConfiguration videoConfiguration:videoConfiguration];
          */
@@ -239,7 +239,7 @@ inline static NSString *formatedSpeed(float bytes, float elapsed_milli) {
            videoConfiguration.sessionPreset = LFCaptureSessionPreset720x1280;
 
            _session = [[LFLiveSession alloc] initWithAudioConfiguration:audioConfiguration videoConfiguration:videoConfiguration];
-         */
+        */
 
         _session.delegate = self;
         _session.showDebugInfo = NO;
@@ -250,6 +250,7 @@ inline static NSString *formatedSpeed(float bytes, float elapsed_milli) {
         imageView.frame = CGRectMake(100, 100, 29, 29);
         imageView.image = [UIImage imageNamed:@"ios-29x29"];
         _session.warterMarkView = imageView;
+        
     }
     return _session;
 }

@@ -9,9 +9,11 @@
 #import "LFLiveVideoConfiguration.h"
 #import <AVFoundation/AVFoundation.h>
 
+
 @implementation LFLiveVideoConfiguration
 
 #pragma mark -- LifeCycle
+
 + (instancetype)defaultConfiguration {
     LFLiveVideoConfiguration *configuration = [LFLiveVideoConfiguration defaultConfigurationForQuality:LFLiveVideoQuality_Default];
     return configuration;
@@ -148,6 +150,13 @@
     return configuration;
 }
 
+- (instancetype)init{
+    if(self = [super init]){
+        _videoSizeRespectingAspectRatio = YES;
+    }
+    return self;
+}
+
 #pragma mark -- Setter Getter
 - (NSString *)avSessionPreset {
     NSString *avSessionPreset = nil;
@@ -175,6 +184,7 @@
     return avSessionPreset;
 }
 
+
 - (void)setVideoMaxBitRate:(NSUInteger)videoMaxBitRate {
     if (videoMaxBitRate <= _videoBitRate) return;
     _videoMaxBitRate = videoMaxBitRate;
@@ -195,11 +205,28 @@
     _videoMinFrameRate = videoMinFrameRate;
 }
 
+- (void)setSessionPreset:(LFLiveVideoSessionPreset)sessionPreset{
+    _sessionPreset = sessionPreset;
+    _sessionPreset = [self supportSessionPreset:sessionPreset];
+}
+
 #pragma mark -- Custom Method
 - (LFLiveVideoSessionPreset)supportSessionPreset:(LFLiveVideoSessionPreset)sessionPreset {
     NSString *avSessionPreset = [self avSessionPreset];
     AVCaptureSession *session = [[AVCaptureSession alloc] init];
-
+    AVCaptureDevice *inputCamera;
+    NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
+    for (AVCaptureDevice *device in devices){
+        if ([device position] == AVCaptureDevicePositionFront){
+            inputCamera = device;
+        }
+    }
+    AVCaptureDeviceInput *videoInput = [[AVCaptureDeviceInput alloc] initWithDevice:inputCamera error:nil];
+    
+    if ([session canAddInput:videoInput]){
+        [session addInput:videoInput];
+    }
+    
     if (![session canSetSessionPreset:avSessionPreset]) {
         if (sessionPreset == LFCaptureSessionPreset720x1280) {
             sessionPreset = LFCaptureSessionPreset540x960;

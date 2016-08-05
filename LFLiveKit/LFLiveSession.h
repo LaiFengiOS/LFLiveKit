@@ -87,7 +87,7 @@
 /*** The warterMarkView control whether the watermark is displayed or not ,if set ni,will remove watermark,otherwise add. set alpha represent mix *.*/
 @property (nonatomic, strong) UIView *warterMarkView;
 
-@property (nonatomic, strong) UIImageView *currentImage;
+@property (nonatomic, strong) UIImage *currentImage;
 #pragma mark - Initializer
 ///=============================================================================
 /// @name Initializer

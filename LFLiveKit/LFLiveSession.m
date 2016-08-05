@@ -272,8 +272,8 @@
 - (UIView*)warterMarkView{
     return self.videoCaptureSource.warterMarkView;
 }
--(UIImageView *)currentImageView{
-return self.videoCaptureSource.currentImageView;
+-(UIImage *)currentImage{
+return self.videoCaptureSource.currentImage;
 }
 - (LFAudioCapture *)audioCaptureSource {
     if (!_audioCaptureSource) {

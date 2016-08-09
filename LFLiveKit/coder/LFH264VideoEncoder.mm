@@ -8,8 +8,8 @@
 
 #import <CoreMedia/CoreMedia.h>
 #import <mach/mach_time.h>
-#import "NALUnit.h"
-#import "AVEncoder.h"
+#import "LFNALUnit.h"
+#import "LFAVEncoder.h"
 #import "LFH264VideoEncoder.h"
 #import "LFVideoFrame.h"
 
@@ -24,7 +24,7 @@
 @property (nonatomic) NSInteger currentVideoBitRate;
 @property (nonatomic, strong) dispatch_queue_t sendQueue;
 
-@property (nonatomic, strong) AVEncoder *encoder;
+@property (nonatomic, strong) LFAVEncoder *encoder;
 
 @property (nonatomic, strong) NSData *naluStartCode;
 @property (nonatomic, strong) NSMutableData *videoSPSandPPS;
@@ -60,7 +60,7 @@
     [self initForFilePath];
 #endif
     
-    _encoder = [AVEncoder encoderForHeight:_configuration.videoSize.height andWidth:_configuration.videoSize.width bitrate:_configuration.videoBitRate];
+    _encoder = [LFAVEncoder encoderForHeight:_configuration.videoSize.height andWidth:_configuration.videoSize.width bitrate:_configuration.videoBitRate];
     [_encoder encodeWithBlock:^int(NSArray* dataArray, CMTimeValue ptsValue) {
         [self incomingVideoFrames:dataArray ptsValue:ptsValue];
         return 0;
@@ -85,8 +85,8 @@
     if (!config) {
         return;
     }
-    avcCHeader avcC((const BYTE*)[config bytes], [config length]);
-    SeqParamSet seqParams;
+    LFavcCHeader avcC((const BYTE*)[config bytes], [config length]);
+    LFSeqParamSet seqParams;
     seqParams.Parse(avcC.sps());
     
     NSData* spsData = [NSData dataWithBytes:avcC.sps()->Start() length:avcC.sps()->Length()];

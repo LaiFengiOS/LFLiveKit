@@ -1,14 +1,14 @@
 //
-//  VideoEncoder.m
+//  LFVideoEncoder.m
 //  Encoder Demo
 //
 //  Created by Geraint Davies on 14/01/2013.
 //  Copyright (c) 2013 GDCL http://www.gdcl.co.uk/license.htm
 //
 
-#import "VideoEncoder.h"
+#import "LFVideoEncoder.h"
 
-@implementation VideoEncoder
+@implementation LFVideoEncoder
 {
     AVAssetWriter *_writer;
     AVAssetWriterInput *_writerInput;
@@ -17,8 +17,8 @@
 
 @synthesize path = _path;
 
-+ (VideoEncoder *)encoderForPath:(NSString *)path Height:(int)height andWidth:(int)width bitrate:(int)bitrate {
-    VideoEncoder *enc = [VideoEncoder alloc];
++ (LFVideoEncoder *)encoderForPath:(NSString *)path Height:(int)height andWidth:(int)width bitrate:(int)bitrate {
+    LFVideoEncoder *enc = [LFVideoEncoder alloc];
     [enc initPath:path Height:height andWidth:width bitrate:bitrate];
     return enc;
 }

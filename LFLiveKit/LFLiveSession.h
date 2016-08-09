@@ -51,10 +51,10 @@
 /** The beautyFace control capture shader filter empty or beautiy */
 @property (nonatomic, assign) BOOL beautyFace;
 
-/** The beautyLevel control beautyFace Level, default 0.5, between 0.0 ~ 1.0 */
+/** The beautyLevel control beautyFace Level. Default is 0.5, between 0.0 ~ 1.0 */
 @property (nonatomic, assign) CGFloat beautyLevel;
 
-/** The brightLevel control brightness Level, default 0.5, between 0.0 ~ 1.0 */
+/** The brightLevel control brightness Level, Default is 0.5, between 0.0 ~ 1.0 */
 @property (nonatomic, assign) CGFloat brightLevel;
 
 /** The torch control camera zoom scale default 1.0, between 1.0 ~ 3.0 */
@@ -68,6 +68,9 @@
 
 /** The muted control callbackAudioData,muted will memset 0.*/
 @property (nonatomic, assign) BOOL muted;
+
+/*  The adaptiveBitrate control auto adjust bitrate. Default is NO */
+@property (nonatomic, assign) BOOL adaptiveBitrate;
 
 /** The stream control upload and package*/
 @property (nullable, nonatomic, strong, readonly) LFLiveStreamInfo *streamInfo;

@@ -12,13 +12,13 @@
 #import "AVFoundation/AVMediaFormat.h"
 #import "AVFoundation/AVVideoSettings.h"
 
-@interface VideoEncoder : NSObject
+@interface LFVideoEncoder : NSObject
 
 
 @property NSString *path;
 @property (nonatomic, readonly) NSUInteger bitrate;
 
-+ (VideoEncoder *)encoderForPath:(NSString *)path Height:(int)height andWidth:(int)width bitrate:(int)bitrate;
++ (LFVideoEncoder *)encoderForPath:(NSString *)path Height:(int)height andWidth:(int)width bitrate:(int)bitrate;
 
 - (void)initPath:(NSString *)path Height:(int)height andWidth:(int)width bitrate:(int)bitrate;
 - (void)finishWithCompletionHandler:(void (^)(void))handler;

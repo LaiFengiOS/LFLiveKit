@@ -158,7 +158,6 @@
 
 - (void)setMirror:(BOOL)mirror {
     _mirror = mirror;
-    self.videoCamera.horizontallyMirrorRearFacingCamera = mirror;
     self.videoCamera.horizontallyMirrorFrontFacingCamera = mirror;
 }
 

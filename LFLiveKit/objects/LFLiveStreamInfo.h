@@ -45,6 +45,7 @@ typedef NS_ENUM (NSUInteger, LFLiveSocketErrorCode) {
 @property (nonatomic, strong) LFLiveAudioConfiguration *audioConfiguration;
 ///视频配置
 @property (nonatomic, strong) LFLiveVideoConfiguration *videoConfiguration;
-
+///是否丢帧
+@property (nonatomic, assign) BOOL  needDropFrame;
 
 @end

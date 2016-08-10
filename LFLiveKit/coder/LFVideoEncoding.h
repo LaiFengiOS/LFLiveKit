@@ -20,7 +20,7 @@
 /// 编码器抽象的接口
 @protocol LFVideoEncoding <NSObject>
 @required
-- (void)encodeVideoData:(nullable CVImageBufferRef)pixelBuffer timeStamp:(uint64_t)timeStamp;
+- (void)encodeVideoData:(nullable CVPixelBufferRef)pixelBuffer timeStamp:(uint64_t)timeStamp;
 - (void)stopEncoder;
 @optional
 @property (nonatomic, assign) NSInteger videoBitRate;

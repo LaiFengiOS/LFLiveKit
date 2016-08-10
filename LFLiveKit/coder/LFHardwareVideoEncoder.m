@@ -98,7 +98,7 @@
 }
 
 #pragma mark -- LFVideoEncoder
-- (void)encodeVideoData:(CVImageBufferRef)pixelBuffer timeStamp:(uint64_t)timeStamp {
+- (void)encodeVideoData:(CVPixelBufferRef)pixelBuffer timeStamp:(uint64_t)timeStamp {
     if (_isBackGround) return;
 
     frameCount++;

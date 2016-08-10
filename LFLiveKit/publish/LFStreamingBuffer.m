@@ -41,6 +41,7 @@ static const NSUInteger defaultSendBufferMaxCount = 600;///< 最大缓冲区为6
         self.maxCount = defaultSendBufferMaxCount;
         self.lastDropFrames = 0;
         self.startTimer = NO;
+        self.needDropFrame = YES;
     }
     return self;
 }
@@ -91,21 +92,26 @@ static const NSUInteger defaultSendBufferMaxCount = 600;///< 最大缓冲区为6
 - (void)removeExpireFrame {
     if (self.list.count < self.maxCount) return;
 
-    NSArray *pFrames = [self expirePFrames];///< 第一个P到第一个I之间的p帧
-    self.lastDropFrames += [pFrames count];
-    if (pFrames && pFrames.count > 0) {
-        [self.list removeObjectsInArray:pFrames];
-        return;
+    if(self.needDropFrame){
+        NSArray *pFrames = [self expirePFrames];///< 第一个P到第一个I之间的p帧
+        self.lastDropFrames += [pFrames count];
+        if (pFrames && pFrames.count > 0) {
+            [self.list removeObjectsInArray:pFrames];
+            return;
+        }
+        
+        NSArray *iFrames = [self expireIFrames];///<  删除一个I帧（但一个I帧可能对应多个nal）
+        self.lastDropFrames += [iFrames count];
+        if (iFrames) {
+            [self.list removeObjectsInArray:iFrames];
+            return;
+        }
+        
+        [self.list removeAllObjects];
+    }else{
+        [self.list lfPopFirstObject];
     }
-
-    NSArray *iFrames = [self expireIFrames];///<  删除一个I帧（但一个I帧可能对应多个nal）
-    self.lastDropFrames += [iFrames count];
-    if (iFrames) {
-        [self.list removeObjectsInArray:iFrames];
-        return;
-    }
-
-    [self.list removeAllObjects];
+    
 }
 
 - (NSArray *)expirePFrames {

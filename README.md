@@ -28,6 +28,8 @@ LFLiveKit
 - [x] 	Support Send Buffer
 - [x] 	Support WaterMark
 - [x] 	Swift Support
+- [x] 	Support Single Video or Audio 
+- [x] 	Support External input video or audio(Screen recording or Peripheral)
 - [ ] 	~~FLV package and send~~
 
 ## Requirements

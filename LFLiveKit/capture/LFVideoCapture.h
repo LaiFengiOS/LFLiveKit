@@ -13,7 +13,7 @@
 @class LFVideoCapture;
 /** LFVideoCapture callback videoData */
 @protocol LFVideoCaptureDelegate <NSObject>
-- (void)captureOutput:(nullable LFVideoCapture *)capture pixelBuffer:(nullable CVImageBufferRef)pixelBuffer;
+- (void)captureOutput:(nullable LFVideoCapture *)capture pixelBuffer:(nullable CVPixelBufferRef)pixelBuffer;
 @end
 
 @interface LFVideoCapture : NSObject

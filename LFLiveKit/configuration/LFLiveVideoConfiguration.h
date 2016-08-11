@@ -60,7 +60,7 @@ typedef NS_ENUM (NSUInteger, LFLiveVideoQuality){
 /// 视频的分辨率，宽高务必设定为 2 的倍数，否则解码播放时可能出现绿边(这个videoSizeRespectingAspectRatio设置为YES则可能会改变)
 @property (nonatomic, assign) CGSize videoSize;
 
-/// 输出图像是否等比例,默认为YES
+/// 输出图像是否等比例,默认为NO
 @property (nonatomic, assign) BOOL videoSizeRespectingAspectRatio;
 
 /// 视频输出方向

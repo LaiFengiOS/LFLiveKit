@@ -142,13 +142,6 @@
     
 }
 
-- (instancetype)init{
-    if(self = [super init]){
-        _videoSizeRespectingAspectRatio = YES;
-    }
-    return self;
-}
-
 #pragma mark -- Setter Getter
 - (NSString *)avSessionPreset {
     NSString *avSessionPreset = nil;
@@ -173,6 +166,12 @@
     return avSessionPreset;
 }
 
+- (CGSize)videoSize{
+    if(_videoSizeRespectingAspectRatio){
+        return self.aspectRatioVideoSize;
+    }
+    return _videoSize;
+}
 
 - (void)setVideoMaxBitRate:(NSUInteger)videoMaxBitRate {
     if (videoMaxBitRate <= _videoBitRate) return;
@@ -197,21 +196,6 @@
 - (void)setSessionPreset:(LFLiveVideoSessionPreset)sessionPreset{
     _sessionPreset = sessionPreset;
     _sessionPreset = [self supportSessionPreset:sessionPreset];
-}
-
-- (void)setVideoSize:(CGSize)videoSize{
-    _videoSize = videoSize;
-    if(_videoSizeRespectingAspectRatio) _videoSize = self.aspectRatioVideoSize;
-}
-
-- (void)setVideoSizeRespectingAspectRatio:(BOOL)videoSizeRespectingAspectRatio{
-    _videoSizeRespectingAspectRatio = videoSizeRespectingAspectRatio;
-    if(_videoSizeRespectingAspectRatio) _videoSize = self.aspectRatioVideoSize;
-}
-
-- (void)setLandscape:(BOOL)landscape{
-    _landscape = landscape;
-    if(_videoSizeRespectingAspectRatio) _videoSize = self.aspectRatioVideoSize;
 }
 
 #pragma mark -- Custom Method
@@ -245,7 +229,7 @@
 
 - (CGSize)captureOutVideoSize{
     CGSize videoSize = CGSizeZero;
-    switch (self.sessionPreset) {
+    switch (_sessionPreset) {
         case LFCaptureSessionPreset360x640:{
             videoSize = CGSizeMake(360, 640);
         }
@@ -272,7 +256,7 @@
 }
 
 - (CGSize)aspectRatioVideoSize{
-    CGSize size = AVMakeRectWithAspectRatioInsideRect(self.captureOutVideoSize, CGRectMake(0, 0, self.videoSize.width, self.videoSize.height)).size;
+    CGSize size = AVMakeRectWithAspectRatioInsideRect(self.captureOutVideoSize, CGRectMake(0, 0, _videoSize.width, _videoSize.height)).size;
     NSInteger width = ceil(size.width);
     NSInteger height = ceil(size.height);
     if(width %2 != 0) width = width - 1;

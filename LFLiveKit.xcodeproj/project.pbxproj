@@ -6,6 +6,21 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		84C329DE1D61EB0C00984B01 /* LFLiveKit-universal */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 84C329E11D61EB0C00984B01 /* Build configuration list for PBXAggregateTarget "LFLiveKit-universal" */;
+			buildPhases = (
+				84C329E41D61EB1B00984B01 /* ShellScript */,
+			);
+			dependencies = (
+				84C329E31D61EB1600984B01 /* PBXTargetDependency */,
+			);
+			name = "LFLiveKit-universal";
+			productName = "LFLiveKit-universal";
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		84001F8E1D0015D10026C63F /* LFLiveKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 84001F8D1D0015D10026C63F /* LFLiveKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		84001F951D0015D10026C63F /* LFLiveKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84001F8A1D0015D10026C63F /* LFLiveKit.framework */; };
@@ -430,6 +445,13 @@
 
 /* Begin PBXContainerItemProxy section */
 		84001F961D0015D10026C63F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 84001F811D0015D10026C63F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 84001F891D0015D10026C63F;
+			remoteInfo = LFLiveKit;
+		};
+		84C329E21D61EB1600984B01 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 84001F811D0015D10026C63F /* Project object */;
 			proxyType = 1;
@@ -1731,6 +1753,9 @@
 					84001F931D0015D10026C63F = {
 						CreatedOnToolsVersion = 7.3;
 					};
+					84C329DE1D61EB0C00984B01 = {
+						CreatedOnToolsVersion = 7.3;
+					};
 				};
 			};
 			buildConfigurationList = 84001F841D0015D10026C63F /* Build configuration list for PBXProject "LFLiveKit" */;
@@ -1747,6 +1772,7 @@
 			targets = (
 				84001F891D0015D10026C63F /* LFLiveKit */,
 				84001F931D0015D10026C63F /* LFLiveKitTests */,
+				84C329DE1D61EB0C00984B01 /* LFLiveKit-universal */,
 			);
 		};
 /* End PBXProject section */
@@ -1767,6 +1793,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		84C329E41D61EB1B00984B01 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./scripts/build-universal-framework.sh";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		84001F851D0015D10026C63F /* Sources */ = {
@@ -1993,6 +2035,11 @@
 			target = 84001F891D0015D10026C63F /* LFLiveKit */;
 			targetProxy = 84001F961D0015D10026C63F /* PBXContainerItemProxy */;
 		};
+		84C329E31D61EB1600984B01 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 84001F891D0015D10026C63F /* LFLiveKit */;
+			targetProxy = 84C329E21D61EB1600984B01 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
@@ -2190,6 +2237,20 @@
 			};
 			name = Release;
 		};
+		84C329DF1D61EB0C00984B01 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		84C329E01D61EB0C00984B01 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2219,6 +2280,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		84C329E11D61EB0C00984B01 /* Build configuration list for PBXAggregateTarget "LFLiveKit-universal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84C329DF1D61EB0C00984B01 /* Debug */,
+				84C329E01D61EB0C00984B01 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

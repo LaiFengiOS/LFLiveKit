@@ -102,7 +102,7 @@
     if (_isBackGround) return;
 
     frameCount++;
-    CMTime presentationTimeStamp = CMTimeMake(frameCount, 1000);
+    CMTime presentationTimeStamp = CMTimeMake(frameCount, (int32_t)_configuration.videoFrameRate);
     VTEncodeInfoFlags flags;
     CMTime duration = CMTimeMake(1, (int32_t)_configuration.videoFrameRate);
 

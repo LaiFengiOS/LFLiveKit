@@ -156,7 +156,16 @@ inline static NSString *formatedSpeed(float bytes, float elapsed_milli) {
 
 
         /***   默认分辨率368 ＊ 640  音频：44.1 iphone6以上48  双声道  方向竖屏 ***/
-        _session = [[LFLiveSession alloc] initWithAudioConfiguration:[LFLiveAudioConfiguration defaultConfiguration] videoConfiguration:[LFLiveVideoConfiguration defaultConfigurationForQuality:LFLiveVideoQuality_Low2 landscape:NO] captureType:LFLiveCaptureDefaultMask];
+        LFLiveVideoConfiguration *videoConfiguration = [LFLiveVideoConfiguration new];
+        videoConfiguration.videoSize = CGSizeMake(360, 640);
+        videoConfiguration.videoBitRate = 800*1024;
+        videoConfiguration.videoMaxBitRate = 1000*1024;
+        videoConfiguration.videoMinBitRate = 500*1024;
+        videoConfiguration.videoFrameRate = 24;
+        videoConfiguration.videoMaxKeyframeInterval = 48;
+        videoConfiguration.landscape = NO;
+        videoConfiguration.sessionPreset = LFCaptureSessionPreset720x1280;
+        _session = [[LFLiveSession alloc] initWithAudioConfiguration:[LFLiveAudioConfiguration defaultConfiguration] videoConfiguration:videoConfiguration captureType:LFLiveCaptureDefaultMask];
 
         /**    自己定制单声道  */
         /*

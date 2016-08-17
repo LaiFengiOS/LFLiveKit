@@ -45,7 +45,7 @@ NSString *const LFAudioComponentFailedToCreateNotification = @"LFAudioComponentF
 
         NSError *error = nil;
 
-        [session setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
+        [session setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker | AVAudioSessionCategoryOptionMixWithOthers error:nil];
         
         [session overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:nil];
 
@@ -124,7 +124,7 @@ NSString *const LFAudioComponentFailedToCreateNotification = @"LFAudioComponentF
         dispatch_async(self.taskQueue, ^{
             self.isRunning = YES;
             NSLog(@"MicrophoneSource: startRunning");
-            [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
+            [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker | AVAudioSessionCategoryOptionMixWithOthers error:nil];
             AudioOutputUnitStart(self.componetInstance);
         });
     } else {

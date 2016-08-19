@@ -54,6 +54,10 @@
     [UIApplication sharedApplication].idleTimerDisabled = NO;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self.videoCamera stopCameraCapture];
+    if(self.gpuImageView){
+        [self.gpuImageView removeFromSuperview];
+        self.gpuImageView = nil;
+    }
 }
 
 #pragma mark -- Setter Getter

@@ -25,54 +25,45 @@ NSString *const LFAudioComponentFailedToCreateNotification = @"LFAudioComponentF
 @implementation LFAudioCapture
 
 #pragma mark -- LiftCycle
-- (instancetype)initWithAudioConfiguration:(LFLiveAudioConfiguration *)configuration {
-    if (self = [super init]) {
+- (instancetype)initWithAudioConfiguration:(LFLiveAudioConfiguration *)configuration{
+    if(self = [super init]){
         _configuration = configuration;
         self.isRunning = NO;
         self.taskQueue = dispatch_queue_create("com.youku.Laifeng.audioCapture.Queue", NULL);
-
-        AVAudioSession *session = [AVAudioSession sharedInstance];
-        [session setActive:YES error:nil];
-
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(handleRouteChange:)
-                                                     name:AVAudioSessionRouteChangeNotification
-                                                   object:session];
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(handleInterruption:)
-                                                     name:AVAudioSessionInterruptionNotification
-                                                   object:session];
-
-        NSError *error = nil;
-
-        [session setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
         
-        [session overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:nil];
-
-        if (![session setActive:YES error:&error]) {
-            [self handleAudioComponentCreationFailure];
-        }
-
+        AVAudioSession *session = [AVAudioSession sharedInstance];
+        
+        
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(handleRouteChange:)
+                                                     name: AVAudioSessionRouteChangeNotification
+                                                   object: session];
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(handleInterruption:)
+                                                     name: AVAudioSessionInterruptionNotification
+                                                   object: session];
+        
         AudioComponentDescription acd;
         acd.componentType = kAudioUnitType_Output;
         acd.componentSubType = kAudioUnitSubType_VoiceProcessingIO;
+        //acd.componentSubType = kAudioUnitSubType_RemoteIO;
         acd.componentManufacturer = kAudioUnitManufacturer_Apple;
         acd.componentFlags = 0;
         acd.componentFlagsMask = 0;
-
+        
         self.component = AudioComponentFindNext(NULL, &acd);
-
+        
         OSStatus status = noErr;
         status = AudioComponentInstanceNew(self.component, &_componetInstance);
-
+        
         if (noErr != status) {
             [self handleAudioComponentCreationFailure];
         }
-
+        
         UInt32 flagOne = 1;
-
+        
         AudioUnitSetProperty(self.componetInstance, kAudioOutputUnitProperty_EnableIO, kAudioUnitScope_Input, 1, &flagOne, sizeof(flagOne));
-
+        
         AudioStreamBasicDescription desc = {0};
         desc.mSampleRate = _configuration.audioSampleRate;
         desc.mFormatID = kAudioFormatLinearPCM;
@@ -82,22 +73,23 @@ NSString *const LFAudioComponentFailedToCreateNotification = @"LFAudioComponentF
         desc.mBitsPerChannel = 16;
         desc.mBytesPerFrame = desc.mBitsPerChannel / 8 * desc.mChannelsPerFrame;
         desc.mBytesPerPacket = desc.mBytesPerFrame * desc.mFramesPerPacket;
-
+        
         AURenderCallbackStruct cb;
         cb.inputProcRefCon = (__bridge void *)(self);
         cb.inputProc = handleInputBuffer;
         AudioUnitSetProperty(self.componetInstance, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, 1, &desc, sizeof(desc));
         AudioUnitSetProperty(self.componetInstance, kAudioOutputUnitProperty_SetInputCallback, kAudioUnitScope_Global, 1, &cb, sizeof(cb));
-
+        
         status = AudioUnitInitialize(self.componetInstance);
-
+        
         if (noErr != status) {
             [self handleAudioComponentCreationFailure];
         }
-
+        
         [session setPreferredSampleRate:_configuration.audioSampleRate error:nil];
-
-
+        [session setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker | AVAudioSessionCategoryOptionMixWithOthers error:nil];
+        [session setActive:YES withOptions:kAudioSessionSetActiveFlag_NotifyOthersOnDeactivation error:nil];
+        
         [session setActive:YES error:nil];
     }
     return self;

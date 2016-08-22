@@ -11,6 +11,8 @@
 @interface LFHardwareAudioEncoder (){
     AudioConverterRef m_converter;
     char *aacBuf;
+    char *leftBuf;
+    NSInteger leftLength;
 }
 @property (nonatomic, strong) LFLiveAudioConfiguration *configuration;
 @property (nonatomic, weak) id<LFAudioEncodingDelegate> aacDeleage;
@@ -23,12 +25,20 @@
     if (self = [super init]) {
         NSLog(@"USE LFHardwareAudioEncoder");
         _configuration = configuration;
+        if (!leftBuf) {
+            leftBuf = malloc(_configuration.bufferLength);
+        }
+        
+        if (!aacBuf) {
+            aacBuf = malloc(_configuration.bufferLength);
+        }
     }
     return self;
 }
 
 - (void)dealloc {
     if (aacBuf) free(aacBuf);
+    if (leftBuf) free(leftBuf);
 }
 
 #pragma mark -- LFAudioEncoder
@@ -40,25 +50,58 @@
     if (![self createAudioConvert]) {
         return;
     }
-
-    if (!aacBuf) {
-        aacBuf = malloc(inBufferList.mBuffers[0].mDataByteSize);
+    
+    AudioBuffer inBuffer = inBufferList.mBuffers[0];
+    
+    if(leftLength + inBuffer.mDataByteSize >= _configuration.bufferLength){
+        ///<  发送
+        char *sendBuf = malloc(_configuration.bufferLength);
+        memset(sendBuf, 0, _configuration.bufferLength);
+        memcpy(sendBuf, leftBuf, leftLength);
+        memcpy(sendBuf + leftLength, inBuffer.mData, _configuration.bufferLength - leftLength);
+        inBuffer.mDataByteSize = (UInt32)_configuration.bufferLength;
+        
+        
+        [self encodeBuffer:sendBuf timeStamp:timeStamp];
+        free(sendBuf);
+        
+        memset(leftBuf, 0, _configuration.bufferLength);
+        memcpy(leftBuf, inBuffer.mData + (_configuration.bufferLength - leftLength), inBuffer.mDataByteSize - (_configuration.bufferLength - leftLength));
+        leftLength = inBuffer.mDataByteSize - (_configuration.bufferLength - leftLength);
+        
+    }else{
+        ///< 积累
+        memcpy(leftBuf+leftLength, inBuffer.mData, inBuffer.mDataByteSize);
+        leftLength = leftLength + inBuffer.mDataByteSize;
     }
+}
 
+- (void)encodeBuffer:(char*)buf timeStamp:(uint64_t)timeStamp{
+    
+    AudioBuffer inBuffer;
+    inBuffer.mNumberChannels = 1;
+    inBuffer.mData = buf;
+    inBuffer.mDataByteSize = (UInt32)_configuration.bufferLength;
+    
+    AudioBufferList buffers;
+    buffers.mNumberBuffers = 1;
+    buffers.mBuffers[0] = inBuffer;
+    
     // 初始化一个输出缓冲列表
     AudioBufferList outBufferList;
     outBufferList.mNumberBuffers = 1;
-    outBufferList.mBuffers[0].mNumberChannels = inBufferList.mBuffers[0].mNumberChannels;
-    outBufferList.mBuffers[0].mDataByteSize = inBufferList.mBuffers[0].mDataByteSize;   // 设置缓冲区大小
+    outBufferList.mBuffers[0].mNumberChannels = inBuffer.mNumberChannels;
+    outBufferList.mBuffers[0].mDataByteSize = inBuffer.mDataByteSize;   // 设置缓冲区大小
     outBufferList.mBuffers[0].mData = aacBuf;           // 设置AAC缓冲区
     UInt32 outputDataPacketSize = 1;
-    if (AudioConverterFillComplexBuffer(m_converter, inputDataProc, &inBufferList, &outputDataPacketSize, &outBufferList, NULL) != noErr) {
+    if (AudioConverterFillComplexBuffer(m_converter, inputDataProc, &buffers, &outputDataPacketSize, &outBufferList, NULL) != noErr) {
         return;
     }
+    
     LFAudioFrame *audioFrame = [LFAudioFrame new];
     audioFrame.timestamp = timeStamp;
     audioFrame.data = [NSData dataWithBytes:aacBuf length:outBufferList.mBuffers[0].mDataByteSize];
-
+    
     char exeData[2];
     exeData[0] = _configuration.asc[0];
     exeData[1] = _configuration.asc[1];

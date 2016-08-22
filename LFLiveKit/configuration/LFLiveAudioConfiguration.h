@@ -22,7 +22,7 @@ typedef NS_ENUM (NSUInteger, LFLiveAudioBitRate) {
     LFLiveAudioBitRate_Default = LFLiveAudioBitRate_64Kbps
 };
 
-/// 采样率 (默认44.1Hz iphoneg6以上48Hz)
+/// 采样率 (默认44.1Hz)
 typedef NS_ENUM (NSUInteger, LFLiveAudioSampleRate){
     /// 44.1Hz 采样率
     LFLiveAudioSampleRate_44100Hz = 44100,
@@ -34,15 +34,15 @@ typedef NS_ENUM (NSUInteger, LFLiveAudioSampleRate){
 
 ///  Audio Live quality（音频质量）
 typedef NS_ENUM (NSUInteger, LFLiveAudioQuality){
-    /// 高音频质量 audio sample rate: 44MHz(默认44.1Hz iphoneg6以上48Hz), audio bitrate: 32Kbps
+    /// 高音频质量 audio sample rate: 44MHz audio bitrate: 32Kbps
     LFLiveAudioQuality_Low = 0,
-    /// 高音频质量 audio sample rate: 44MHz(默认44.1Hz iphoneg6以上48Hz), audio bitrate: 64Kbps
+    /// 高音频质量 audio sample rate: 44MHz audio bitrate: 64Kbps
     LFLiveAudioQuality_Medium = 1,
-    /// 高音频质量 audio sample rate: 44MHz(默认44.1Hz iphoneg6以上48Hz), audio bitrate: 96Kbps
+    /// 高音频质量 audio sample rate: 44MHz audio bitrate: 96Kbps
     LFLiveAudioQuality_High = 2,
-    /// 高音频质量 audio sample rate: 44MHz(默认44.1Hz iphoneg6以上48Hz), audio bitrate: 128Kbps
+    /// 高音频质量 audio sample rate: 44MHz, audio bitrate: 128Kbps
     LFLiveAudioQuality_VeryHigh = 3,
-    /// 默认音频质量 audio sample rate: 44MHz(默认44.1Hz iphoneg6以上48Hz), audio bitrate: 64Kbps
+    /// 默认音频质量 audio sample rate: 44MHz, audio bitrate: 64Kbps
     LFLiveAudioQuality_Default = LFLiveAudioQuality_Medium
 };
 
@@ -59,6 +59,8 @@ typedef NS_ENUM (NSUInteger, LFLiveAudioQuality){
 ///=============================================================================
 /// 声道数目(default 2)
 @property (nonatomic, assign) NSUInteger numberOfChannels;
+/// 缓存区长度
+@property (nonatomic, assign) NSUInteger bufferLength;
 /// 采样率
 @property (nonatomic, assign) LFLiveAudioSampleRate audioSampleRate;
 // 码率

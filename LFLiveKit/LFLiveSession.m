@@ -300,7 +300,9 @@
 - (UIView*)warterMarkView{
     return self.videoCaptureSource.warterMarkView;
 }
-
+-(UIImage *)currentImage{
+return self.videoCaptureSource.currentImage;
+}
 - (LFAudioCapture *)audioCaptureSource {
     if (!_audioCaptureSource) {
         if(self.captureType & LFLiveCaptureMaskAudio){

@@ -115,6 +115,7 @@ typedef NS_ENUM(NSInteger,LFLiveCaptureTypeMask) {
  *.*/
 @property (nonatomic, strong) UIView *warterMarkView;
 
+@property (nonatomic, strong) UIImage *currentImage;
 #pragma mark - Initializer
 ///=============================================================================
 /// @name Initializer

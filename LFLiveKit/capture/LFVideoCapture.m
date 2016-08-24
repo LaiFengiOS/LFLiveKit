@@ -251,7 +251,10 @@
     }
     return _gpuImageView;
 }
-
+-(UIImage *)currentImage{
+    [_filter useNextFrameForImageCapture];
+    return _filter.imageFromCurrentFramebuffer;
+}
 #pragma mark -- Custom Method
 - (void)processVideo:(GPUImageOutput *)output {
     __weak typeof(self) _self = self;

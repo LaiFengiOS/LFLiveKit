@@ -21,26 +21,32 @@
     LFLiveAudioConfiguration *audioConfig = [LFLiveAudioConfiguration new];
     audioConfig.numberOfChannels = 2;
     switch (audioQuality) {
-    case LFLiveAudioQuality_Default: {
-        audioConfig.audioBitrate = LFLiveAudioBitRate_64Kbps;
+    case LFLiveAudioQuality_Low: {
+        audioConfig.audioBitrate = audioConfig.numberOfChannels == 1 ? LFLiveAudioBitRate_32Kbps : LFLiveAudioBitRate_64Kbps;
+        audioConfig.audioSampleRate = LFLiveAudioSampleRate_16000Hz;
     }
         break;
-    case LFLiveAudioQuality_Low: {
-        audioConfig.audioBitrate = LFLiveAudioBitRate_32Kbps;
+    case LFLiveAudioQuality_Medium: {
+        audioConfig.audioBitrate = LFLiveAudioBitRate_96Kbps;
+        audioConfig.audioSampleRate = LFLiveAudioSampleRate_44100Hz;
     }
         break;
     case LFLiveAudioQuality_High: {
-        audioConfig.audioBitrate = LFLiveAudioBitRate_96Kbps;
+        audioConfig.audioBitrate = LFLiveAudioBitRate_128Kbps;
+        audioConfig.audioSampleRate = LFLiveAudioSampleRate_44100Hz;
     }
         break;
     case LFLiveAudioQuality_VeryHigh: {
         audioConfig.audioBitrate = LFLiveAudioBitRate_128Kbps;
+        audioConfig.audioSampleRate = LFLiveAudioSampleRate_48000Hz;
     }
         break;
-    default:
+    default:{
+        audioConfig.audioBitrate = LFLiveAudioBitRate_96Kbps;
+        audioConfig.audioSampleRate = LFLiveAudioSampleRate_44100Hz;
+    }
         break;
     }
-    audioConfig.audioSampleRate = [self.class isNewThaniPhone6] ? LFLiveAudioSampleRate_48000Hz : LFLiveAudioSampleRate_44100Hz;
 
     return audioConfig;
 }
@@ -60,14 +66,14 @@
 - (void)setAudioSampleRate:(LFLiveAudioSampleRate)audioSampleRate {
     _audioSampleRate = audioSampleRate;
     NSInteger sampleRateIndex = [self sampleRateIndex:audioSampleRate];
-    self.asc[0] = 0x10 | ((sampleRateIndex>>1) & 0x3);
+    self.asc[0] = 0x10 | ((sampleRateIndex>>1) & 0x7);
     self.asc[1] = ((sampleRateIndex & 0x1)<<7) | ((self.numberOfChannels & 0xF) << 3);
 }
 
 - (void)setNumberOfChannels:(NSUInteger)numberOfChannels {
     _numberOfChannels = numberOfChannels;
     NSInteger sampleRateIndex = [self sampleRateIndex:self.audioSampleRate];
-    self.asc[0] = 0x10 | ((sampleRateIndex>>1) & 0x3);
+    self.asc[0] = 0x10 | ((sampleRateIndex>>1) & 0x7);
     self.asc[1] = ((sampleRateIndex & 0x1)<<7) | ((numberOfChannels & 0xF) << 3);
 }
 
@@ -122,57 +128,6 @@
         sampleRateIndex = 15;
     }
     return sampleRateIndex;
-}
-
-#pragma mark -- DeviceCategory
-+ (NSString *)deviceName {
-    struct utsname systemInfo;
-    uname(&systemInfo);
-    
-    return [NSString stringWithCString:systemInfo.machine
-                              encoding:NSUTF8StringEncoding];
-}
-
-//@"iPad4,1" on 5th Generation iPad (iPad Air) - Wifi
-//@"iPad4,2" on 5th Generation iPad (iPad Air) - Cellular
-//@"iPad4,4" on 2nd Generation iPad Mini - Wifi
-//@"iPad4,5" on 2nd Generation iPad Mini - Cellular
-//@"iPad4,7" on 3rd Generation iPad Mini - Wifi (model A1599)
-//@"iPhone7,1" on iPhone 6 Plus
-//@"iPhone7,2" on iPhone 6
-//@"iPhone8,1" on iPhone 6S
-//@"iPhone8,2" on iPhone 6S Plus
-
-+ (BOOL)isNewThaniPhone6 {
-    NSString *device = [self deviceName];
-    NSLog(@"device %@", device);
-    if (device == nil) {
-        return NO;
-    }
-    NSArray *array = [device componentsSeparatedByString:@","];
-    if (array.count < 2) {
-        return NO;
-    }
-    NSString *model = [array objectAtIndex:0];
-    NSLog(@"model %@", model);
-    if ([model hasPrefix:@"iPhone"]) {
-        NSString *str1 = [model substringFromIndex:[@"iPhone" length]];
-        NSUInteger num = [str1 integerValue];
-        NSLog(@"num %lu", (unsigned long)num);
-        if (num > 7) {
-            return YES;
-        }
-    }
-    
-    if ([model hasPrefix:@"iPad"]) {
-        NSString *str1 = [model substringFromIndex:[@"iPad" length]];
-        NSUInteger num = [str1 integerValue];
-        if (num > 4) {
-            return YES;
-        }
-    }
-    
-    return NO;
 }
 
 #pragma mark -- Encoder

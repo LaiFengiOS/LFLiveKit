@@ -45,8 +45,8 @@ NSString *const LFAudioComponentFailedToCreateNotification = @"LFAudioComponentF
         
         AudioComponentDescription acd;
         acd.componentType = kAudioUnitType_Output;
-        acd.componentSubType = kAudioUnitSubType_VoiceProcessingIO;
-        //acd.componentSubType = kAudioUnitSubType_RemoteIO;
+        //acd.componentSubType = kAudioUnitSubType_VoiceProcessingIO;
+        acd.componentSubType = kAudioUnitSubType_RemoteIO;
         acd.componentManufacturer = kAudioUnitManufacturer_Apple;
         acd.componentFlags = 0;
         acd.componentFlagsMask = 0;
@@ -87,7 +87,7 @@ NSString *const LFAudioComponentFailedToCreateNotification = @"LFAudioComponentF
         }
         
         [session setPreferredSampleRate:_configuration.audioSampleRate error:nil];
-        [session setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker | AVAudioSessionCategoryOptionMixWithOthers error:nil];
+        [session setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker | AVAudioSessionCategoryOptionInterruptSpokenAudioAndMixWithOthers error:nil];
         [session setActive:YES withOptions:kAudioSessionSetActiveFlag_NotifyOthersOnDeactivation error:nil];
         
         [session setActive:YES error:nil];
@@ -116,7 +116,7 @@ NSString *const LFAudioComponentFailedToCreateNotification = @"LFAudioComponentF
         dispatch_async(self.taskQueue, ^{
             self.isRunning = YES;
             NSLog(@"MicrophoneSource: startRunning");
-            [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
+            [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker | AVAudioSessionCategoryOptionInterruptSpokenAudioAndMixWithOthers error:nil];
             AudioOutputUnitStart(self.componetInstance);
         });
     } else {

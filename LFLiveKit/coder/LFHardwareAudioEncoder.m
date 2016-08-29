@@ -10,9 +10,11 @@
 
 @interface LFHardwareAudioEncoder (){
     AudioConverterRef m_converter;
-    char *aacBuf;
     char *leftBuf;
+    char *aacBuf;
     NSInteger leftLength;
+    FILE *fp;
+    BOOL enabledWriteVideoFile;
 }
 @property (nonatomic, strong) LFLiveAudioConfiguration *configuration;
 @property (nonatomic, weak) id<LFAudioEncodingDelegate> aacDeleage;
@@ -25,6 +27,7 @@
     if (self = [super init]) {
         NSLog(@"USE LFHardwareAudioEncoder");
         _configuration = configuration;
+        
         if (!leftBuf) {
             leftBuf = malloc(_configuration.bufferLength);
         }
@@ -32,6 +35,12 @@
         if (!aacBuf) {
             aacBuf = malloc(_configuration.bufferLength);
         }
+
+        
+#ifdef DEBUG
+        enabledWriteVideoFile = NO;
+        [self initForFilePath];
+#endif
     }
     return self;
 }
@@ -50,24 +59,30 @@
     if (![self createAudioConvert]) {
         return;
     }
-    
+
     AudioBuffer inBuffer = inBufferList.mBuffers[0];
     
-    if(leftLength + inBuffer.mDataByteSize >= _configuration.bufferLength){
+    
+    if(leftLength + inBuffer.mDataByteSize >= self.configuration.bufferLength){
         ///<  发送
-        char *sendBuf = malloc(_configuration.bufferLength);
-        memset(sendBuf, 0, _configuration.bufferLength);
-        memcpy(sendBuf, leftBuf, leftLength);
-        memcpy(sendBuf + leftLength, inBuffer.mData, _configuration.bufferLength - leftLength);
-        inBuffer.mDataByteSize = (UInt32)_configuration.bufferLength;
+        NSInteger totalSize = leftLength + inBuffer.mDataByteSize;
+        NSInteger encodeCount = totalSize/self.configuration.bufferLength;
+        char *totalBuf = malloc(totalSize);
+        char *p = totalBuf;
         
+        memset(totalBuf, totalSize, 0);
+        memcpy(totalBuf, leftBuf, leftLength);
+        memcpy(totalBuf + leftLength, inBuffer.mData, inBuffer.mDataByteSize);
         
-        [self encodeBuffer:sendBuf timeStamp:timeStamp];
-        free(sendBuf);
+        for(NSInteger index = 0;index < encodeCount;index++){
+            [self encodeBuffer:p  timeStamp:timeStamp];
+            p += self.configuration.bufferLength;
+        }
+        free(totalBuf);
         
-        memset(leftBuf, 0, _configuration.bufferLength);
-        memcpy(leftBuf, inBuffer.mData + (_configuration.bufferLength - leftLength), inBuffer.mDataByteSize - (_configuration.bufferLength - leftLength));
-        leftLength = inBuffer.mDataByteSize - (_configuration.bufferLength - leftLength);
+        leftLength = totalSize%self.configuration.bufferLength;
+        memset(leftBuf, 0, self.configuration.bufferLength);
+        memcpy(leftBuf, totalBuf + (totalSize -leftLength), leftLength);
         
     }else{
         ///< 积累
@@ -81,11 +96,12 @@
     AudioBuffer inBuffer;
     inBuffer.mNumberChannels = 1;
     inBuffer.mData = buf;
-    inBuffer.mDataByteSize = (UInt32)_configuration.bufferLength;
+    inBuffer.mDataByteSize = (UInt32)self.configuration.bufferLength;
     
     AudioBufferList buffers;
     buffers.mNumberBuffers = 1;
     buffers.mBuffers[0] = inBuffer;
+
     
     // 初始化一个输出缓冲列表
     AudioBufferList outBufferList;
@@ -109,6 +125,13 @@
     if (self.aacDeleage && [self.aacDeleage respondsToSelector:@selector(audioEncoder:audioFrame:)]) {
         [self.aacDeleage audioEncoder:self audioFrame:audioFrame];
     }
+    
+    if (self->enabledWriteVideoFile) {
+        NSData *adts = [self adtsData:_configuration.numberOfChannels rawDataLength:audioFrame.data.length];
+        fwrite(adts.bytes, 1, adts.length, self->fp);
+        fwrite(audioFrame.data.bytes, 1, audioFrame.data.length, self->fp);
+    }
+    
 }
 
 - (void)stopEncoder {
@@ -151,35 +174,24 @@
             kAppleHardwareAudioCodecManufacturer
         }
     };
-    OSStatus result = AudioConverterNewSpecific(&inputFormat, &outputFormat, 2, requestedCodecs, &m_converter);
-    if (result != noErr) return NO;
+    
+    OSStatus result = AudioConverterNewSpecific(&inputFormat, &outputFormat, 2, requestedCodecs, &m_converter);;
+    UInt32 outputBitrate = _configuration.audioBitrate;
+    UInt32 propSize = sizeof(outputBitrate);
+    UInt32 outputPacketSize = 0;
 
+    
+    if(result == noErr) {
+        result = AudioConverterSetProperty(m_converter, kAudioConverterEncodeBitRate, propSize, &outputBitrate);
+    }
+    
+    if(result == noErr) {
+        result = AudioConverterGetProperty(m_converter, kAudioConverterPropertyMaximumOutputPacketSize, &propSize, &outputPacketSize);
+    }
+    
     return YES;
 }
 
-- (AudioClassDescription *)getAudioClassDescriptionWithType:(UInt32)type fromManufacturer:(UInt32)manufacturer { // 获得相应的编码器
-    static AudioClassDescription audioDesc;
-
-    UInt32 encoderSpecifier = type, size = 0;
-    OSStatus status;
-
-    memset(&audioDesc, 0, sizeof(audioDesc));
-    status = AudioFormatGetPropertyInfo(kAudioFormatProperty_Encoders, sizeof(encoderSpecifier), &encoderSpecifier, &size);
-    if (status) {
-        return nil;
-    }
-
-    uint32_t count = size / sizeof(AudioClassDescription);
-    AudioClassDescription descs[count];
-    AudioFormatGetProperty(kAudioFormatProperty_Encoders, sizeof(encoderSpecifier), &encoderSpecifier, &size, descs);
-    for (uint32_t i = 0; i < count; i++) {
-        if ((type == descs[i].mSubType) && (manufacturer == descs[i].mManufacturer)) {
-            memcpy(&audioDesc, &descs[i], sizeof(audioDesc));
-            break;
-        }
-    }
-    return &audioDesc;
-}
 
 #pragma mark -- AudioCallBack
 OSStatus inputDataProc(AudioConverterRef inConverter, UInt32 *ioNumberDataPackets, AudioBufferList *ioData, AudioStreamPacketDescription * *outDataPacketDescription, void *inUserData) { //<span style="font-family: Arial, Helvetica, sans-serif;">AudioConverterFillComplexBuffer 编码过程中，会要求这个函数来填充输入数据，也就是原始PCM数据</span>
@@ -190,6 +202,8 @@ OSStatus inputDataProc(AudioConverterRef inConverter, UInt32 *ioNumberDataPacket
     return noErr;
 }
 
+
+#pragma mark -- Custom Method
 /**
  *  Add ADTS header at the beginning of each and every AAC packet.
  *  This is needed as MediaCodec encoder generates a packet of raw
@@ -205,7 +219,7 @@ OSStatus inputDataProc(AudioConverterRef inConverter, UInt32 *ioNumberDataPacket
     // Variables Recycled by addADTStoPacket
     int profile = 2;  //AAC LC
     //39=MediaCodecInfo.CodecProfileLevel.AACObjectELD;
-    int freqIdx = 4;  //44.1KHz
+    int freqIdx = [self sampleRateIndex:self.configuration.audioSampleRate];  //44.1KHz
     int chanCfg = (int)channel;  //MPEG-4 Audio Channel Configuration. 1 Channel front-center
     NSUInteger fullLength = adtsLength + rawDataLength;
     // fill in ADTS data
@@ -218,6 +232,76 @@ OSStatus inputDataProc(AudioConverterRef inConverter, UInt32 *ioNumberDataPacket
     packet[6] = (char)0xFC;
     NSData *data = [NSData dataWithBytesNoCopy:packet length:adtsLength freeWhenDone:YES];
     return data;
+}
+
+- (NSInteger)sampleRateIndex:(NSInteger)frequencyInHz {
+    NSInteger sampleRateIndex = 0;
+    switch (frequencyInHz) {
+        case 96000:
+            sampleRateIndex = 0;
+            break;
+        case 88200:
+            sampleRateIndex = 1;
+            break;
+        case 64000:
+            sampleRateIndex = 2;
+            break;
+        case 48000:
+            sampleRateIndex = 3;
+            break;
+        case 44100:
+            sampleRateIndex = 4;
+            break;
+        case 32000:
+            sampleRateIndex = 5;
+            break;
+        case 24000:
+            sampleRateIndex = 6;
+            break;
+        case 22050:
+            sampleRateIndex = 7;
+            break;
+        case 16000:
+            sampleRateIndex = 8;
+            break;
+        case 12000:
+            sampleRateIndex = 9;
+            break;
+        case 11025:
+            sampleRateIndex = 10;
+            break;
+        case 8000:
+            sampleRateIndex = 11;
+            break;
+        case 7350:
+            sampleRateIndex = 12;
+            break;
+        default:
+            sampleRateIndex = 15;
+    }
+    return sampleRateIndex;
+}
+
+- (void)initForFilePath {
+    char *path = [self GetFilePathByfileName:"IOSCamDemo_HW.aac"];
+    NSLog(@"%s", path);
+    self->fp = fopen(path, "wb");
+}
+
+- (char *)GetFilePathByfileName:(char *)filename {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *strName = [NSString stringWithFormat:@"%s", filename];
+    
+    NSString *writablePath = [documentsDirectory stringByAppendingPathComponent:strName];
+    
+    NSUInteger len = [writablePath length];
+    
+    char *filepath = (char *)malloc(sizeof(char) * (len + 1));
+    
+    [writablePath getCString:filepath maxLength:len + 1 encoding:[NSString defaultCStringEncoding]];
+    
+    return filepath;
 }
 
 @end

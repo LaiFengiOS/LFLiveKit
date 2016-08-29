@@ -19,14 +19,16 @@ typedef NS_ENUM (NSUInteger, LFLiveAudioBitRate) {
     /// 128Kbps 音频码率
     LFLiveAudioBitRate_128Kbps = 128000,
     /// 默认音频码率，默认为 64Kbps
-    LFLiveAudioBitRate_Default = LFLiveAudioBitRate_64Kbps
+    LFLiveAudioBitRate_Default = LFLiveAudioBitRate_96Kbps
 };
 
 /// 采样率 (默认44.1Hz)
 typedef NS_ENUM (NSUInteger, LFLiveAudioSampleRate){
-    /// 44.1Hz 采样率
+    /// 16KHz 采样率
+    LFLiveAudioSampleRate_16000Hz = 16000,
+    /// 44.1KHz 采样率
     LFLiveAudioSampleRate_44100Hz = 44100,
-    /// 48Hz 采样率
+    /// 48KHz 采样率
     LFLiveAudioSampleRate_48000Hz = 48000,
     /// 默认音频码率，默认为 64Kbps
     LFLiveAudioSampleRate_Default = LFLiveAudioSampleRate_44100Hz
@@ -34,16 +36,16 @@ typedef NS_ENUM (NSUInteger, LFLiveAudioSampleRate){
 
 ///  Audio Live quality（音频质量）
 typedef NS_ENUM (NSUInteger, LFLiveAudioQuality){
-    /// 高音频质量 audio sample rate: 44MHz audio bitrate: 32Kbps
+    /// 高音频质量 audio sample rate: 16KHz audio bitrate: numberOfChannels 1 : 32Kbps  2 : 64Kbps
     LFLiveAudioQuality_Low = 0,
-    /// 高音频质量 audio sample rate: 44MHz audio bitrate: 64Kbps
+    /// 高音频质量 audio sample rate: 44KHz audio bitrate: 96Kbps
     LFLiveAudioQuality_Medium = 1,
-    /// 高音频质量 audio sample rate: 44MHz audio bitrate: 96Kbps
+    /// 高音频质量 audio sample rate: 44MHz audio bitrate: 128Kbps
     LFLiveAudioQuality_High = 2,
-    /// 高音频质量 audio sample rate: 44MHz, audio bitrate: 128Kbps
+    /// 高音频质量 audio sample rate: 48MHz, audio bitrate: 128Kbps
     LFLiveAudioQuality_VeryHigh = 3,
-    /// 默认音频质量 audio sample rate: 44MHz, audio bitrate: 64Kbps
-    LFLiveAudioQuality_Default = LFLiveAudioQuality_Medium
+    /// 默认音频质量 audio sample rate: 44MHz, audio bitrate: 96Kbps
+    LFLiveAudioQuality_Default = LFLiveAudioQuality_High
 };
 
 @interface LFLiveAudioConfiguration : NSObject<NSCoding, NSCopying>
@@ -59,13 +61,13 @@ typedef NS_ENUM (NSUInteger, LFLiveAudioQuality){
 ///=============================================================================
 /// 声道数目(default 2)
 @property (nonatomic, assign) NSUInteger numberOfChannels;
-/// 缓存区长度
-@property (nonatomic, assign) NSUInteger bufferLength;
 /// 采样率
 @property (nonatomic, assign) LFLiveAudioSampleRate audioSampleRate;
 // 码率
 @property (nonatomic, assign) LFLiveAudioBitRate audioBitrate;
 /// flv编码音频头 44100 为0x12 0x10
 @property (nonatomic, assign, readonly) char *asc;
+/// 缓存区长度
+@property (nonatomic, assign) NSUInteger bufferLength;
 
 @end

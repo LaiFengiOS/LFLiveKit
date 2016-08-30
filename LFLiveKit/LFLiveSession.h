@@ -145,7 +145,7 @@ typedef NS_ENUM(NSInteger,LFLiveCaptureTypeMask) {
 - (void)pushVideo:(CVPixelBufferRef)pixelBuffer;
 
 /** support outer input pcm audio(set LFLiveCaptureTypeMask) .*/
-- (void)pushAudio:(AudioBufferList)audioBufferList;
+- (void)pushAudio:(NSData*)audioData;
 
 @end
 

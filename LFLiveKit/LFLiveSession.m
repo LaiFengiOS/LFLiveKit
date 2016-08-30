@@ -47,9 +47,14 @@
 @property (nonatomic, assign, readwrite) LFLiveState state;
 /// 当前直播type
 @property (nonatomic, assign, readwrite) LFLiveCaptureTypeMask captureType;
-
 /// 时间戳锁
 @property (nonatomic, strong) dispatch_semaphore_t lock;
+/// 音视频是否对齐
+@property (nonatomic, assign) BOOL AVAlignment;
+/// 当前是否采集到了音频
+@property (nonatomic, assign) BOOL hasCaptureAudio;
+/// 当前是否采集到了关键帧
+@property (nonatomic, assign) BOOL hasKeyFrameVideo;
 
 @end
 
@@ -112,15 +117,15 @@
     }
 }
 
-- (void)pushAudio:(AudioBufferList)audioBufferList{
+- (void)pushAudio:(NSData*)audioData{
     if(self.captureType & LFLiveInputMaskAudio){
-        if (self.uploading) [self.audioEncoder encodeAudioData:audioBufferList timeStamp:self.currentTimestamp];
+        if (self.uploading) [self.audioEncoder encodeAudioData:audioData timeStamp:self.currentTimestamp];
     }
 }
 
 #pragma mark -- CaptureDelegate
-- (void)captureOutput:(nullable LFAudioCapture *)capture audioBuffer:(AudioBufferList)inBufferList {
-    if (self.uploading) [self.audioEncoder encodeAudioData:inBufferList timeStamp:self.currentTimestamp];
+- (void)captureOutput:(nullable LFAudioCapture *)capture audioData:(NSData*)audioData {
+    if (self.uploading) [self.audioEncoder encodeAudioData:audioData timeStamp:self.currentTimestamp];
 }
 
 - (void)captureOutput:(nullable LFVideoCapture *)capture pixelBuffer:(nullable CVPixelBufferRef)pixelBuffer {
@@ -129,11 +134,19 @@
 
 #pragma mark -- EncoderDelegate
 - (void)audioEncoder:(nullable id<LFAudioEncoding>)encoder audioFrame:(nullable LFAudioFrame *)frame {
-    if (self.uploading) [self.socket sendFrame:frame];  //<上传
+    //<上传
+    if (self.uploading){
+        self.hasCaptureAudio = YES;
+        if(self.AVAlignment) [self.socket sendFrame:frame];
+    }
 }
 
 - (void)videoEncoder:(nullable id<LFVideoEncoding>)encoder videoFrame:(nullable LFVideoFrame *)frame {
-    if (self.uploading) [self.socket sendFrame:frame];  //<上传
+    //<上传
+    if (self.uploading){
+        if(frame.isKeyFrame && self.hasCaptureAudio) self.hasKeyFrameVideo = YES;
+        if(self.AVAlignment) [self.socket sendFrame:frame];
+    }
 }
 
 #pragma mark -- LFStreamTcpSocketDelegate
@@ -142,6 +155,9 @@
         if (!self.uploading) {
             self.timestamp = 0;
             self.isFirstFrame = YES;
+            self.AVAlignment = NO;
+            self.hasCaptureAudio = NO;
+            self.hasKeyFrameVideo = NO;
             self.uploading = YES;
         }
     } else if(status == LFLiveStop || status == LFLiveError){
@@ -379,6 +395,17 @@
     }
     dispatch_semaphore_signal(self.lock);
     return currentts;
+}
+
+- (BOOL)AVAlignment{
+    if((self.captureType & LFLiveCaptureMaskAudio || self.captureType & LFLiveInputMaskAudio) &&
+       (self.captureType & LFLiveCaptureMaskVideo || self.captureType & LFLiveInputMaskVideo)
+       ){
+        if(self.hasCaptureAudio && self.hasKeyFrameVideo) return YES;
+        else  return NO;
+    }else{
+        return YES;
+    }
 }
 
 @end

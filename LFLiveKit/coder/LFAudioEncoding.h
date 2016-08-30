@@ -21,7 +21,7 @@
 /// 编码器抽象的接口
 @protocol LFAudioEncoding <NSObject>
 @required
-- (void)encodeAudioData:(AudioBufferList)inBufferList timeStamp:(uint64_t)timeStamp;
+- (void)encodeAudioData:(NSData*)audioData timeStamp:(uint64_t)timeStamp;
 - (void)stopEncoder;
 @optional
 - (nullable instancetype)initWithAudioStreamConfiguration:(nullable LFLiveAudioConfiguration *)configuration;

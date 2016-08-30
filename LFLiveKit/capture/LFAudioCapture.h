@@ -17,7 +17,7 @@ extern NSString *_Nullable const LFAudioComponentFailedToCreateNotification;
 @class LFAudioCapture;
 /** LFAudioCapture callback audioData */
 @protocol LFAudioCaptureDelegate <NSObject>
-- (void)captureOutput:(nullable LFAudioCapture *)capture audioBuffer:(AudioBufferList)inBufferList;
+- (void)captureOutput:(nullable LFAudioCapture *)capture audioData:(NSData*)audioData;
 @end
 
 

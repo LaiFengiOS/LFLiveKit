@@ -55,24 +55,21 @@
     _aacDeleage = delegate;
 }
 
-- (void)encodeAudioData:(AudioBufferList)inBufferList timeStamp:(uint64_t)timeStamp {
+- (void)encodeAudioData:(NSData*)audioData timeStamp:(uint64_t)timeStamp {
     if (![self createAudioConvert]) {
         return;
     }
 
-    AudioBuffer inBuffer = inBufferList.mBuffers[0];
-    
-    
-    if(leftLength + inBuffer.mDataByteSize >= self.configuration.bufferLength){
+    if(leftLength + audioData.length >= self.configuration.bufferLength){
         ///<  发送
-        NSInteger totalSize = leftLength + inBuffer.mDataByteSize;
+        NSInteger totalSize = leftLength + audioData.length;
         NSInteger encodeCount = totalSize/self.configuration.bufferLength;
         char *totalBuf = malloc(totalSize);
         char *p = totalBuf;
         
         memset(totalBuf, totalSize, 0);
         memcpy(totalBuf, leftBuf, leftLength);
-        memcpy(totalBuf + leftLength, inBuffer.mData, inBuffer.mDataByteSize);
+        memcpy(totalBuf + leftLength, audioData.bytes, audioData.length);
         
         for(NSInteger index = 0;index < encodeCount;index++){
             [self encodeBuffer:p  timeStamp:timeStamp];
@@ -86,8 +83,8 @@
         
     }else{
         ///< 积累
-        memcpy(leftBuf+leftLength, inBuffer.mData, inBuffer.mDataByteSize);
-        leftLength = leftLength + inBuffer.mDataByteSize;
+        memcpy(leftBuf+leftLength, audioData.bytes, audioData.length);
+        leftLength = leftLength + audioData.length;
     }
 }
 

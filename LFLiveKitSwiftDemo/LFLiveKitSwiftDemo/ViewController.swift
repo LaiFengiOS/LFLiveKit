@@ -23,36 +23,36 @@ class ViewController: UIViewController, LFLiveSessionDelegate {
         containerView.addSubview(cameraButton)
         containerView.addSubview(startLiveButton)
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-  
+    
     //MARK: AccessAuth
     
     func requestAccessForVideo() -> Void {
         let status = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
         switch status  {
-            // 许可对话没有出现，发起授权许可
-            case AVAuthorizationStatus.NotDetermined:
-                AVCaptureDevice.requestAccessForMediaType(AVMediaTypeVideo, completionHandler: { (granted) in
-                    if (granted) {
-                        dispatch_async(dispatch_get_main_queue(), {
-                            self.session.running = true;
-                        });
-                    }
-                })
-                break;
-            // 已经开启授权，可继续
-            case AVAuthorizationStatus.Authorized:
-                session.running = true;
-                break;
-            // 用户明确地拒绝授权，或者相机设备无法访问
-            case AVAuthorizationStatus.Denied: break
-            case AVAuthorizationStatus.Restricted:break;
-            default:
-                break;
+        // 许可对话没有出现，发起授权许可
+        case AVAuthorizationStatus.NotDetermined:
+            AVCaptureDevice.requestAccessForMediaType(AVMediaTypeVideo, completionHandler: { (granted) in
+                if (granted) {
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.session.running = true;
+                    });
+                }
+            })
+            break;
+        // 已经开启授权，可继续
+        case AVAuthorizationStatus.Authorized:
+            session.running = true;
+            break;
+        // 用户明确地拒绝授权，或者相机设备无法访问
+        case AVAuthorizationStatus.Denied: break
+        case AVAuthorizationStatus.Restricted:break;
+        default:
+            break;
         }
     }
     
@@ -89,24 +89,24 @@ class ViewController: UIViewController, LFLiveSessionDelegate {
     func liveSession(session: LFLiveSession?, liveStateDidChange state: LFLiveState) {
         print("liveStateDidChange: \(state.rawValue)")
         switch state {
-            case LFLiveState.Ready:
-                stateLabel.text = "未连接"
-                break;
-            case LFLiveState.Pending:
-                stateLabel.text = "连接中"
-                break;
-            case LFLiveState.Start:
-                stateLabel.text = "已连接"
-                break;
-            case LFLiveState.Error:
-                stateLabel.text = "连接错误"
-                break;
-            case LFLiveState.Stop:
-                stateLabel.text = "未连接"
-                break;
-            default:
-                stateLabel.text = "未知"
-                break;
+        case LFLiveState.Ready:
+            stateLabel.text = "未连接"
+            break;
+        case LFLiveState.Pending:
+            stateLabel.text = "连接中"
+            break;
+        case LFLiveState.Start:
+            stateLabel.text = "已连接"
+            break;
+        case LFLiveState.Error:
+            stateLabel.text = "连接错误"
+            break;
+        case LFLiveState.Stop:
+            stateLabel.text = "未连接"
+            break;
+        default:
+            stateLabel.text = "未知"
+            break;
         }
     }
     
@@ -180,7 +180,7 @@ class ViewController: UIViewController, LFLiveSessionDelegate {
         closeButton.addTarget(self, action: #selector(didTappedCloseButton(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         return closeButton
     }()
-        
+    
     // 摄像头
     lazy var cameraButton: UIButton = {
         let cameraButton = UIButton(frame: CGRect(x: self.view.frame.width - 54 * 2, y: 20, width: 44, height: 44))

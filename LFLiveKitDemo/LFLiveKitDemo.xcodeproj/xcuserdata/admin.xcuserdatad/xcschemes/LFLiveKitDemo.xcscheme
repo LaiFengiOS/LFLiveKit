@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "840762EB1D07C7D0000FD0BF"
+               BlueprintIdentifier = "84D8B4251D75778B00752B56"
                BuildableName = "LFLiveKitDemo.app"
                BlueprintName = "LFLiveKitDemo"
                ReferencedContainer = "container:LFLiveKitDemo.xcodeproj">
@@ -28,31 +28,11 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "840763041D07C7D0000FD0BF"
-               BuildableName = "LFLiveKitDemoTests.xctest"
-               BlueprintName = "LFLiveKitDemoTests"
-               ReferencedContainer = "container:LFLiveKitDemo.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8407630F1D07C7D0000FD0BF"
-               BuildableName = "LFLiveKitDemoUITests.xctest"
-               BlueprintName = "LFLiveKitDemoUITests"
-               ReferencedContainer = "container:LFLiveKitDemo.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "840762EB1D07C7D0000FD0BF"
+            BlueprintIdentifier = "84D8B4251D75778B00752B56"
             BuildableName = "LFLiveKitDemo.app"
             BlueprintName = "LFLiveKitDemo"
             ReferencedContainer = "container:LFLiveKitDemo.xcodeproj">
@@ -75,7 +55,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "840762EB1D07C7D0000FD0BF"
+            BlueprintIdentifier = "84D8B4251D75778B00752B56"
             BuildableName = "LFLiveKitDemo.app"
             BlueprintName = "LFLiveKitDemo"
             ReferencedContainer = "container:LFLiveKitDemo.xcodeproj">
@@ -94,7 +74,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "840762EB1D07C7D0000FD0BF"
+            BlueprintIdentifier = "84D8B4251D75778B00752B56"
             BuildableName = "LFLiveKitDemo.app"
             BlueprintName = "LFLiveKitDemo"
             ReferencedContainer = "container:LFLiveKitDemo.xcodeproj">

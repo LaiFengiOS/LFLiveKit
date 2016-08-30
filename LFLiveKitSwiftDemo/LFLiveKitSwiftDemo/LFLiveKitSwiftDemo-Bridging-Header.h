@@ -5,6 +5,6 @@
 #ifndef LFLiveKitSwiftDemo_Bridging_H
 #define LFLiveKitSwiftDemo_Bridging_H
 
-#import <LFLiveKit.h>
+#import <LFLiveKit/LFLiveKit.h>
 
 #endif

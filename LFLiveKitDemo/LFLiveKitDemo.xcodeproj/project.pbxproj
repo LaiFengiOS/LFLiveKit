@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		63B306871D75D2A5006CF72B /* pili_rtmp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63B306861D75D2A5006CF72B /* pili_rtmp.framework */; };
 		84D8B42B1D75778B00752B56 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B42A1D75778B00752B56 /* main.m */; };
 		84D8B42E1D75778B00752B56 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B42D1D75778B00752B56 /* AppDelegate.m */; };
 		84D8B4311D75778B00752B56 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B4301D75778B00752B56 /* ViewController.m */; };
@@ -26,7 +27,6 @@
 		84D8B4641D75782700752B56 /* close_preview@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D8B4591D75782700752B56 /* close_preview@3x.png */; };
 		84D8B4651D75782700752B56 /* ios-29x29.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D8B45A1D75782700752B56 /* ios-29x29.png */; };
 		84D8B4681D75783F00752B56 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D8B4661D75783F00752B56 /* GPUImage.framework */; };
-		84D8B4691D75783F00752B56 /* pili_librtmp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D8B4671D75783F00752B56 /* pili_librtmp.framework */; };
 		84D8B4791D757A5500752B56 /* LFLiveKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D8B4451D75779200752B56 /* LFLiveKit.framework */; };
 		84D8B4CF1D757F0700752B56 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D8B4CE1D757F0700752B56 /* libstdc++.tbd */; };
 /* End PBXBuildFile section */
@@ -49,6 +49,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		63B306861D75D2A5006CF72B /* pili_rtmp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = pili_rtmp.framework; path = ../Vendor/pili_rtmp.framework; sourceTree = "<group>"; };
 		84D8B4261D75778B00752B56 /* LFLiveKitDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LFLiveKitDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84D8B42A1D75778B00752B56 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		84D8B42C1D75778B00752B56 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -76,7 +77,6 @@
 		84D8B4591D75782700752B56 /* close_preview@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close_preview@3x.png"; sourceTree = "<group>"; };
 		84D8B45A1D75782700752B56 /* ios-29x29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios-29x29.png"; sourceTree = "<group>"; };
 		84D8B4661D75783F00752B56 /* GPUImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GPUImage.framework; path = ../Vendor/GPUImage.framework; sourceTree = "<group>"; };
-		84D8B4671D75783F00752B56 /* pili_librtmp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = pili_librtmp.framework; path = ../Vendor/pili_librtmp.framework; sourceTree = "<group>"; };
 		84D8B4CE1D757F0700752B56 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -85,10 +85,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63B306871D75D2A5006CF72B /* pili_rtmp.framework in Frameworks */,
 				84D8B4CF1D757F0700752B56 /* libstdc++.tbd in Frameworks */,
 				84D8B4791D757A5500752B56 /* LFLiveKit.framework in Frameworks */,
 				84D8B4681D75783F00752B56 /* GPUImage.framework in Frameworks */,
-				84D8B4691D75783F00752B56 /* pili_librtmp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,9 +98,9 @@
 		84D8B41D1D75778B00752B56 = {
 			isa = PBXGroup;
 			children = (
+				63B306861D75D2A5006CF72B /* pili_rtmp.framework */,
 				84D8B4CE1D757F0700752B56 /* libstdc++.tbd */,
 				84D8B4661D75783F00752B56 /* GPUImage.framework */,
-				84D8B4671D75783F00752B56 /* pili_librtmp.framework */,
 				84D8B4401D75779200752B56 /* LFLiveKit.xcodeproj */,
 				84D8B4281D75778B00752B56 /* LFLiveKitDemo */,
 				84D8B4271D75778B00752B56 /* Products */,

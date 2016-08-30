@@ -501,7 +501,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../Vendor/GPUImage.framework/Headers\"",
-					"\"$(SRCROOT)/../Vendor/pili_librtmp.framework/Headers\"",
+					"\"$(SRCROOT)/../Vendor/pili_rtmp.framework/Headers\"",
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -524,7 +524,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../Vendor/GPUImage.framework/Headers\"",
-					"\"$(SRCROOT)/../Vendor/pili_librtmp.framework/Headers\"",
+					"\"$(SRCROOT)/../Vendor/pili_rtmp.framework/Headers\"",
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";

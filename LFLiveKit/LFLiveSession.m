@@ -49,12 +49,7 @@
 @property (nonatomic, assign, readwrite) LFLiveCaptureTypeMask captureType;
 /// 时间戳锁
 @property (nonatomic, strong) dispatch_semaphore_t lock;
-/// 音视频是否对齐
-@property (nonatomic, assign) BOOL AVAlignment;
-/// 当前是否采集到了音频
-@property (nonatomic, assign) BOOL hasCaptureAudio;
-/// 当前是否采集到了关键帧
-@property (nonatomic, assign) BOOL hasKeyFrameVideo;
+
 
 @end
 
@@ -64,9 +59,14 @@
 
 @interface LFLiveSession ()
 
-@property (nonatomic, assign) uint64_t timestamp;
-@property (nonatomic, assign) BOOL isFirstFrame;
-@property (nonatomic, assign) uint64_t currentTimestamp;
+/// 上传相对时间戳
+@property (nonatomic, assign) uint64_t relativeTimestamps;
+/// 音视频是否对齐
+@property (nonatomic, assign) BOOL AVAlignment;
+/// 当前是否采集到了音频
+@property (nonatomic, assign) BOOL hasCaptureAudio;
+/// 当前是否采集到了关键帧
+@property (nonatomic, assign) BOOL hasKeyFrameVideo;
 
 @end
 
@@ -84,7 +84,6 @@
         _audioConfiguration = audioConfiguration;
         _videoConfiguration = videoConfiguration;
         _adaptiveBitrate = NO;
-        _isFirstFrame = YES;
         _captureType = captureType;
     }
     return self;
@@ -111,41 +110,50 @@
     self.socket = nil;
 }
 
+#pragma mark -- PrivateMethod
+- (void)pushSendBuffer:(LFFrame*)frame{
+    if(self.relativeTimestamps == 0){
+        self.relativeTimestamps = frame.timestamp;
+    }
+    frame.timestamp = [self uploadTimestamp:frame.timestamp];
+    [self.socket sendFrame:frame];
+}
+
 - (void)pushVideo:(CVPixelBufferRef)pixelBuffer{
     if(self.captureType & LFLiveInputMaskVideo){
-        if (self.uploading) [self.videoEncoder encodeVideoData:pixelBuffer timeStamp:self.currentTimestamp];
+        if (self.uploading) [self.videoEncoder encodeVideoData:pixelBuffer timeStamp:NOW];
     }
 }
 
 - (void)pushAudio:(NSData*)audioData{
     if(self.captureType & LFLiveInputMaskAudio){
-        if (self.uploading) [self.audioEncoder encodeAudioData:audioData timeStamp:self.currentTimestamp];
+        if (self.uploading) [self.audioEncoder encodeAudioData:audioData timeStamp:NOW];
     }
 }
 
 #pragma mark -- CaptureDelegate
 - (void)captureOutput:(nullable LFAudioCapture *)capture audioData:(NSData*)audioData {
-    if (self.uploading) [self.audioEncoder encodeAudioData:audioData timeStamp:self.currentTimestamp];
+    if (self.uploading) [self.audioEncoder encodeAudioData:audioData timeStamp:NOW];
 }
 
 - (void)captureOutput:(nullable LFVideoCapture *)capture pixelBuffer:(nullable CVPixelBufferRef)pixelBuffer {
-    if (self.uploading) [self.videoEncoder encodeVideoData:pixelBuffer timeStamp:self.currentTimestamp];
+    if (self.uploading) [self.videoEncoder encodeVideoData:pixelBuffer timeStamp:NOW];
 }
 
 #pragma mark -- EncoderDelegate
 - (void)audioEncoder:(nullable id<LFAudioEncoding>)encoder audioFrame:(nullable LFAudioFrame *)frame {
-    //<上传
+    //<上传  时间戳对齐
     if (self.uploading){
         self.hasCaptureAudio = YES;
-        if(self.AVAlignment) [self.socket sendFrame:frame];
+        if(self.AVAlignment) [self pushSendBuffer:frame];
     }
 }
 
 - (void)videoEncoder:(nullable id<LFVideoEncoding>)encoder videoFrame:(nullable LFVideoFrame *)frame {
-    //<上传
+    //<上传 时间戳对齐
     if (self.uploading){
         if(frame.isKeyFrame && self.hasCaptureAudio) self.hasKeyFrameVideo = YES;
-        if(self.AVAlignment) [self.socket sendFrame:frame];
+        if(self.AVAlignment) [self pushSendBuffer:frame];
     }
 }
 
@@ -153,11 +161,10 @@
 - (void)socketStatus:(nullable id<LFStreamSocket>)socket status:(LFLiveState)status {
     if (status == LFLiveStart) {
         if (!self.uploading) {
-            self.timestamp = 0;
-            self.isFirstFrame = YES;
             self.AVAlignment = NO;
             self.hasCaptureAudio = NO;
             self.hasKeyFrameVideo = NO;
+            self.relativeTimestamps = 0;
             self.uploading = YES;
         }
     } else if(status == LFLiveStop || status == LFLiveError){
@@ -383,16 +390,10 @@
     return _lock;
 }
 
-- (uint64_t)currentTimestamp {
+- (uint64_t)uploadTimestamp:(uint64_t)captureTimestamp{
     dispatch_semaphore_wait(self.lock, DISPATCH_TIME_FOREVER);
     uint64_t currentts = 0;
-    if (_isFirstFrame) {
-        _timestamp = NOW;
-        _isFirstFrame = NO;
-        currentts = 0;
-    } else {
-        currentts = NOW - _timestamp;
-    }
+    currentts = captureTimestamp - self.relativeTimestamps;
     dispatch_semaphore_signal(self.lock);
     return currentts;
 }

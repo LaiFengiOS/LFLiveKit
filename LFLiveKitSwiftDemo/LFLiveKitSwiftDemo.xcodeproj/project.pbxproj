@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		63774FB11D75D30E00E4F096 /* pili_rtmp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63774FB01D75D30E00E4F096 /* pili_rtmp.framework */; };
 		84D8B48C1D757D4000752B56 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B48B1D757D4000752B56 /* AppDelegate.swift */; };
 		84D8B48E1D757D4000752B56 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B48D1D757D4000752B56 /* ViewController.swift */; };
 		84D8B4911D757D4000752B56 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84D8B48F1D757D4000752B56 /* Main.storyboard */; };
@@ -24,6 +23,7 @@
 		84D8B4B71D757DE600752B56 /* LFLiveKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D8B4A21D757D4B00752B56 /* LFLiveKit.framework */; };
 		84D8B4BA1D757DED00752B56 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D8B4B81D757DED00752B56 /* GPUImage.framework */; };
 		84D8B4BD1D757E0E00752B56 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D8B4BC1D757E0E00752B56 /* libstdc++.tbd */; };
+		84D8B5571D76824700752B56 /* pili-librtmp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D8B5561D76824700752B56 /* pili-librtmp.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,7 +44,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		63774FB01D75D30E00E4F096 /* pili_rtmp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = pili_rtmp.framework; path = ../Vendor/pili_rtmp.framework; sourceTree = "<group>"; };
 		84D8B4881D757D4000752B56 /* LFLiveKitSwiftDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LFLiveKitSwiftDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84D8B48B1D757D4000752B56 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		84D8B48D1D757D4000752B56 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -64,6 +63,7 @@
 		84D8B4B41D757DCC00752B56 /* LFLiveKitSwiftDemo-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LFLiveKitSwiftDemo-Bridging-Header.h"; sourceTree = "<group>"; };
 		84D8B4B81D757DED00752B56 /* GPUImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GPUImage.framework; path = ../Vendor/GPUImage.framework; sourceTree = "<group>"; };
 		84D8B4BC1D757E0E00752B56 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
+		84D8B5561D76824700752B56 /* pili-librtmp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "pili-librtmp.framework"; path = "../Vendor/pili-librtmp.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,7 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				63774FB11D75D30E00E4F096 /* pili_rtmp.framework in Frameworks */,
+				84D8B5571D76824700752B56 /* pili-librtmp.framework in Frameworks */,
 				84D8B4BD1D757E0E00752B56 /* libstdc++.tbd in Frameworks */,
 				84D8B4BA1D757DED00752B56 /* GPUImage.framework in Frameworks */,
 				84D8B4B71D757DE600752B56 /* LFLiveKit.framework in Frameworks */,
@@ -84,7 +84,7 @@
 		84D8B47F1D757D4000752B56 = {
 			isa = PBXGroup;
 			children = (
-				63774FB01D75D30E00E4F096 /* pili_rtmp.framework */,
+				84D8B5561D76824700752B56 /* pili-librtmp.framework */,
 				84D8B4BC1D757E0E00752B56 /* libstdc++.tbd */,
 				84D8B4B81D757DED00752B56 /* GPUImage.framework */,
 				84D8B49D1D757D4B00752B56 /* LFLiveKit.xcodeproj */,

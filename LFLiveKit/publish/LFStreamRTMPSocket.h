@@ -6,7 +6,11 @@
 //  Copyright © 2016年 live Interactive. All rights reserved.
 //
 
+#if __has_include(<LFLiveKit/LFLiveKit.h>)
+#import <LFLiveKit/LFStreamSocket.h>
+#else
 #import "LFStreamSocket.h"
+#endif
 
 @interface LFStreamRTMPSocket : NSObject<LFStreamSocket>
 

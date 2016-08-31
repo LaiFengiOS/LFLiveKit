@@ -6,7 +6,11 @@
 //  Copyright © 2016年 倾慕. All rights reserved.
 //
 
+#if __has_include(<LFLiveKit/LFLiveKit.h>)
+#import <LFLiveKit/LFVideoEncoding.h>
+#else
 #import "LFVideoEncoding.h"
+#endif
 
 @interface LFHardwareVideoEncoder : NSObject<LFVideoEncoding>
 

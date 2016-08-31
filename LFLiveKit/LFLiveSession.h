@@ -8,12 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
-#import "LFLiveStreamInfo.h"
-#import "LFAudioFrame.h"
-#import "LFVideoFrame.h"
-#import "LFLiveAudioConfiguration.h"
-#import "LFLiveVideoConfiguration.h"
-#import "LFLiveDebug.h"
+#if __has_include(<LFLiveKit/LFLiveKit.h>)
+#import <LFLiveKit/LFLiveKit.h>
+#else
+#import "LFLiveKit"
+#endif
 
 typedef NS_ENUM(NSInteger,LFLiveCaptureType) {
     LFLiveCaptureAudio,         //< capture only audio

@@ -8,7 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
+
+#if __has_include(<LFLiveKit/LFLiveKit.h>)
+#import <LFLiveKit/LFLiveVideoConfiguration.h>
+#else
 #import "LFLiveVideoConfiguration.h"
+#endif
 
 @class LFVideoCapture;
 /** LFVideoCapture callback videoData */

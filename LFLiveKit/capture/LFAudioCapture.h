@@ -8,7 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
+
+#if __has_include(<LFLiveKit/LFLiveKit.h>)
+#import <LFLiveKit/LFLiveAudioConfiguration.h>
+#else
 #import "LFLiveAudioConfiguration.h"
+#endif
 
 #pragma mark -- AudioCaptureNotification
 /** compoentFialed will post the notification */

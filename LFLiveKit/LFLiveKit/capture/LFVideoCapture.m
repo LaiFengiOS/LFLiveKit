@@ -7,9 +7,16 @@
 //
 
 #import "LFVideoCapture.h"
-#import "GPUImage.h"
 #import "LFGPUImageBeautyFilter.h"
 #import "LFGPUImageEmptyFilter.h"
+
+#if __has_include(<GPUImage/GPUImage.h>)
+#import <GPUImage/GPUImage.h>
+#elif __has_include("GPUImage/GPUImage.h")
+#import "GPUImage/GPUImage.h"
+#else
+#import "GPUImage.h"
+#endif
 
 @interface LFVideoCapture ()
 

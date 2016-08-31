@@ -59,7 +59,6 @@
 		84D8B4A91D757DBB00752B56 /* camra_preview@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camra_preview@3x.png"; sourceTree = "<group>"; };
 		84D8B4AA1D757DBB00752B56 /* close_preview@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close_preview@2x.png"; sourceTree = "<group>"; };
 		84D8B4AB1D757DBB00752B56 /* close_preview@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close_preview@3x.png"; sourceTree = "<group>"; };
-		84D8B4B41D757DCC00752B56 /* LFLiveKitSwiftDemo-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LFLiveKitSwiftDemo-Bridging-Header.h"; sourceTree = "<group>"; };
 		84D8B4B81D757DED00752B56 /* GPUImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GPUImage.framework; path = ../Vendor/GPUImage.framework; sourceTree = "<group>"; };
 		84D8B4BC1D757E0E00752B56 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
 		84D8B5561D76824700752B56 /* pili-librtmp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "pili-librtmp.framework"; path = "../Vendor/pili-librtmp.framework"; sourceTree = "<group>"; };
@@ -106,7 +105,6 @@
 			children = (
 				84D8B48B1D757D4000752B56 /* AppDelegate.swift */,
 				84D8B48D1D757D4000752B56 /* ViewController.swift */,
-				84D8B4B41D757DCC00752B56 /* LFLiveKitSwiftDemo-Bridging-Header.h */,
 				84D8B48F1D757D4000752B56 /* Main.storyboard */,
 				84D8B4A31D757DBB00752B56 /* images */,
 				84D8B4921D757D4000752B56 /* Assets.xcassets */,
@@ -363,7 +361,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.youku.LFLiveKitSwiftDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "LFLiveKitSwiftDemo/LFLiveKitSwiftDemo-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 			};
 			name = Debug;
 		};
@@ -377,7 +375,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.youku.LFLiveKitSwiftDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "LFLiveKitSwiftDemo/LFLiveKitSwiftDemo-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 			};
 			name = Release;
 		};

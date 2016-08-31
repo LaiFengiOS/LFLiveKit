@@ -66,6 +66,7 @@ LFLiveKit
         * VideoToolbox
         * AudioToolbox
         * libz
+        * libstdc++
 	
 ## Usage example 
 
@@ -131,6 +132,8 @@ LFLiveKit
 ## Release History
     * 2.0.0
         * CHANGE: modify bugs,support ios7 live.
+    * 2.2.4.3
+        * CHANGE: modify bugs,support swift import.
 
 
 ## License

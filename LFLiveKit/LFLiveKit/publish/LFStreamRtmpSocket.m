@@ -8,10 +8,10 @@
 
 #import "LFStreamRTMPSocket.h"
 
-#if __has_include(<pili_rtmp/rtmp.h>)
-#import <pili_rtmp/rtmp.h>
-#elif __has_include("pili_rtmp/rtmp.h")
-#import "pili_rtmp/rtmp.h"
+#if __has_include(<pili-librtmp/rtmp.h>)
+#import <pili-librtmp/rtmp.h>
+#elif __has_include("pili-librtmp/rtmp.h")
+#import "pili-librtmp/rtmp.h"
 #else
 #import "rtmp.h"
 #endif

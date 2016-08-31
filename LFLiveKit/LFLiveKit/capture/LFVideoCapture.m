@@ -263,10 +263,10 @@
     __weak typeof(self) _self = self;
     @autoreleasepool {
         GPUImageFramebuffer *imageFramebuffer = output.framebufferForOutput;
-        CVPixelBufferRef pixelBuffer = [imageFramebuffer pixelBuffer];
-        if (pixelBuffer && _self.delegate && [_self.delegate respondsToSelector:@selector(captureOutput:pixelBuffer:)]) {
-            [_self.delegate captureOutput:_self pixelBuffer:pixelBuffer];
-        }
+//        CVPixelBufferRef pixelBuffer = [imageFramebuffer pixelBuffer];
+//        if (pixelBuffer && _self.delegate && [_self.delegate respondsToSelector:@selector(captureOutput:pixelBuffer:)]) {
+//            [_self.delegate captureOutput:_self pixelBuffer:pixelBuffer];
+//        }
     }
 }
 

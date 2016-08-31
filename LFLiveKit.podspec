@@ -18,6 +18,9 @@ Pod::Spec.new do |s|
   s.libraries = "c++", "z"
 
   s.requires_arc = true
-  s.ios.vendored_frameworks = 'Vendor/GPUImage.framework','Vendor/pili_rtmp.framework'
+#s.ios.vendored_frameworks = 'Vendor/GPUImage.framework','Vendor/pili_rtmp.framework'
+
+s.dependency 'GPUImage'
+s.dependency 'pili-librtmp', '1.0.3.1'
 
 end

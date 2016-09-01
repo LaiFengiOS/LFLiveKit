@@ -545,7 +545,7 @@ void ConnectionTimeCallback(PILI_CONNECTION_TIME *conn_time, void *userData) {
     if (!_buffer) {
         _buffer = [[LFStreamingBuffer alloc] init];
         _buffer.delegate = self;
-        _buffer.needDropFrame = self.stream.needDropFrame;
+
     }
     return _buffer;
 }

@@ -100,7 +100,6 @@
     _streamInfo = streamInfo;
     _streamInfo.videoConfiguration = _videoConfiguration;
     _streamInfo.audioConfiguration = _audioConfiguration;
-    _streamInfo.needDropFrame = (self.captureType & LFLiveCaptureMaskVideo || self.captureType & LFLiveInputMaskVideo) ? YES : NO;//< 有视频执行丢帧算法
     [self.socket start];
 }
 

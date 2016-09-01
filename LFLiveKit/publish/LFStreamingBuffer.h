@@ -34,8 +34,6 @@ typedef NS_ENUM (NSUInteger, LFLiveBuffferState) {
 
 @interface LFStreamingBuffer : NSObject
 
-/** The needDropFrame control Dynamic frame loss ,default is YES */
-@property (nonatomic, assign) BOOL needDropFrame;
 
 /** The delegate of the buffer. buffer callback */
 @property (nullable, nonatomic, weak) id <LFStreamingBufferDelegate> delegate;

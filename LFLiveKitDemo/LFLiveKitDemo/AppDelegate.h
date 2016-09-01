@@ -2,7 +2,7 @@
 //  AppDelegate.h
 //  LFLiveKitDemo
 //
-//  Created by admin on 16/6/8.
+//  Created by admin on 16/8/30.
 //  Copyright © 2016年 admin. All rights reserved.
 //
 

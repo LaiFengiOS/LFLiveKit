@@ -238,7 +238,6 @@ NSString *const kLFGPUImageBeautyFragmentShaderString = SHADER_STRING
 }
 
 - (void)setInputSize:(CGSize)newSize atIndex:(NSInteger)textureIndex {
-    CGSize oldInputSize = inputTextureSize;
     [super setInputSize:newSize atIndex:textureIndex];
     inputTextureSize = newSize;
 

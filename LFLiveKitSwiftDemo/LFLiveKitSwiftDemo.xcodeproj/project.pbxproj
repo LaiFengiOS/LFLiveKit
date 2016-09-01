@@ -7,160 +7,173 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		768D63AD7BD5B7D2959CC88D /* libPods-LFLiveKitSwiftDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 051291DCF26E653942D6929D /* libPods-LFLiveKitSwiftDemo.a */; };
-		B289F1BE1D3DCD3000D9C7A5 /* camra_beauty@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B289F1B61D3DCD3000D9C7A5 /* camra_beauty@2x.png */; };
-		B289F1BF1D3DCD3000D9C7A5 /* camra_beauty@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B289F1B71D3DCD3000D9C7A5 /* camra_beauty@3x.png */; };
-		B289F1C01D3DCD3000D9C7A5 /* camra_beauty_close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B289F1B81D3DCD3000D9C7A5 /* camra_beauty_close@2x.png */; };
-		B289F1C11D3DCD3000D9C7A5 /* camra_beauty_close@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B289F1B91D3DCD3000D9C7A5 /* camra_beauty_close@3x.png */; };
-		B289F1C21D3DCD3000D9C7A5 /* camra_preview@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B289F1BA1D3DCD3000D9C7A5 /* camra_preview@2x.png */; };
-		B289F1C31D3DCD3000D9C7A5 /* camra_preview@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B289F1BB1D3DCD3000D9C7A5 /* camra_preview@3x.png */; };
-		B289F1C41D3DCD3000D9C7A5 /* close_preview@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B289F1BC1D3DCD3000D9C7A5 /* close_preview@2x.png */; };
-		B289F1C51D3DCD3000D9C7A5 /* close_preview@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B289F1BD1D3DCD3000D9C7A5 /* close_preview@3x.png */; };
-		B2C8FAC51D3DB8B3008D44B5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C8FAC41D3DB8B3008D44B5 /* AppDelegate.swift */; };
-		B2C8FAC71D3DB8B3008D44B5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C8FAC61D3DB8B3008D44B5 /* ViewController.swift */; };
-		B2C8FACA1D3DB8B3008D44B5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2C8FAC81D3DB8B3008D44B5 /* Main.storyboard */; };
-		B2C8FACC1D3DB8B3008D44B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B2C8FACB1D3DB8B3008D44B5 /* Assets.xcassets */; };
-		B2C8FACF1D3DB8B4008D44B5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B2C8FACD1D3DB8B4008D44B5 /* LaunchScreen.storyboard */; };
+		84D8B48C1D757D4000752B56 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B48B1D757D4000752B56 /* AppDelegate.swift */; };
+		84D8B48E1D757D4000752B56 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B48D1D757D4000752B56 /* ViewController.swift */; };
+		84D8B4911D757D4000752B56 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84D8B48F1D757D4000752B56 /* Main.storyboard */; };
+		84D8B4931D757D4000752B56 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84D8B4921D757D4000752B56 /* Assets.xcassets */; };
+		84D8B4961D757D4000752B56 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84D8B4941D757D4000752B56 /* LaunchScreen.storyboard */; };
+		84D8B4AC1D757DBB00752B56 /* camra_beauty@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D8B4A41D757DBB00752B56 /* camra_beauty@2x.png */; };
+		84D8B4AD1D757DBB00752B56 /* camra_beauty@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D8B4A51D757DBB00752B56 /* camra_beauty@3x.png */; };
+		84D8B4AE1D757DBB00752B56 /* camra_beauty_close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D8B4A61D757DBB00752B56 /* camra_beauty_close@2x.png */; };
+		84D8B4AF1D757DBB00752B56 /* camra_beauty_close@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D8B4A71D757DBB00752B56 /* camra_beauty_close@3x.png */; };
+		84D8B4B01D757DBB00752B56 /* camra_preview@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D8B4A81D757DBB00752B56 /* camra_preview@2x.png */; };
+		84D8B4B11D757DBB00752B56 /* camra_preview@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D8B4A91D757DBB00752B56 /* camra_preview@3x.png */; };
+		84D8B4B21D757DBB00752B56 /* close_preview@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D8B4AA1D757DBB00752B56 /* close_preview@2x.png */; };
+		84D8B4B31D757DBB00752B56 /* close_preview@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D8B4AB1D757DBB00752B56 /* close_preview@3x.png */; };
+		84D8B4BA1D757DED00752B56 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D8B4B81D757DED00752B56 /* GPUImage.framework */; };
+		84D8B4BD1D757E0E00752B56 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D8B4BC1D757E0E00752B56 /* libstdc++.tbd */; };
+		84D8B5571D76824700752B56 /* pili-librtmp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D8B5561D76824700752B56 /* pili-librtmp.framework */; };
+		84D8B5FE1D768BBE00752B56 /* LFLiveKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D8B5FB1D768BB200752B56 /* LFLiveKit.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		84D8B5FA1D768BB200752B56 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 84D8B5F61D768BB200752B56 /* LFLiveKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 84D8B3901D7574D600752B56;
+			remoteInfo = LFLiveKit;
+		};
+		84D8B5FC1D768BB800752B56 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 84D8B5F61D768BB200752B56 /* LFLiveKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 84D8B38F1D7574D600752B56;
+			remoteInfo = LFLiveKit;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
-		051291DCF26E653942D6929D /* libPods-LFLiveKitSwiftDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LFLiveKitSwiftDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		19A8327F404723C1C4B67B2C /* Pods-LFLiveKitSwiftDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LFLiveKitSwiftDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-LFLiveKitSwiftDemo/Pods-LFLiveKitSwiftDemo.release.xcconfig"; sourceTree = "<group>"; };
-		B16B5A0921F8F93D139F7961 /* Pods-LFLiveKitSwiftDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LFLiveKitSwiftDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LFLiveKitSwiftDemo/Pods-LFLiveKitSwiftDemo.debug.xcconfig"; sourceTree = "<group>"; };
-		B289F1B61D3DCD3000D9C7A5 /* camra_beauty@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camra_beauty@2x.png"; sourceTree = "<group>"; };
-		B289F1B71D3DCD3000D9C7A5 /* camra_beauty@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camra_beauty@3x.png"; sourceTree = "<group>"; };
-		B289F1B81D3DCD3000D9C7A5 /* camra_beauty_close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camra_beauty_close@2x.png"; sourceTree = "<group>"; };
-		B289F1B91D3DCD3000D9C7A5 /* camra_beauty_close@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camra_beauty_close@3x.png"; sourceTree = "<group>"; };
-		B289F1BA1D3DCD3000D9C7A5 /* camra_preview@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camra_preview@2x.png"; sourceTree = "<group>"; };
-		B289F1BB1D3DCD3000D9C7A5 /* camra_preview@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camra_preview@3x.png"; sourceTree = "<group>"; };
-		B289F1BC1D3DCD3000D9C7A5 /* close_preview@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close_preview@2x.png"; sourceTree = "<group>"; };
-		B289F1BD1D3DCD3000D9C7A5 /* close_preview@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close_preview@3x.png"; sourceTree = "<group>"; };
-		B2C8FAC11D3DB8B3008D44B5 /* LFLiveKitSwiftDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LFLiveKitSwiftDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		B2C8FAC41D3DB8B3008D44B5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B2C8FAC61D3DB8B3008D44B5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		B2C8FAC91D3DB8B3008D44B5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		B2C8FACB1D3DB8B3008D44B5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		B2C8FACE1D3DB8B4008D44B5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		B2C8FAD01D3DB8B4008D44B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B2C8FAD61D3DB9D6008D44B5 /* LFLiveKitSwiftDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LFLiveKitSwiftDemo-Bridging-Header.h"; sourceTree = "<group>"; };
+		84D8B4881D757D4000752B56 /* LFLiveKitSwiftDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LFLiveKitSwiftDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		84D8B48B1D757D4000752B56 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		84D8B48D1D757D4000752B56 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		84D8B4901D757D4000752B56 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		84D8B4921D757D4000752B56 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		84D8B4951D757D4000752B56 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		84D8B4971D757D4000752B56 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		84D8B4A41D757DBB00752B56 /* camra_beauty@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camra_beauty@2x.png"; sourceTree = "<group>"; };
+		84D8B4A51D757DBB00752B56 /* camra_beauty@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camra_beauty@3x.png"; sourceTree = "<group>"; };
+		84D8B4A61D757DBB00752B56 /* camra_beauty_close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camra_beauty_close@2x.png"; sourceTree = "<group>"; };
+		84D8B4A71D757DBB00752B56 /* camra_beauty_close@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camra_beauty_close@3x.png"; sourceTree = "<group>"; };
+		84D8B4A81D757DBB00752B56 /* camra_preview@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camra_preview@2x.png"; sourceTree = "<group>"; };
+		84D8B4A91D757DBB00752B56 /* camra_preview@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camra_preview@3x.png"; sourceTree = "<group>"; };
+		84D8B4AA1D757DBB00752B56 /* close_preview@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close_preview@2x.png"; sourceTree = "<group>"; };
+		84D8B4AB1D757DBB00752B56 /* close_preview@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close_preview@3x.png"; sourceTree = "<group>"; };
+		84D8B4B81D757DED00752B56 /* GPUImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GPUImage.framework; path = ../Vendor/GPUImage.framework; sourceTree = "<group>"; };
+		84D8B4BC1D757E0E00752B56 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
+		84D8B5561D76824700752B56 /* pili-librtmp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "pili-librtmp.framework"; path = "../Vendor/pili-librtmp.framework"; sourceTree = "<group>"; };
+		84D8B5F61D768BB200752B56 /* LFLiveKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LFLiveKit.xcodeproj; path = ../FrameWork/LFLiveKit.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		B2C8FABE1D3DB8B3008D44B5 /* Frameworks */ = {
+		84D8B4851D757D4000752B56 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				768D63AD7BD5B7D2959CC88D /* libPods-LFLiveKitSwiftDemo.a in Frameworks */,
+				84D8B5FE1D768BBE00752B56 /* LFLiveKit.framework in Frameworks */,
+				84D8B5571D76824700752B56 /* pili-librtmp.framework in Frameworks */,
+				84D8B4BD1D757E0E00752B56 /* libstdc++.tbd in Frameworks */,
+				84D8B4BA1D757DED00752B56 /* GPUImage.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0044BAB3BCE83EE63FB6F37C /* Pods */ = {
+		84D8B47F1D757D4000752B56 = {
 			isa = PBXGroup;
 			children = (
-				B16B5A0921F8F93D139F7961 /* Pods-LFLiveKitSwiftDemo.debug.xcconfig */,
-				19A8327F404723C1C4B67B2C /* Pods-LFLiveKitSwiftDemo.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		656DB83DA3620FA72C6B7CF7 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				051291DCF26E653942D6929D /* libPods-LFLiveKitSwiftDemo.a */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		B289F1B51D3DCD3000D9C7A5 /* images */ = {
-			isa = PBXGroup;
-			children = (
-				B289F1B61D3DCD3000D9C7A5 /* camra_beauty@2x.png */,
-				B289F1B71D3DCD3000D9C7A5 /* camra_beauty@3x.png */,
-				B289F1B81D3DCD3000D9C7A5 /* camra_beauty_close@2x.png */,
-				B289F1B91D3DCD3000D9C7A5 /* camra_beauty_close@3x.png */,
-				B289F1BA1D3DCD3000D9C7A5 /* camra_preview@2x.png */,
-				B289F1BB1D3DCD3000D9C7A5 /* camra_preview@3x.png */,
-				B289F1BC1D3DCD3000D9C7A5 /* close_preview@2x.png */,
-				B289F1BD1D3DCD3000D9C7A5 /* close_preview@3x.png */,
-			);
-			path = images;
-			sourceTree = "<group>";
-		};
-		B2C8FAB81D3DB8B3008D44B5 = {
-			isa = PBXGroup;
-			children = (
-				B2C8FAC31D3DB8B3008D44B5 /* LFLiveKitSwiftDemo */,
-				B2C8FAC21D3DB8B3008D44B5 /* Products */,
-				0044BAB3BCE83EE63FB6F37C /* Pods */,
-				656DB83DA3620FA72C6B7CF7 /* Frameworks */,
+				84D8B5F61D768BB200752B56 /* LFLiveKit.xcodeproj */,
+				84D8B5561D76824700752B56 /* pili-librtmp.framework */,
+				84D8B4BC1D757E0E00752B56 /* libstdc++.tbd */,
+				84D8B4B81D757DED00752B56 /* GPUImage.framework */,
+				84D8B48A1D757D4000752B56 /* LFLiveKitSwiftDemo */,
+				84D8B4891D757D4000752B56 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		B2C8FAC21D3DB8B3008D44B5 /* Products */ = {
+		84D8B4891D757D4000752B56 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B2C8FAC11D3DB8B3008D44B5 /* LFLiveKitSwiftDemo.app */,
+				84D8B4881D757D4000752B56 /* LFLiveKitSwiftDemo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		B2C8FAC31D3DB8B3008D44B5 /* LFLiveKitSwiftDemo */ = {
+		84D8B48A1D757D4000752B56 /* LFLiveKitSwiftDemo */ = {
 			isa = PBXGroup;
 			children = (
-				B289F1B51D3DCD3000D9C7A5 /* images */,
-				B2C8FAC41D3DB8B3008D44B5 /* AppDelegate.swift */,
-				B2C8FAC61D3DB8B3008D44B5 /* ViewController.swift */,
-				B2C8FAC81D3DB8B3008D44B5 /* Main.storyboard */,
-				B2C8FAD61D3DB9D6008D44B5 /* LFLiveKitSwiftDemo-Bridging-Header.h */,
-				B2C8FACB1D3DB8B3008D44B5 /* Assets.xcassets */,
-				B2C8FACD1D3DB8B4008D44B5 /* LaunchScreen.storyboard */,
-				B2C8FAD01D3DB8B4008D44B5 /* Info.plist */,
+				84D8B48B1D757D4000752B56 /* AppDelegate.swift */,
+				84D8B48D1D757D4000752B56 /* ViewController.swift */,
+				84D8B48F1D757D4000752B56 /* Main.storyboard */,
+				84D8B4A31D757DBB00752B56 /* images */,
+				84D8B4921D757D4000752B56 /* Assets.xcassets */,
+				84D8B4941D757D4000752B56 /* LaunchScreen.storyboard */,
+				84D8B4971D757D4000752B56 /* Info.plist */,
 			);
 			path = LFLiveKitSwiftDemo;
+			sourceTree = "<group>";
+		};
+		84D8B4A31D757DBB00752B56 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				84D8B4A41D757DBB00752B56 /* camra_beauty@2x.png */,
+				84D8B4A51D757DBB00752B56 /* camra_beauty@3x.png */,
+				84D8B4A61D757DBB00752B56 /* camra_beauty_close@2x.png */,
+				84D8B4A71D757DBB00752B56 /* camra_beauty_close@3x.png */,
+				84D8B4A81D757DBB00752B56 /* camra_preview@2x.png */,
+				84D8B4A91D757DBB00752B56 /* camra_preview@3x.png */,
+				84D8B4AA1D757DBB00752B56 /* close_preview@2x.png */,
+				84D8B4AB1D757DBB00752B56 /* close_preview@3x.png */,
+			);
+			path = images;
+			sourceTree = "<group>";
+		};
+		84D8B5F71D768BB200752B56 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				84D8B5FB1D768BB200752B56 /* LFLiveKit.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		B2C8FAC01D3DB8B3008D44B5 /* LFLiveKitSwiftDemo */ = {
+		84D8B4871D757D4000752B56 /* LFLiveKitSwiftDemo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B2C8FAD31D3DB8B4008D44B5 /* Build configuration list for PBXNativeTarget "LFLiveKitSwiftDemo" */;
+			buildConfigurationList = 84D8B49A1D757D4000752B56 /* Build configuration list for PBXNativeTarget "LFLiveKitSwiftDemo" */;
 			buildPhases = (
-				BAC96C6840291F2B616FE902 /* 📦 Check Pods Manifest.lock */,
-				B2C8FABD1D3DB8B3008D44B5 /* Sources */,
-				B2C8FABE1D3DB8B3008D44B5 /* Frameworks */,
-				B2C8FABF1D3DB8B3008D44B5 /* Resources */,
-				7490D167BE18C3C7DC2FE381 /* 📦 Copy Pods Resources */,
-				5683F74F0FF045A7193DAAD0 /* 📦 Embed Pods Frameworks */,
+				84D8B4841D757D4000752B56 /* Sources */,
+				84D8B4851D757D4000752B56 /* Frameworks */,
+				84D8B4861D757D4000752B56 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				84D8B5FD1D768BB800752B56 /* PBXTargetDependency */,
 			);
 			name = LFLiveKitSwiftDemo;
 			productName = LFLiveKitSwiftDemo;
-			productReference = B2C8FAC11D3DB8B3008D44B5 /* LFLiveKitSwiftDemo.app */;
+			productReference = 84D8B4881D757D4000752B56 /* LFLiveKitSwiftDemo.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		B2C8FAB91D3DB8B3008D44B5 /* Project object */ = {
+		84D8B4801D757D4000752B56 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0730;
-				ORGANIZATIONNAME = zhanqi.tv;
+				ORGANIZATIONNAME = admin;
 				TargetAttributes = {
-					B2C8FAC01D3DB8B3008D44B5 = {
-						CreatedOnToolsVersion = 7.3;
+					84D8B4871D757D4000752B56 = {
+						CreatedOnToolsVersion = 7.3.1;
 					};
 				};
 			};
-			buildConfigurationList = B2C8FABC1D3DB8B3008D44B5 /* Build configuration list for PBXProject "LFLiveKitSwiftDemo" */;
+			buildConfigurationList = 84D8B4831D757D4000752B56 /* Build configuration list for PBXProject "LFLiveKitSwiftDemo" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -168,110 +181,86 @@
 				en,
 				Base,
 			);
-			mainGroup = B2C8FAB81D3DB8B3008D44B5;
-			productRefGroup = B2C8FAC21D3DB8B3008D44B5 /* Products */;
+			mainGroup = 84D8B47F1D757D4000752B56;
+			productRefGroup = 84D8B4891D757D4000752B56 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 84D8B5F71D768BB200752B56 /* Products */;
+					ProjectRef = 84D8B5F61D768BB200752B56 /* LFLiveKit.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
-				B2C8FAC01D3DB8B3008D44B5 /* LFLiveKitSwiftDemo */,
+				84D8B4871D757D4000752B56 /* LFLiveKitSwiftDemo */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXReferenceProxy section */
+		84D8B5FB1D768BB200752B56 /* LFLiveKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = LFLiveKit.framework;
+			remoteRef = 84D8B5FA1D768BB200752B56 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
 /* Begin PBXResourcesBuildPhase section */
-		B2C8FABF1D3DB8B3008D44B5 /* Resources */ = {
+		84D8B4861D757D4000752B56 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B289F1C01D3DCD3000D9C7A5 /* camra_beauty_close@2x.png in Resources */,
-				B2C8FACF1D3DB8B4008D44B5 /* LaunchScreen.storyboard in Resources */,
-				B289F1BE1D3DCD3000D9C7A5 /* camra_beauty@2x.png in Resources */,
-				B2C8FACC1D3DB8B3008D44B5 /* Assets.xcassets in Resources */,
-				B289F1C31D3DCD3000D9C7A5 /* camra_preview@3x.png in Resources */,
-				B289F1C11D3DCD3000D9C7A5 /* camra_beauty_close@3x.png in Resources */,
-				B289F1C51D3DCD3000D9C7A5 /* close_preview@3x.png in Resources */,
-				B289F1C41D3DCD3000D9C7A5 /* close_preview@2x.png in Resources */,
-				B2C8FACA1D3DB8B3008D44B5 /* Main.storyboard in Resources */,
-				B289F1C21D3DCD3000D9C7A5 /* camra_preview@2x.png in Resources */,
-				B289F1BF1D3DCD3000D9C7A5 /* camra_beauty@3x.png in Resources */,
+				84D8B4AE1D757DBB00752B56 /* camra_beauty_close@2x.png in Resources */,
+				84D8B4961D757D4000752B56 /* LaunchScreen.storyboard in Resources */,
+				84D8B4AC1D757DBB00752B56 /* camra_beauty@2x.png in Resources */,
+				84D8B4931D757D4000752B56 /* Assets.xcassets in Resources */,
+				84D8B4B11D757DBB00752B56 /* camra_preview@3x.png in Resources */,
+				84D8B4AF1D757DBB00752B56 /* camra_beauty_close@3x.png in Resources */,
+				84D8B4B31D757DBB00752B56 /* close_preview@3x.png in Resources */,
+				84D8B4B21D757DBB00752B56 /* close_preview@2x.png in Resources */,
+				84D8B4911D757D4000752B56 /* Main.storyboard in Resources */,
+				84D8B4B01D757DBB00752B56 /* camra_preview@2x.png in Resources */,
+				84D8B4AD1D757DBB00752B56 /* camra_beauty@3x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		5683F74F0FF045A7193DAAD0 /* 📦 Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "📦 Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LFLiveKitSwiftDemo/Pods-LFLiveKitSwiftDemo-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7490D167BE18C3C7DC2FE381 /* 📦 Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "📦 Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LFLiveKitSwiftDemo/Pods-LFLiveKitSwiftDemo-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BAC96C6840291F2B616FE902 /* 📦 Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "📦 Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
-		B2C8FABD1D3DB8B3008D44B5 /* Sources */ = {
+		84D8B4841D757D4000752B56 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B2C8FAC71D3DB8B3008D44B5 /* ViewController.swift in Sources */,
-				B2C8FAC51D3DB8B3008D44B5 /* AppDelegate.swift in Sources */,
+				84D8B48E1D757D4000752B56 /* ViewController.swift in Sources */,
+				84D8B48C1D757D4000752B56 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		84D8B5FD1D768BB800752B56 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = LFLiveKit;
+			targetProxy = 84D8B5FC1D768BB800752B56 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
-		B2C8FAC81D3DB8B3008D44B5 /* Main.storyboard */ = {
+		84D8B48F1D757D4000752B56 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				B2C8FAC91D3DB8B3008D44B5 /* Base */,
+				84D8B4901D757D4000752B56 /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		B2C8FACD1D3DB8B4008D44B5 /* LaunchScreen.storyboard */ = {
+		84D8B4941D757D4000752B56 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				B2C8FACE1D3DB8B4008D44B5 /* Base */,
+				84D8B4951D757D4000752B56 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -279,7 +268,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		B2C8FAD11D3DB8B4008D44B5 /* Debug */ = {
+		84D8B4981D757D4000752B56 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -316,7 +305,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -324,7 +313,7 @@
 			};
 			name = Debug;
 		};
-		B2C8FAD21D3DB8B4008D44B5 /* Release */ = {
+		84D8B4991D757D4000752B56 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -355,66 +344,63 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
-		B2C8FAD41D3DB8B4008D44B5 /* Debug */ = {
+		84D8B49B1D757D4000752B56 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B16B5A0921F8F93D139F7961 /* Pods-LFLiveKitSwiftDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				INFOPLIST_FILE = LFLiveKitSwiftDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.gameabc.laifeng.LFLiveKitSwiftDemo.LFLiveKitSwiftDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.youku.LFLiveKitSwiftDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "LFLiveKitSwiftDemo/LFLiveKitSwiftDemo-Bridging-Header.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 			};
 			name = Debug;
 		};
-		B2C8FAD51D3DB8B4008D44B5 /* Release */ = {
+		84D8B49C1D757D4000752B56 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 19A8327F404723C1C4B67B2C /* Pods-LFLiveKitSwiftDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
 				INFOPLIST_FILE = LFLiveKitSwiftDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.gameabc.laifeng.LFLiveKitSwiftDemo.LFLiveKitSwiftDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.youku.LFLiveKitSwiftDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "LFLiveKitSwiftDemo/LFLiveKitSwiftDemo-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		B2C8FABC1D3DB8B3008D44B5 /* Build configuration list for PBXProject "LFLiveKitSwiftDemo" */ = {
+		84D8B4831D757D4000752B56 /* Build configuration list for PBXProject "LFLiveKitSwiftDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				B2C8FAD11D3DB8B4008D44B5 /* Debug */,
-				B2C8FAD21D3DB8B4008D44B5 /* Release */,
+				84D8B4981D757D4000752B56 /* Debug */,
+				84D8B4991D757D4000752B56 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B2C8FAD31D3DB8B4008D44B5 /* Build configuration list for PBXNativeTarget "LFLiveKitSwiftDemo" */ = {
+		84D8B49A1D757D4000752B56 /* Build configuration list for PBXNativeTarget "LFLiveKitSwiftDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				B2C8FAD41D3DB8B4008D44B5 /* Debug */,
-				B2C8FAD51D3DB8B4008D44B5 /* Release */,
+				84D8B49B1D757D4000752B56 /* Debug */,
+				84D8B49C1D757D4000752B56 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = B2C8FAB91D3DB8B3008D44B5 /* Project object */;
+	rootObject = 84D8B4801D757D4000752B56 /* Project object */;
 }

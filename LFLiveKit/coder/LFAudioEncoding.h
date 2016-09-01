@@ -8,8 +8,15 @@
 
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
+#if __has_include(<LFLiveKit/LFLiveKit.h>)
+#import <LFLiveKit/LFAudioFrame.h>
+#import <LFLiveKit/LFLiveAudioConfiguration.h>
+#else
 #import "LFAudioFrame.h"
 #import "LFLiveAudioConfiguration.h"
+#endif
+
+
 
 @protocol LFAudioEncoding;
 /// 编码器编码后回调
@@ -21,7 +28,7 @@
 /// 编码器抽象的接口
 @protocol LFAudioEncoding <NSObject>
 @required
-- (void)encodeAudioData:(AudioBufferList)inBufferList timeStamp:(uint64_t)timeStamp;
+- (void)encodeAudioData:(nullable NSData*)audioData timeStamp:(uint64_t)timeStamp;
 - (void)stopEncoder;
 @optional
 - (nullable instancetype)initWithAudioStreamConfiguration:(nullable LFLiveAudioConfiguration *)configuration;

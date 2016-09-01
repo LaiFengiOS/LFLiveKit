@@ -9,7 +9,7 @@
 #import "LFLivePreview.h"
 #import "UIControl+YYAdd.h"
 #import "UIView+YYAdd.h"
-#import "LFLiveSession.h"
+#import <LFLiveKit/LFLiveKit.h>
 
 inline static NSString *formatedSpeed(float bytes, float elapsed_milli) {
     if (elapsed_milli <= 0) {

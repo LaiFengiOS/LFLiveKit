@@ -1,7 +1,7 @@
 language: objective-c
 osx_image: xcode7
-xcode_project: LFLiveKit.xcodeproj
+xcode_project: FrameWork/LFLiveKit.xcodeproj
 xcode_scheme: LFLiveKit
 
 script:
-- xctool -project LFLiveKit.xcodeproj -scheme 'LFLiveKit' -configuration Release -sdk iphonesimulator -arch i386 build
+- xctool -project FrameWork/LFLiveKit.xcodeproj -scheme 'LFLiveKit' -configuration Release -sdk iphonesimulator -arch i386 build

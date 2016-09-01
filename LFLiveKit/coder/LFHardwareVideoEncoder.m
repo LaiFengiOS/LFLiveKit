@@ -226,25 +226,16 @@ static void VideoCompressonOutputCallback(void *VTref, void *VTFrameRef, OSStatu
 }
 
 - (void)initForFilePath {
-    char *path = [self GetFilePathByfileName:"IOSCamDemo_HW.h264"];
-    NSLog(@"%s", path);
-    self->fp = fopen(path, "wb");
+    NSString *path = [self GetFilePathByfileName:@"IOSCamDemo.h264"];
+    NSLog(@"%@", path);
+    self->fp = fopen([path cStringUsingEncoding:NSUTF8StringEncoding], "wb");
 }
 
-- (char *)GetFilePathByfileName:(char *)filename {
+- (NSString *)GetFilePathByfileName:(NSString*)filename {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *strName = [NSString stringWithFormat:@"%s", filename];
-
-    NSString *writablePath = [documentsDirectory stringByAppendingPathComponent:strName];
-
-    NSUInteger len = [writablePath length];
-
-    char *filepath = (char *)malloc(sizeof(char) * (len + 1));
-
-    [writablePath getCString:filepath maxLength:len + 1 encoding:[NSString defaultCStringEncoding]];
-
-    return filepath;
+    NSString *writablePath = [documentsDirectory stringByAppendingPathComponent:filename];
+    return writablePath;
 }
 
 @end

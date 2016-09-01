@@ -8,12 +8,24 @@
 
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
+#if __has_include(<LFLiveKit/LFLiveKit.h>)
+#import <LFLiveKit/LFLiveStreamInfo.h>
+#import <LFLiveKit/LFAudioFrame.h>
+#import <LFLiveKit/LFVideoFrame.h>
+#import <LFLiveKit/LFLiveAudioConfiguration.h>
+#import <LFLiveKit/LFLiveVideoConfiguration.h>
+#import <LFLiveKit/LFLiveDebug.h>
+#else
 #import "LFLiveStreamInfo.h"
 #import "LFAudioFrame.h"
 #import "LFVideoFrame.h"
 #import "LFLiveAudioConfiguration.h"
 #import "LFLiveVideoConfiguration.h"
 #import "LFLiveDebug.h"
+
+#endif
+
+
 
 typedef NS_ENUM(NSInteger,LFLiveCaptureType) {
     LFLiveCaptureAudio,         //< capture only audio
@@ -113,9 +125,9 @@ typedef NS_ENUM(NSInteger,LFLiveCaptureTypeMask) {
 /*** The warterMarkView control whether the watermark is displayed or not ,if set ni,will remove watermark,otherwise add. 
  set alpha represent mix.Position relative to outVideoSize.
  *.*/
-@property (nonatomic, strong) UIView *warterMarkView;
+@property (nonatomic, strong, nullable) UIView *warterMarkView;
 
-@property (nonatomic, strong) UIImage *currentImage;
+@property (nonatomic, strong,readonly ,nullable) UIImage *currentImage;
 #pragma mark - Initializer
 ///=============================================================================
 /// @name Initializer
@@ -127,7 +139,7 @@ typedef NS_ENUM(NSInteger,LFLiveCaptureTypeMask) {
    The designated initializer. Multiple instances with the same configuration will make the
    capture unstable.
  */
-- (nullable instancetype)initWithAudioConfiguration:(nullable LFLiveAudioConfiguration *)audioConfiguration videoConfiguration:(nullable LFLiveVideoConfiguration *)videoConfiguration NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithAudioConfiguration:(nullable LFLiveAudioConfiguration *)audioConfiguration videoConfiguration:(nullable LFLiveVideoConfiguration *)videoConfiguration;
 
 /**
  The designated initializer. Multiple instances with the same configuration will make the
@@ -142,10 +154,10 @@ typedef NS_ENUM(NSInteger,LFLiveCaptureTypeMask) {
 - (void)stopLive;
 
 /** support outer input yuv or rgb video(set LFLiveCaptureTypeMask) .*/
-- (void)pushVideo:(CVPixelBufferRef)pixelBuffer;
+- (void)pushVideo:(nullable CVPixelBufferRef)pixelBuffer;
 
 /** support outer input pcm audio(set LFLiveCaptureTypeMask) .*/
-- (void)pushAudio:(AudioBufferList)audioBufferList;
+- (void)pushAudio:(nullable NSData*)audioData;
 
 @end
 

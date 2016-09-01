@@ -6,7 +6,11 @@
 //  Copyright © 2016年 倾慕. All rights reserved.
 //
 
+#if __has_include(<LFLiveKit/LFLiveKit.h>)
+#import <LFLiveKit/LFAudioEncoding.h>
+#else
 #import "LFAudioEncoding.h"
+#endif
 
 @interface LFHardwareAudioEncoder : NSObject<LFAudioEncoding>
 

@@ -8,7 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
+
+#if __has_include(<LFLiveKit/LFLiveKit.h>)
+#import <LFLiveKit/LFLiveVideoConfiguration.h>
+#else
 #import "LFLiveVideoConfiguration.h"
+#endif
 
 @class LFVideoCapture;
 /** LFVideoCapture callback videoData */
@@ -57,9 +62,9 @@
 @property (nonatomic, assign) NSInteger videoFrameRate;
 
 /*** The warterMarkView control whether the watermark is displayed or not ,if set ni,will remove watermark,otherwise add *.*/
-@property (nonatomic, strong) UIView *warterMarkView;
+@property (nonatomic, strong, nullable) UIView *warterMarkView;
 
-@property (nonatomic, strong) UIImage *currentImage;
+@property (nonatomic, strong, nullable) UIImage *currentImage;
 #pragma mark - Initializer
 ///=============================================================================
 /// @name Initializer

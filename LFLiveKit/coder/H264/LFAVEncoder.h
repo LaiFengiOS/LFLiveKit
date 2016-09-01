@@ -11,9 +11,17 @@
 #import <AVFoundation/AVAssetWriterInput.h>
 #import <AVFoundation/AVMediaFormat.h>
 #import <AVFoundation/AVVideoSettings.h>
-#import "sys/stat.h"
+#import <sys/stat.h>
+
+#if __has_include(<LFLiveKit/LFLiveKit.h>)
+#import <LFLiveKit/LFVideoEncoder.h>
+#import <LFLiveKit/LFMP4Atom.h>
+#else
 #import "LFVideoEncoder.h"
 #import "LFMP4Atom.h"
+#endif
+
+
 
 typedef int (^encoder_handler_t)(NSArray *data, CMTimeValue ptsValue);
 typedef int (^param_handler_t)(NSData *params);
@@ -26,7 +34,6 @@ typedef int (^param_handler_t)(NSData *params);
 
 - (void)encodeWithBlock:(encoder_handler_t)block onParams:(param_handler_t)paramsHandler;
 - (void)encodeFrame:(CMSampleBufferRef)sampleBuffer;
-- (void)encodePixelBuffer:(CVPixelBufferRef)pixelBuffer pts:(CMTime)pts;
 - (NSData *)getConfigData;
 - (void)shutdown;
 

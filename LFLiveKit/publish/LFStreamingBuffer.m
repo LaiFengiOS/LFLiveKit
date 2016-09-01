@@ -108,10 +108,7 @@ static const NSUInteger defaultSendBufferMaxCount = 600;///< 最大缓冲区为6
         }
         
         [self.list removeAllObjects];
-    }else{
-        [self.list lfPopFirstObject];
     }
-    
 }
 
 - (NSArray *)expirePFrames {
@@ -228,7 +225,7 @@ NSInteger frameDataCompare(id obj1, id obj2, void *context){
     }
     __weak typeof(self) _self = self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.updateInterval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        __weak typeof(_self) self = _self;
+        __strong typeof(_self) self = _self;
         [self tick];
     });
 }

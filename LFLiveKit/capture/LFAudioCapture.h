@@ -8,7 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
+
+#if __has_include(<LFLiveKit/LFLiveKit.h>)
+#import <LFLiveKit/LFLiveAudioConfiguration.h>
+#else
 #import "LFLiveAudioConfiguration.h"
+#endif
 
 #pragma mark -- AudioCaptureNotification
 /** compoentFialed will post the notification */
@@ -17,7 +22,7 @@ extern NSString *_Nullable const LFAudioComponentFailedToCreateNotification;
 @class LFAudioCapture;
 /** LFAudioCapture callback audioData */
 @protocol LFAudioCaptureDelegate <NSObject>
-- (void)captureOutput:(nullable LFAudioCapture *)capture audioBuffer:(AudioBufferList)inBufferList;
+- (void)captureOutput:(nullable LFAudioCapture *)capture audioData:(nullable NSData*)audioData;
 @end
 
 

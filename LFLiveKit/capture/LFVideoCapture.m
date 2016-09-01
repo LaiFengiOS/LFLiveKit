@@ -7,14 +7,21 @@
 //
 
 #import "LFVideoCapture.h"
-#import "GPUImage.h"
 #import "LFGPUImageBeautyFilter.h"
 #import "LFGPUImageEmptyFilter.h"
+
+#if __has_include(<GPUImage/GPUImage.h>)
+#import <GPUImage/GPUImage.h>
+#elif __has_include("GPUImage/GPUImage.h")
+#import "GPUImage/GPUImage.h"
+#else
+#import "GPUImage.h"
+#endif
 
 @interface LFVideoCapture ()
 
 @property (nonatomic, strong) GPUImageVideoCamera *videoCamera;
-@property (nonatomic, weak) LFGPUImageBeautyFilter *beautyFilter;
+@property (nonatomic, strong) LFGPUImageBeautyFilter *beautyFilter;
 @property (nonatomic, strong) GPUImageOutput<GPUImageInput> *filter;
 @property (nonatomic, strong) GPUImageCropFilter *cropfilter;
 @property (nonatomic, strong) GPUImageOutput<GPUImageInput> *output;
@@ -69,20 +76,18 @@
         if (self.configuration.landscape) {
             if (statusBar != UIInterfaceOrientationLandscapeLeft && statusBar != UIInterfaceOrientationLandscapeRight) {
                 @throw [NSException exceptionWithName:@"当前设置方向出错" reason:@"LFLiveVideoConfiguration landscape error" userInfo:nil];
-                _videoCamera.outputImageOrientation = UIInterfaceOrientationLandscapeLeft;
             } else {
                 _videoCamera.outputImageOrientation = statusBar;
             }
         } else {
             if (statusBar != UIInterfaceOrientationPortrait && statusBar != UIInterfaceOrientationPortraitUpsideDown) {
                 @throw [NSException exceptionWithName:@"当前设置方向出错" reason:@"LFLiveVideoConfiguration landscape error" userInfo:nil];
-                _videoCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
             } else {
                 _videoCamera.outputImageOrientation = statusBar;
             }
         }
         
-        _videoCamera.horizontallyMirrorFrontFacingCamera = YES;
+        _videoCamera.horizontallyMirrorFrontFacingCamera = NO;
         _videoCamera.horizontallyMirrorRearFacingCamera = NO;
         _videoCamera.frameRate = (int32_t)_configuration.videoFrameRate;
     }
@@ -116,6 +121,7 @@
 - (void)setCaptureDevicePosition:(AVCaptureDevicePosition)captureDevicePosition {
     [self.videoCamera rotateCamera];
     self.videoCamera.frameRate = (int32_t)_configuration.videoFrameRate;
+    [self reloadMirror];
 }
 
 - (AVCaptureDevicePosition)captureDevicePosition {
@@ -162,7 +168,6 @@
 
 - (void)setMirror:(BOOL)mirror {
     _mirror = mirror;
-    self.videoCamera.horizontallyMirrorFrontFacingCamera = mirror;
 }
 
 - (void)setBeautyFace:(BOOL)beautyFace{
@@ -251,10 +256,15 @@
     }
     return _gpuImageView;
 }
+
 -(UIImage *)currentImage{
-    [_filter useNextFrameForImageCapture];
-    return _filter.imageFromCurrentFramebuffer;
+    if(_filter){
+        [_filter useNextFrameForImageCapture];
+        return _filter.imageFromCurrentFramebuffer;
+    }
+    return nil;
 }
+
 #pragma mark -- Custom Method
 - (void)processVideo:(GPUImageOutput *)output {
     __weak typeof(self) _self = self;
@@ -267,7 +277,6 @@
     }
 }
 
-
 - (void)reloadFilter{
     [self.filter removeAllTargets];
     [self.blendFilter removeAllTargets];
@@ -279,12 +288,15 @@
     if (self.beautyFace) {
         self.output = [[LFGPUImageEmptyFilter alloc] init];
         self.filter = [[LFGPUImageBeautyFilter alloc] init];
-        self.beautyFilter = self.filter;
+        self.beautyFilter = (LFGPUImageBeautyFilter*)self.filter;
     } else {
         self.output = [[LFGPUImageEmptyFilter alloc] init];
         self.filter = [[LFGPUImageEmptyFilter alloc] init];
         self.beautyFilter = nil;
     }
+    
+    ///< 调节镜像
+    [self reloadMirror];
     
     //< 480*640 比例为4:3  强制转换为16:9
     if([self.configuration.avSessionPreset isEqualToString:AVCaptureSessionPreset640x480]){
@@ -313,12 +325,21 @@
     [self.blendFilter forceProcessingAtSize:self.configuration.videoSize];
     [self.uiElementInput forceProcessingAtSize:self.configuration.videoSize];
     
+    
     //< 输出数据
     __weak typeof(self) _self = self;
     [self.output setFrameProcessingCompletionBlock:^(GPUImageOutput *output, CMTime time) {
         [_self processVideo:output];
     }];
     
+}
+
+- (void)reloadMirror{
+    if(self.mirror && self.captureDevicePosition == AVCaptureDevicePositionFront){
+        [self.gpuImageView setInputRotation:kGPUImageFlipHorizonal atIndex:0];
+    }else{
+        [self.gpuImageView setInputRotation:kGPUImageNoRotation atIndex:0];
+    }
 }
 
 #pragma mark Notification

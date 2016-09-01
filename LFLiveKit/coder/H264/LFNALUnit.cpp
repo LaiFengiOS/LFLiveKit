@@ -222,7 +222,7 @@ ScalingList(int size, LFNALUnit *pnalu){
             long delta = pnalu->GetSE();
             nextScale = (lastScale + delta + 256) %256;
         }
-        int scaling_list_j = (nextScale == 0) ? lastScale : nextScale;
+        int scaling_list_j = (nextScale == 0) ? (int)lastScale : (int)nextScale;
         lastScale = scaling_list_j;
     }
 }
@@ -237,21 +237,21 @@ LFSeqParamSet::Parse(LFNALUnit *pnalu){
     // to get through to the ones we want
     pnalu->ResetBitstream();
     pnalu->Skip(8);             // type
-    m_Profile = pnalu->GetWord(8);
+    m_Profile =(int) pnalu->GetWord(8);
     m_Compatibility = (BYTE)pnalu->GetWord(8);
-    m_Level = pnalu->GetWord(8);
+    m_Level = (int)pnalu->GetWord(8);
 
     /*int seq_param_id =*/ pnalu->GetUE();
 
     if ((m_Profile == 100) || (m_Profile == 110) || (m_Profile == 122) || (m_Profile == 144)) {
-        int chroma_fmt = pnalu->GetUE();
+        int chroma_fmt = (int)pnalu->GetUE();
         if (chroma_fmt == 3) {
             pnalu->Skip(1);
         }
         /* int bit_depth_luma_minus8 = */ pnalu->GetUE();
         /* int bit_depth_chroma_minus8 = */ pnalu->GetUE();
         pnalu->Skip(1);
-        int seq_scaling_matrix_present = pnalu->GetBit();
+        int seq_scaling_matrix_present = (int)pnalu->GetBit();
         if (seq_scaling_matrix_present) {
             for (int i = 0; i < 8; i++) {
                 if (pnalu->GetBit()) {
@@ -265,16 +265,16 @@ LFSeqParamSet::Parse(LFNALUnit *pnalu){
         }
     }
 
-    int log2_frame_minus4 = pnalu->GetUE();
+    int log2_frame_minus4 = (int)pnalu->GetUE();
     m_FrameBits = log2_frame_minus4 + 4;
-    int POCtype = pnalu->GetUE();
+    int POCtype = (int)pnalu->GetUE();
     if (POCtype == 0) {
         /*int log2_poc_minus4 =*/ pnalu->GetUE();
     } else if (POCtype == 1) {
         pnalu->Skip(1); // delta always zero
         /*int nsp_offset =*/ pnalu->GetSE();
         /*int nsp_top_to_bottom = */ pnalu->GetSE();
-        int num_ref_in_cycle = pnalu->GetUE();
+        int num_ref_in_cycle = (int)pnalu->GetUE();
         for (int i = 0; i < num_ref_in_cycle; i++) {
             /*int sf_offset =*/ pnalu->GetSE();
         }
@@ -286,8 +286,8 @@ LFSeqParamSet::Parse(LFNALUnit *pnalu){
     /*int num_ref_frames =*/ pnalu->GetUE();
     /*int gaps_allowed =*/ pnalu->GetBit();
 
-    int mbs_width = pnalu->GetUE();
-    int mbs_height = pnalu->GetUE();
+    int mbs_width = (int)pnalu->GetUE();
+    int mbs_height = (int)pnalu->GetUE();
     m_cx = (mbs_width+1) * 16;
     m_cy = (mbs_height+1) * 16;
 
@@ -359,7 +359,7 @@ LFSliceHeader::Parse(LFNALUnit *pnalu){
     pnalu->GetUE();     // slice type
     pnalu->GetUE();     // pic param set id
 
-    m_framenum = pnalu->GetWord(m_nBitsFrame);
+    m_framenum = (int)pnalu->GetWord(m_nBitsFrame);
     return true;
 }
 

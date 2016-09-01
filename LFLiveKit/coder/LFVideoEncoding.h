@@ -7,8 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+
+#if __has_include(<LFLiveKit/LFLiveKit.h>)
+#import <LFLiveKit/LFVideoFrame.h>
+#import <LFLiveKit/LFLiveVideoConfiguration.h>
+#else
 #import "LFVideoFrame.h"
 #import "LFLiveVideoConfiguration.h"
+#endif
+
 
 @protocol LFVideoEncoding;
 /// 编码器编码后回调
@@ -21,11 +28,10 @@
 @protocol LFVideoEncoding <NSObject>
 @required
 - (void)encodeVideoData:(nullable CVPixelBufferRef)pixelBuffer timeStamp:(uint64_t)timeStamp;
-- (void)stopEncoder;
 @optional
 @property (nonatomic, assign) NSInteger videoBitRate;
 - (nullable instancetype)initWithVideoStreamConfiguration:(nullable LFLiveVideoConfiguration *)configuration;
 - (void)setDelegate:(nullable id<LFVideoEncodingDelegate>)delegate;
-
+- (void)stopEncoder;
 @end
 

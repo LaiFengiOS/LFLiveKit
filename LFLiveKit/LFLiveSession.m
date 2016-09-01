@@ -110,15 +110,6 @@
     self.socket = nil;
 }
 
-#pragma mark -- PrivateMethod
-- (void)pushSendBuffer:(LFFrame*)frame{
-    if(self.relativeTimestamps == 0){
-        self.relativeTimestamps = frame.timestamp;
-    }
-    frame.timestamp = [self uploadTimestamp:frame.timestamp];
-    [self.socket sendFrame:frame];
-}
-
 - (void)pushVideo:(nullable CVPixelBufferRef)pixelBuffer{
     if(self.captureType & LFLiveInputMaskVideo){
         if (self.uploading) [self.videoEncoder encodeVideoData:pixelBuffer timeStamp:NOW];
@@ -129,6 +120,15 @@
     if(self.captureType & LFLiveInputMaskAudio){
         if (self.uploading) [self.audioEncoder encodeAudioData:audioData timeStamp:NOW];
     }
+}
+
+#pragma mark -- PrivateMethod
+- (void)pushSendBuffer:(LFFrame*)frame{
+    if(self.relativeTimestamps == 0){
+        self.relativeTimestamps = frame.timestamp;
+    }
+    frame.timestamp = [self uploadTimestamp:frame.timestamp];
+    [self.socket sendFrame:frame];
 }
 
 #pragma mark -- CaptureDelegate

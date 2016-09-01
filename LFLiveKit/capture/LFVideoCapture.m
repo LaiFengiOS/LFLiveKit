@@ -87,7 +87,7 @@
             }
         }
         
-        _videoCamera.horizontallyMirrorFrontFacingCamera = YES;
+        _videoCamera.horizontallyMirrorFrontFacingCamera = NO;
         _videoCamera.horizontallyMirrorRearFacingCamera = NO;
         _videoCamera.frameRate = (int32_t)_configuration.videoFrameRate;
     }
@@ -121,6 +121,7 @@
 - (void)setCaptureDevicePosition:(AVCaptureDevicePosition)captureDevicePosition {
     [self.videoCamera rotateCamera];
     self.videoCamera.frameRate = (int32_t)_configuration.videoFrameRate;
+    [self reloadMirror];
 }
 
 - (AVCaptureDevicePosition)captureDevicePosition {
@@ -167,7 +168,6 @@
 
 - (void)setMirror:(BOOL)mirror {
     _mirror = mirror;
-    self.videoCamera.horizontallyMirrorFrontFacingCamera = mirror;
 }
 
 - (void)setBeautyFace:(BOOL)beautyFace{
@@ -277,7 +277,6 @@
     }
 }
 
-
 - (void)reloadFilter{
     [self.filter removeAllTargets];
     [self.blendFilter removeAllTargets];
@@ -295,6 +294,9 @@
         self.filter = [[LFGPUImageEmptyFilter alloc] init];
         self.beautyFilter = nil;
     }
+    
+    ///< 调节镜像
+    [self reloadMirror];
     
     //< 480*640 比例为4:3  强制转换为16:9
     if([self.configuration.avSessionPreset isEqualToString:AVCaptureSessionPreset640x480]){
@@ -323,12 +325,21 @@
     [self.blendFilter forceProcessingAtSize:self.configuration.videoSize];
     [self.uiElementInput forceProcessingAtSize:self.configuration.videoSize];
     
+    
     //< 输出数据
     __weak typeof(self) _self = self;
     [self.output setFrameProcessingCompletionBlock:^(GPUImageOutput *output, CMTime time) {
         [_self processVideo:output];
     }];
     
+}
+
+- (void)reloadMirror{
+    if(self.mirror && self.captureDevicePosition == AVCaptureDevicePositionFront){
+        [self.gpuImageView setInputRotation:kGPUImageFlipHorizonal atIndex:0];
+    }else{
+        [self.gpuImageView setInputRotation:kGPUImageNoRotation atIndex:0];
+    }
 }
 
 #pragma mark Notification

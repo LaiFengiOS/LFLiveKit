@@ -108,10 +108,7 @@ static const NSUInteger defaultSendBufferMaxCount = 600;///< 最大缓冲区为6
         }
         
         [self.list removeAllObjects];
-    }else{
-        [self.list lfPopFirstObject];
     }
-    
 }
 
 - (NSArray *)expirePFrames {

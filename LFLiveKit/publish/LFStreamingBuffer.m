@@ -155,9 +155,9 @@ NSInteger frameDataCompare(id obj1, id obj2, void *context){
     NSInteger decreaseCount = 0;
 
     for (NSNumber *number in self.thresholdList) {
-        if (number.integerValue >= currentCount) {
+        if (number.integerValue > currentCount) {
             increaseCount++;
-        } else {
+        } else{
             decreaseCount++;
         }
         currentCount = [number integerValue];
@@ -170,7 +170,7 @@ NSInteger frameDataCompare(id obj1, id obj2, void *context){
     if (decreaseCount >= self.callBackInterval) {
         return LFLiveBuffferDecline;
     }
-
+    
     return LFLiveBuffferUnknown;
 }
 
@@ -204,7 +204,7 @@ NSInteger frameDataCompare(id obj1, id obj2, void *context){
     dispatch_semaphore_wait(_lock, DISPATCH_TIME_FOREVER);
     [self.thresholdList addObject:@(self.list.count)];
     dispatch_semaphore_signal(_lock);
-
+    
     if (self.currentInterval >= self.callBackInterval) {
         LFLiveBuffferState state = [self currentBufferState];
         if (state == LFLiveBuffferIncrease) {

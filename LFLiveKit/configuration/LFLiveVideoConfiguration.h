@@ -51,7 +51,7 @@ typedef NS_ENUM (NSUInteger, LFLiveVideoQuality){
 + (instancetype)defaultConfigurationForQuality:(LFLiveVideoQuality)videoQuality;
 
 /// 视频配置(质量 & 是否是横屏)
-+ (instancetype)defaultConfigurationForQuality:(LFLiveVideoQuality)videoQuality landscape:(BOOL)landscape;
++ (instancetype)defaultConfigurationForQuality:(LFLiveVideoQuality)videoQuality outputImageOrientation:(UIInterfaceOrientation)outputImageOrientation;
 
 #pragma mark - Attribute
 ///=============================================================================
@@ -64,7 +64,10 @@ typedef NS_ENUM (NSUInteger, LFLiveVideoQuality){
 @property (nonatomic, assign) BOOL videoSizeRespectingAspectRatio;
 
 /// 视频输出方向
-@property (nonatomic, assign) BOOL landscape;
+@property (nonatomic, assign) UIInterfaceOrientation outputImageOrientation;
+
+/// 自动旋转(这里只支持 left 变 right  portrait 变 portraitUpsideDown)
+@property (nonatomic, assign) BOOL autorotate;
 
 /// 视频的帧率，即 fps
 @property (nonatomic, assign) NSUInteger videoFrameRate;
@@ -92,5 +95,8 @@ typedef NS_ENUM (NSUInteger, LFLiveVideoQuality){
 
 ///< ≈sde3分辨率
 @property (nonatomic, assign, readonly) NSString *avSessionPreset;
+
+///< 是否是横屏
+@property (nonatomic, assign, readonly) BOOL landscape;
 
 @end

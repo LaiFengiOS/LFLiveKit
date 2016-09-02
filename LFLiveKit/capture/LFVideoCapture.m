@@ -48,6 +48,7 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterBackground:) name:UIApplicationWillResignActiveNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationDidBecomeActiveNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarChanged:) name:UIApplicationWillChangeStatusBarOrientationNotification object:nil];
+        
         self.beautyFace = YES;
         self.beautyLevel = 0.5;
         self.brightLevel = 0.5;
@@ -72,21 +73,7 @@
 - (GPUImageVideoCamera *)videoCamera{
     if(!_videoCamera){
         _videoCamera = [[GPUImageVideoCamera alloc] initWithSessionPreset:_configuration.avSessionPreset cameraPosition:AVCaptureDevicePositionFront];
-        UIInterfaceOrientation statusBar = [[UIApplication sharedApplication] statusBarOrientation];
-        if (self.configuration.landscape) {
-            if (statusBar != UIInterfaceOrientationLandscapeLeft && statusBar != UIInterfaceOrientationLandscapeRight) {
-                @throw [NSException exceptionWithName:@"当前设置方向出错" reason:@"LFLiveVideoConfiguration landscape error" userInfo:nil];
-            } else {
-                _videoCamera.outputImageOrientation = statusBar;
-            }
-        } else {
-            if (statusBar != UIInterfaceOrientationPortrait && statusBar != UIInterfaceOrientationPortraitUpsideDown) {
-                @throw [NSException exceptionWithName:@"当前设置方向出错" reason:@"LFLiveVideoConfiguration landscape error" userInfo:nil];
-            } else {
-                _videoCamera.outputImageOrientation = statusBar;
-            }
-        }
-        
+        _videoCamera.outputImageOrientation = _configuration.outputImageOrientation;
         _videoCamera.horizontallyMirrorFrontFacingCamera = NO;
         _videoCamera.horizontallyMirrorRearFacingCamera = NO;
         _videoCamera.frameRate = (int32_t)_configuration.videoFrameRate;
@@ -360,17 +347,20 @@
 - (void)statusBarChanged:(NSNotification *)notification {
     NSLog(@"UIApplicationWillChangeStatusBarOrientationNotification. UserInfo: %@", notification.userInfo);
     UIInterfaceOrientation statusBar = [[UIApplication sharedApplication] statusBarOrientation];
-    if (self.configuration.landscape) {
-        if (statusBar == UIInterfaceOrientationLandscapeLeft) {
-            self.videoCamera.outputImageOrientation = UIInterfaceOrientationLandscapeRight;
-        } else if (statusBar == UIInterfaceOrientationLandscapeRight) {
-            self.videoCamera.outputImageOrientation = UIInterfaceOrientationLandscapeLeft;
-        }
-    } else {
-        if (statusBar == UIInterfaceOrientationPortrait) {
-            self.videoCamera.outputImageOrientation = UIInterfaceOrientationPortraitUpsideDown;
-        } else if (statusBar == UIInterfaceOrientationPortraitUpsideDown) {
-            self.videoCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
+
+    if(self.configuration.autorotate){
+        if (self.configuration.landscape) {
+            if (statusBar == UIInterfaceOrientationLandscapeLeft) {
+                self.videoCamera.outputImageOrientation = UIInterfaceOrientationLandscapeRight;
+            } else if (statusBar == UIInterfaceOrientationLandscapeRight) {
+                self.videoCamera.outputImageOrientation = UIInterfaceOrientationLandscapeLeft;
+            }
+        } else {
+            if (statusBar == UIInterfaceOrientationPortrait) {
+                self.videoCamera.outputImageOrientation = UIInterfaceOrientationPortraitUpsideDown;
+            } else if (statusBar == UIInterfaceOrientationPortraitUpsideDown) {
+                self.videoCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
+            }
         }
     }
 }

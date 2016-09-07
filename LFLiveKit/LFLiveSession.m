@@ -90,8 +90,8 @@
 }
 
 - (void)dealloc {
-    self.videoCaptureSource.running = NO;
-    self.audioCaptureSource.running = NO;
+    _videoCaptureSource.running = NO;
+    _audioCaptureSource.running = NO;
 }
 
 #pragma mark -- CustomMethod

@@ -61,10 +61,10 @@
 - (void)dealloc {
     [UIApplication sharedApplication].idleTimerDisabled = NO;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [self.videoCamera stopCameraCapture];
-    if(self.gpuImageView){
-        [self.gpuImageView removeFromSuperview];
-        self.gpuImageView = nil;
+    [_videoCamera stopCameraCapture];
+    if(_gpuImageView){
+        [_gpuImageView removeFromSuperview];
+        _gpuImageView = nil;
     }
 }
 

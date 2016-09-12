@@ -323,9 +323,9 @@
 
 - (void)reloadMirror{
     if(self.mirror && self.captureDevicePosition == AVCaptureDevicePositionFront){
-        [self.gpuImageView setInputRotation:kGPUImageFlipHorizonal atIndex:0];
+        self.videoCamera.horizontallyMirrorFrontFacingCamera = YES;
     }else{
-        [self.gpuImageView setInputRotation:kGPUImageNoRotation atIndex:0];
+        self.videoCamera.horizontallyMirrorFrontFacingCamera = NO;
     }
 }
 

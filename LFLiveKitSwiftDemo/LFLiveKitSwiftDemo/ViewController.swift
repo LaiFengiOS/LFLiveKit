@@ -105,9 +105,6 @@ class ViewController: UIViewController, LFLiveSessionDelegate {
         case LFLiveState.Stop:
             stateLabel.text = "未连接"
             break;
-        default:
-            stateLabel.text = "未知"
-            break;
         }
     }
     
@@ -119,7 +116,7 @@ class ViewController: UIViewController, LFLiveSessionDelegate {
         if (startLiveButton.selected) {
             startLiveButton.setTitle("结束直播", forState: UIControlState.Normal)
             let stream = LFLiveStreamInfo()
-            stream.url = "rtmp://30.96.179.95:1935/live/1234"
+            stream.url = "rtmp://live.hkstv.hk.lxdns.com:1935/live/stream153"
             session.startLive(stream)
         } else {
             startLiveButton.setTitle("开始直播", forState: UIControlState.Normal)
@@ -149,7 +146,7 @@ class ViewController: UIViewController, LFLiveSessionDelegate {
     //  默认分辨率368 ＊ 640  音频：44.1 iphone6以上48  双声道  方向竖屏
     lazy var session: LFLiveSession = {
         let audioConfiguration = LFLiveAudioConfiguration.defaultConfiguration()
-        let videoConfiguration = LFLiveVideoConfiguration.defaultConfigurationForQuality(LFLiveVideoQuality.Low3, landscape: false)
+        let videoConfiguration = LFLiveVideoConfiguration.defaultConfigurationForQuality(LFLiveVideoQuality.Low3)
         let session = LFLiveSession(audioConfiguration: audioConfiguration, videoConfiguration: videoConfiguration)
         
         session?.delegate = self

@@ -255,6 +255,13 @@ inline static NSString *formatedSpeed(float bytes, float elapsed_milli) {
         _session.showDebugInfo = NO;
         _session.preView = self;
         
+        /*本地存储*/
+//        _session.saveLocalVideo = YES;
+//        NSString *pathToMovie = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/Movie.mp4"];
+//        unlink([pathToMovie UTF8String]); // If a file already exists, AVAssetWriter won't let you record new frames, so delete the old movie
+//        NSURL *movieURL = [NSURL fileURLWithPath:pathToMovie];
+//        _session.saveLocalVideoPath = movieURL;
+        
         UIImageView *imageView = [[UIImageView alloc] init];
         imageView.alpha = 0.8;
         imageView.frame = CGRectMake(100, 100, 29, 29);

@@ -127,7 +127,15 @@ typedef NS_ENUM(NSInteger,LFLiveCaptureTypeMask) {
  *.*/
 @property (nonatomic, strong, nullable) UIView *warterMarkView;
 
+/* The currentImage is videoCapture shot */
 @property (nonatomic, strong,readonly ,nullable) UIImage *currentImage;
+
+/* The saveLocalVideo is save the local video */
+@property (nonatomic, assign) BOOL saveLocalVideo;
+
+/* The saveLocalVideoPath is save the local video  path */
+@property (nonatomic, strong, nullable) NSURL *saveLocalVideoPath;
+
 #pragma mark - Initializer
 ///=============================================================================
 /// @name Initializer

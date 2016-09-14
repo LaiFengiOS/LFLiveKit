@@ -251,6 +251,23 @@
     [self didChangeValueForKey:@"beautyFace"];
 }
 
+- (BOOL)saveLocalVideo{
+    return self.videoCaptureSource.saveLocalVideo;
+}
+
+- (void)setSaveLocalVideo:(BOOL)saveLocalVideo{
+    [self.videoCaptureSource setSaveLocalVideo:saveLocalVideo];
+}
+
+
+- (NSURL*)saveLocalVideoPath{
+    return self.videoCaptureSource.saveLocalVideoPath;
+}
+
+- (void)setSaveLocalVideoPath:(NSURL*)saveLocalVideoPath{
+    [self.videoCaptureSource setSaveLocalVideoPath:saveLocalVideoPath];
+}
+
 - (BOOL)beautyFace {
     return self.videoCaptureSource.beautyFace;
 }

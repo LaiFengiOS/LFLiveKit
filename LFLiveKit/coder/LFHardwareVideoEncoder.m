@@ -20,7 +20,6 @@
 
 @property (nonatomic, strong) LFLiveVideoConfiguration *configuration;
 @property (nonatomic, weak) id<LFVideoEncodingDelegate> h264Delegate;
-@property (nonatomic) BOOL isBackGround;
 @property (nonatomic) NSInteger currentVideoBitRate;
 
 @end
@@ -32,20 +31,18 @@
     if (self = [super init]) {
         NSLog(@"USE LFHardwareVideoEncoder");
         _configuration = configuration;
-        [self initCompressionSession];
+        [self resetCompressionSession];
 
 #ifdef DEBUG
         enabledWriteVideoFile = NO;
         [self initForFilePath];
 #endif
-
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterBackground:) name:UIApplicationWillResignActiveNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationDidBecomeActiveNotification object:nil];
+        
     }
     return self;
 }
 
-- (void)initCompressionSession {
+- (void)resetCompressionSession {
     if (compressionSession) {
         VTCompressionSessionCompleteFrames(compressionSession, kCMTimeInvalid);
 
@@ -75,7 +72,6 @@
 }
 
 - (void)setVideoBitRate:(NSInteger)videoBitRate {
-    if (_isBackGround) return;
     VTSessionSetProperty(compressionSession, kVTCompressionPropertyKey_AverageBitRate, (__bridge CFTypeRef)@(videoBitRate));
     NSArray *limit = @[@(videoBitRate * 1.5/8), @(1)];
     VTSessionSetProperty(compressionSession, kVTCompressionPropertyKey_DataRateLimits, (__bridge CFArrayRef)limit);
@@ -94,13 +90,11 @@
         CFRelease(compressionSession);
         compressionSession = NULL;
     }
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark -- LFVideoEncoder
 - (void)encodeVideoData:(CVPixelBufferRef)pixelBuffer timeStamp:(uint64_t)timeStamp {
-    if (_isBackGround) return;
-
+    
     frameCount++;
     CMTime presentationTimeStamp = CMTimeMake(frameCount, (int32_t)_configuration.videoFrameRate);
     VTEncodeInfoFlags flags;
@@ -112,7 +106,10 @@
     }
     NSNumber *timeNumber = @(timeStamp);
 
-    VTCompressionSessionEncodeFrame(compressionSession, pixelBuffer, presentationTimeStamp, duration, (__bridge CFDictionaryRef)properties, (__bridge_retained void *)timeNumber, &flags);
+    OSStatus status = VTCompressionSessionEncodeFrame(compressionSession, pixelBuffer, presentationTimeStamp, duration, (__bridge CFDictionaryRef)properties, (__bridge_retained void *)timeNumber, &flags);
+    if(status == noErr){
+        [self resetCompressionSession];
+    }
 }
 
 - (void)stopEncoder {
@@ -121,16 +118,6 @@
 
 - (void)setDelegate:(id<LFVideoEncodingDelegate>)delegate {
     _h264Delegate = delegate;
-}
-
-#pragma mark -- NSNotification
-- (void)willEnterBackground:(NSNotification *)notification {
-    _isBackGround = YES;
-}
-
-- (void)willEnterForeground:(NSNotification *)notification {
-    [self initCompressionSession];
-    _isBackGround = NO;
 }
 
 #pragma mark -- VideoCallBack

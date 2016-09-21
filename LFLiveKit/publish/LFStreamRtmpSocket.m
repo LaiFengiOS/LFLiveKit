@@ -137,6 +137,7 @@ SAVC(mp4a);
 - (void)sendFrame:(LFFrame *)frame {
     if (!frame) return;
     [self.buffer appendObject:frame];
+    
     if(!self.isSending){
         [self sendFrame];
     }
@@ -148,74 +149,75 @@ SAVC(mp4a);
 
 #pragma mark -- CustomMethod
 - (void)sendFrame {
+    __weak typeof(self) _self = self;
      dispatch_async(self.rtmpSendQueue, ^{
-        if (!self.isSending && self.buffer.list.count > 0) {
-            self.isSending = YES;
+        if (!_self.isSending && _self.buffer.list.count > 0) {
+            _self.isSending = YES;
 
-            if (!_isConnected || _isReconnecting || _isConnecting || !_rtmp){
-                self.isSending = NO;
+            if (!_self.isConnected || _self.isReconnecting || _self.isConnecting || !_rtmp){
+                _self.isSending = NO;
                 return;
             }
 
             // 调用发送接口
-            LFFrame *frame = [self.buffer popFirstObject];
+            LFFrame *frame = [_self.buffer popFirstObject];
             if ([frame isKindOfClass:[LFVideoFrame class]]) {
-                if (!self.sendVideoHead) {
-                    self.sendVideoHead = YES;
+                if (!_self.sendVideoHead) {
+                    _self.sendVideoHead = YES;
                     if(!((LFVideoFrame*)frame).sps || !((LFVideoFrame*)frame).pps){
-                        self.isSending = NO;
+                        _self.isSending = NO;
                         return;
                     }
-                    [self sendVideoHeader:(LFVideoFrame *)frame];
+                    [_self sendVideoHeader:(LFVideoFrame *)frame];
                 } else {
-                    [self sendVideo:(LFVideoFrame *)frame];
+                    [_self sendVideo:(LFVideoFrame *)frame];
                 }
             } else {
-                if (!self.sendAudioHead) {
-                    self.sendAudioHead = YES;
+                if (!_self.sendAudioHead) {
+                    _self.sendAudioHead = YES;
                     if(!((LFAudioFrame*)frame).audioInfo){
-                        self.isSending = NO;
+                        _self.isSending = NO;
                         return;
                     }
-                    [self sendAudioHeader:(LFAudioFrame *)frame];
+                    [_self sendAudioHeader:(LFAudioFrame *)frame];
                 } else {
-                    [self sendAudio:frame];
+                    [_self sendAudio:frame];
                 }
             }
 
             //debug更新
-            self.debugInfo.totalFrame++;
-            self.debugInfo.dropFrame += self.buffer.lastDropFrames;
-            self.buffer.lastDropFrames = 0;
+            _self.debugInfo.totalFrame++;
+            _self.debugInfo.dropFrame += _self.buffer.lastDropFrames;
+            _self.buffer.lastDropFrames = 0;
 
-            self.debugInfo.dataFlow += frame.data.length;
-            self.debugInfo.elapsedMilli = CACurrentMediaTime() * 1000 - self.debugInfo.timeStamp;
-            if (self.debugInfo.elapsedMilli < 1000) {
-                self.debugInfo.bandwidth += frame.data.length;
+            _self.debugInfo.dataFlow += frame.data.length;
+            _self.debugInfo.elapsedMilli = CACurrentMediaTime() * 1000 - _self.debugInfo.timeStamp;
+            if (_self.debugInfo.elapsedMilli < 1000) {
+                _self.debugInfo.bandwidth += frame.data.length;
                 if ([frame isKindOfClass:[LFAudioFrame class]]) {
-                    self.debugInfo.capturedAudioCount++;
+                    _self.debugInfo.capturedAudioCount++;
                 } else {
-                    self.debugInfo.capturedVideoCount++;
+                    _self.debugInfo.capturedVideoCount++;
                 }
 
-                self.debugInfo.unSendCount = self.buffer.list.count;
+                _self.debugInfo.unSendCount = _self.buffer.list.count;
             } else {
-                self.debugInfo.currentBandwidth = self.debugInfo.bandwidth;
-                self.debugInfo.currentCapturedAudioCount = self.debugInfo.capturedAudioCount;
-                self.debugInfo.currentCapturedVideoCount = self.debugInfo.capturedVideoCount;
-                if (self.delegate && [self.delegate respondsToSelector:@selector(socketDebug:debugInfo:)]) {
-                    [self.delegate socketDebug:self debugInfo:self.debugInfo];
+                _self.debugInfo.currentBandwidth = _self.debugInfo.bandwidth;
+                _self.debugInfo.currentCapturedAudioCount = _self.debugInfo.capturedAudioCount;
+                _self.debugInfo.currentCapturedVideoCount = _self.debugInfo.capturedVideoCount;
+                if (_self.delegate && [_self.delegate respondsToSelector:@selector(socketDebug:debugInfo:)]) {
+                    [_self.delegate socketDebug:_self debugInfo:_self.debugInfo];
                 }
-                self.debugInfo.bandwidth = 0;
-                self.debugInfo.capturedAudioCount = 0;
-                self.debugInfo.capturedVideoCount = 0;
-                self.debugInfo.timeStamp = CACurrentMediaTime() * 1000;
+                _self.debugInfo.bandwidth = 0;
+                _self.debugInfo.capturedAudioCount = 0;
+                _self.debugInfo.capturedVideoCount = 0;
+                _self.debugInfo.timeStamp = CACurrentMediaTime() * 1000;
             }
             
             //修改发送状态
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 //< 这里只为了不循环调用sendFrame方法 调用栈是保证先出栈再进栈
-                self.isSending = NO;
+                _self.isSending = NO;
             });
             
         }

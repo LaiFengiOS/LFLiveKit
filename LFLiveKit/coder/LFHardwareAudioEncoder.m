@@ -75,11 +75,12 @@
             [self encodeBuffer:p  timeStamp:timeStamp];
             p += self.configuration.bufferLength;
         }
-        free(totalBuf);
         
         leftLength = totalSize%self.configuration.bufferLength;
         memset(leftBuf, 0, self.configuration.bufferLength);
         memcpy(leftBuf, totalBuf + (totalSize -leftLength), leftLength);
+        
+        free(totalBuf);
         
     }else{
         ///< 积累

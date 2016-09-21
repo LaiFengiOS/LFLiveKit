@@ -71,63 +71,63 @@ LFLiveKit
 ## Usage example 
 
 #### Objective-C
+```objc
+- (LFLiveSession*)session {
+	if (!_session) {
+	    _session = [[LFLiveSession alloc] initWithAudioConfiguration:[LFLiveAudioConfiguration defaultConfiguration] videoConfiguration:[LFLiveVideoConfiguration defaultConfiguration]];
+	    _session.preView = self;
+	    _session.delegate = self;
+	}
+	return _session;
+}
 
-    - (LFLiveSession*)session {
-        if (!_session) {
-            _session = [[LFLiveSession alloc] initWithAudioConfiguration:[LFLiveAudioConfiguration defaultConfiguration] videoConfiguration:[LFLiveVideoConfiguration defaultConfiguration]];
-            _session.preView = self;
-            _session.delegate = self;
-        }
-        return _session;
-    }
-        
-    - (void)startLive {	
-        LFLiveStreamInfo *streamInfo = [LFLiveStreamInfo new];
-        streamInfo.url = @"your server rtmp url";
-        [self.session startLive:streamInfo];
-    }
+- (void)startLive {	
+	LFLiveStreamInfo *streamInfo = [LFLiveStreamInfo new];
+	streamInfo.url = @"your server rtmp url";
+	[self.session startLive:streamInfo];
+}
 
-    - (void)stopLive {
-        [self.session stopLive];
-    }
+- (void)stopLive {
+	[self.session stopLive];
+}
 
-    //MARK: - CallBack:
-    - (void)liveSession:(nullable LFLiveSession *)session liveStateDidChange: (LFLiveState)state;
-    - (void)liveSession:(nullable LFLiveSession *)session debugInfo:(nullable LFLiveDebug*)debugInfo;
-    - (void)liveSession:(nullable LFLiveSession*)session errorCode:(LFLiveSocketErrorCode)errorCode;
-
+//MARK: - CallBack:
+- (void)liveSession:(nullable LFLiveSession *)session liveStateDidChange: (LFLiveState)state;
+- (void)liveSession:(nullable LFLiveSession *)session debugInfo:(nullable LFLiveDebug*)debugInfo;
+- (void)liveSession:(nullable LFLiveSession*)session errorCode:(LFLiveSocketErrorCode)errorCode;
+```
 #### Swift
+```swift
+// import LFLiveKit in [ProjectName]-Bridging-Header.h
+#import <LFLiveKit.h> 
 
-    // import LFLiveKit in [ProjectName]-Bridging-Header.h
-    import <LFLiveKit.h> 
+//MARK: - Getters and Setters
+lazy var session: LFLiveSession = {
+	let audioConfiguration = LFLiveAudioConfiguration.defaultConfiguration()
+	let videoConfiguration = LFLiveVideoConfiguration.defaultConfigurationForQuality(LFLiveVideoQuality.Low3, landscape: false)
+	let session = LFLiveSession(audioConfiguration: audioConfiguration, videoConfiguration: videoConfiguration)
+	    
+	session?.delegate = self
+	session?.preView = self.view
+	return session!
+}()
 
-    //MARK: - Getters and Setters
-    lazy var session: LFLiveSession = {
-        let audioConfiguration = LFLiveAudioConfiguration.defaultConfiguration()
-        let videoConfiguration = LFLiveVideoConfiguration.defaultConfigurationForQuality(LFLiveVideoQuality.Low3, landscape: false)
-        let session = LFLiveSession(audioConfiguration: audioConfiguration, videoConfiguration: videoConfiguration)
-            
-        session?.delegate = self
-        session?.preView = self.view
-        return session!
-    }()
+//MARK: - Event
+func startLive() -> Void { 
+	let stream = LFLiveStreamInfo()
+	stream.url = "your server rtmp url";
+	session.startLive(stream)
+}
 
-    //MARK: - Event
-    func startLive() -> Void { 
-        let stream = LFLiveStreamInfo()
-        stream.url = "your server rtmp url";
-        session.startLive(stream)
-    }
+func stopLive() -> Void {
+	session.stopLive()
+}
 
-    func stopLive() -> Void {
-        session.stopLive()
-    }
-
-    //MARK: - Callback
-    func liveSession(session: LFLiveSession?, debugInfo: LFLiveDebug?) 
-    func liveSession(session: LFLiveSession?, errorCode: LFLiveSocketErrorCode)
-    func liveSession(session: LFLiveSession?, liveStateDidChange state: LFLiveState)
-
+//MARK: - Callback
+func liveSession(session: LFLiveSession?, debugInfo: LFLiveDebug?) 
+func liveSession(session: LFLiveSession?, errorCode: LFLiveSocketErrorCode)
+func liveSession(session: LFLiveSession?, liveStateDidChange state: LFLiveState)
+```
 
 ## Release History
     * 2.0.0

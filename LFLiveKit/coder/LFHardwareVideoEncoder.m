@@ -107,7 +107,7 @@
     NSNumber *timeNumber = @(timeStamp);
 
     OSStatus status = VTCompressionSessionEncodeFrame(compressionSession, pixelBuffer, presentationTimeStamp, duration, (__bridge CFDictionaryRef)properties, (__bridge_retained void *)timeNumber, &flags);
-    if(status == noErr){
+    if(status != noErr){
         [self resetCompressionSession];
     }
 }

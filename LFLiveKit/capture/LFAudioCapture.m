@@ -100,6 +100,7 @@ NSString *const LFAudioComponentFailedToCreateNotification = @"LFAudioComponentF
 
     dispatch_sync(self.taskQueue, ^{
         if (self.componetInstance) {
+            self.isRunning = NO;
             AudioOutputUnitStop(self.componetInstance);
             AudioComponentInstanceDispose(self.componetInstance);
             self.componetInstance = nil;
@@ -120,7 +121,11 @@ NSString *const LFAudioComponentFailedToCreateNotification = @"LFAudioComponentF
             AudioOutputUnitStart(self.componetInstance);
         });
     } else {
-        self.isRunning = NO;
+        dispatch_sync(self.taskQueue, ^{
+            self.isRunning = NO;
+            NSLog(@"MicrophoneSource: stopRunning");
+            AudioOutputUnitStop(self.componetInstance);
+        });
     }
 }
 
@@ -191,7 +196,7 @@ NSString *const LFAudioComponentFailedToCreateNotification = @"LFAudioComponentF
             case AVAudioSessionInterruptionOptionShouldResume:
                 if (self.isRunning) {
                     dispatch_async(self.taskQueue, ^{
-                        NSLog(@"MicrophoneSource: stopRunning");
+                        NSLog(@"MicrophoneSource: startRunning");
                         AudioOutputUnitStart(self.componetInstance);
                     });
                 }
@@ -233,15 +238,6 @@ static OSStatus handleInputBuffer(void *inRefCon,
                                           inBusNumber,
                                           inNumberFrames,
                                           &buffers);
-
-        if (!source.isRunning) {
-            dispatch_sync(source.taskQueue, ^{
-                NSLog(@"MicrophoneSource: stopRunning");
-                AudioOutputUnitStop(source.componetInstance);
-            });
-
-            return status;
-        }
 
         if (source.muted) {
             for (int i = 0; i < buffers.mNumberBuffers; i++) {

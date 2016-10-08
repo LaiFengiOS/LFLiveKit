@@ -16,7 +16,7 @@
 #import "rtmp.h"
 #endif
 
-static const NSInteger RetryTimesBreaken = 20;  ///<  重连1分钟  3秒一次 一共20次
+static const NSInteger RetryTimesBreaken = 5;  ///<  重连1分钟  3秒一次 一共20次
 static const NSInteger RetryTimesMargin = 3;
 
 
@@ -112,12 +112,24 @@ SAVC(mp4a);
     self.debugInfo.streamId = self.stream.streamId;
     self.debugInfo.uploadUrl = self.stream.url;
     self.debugInfo.isRtmp = YES;
+    if (_isConnecting) return;
+    
+    _isConnecting = YES;
+    if (self.delegate && [self.delegate respondsToSelector:@selector(socketStatus:status:)]) {
+        [self.delegate socketStatus:self status:LFLivePending];
+    }
+    
+    if (_rtmp != NULL) {
+        PILI_RTMP_Close(_rtmp, &_error);
+        PILI_RTMP_Free(_rtmp);
+    }
     [self RTMP264_Connect:(char *)[_stream.url cStringUsingEncoding:NSASCIIStringEncoding]];
 }
 
 - (void)stop {
     dispatch_async(self.rtmpSendQueue, ^{
         [self _stop];
+        [NSObject cancelPreviousPerformRequestsWithTarget:self];
     });
 }
 
@@ -131,7 +143,6 @@ SAVC(mp4a);
         _rtmp = NULL;
     }
     [self clean];
-    [NSObject cancelPreviousPerformRequestsWithTarget:self];
 }
 
 - (void)sendFrame:(LFFrame *)frame {
@@ -239,18 +250,6 @@ SAVC(mp4a);
 - (NSInteger)RTMP264_Connect:(char *)push_url {
     //由于摄像头的timestamp是一直在累加，需要每次得到相对时间戳
     //分配与初始化
-    if (_isConnecting) return -1;
-
-    _isConnecting = YES;
-    if (self.delegate && [self.delegate respondsToSelector:@selector(socketStatus:status:)]) {
-        [self.delegate socketStatus:self status:LFLivePending];
-    }
-
-    if (_rtmp != NULL) {
-        PILI_RTMP_Close(_rtmp, &_error);
-        PILI_RTMP_Free(_rtmp);
-    }
-
     _rtmp = PILI_RTMP_Alloc();
     PILI_RTMP_Init(_rtmp);
 
@@ -289,19 +288,13 @@ SAVC(mp4a);
     _isConnecting = NO;
     _isReconnecting = NO;
     _isSending = NO;
-    _retryTimes4netWorkBreaken = 0;
     return 0;
 
 Failed:
     PILI_RTMP_Close(_rtmp, &_error);
     PILI_RTMP_Free(_rtmp);
     _rtmp = NULL;
-    if (self.delegate && [self.delegate respondsToSelector:@selector(socketDidError:errorCode:)]) {
-        [self.delegate socketDidError:self errorCode:LFLiveSocketError_ConnectSocket];
-    }
-    if (self.delegate && [self.delegate respondsToSelector:@selector(socketStatus:status:)]) {
-        [self.delegate socketStatus:self status:LFLiveError];
-    }
+    [self reconnect];
     return -1;
 }
 
@@ -493,36 +486,62 @@ Failed:
 // 断线重连
 - (void)reconnect {
     dispatch_async(self.rtmpSendQueue, ^{
-        _isReconnecting = NO;
-        if (_isConnected) return;
-
-        [self _stop];
-        [self _start];
+        if (self.retryTimes4netWorkBreaken++ < self.reconnectCount && !self.isReconnecting) {
+            self.isConnected = NO;
+            self.isConnecting = NO;
+            self.isReconnecting = YES;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                 [self performSelector:@selector(_reconnect) withObject:nil afterDelay:self.reconnectInterval];
+            });
+           
+        } else if (self.retryTimes4netWorkBreaken >= self.reconnectCount) {
+            if (self.delegate && [self.delegate respondsToSelector:@selector(socketStatus:status:)]) {
+                [self.delegate socketStatus:self status:LFLiveError];
+            }
+            if (self.delegate && [self.delegate respondsToSelector:@selector(socketDidError:errorCode:)]) {
+                [self.delegate socketDidError:self errorCode:LFLiveSocketError_ReConnectTimeOut];
+            }
+        }
     });
+}
+
+- (void)_reconnect{
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+    
+    _isReconnecting = NO;
+    if(_isConnected) return;
+    
+    _isReconnecting = NO;
+    if (_isConnected) return;
+    if (_rtmp != NULL) {
+        PILI_RTMP_Close(_rtmp, &_error);
+        PILI_RTMP_Free(_rtmp);
+        _rtmp = NULL;
+    }
+    _sendAudioHead = NO;
+    _sendVideoHead = NO;
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(socketStatus:status:)]) {
+        [self.delegate socketStatus:self status:LFLiveRefresh];
+    }
+    
+    if (_rtmp != NULL) {
+        PILI_RTMP_Close(_rtmp, &_error);
+        PILI_RTMP_Free(_rtmp);
+    }
+    [self RTMP264_Connect:(char *)[_stream.url cStringUsingEncoding:NSASCIIStringEncoding]];
 }
 
 #pragma mark -- CallBack
 void RTMPErrorCallback(RTMPError *error, void *userData) {
     LFStreamRTMPSocket *socket = (__bridge LFStreamRTMPSocket *)userData;
     if (error->code < 0) {
-        if (socket.retryTimes4netWorkBreaken++ < socket.reconnectCount && !socket.isReconnecting) {
-            socket.isConnected = NO;
-            socket.isConnecting = NO;
-            socket.isReconnecting = YES;
-            [socket performSelectorOnMainThread:@selector(reconnect) withObject:nil waitUntilDone:socket.reconnectInterval];
-        } else if (socket.retryTimes4netWorkBreaken >= socket.reconnectCount) {
-            if (socket.delegate && [socket.delegate respondsToSelector:@selector(socketStatus:status:)]) {
-                [socket.delegate socketStatus:socket status:LFLiveError];
-            }
-            if (socket.delegate && [socket.delegate respondsToSelector:@selector(socketDidError:errorCode:)]) {
-                [socket.delegate socketDidError:socket errorCode:LFLiveSocketError_ReConnectTimeOut];
-            }
-        }
+        [socket reconnect];
     }
 }
 
 void ConnectionTimeCallback(PILI_CONNECTION_TIME *conn_time, void *userData) {
-    //LFStreamRTMPSocket *socket = (__bridge LFStreamRTMPSocket*)userData;
+    LFStreamRTMPSocket *socket = (__bridge LFStreamRTMPSocket*)userData;
 }
 
 #pragma mark -- LFStreamingBufferDelegate

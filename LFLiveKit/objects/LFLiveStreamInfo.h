@@ -29,7 +29,9 @@ typedef NS_ENUM (NSUInteger, LFLiveState){
     /// 已断开
     LFLiveStop = 3,
     /// 连接出错
-    LFLiveError = 4
+    LFLiveError = 4,
+    ///  正在刷新
+    LFLiveRefresh = 5
 };
 
 typedef NS_ENUM (NSUInteger, LFLiveSocketErrorCode) {

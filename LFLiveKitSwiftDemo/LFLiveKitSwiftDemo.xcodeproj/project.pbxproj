@@ -20,30 +20,13 @@
 		84D8B4B11D757DBB00752B56 /* camra_preview@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D8B4A91D757DBB00752B56 /* camra_preview@3x.png */; };
 		84D8B4B21D757DBB00752B56 /* close_preview@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D8B4AA1D757DBB00752B56 /* close_preview@2x.png */; };
 		84D8B4B31D757DBB00752B56 /* close_preview@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D8B4AB1D757DBB00752B56 /* close_preview@3x.png */; };
-		84D8B4BA1D757DED00752B56 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D8B4B81D757DED00752B56 /* GPUImage.framework */; };
 		84D8B4BD1D757E0E00752B56 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D8B4BC1D757E0E00752B56 /* libstdc++.tbd */; };
-		84D8B5571D76824700752B56 /* pili-librtmp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D8B5561D76824700752B56 /* pili-librtmp.framework */; };
-		84D8B5FE1D768BBE00752B56 /* LFLiveKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D8B5FB1D768BB200752B56 /* LFLiveKit.framework */; };
+		9CA0546A1BD4E74670872B9B /* libPods-LFLiveKitSwiftDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E0C4364E65B82DECF3326D9 /* libPods-LFLiveKitSwiftDemo.a */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		84D8B5FA1D768BB200752B56 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 84D8B5F61D768BB200752B56 /* LFLiveKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 84D8B3901D7574D600752B56;
-			remoteInfo = LFLiveKit;
-		};
-		84D8B5FC1D768BB800752B56 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 84D8B5F61D768BB200752B56 /* LFLiveKit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 84D8B38F1D7574D600752B56;
-			remoteInfo = LFLiveKit;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
+		4E0C4364E65B82DECF3326D9 /* libPods-LFLiveKitSwiftDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LFLiveKitSwiftDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7265B07B4B6CEE8ECE8F7A63 /* Pods-LFLiveKitSwiftDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LFLiveKitSwiftDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LFLiveKitSwiftDemo/Pods-LFLiveKitSwiftDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		84D8B4881D757D4000752B56 /* LFLiveKitSwiftDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LFLiveKitSwiftDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84D8B48B1D757D4000752B56 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		84D8B48D1D757D4000752B56 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -59,10 +42,8 @@
 		84D8B4A91D757DBB00752B56 /* camra_preview@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camra_preview@3x.png"; sourceTree = "<group>"; };
 		84D8B4AA1D757DBB00752B56 /* close_preview@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close_preview@2x.png"; sourceTree = "<group>"; };
 		84D8B4AB1D757DBB00752B56 /* close_preview@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close_preview@3x.png"; sourceTree = "<group>"; };
-		84D8B4B81D757DED00752B56 /* GPUImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GPUImage.framework; path = ../Vendor/GPUImage.framework; sourceTree = "<group>"; };
 		84D8B4BC1D757E0E00752B56 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
-		84D8B5561D76824700752B56 /* pili-librtmp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "pili-librtmp.framework"; path = "../Vendor/pili-librtmp.framework"; sourceTree = "<group>"; };
-		84D8B5F61D768BB200752B56 /* LFLiveKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LFLiveKit.xcodeproj; path = ../FrameWork/LFLiveKit.xcodeproj; sourceTree = "<group>"; };
+		DAC498DB742E949DED005ECE /* Pods-LFLiveKitSwiftDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LFLiveKitSwiftDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-LFLiveKitSwiftDemo/Pods-LFLiveKitSwiftDemo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,25 +51,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84D8B5FE1D768BBE00752B56 /* LFLiveKit.framework in Frameworks */,
-				84D8B5571D76824700752B56 /* pili-librtmp.framework in Frameworks */,
 				84D8B4BD1D757E0E00752B56 /* libstdc++.tbd in Frameworks */,
-				84D8B4BA1D757DED00752B56 /* GPUImage.framework in Frameworks */,
+				9CA0546A1BD4E74670872B9B /* libPods-LFLiveKitSwiftDemo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		23FA2B0543E0C2A8E7C84D9E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4E0C4364E65B82DECF3326D9 /* libPods-LFLiveKitSwiftDemo.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		84D8B47F1D757D4000752B56 = {
 			isa = PBXGroup;
 			children = (
-				84D8B5F61D768BB200752B56 /* LFLiveKit.xcodeproj */,
-				84D8B5561D76824700752B56 /* pili-librtmp.framework */,
 				84D8B4BC1D757E0E00752B56 /* libstdc++.tbd */,
-				84D8B4B81D757DED00752B56 /* GPUImage.framework */,
 				84D8B48A1D757D4000752B56 /* LFLiveKitSwiftDemo */,
 				84D8B4891D757D4000752B56 /* Products */,
+				B19B532AA669846CC85D50E3 /* Pods */,
+				23FA2B0543E0C2A8E7C84D9E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -129,12 +115,13 @@
 			path = images;
 			sourceTree = "<group>";
 		};
-		84D8B5F71D768BB200752B56 /* Products */ = {
+		B19B532AA669846CC85D50E3 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				84D8B5FB1D768BB200752B56 /* LFLiveKit.framework */,
+				7265B07B4B6CEE8ECE8F7A63 /* Pods-LFLiveKitSwiftDemo.debug.xcconfig */,
+				DAC498DB742E949DED005ECE /* Pods-LFLiveKitSwiftDemo.release.xcconfig */,
 			);
-			name = Products;
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -144,14 +131,16 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 84D8B49A1D757D4000752B56 /* Build configuration list for PBXNativeTarget "LFLiveKitSwiftDemo" */;
 			buildPhases = (
+				FC46EAD69B9F095AB7372DB6 /* 📦 Check Pods Manifest.lock */,
 				84D8B4841D757D4000752B56 /* Sources */,
 				84D8B4851D757D4000752B56 /* Frameworks */,
 				84D8B4861D757D4000752B56 /* Resources */,
+				951756CA4F11963EE3622ADB /* 📦 Embed Pods Frameworks */,
+				1D8289CE7990A09D5E67FA15 /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				84D8B5FD1D768BB800752B56 /* PBXTargetDependency */,
 			);
 			name = LFLiveKitSwiftDemo;
 			productName = LFLiveKitSwiftDemo;
@@ -170,6 +159,8 @@
 				TargetAttributes = {
 					84D8B4871D757D4000752B56 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = G497YX6CBT;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -184,28 +175,12 @@
 			mainGroup = 84D8B47F1D757D4000752B56;
 			productRefGroup = 84D8B4891D757D4000752B56 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 84D8B5F71D768BB200752B56 /* Products */;
-					ProjectRef = 84D8B5F61D768BB200752B56 /* LFLiveKit.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				84D8B4871D757D4000752B56 /* LFLiveKitSwiftDemo */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		84D8B5FB1D768BB200752B56 /* LFLiveKit.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = LFLiveKit.framework;
-			remoteRef = 84D8B5FA1D768BB200752B56 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		84D8B4861D757D4000752B56 /* Resources */ = {
@@ -228,6 +203,54 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		1D8289CE7990A09D5E67FA15 /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LFLiveKitSwiftDemo/Pods-LFLiveKitSwiftDemo-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		951756CA4F11963EE3622ADB /* 📦 Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LFLiveKitSwiftDemo/Pods-LFLiveKitSwiftDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FC46EAD69B9F095AB7372DB6 /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		84D8B4841D757D4000752B56 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -239,14 +262,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		84D8B5FD1D768BB800752B56 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = LFLiveKit;
-			targetProxy = 84D8B5FC1D768BB800752B56 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		84D8B48F1D757D4000752B56 /* Main.storyboard */ = {
@@ -353,31 +368,41 @@
 		};
 		84D8B49B1D757D4000752B56 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7265B07B4B6CEE8ECE8F7A63 /* Pods-LFLiveKitSwiftDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
+				DEVELOPMENT_TEAM = G497YX6CBT;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = LFLiveKitSwiftDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = com.youku.LaiFeng;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
 		84D8B49C1D757D4000752B56 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DAC498DB742E949DED005ECE /* Pods-LFLiveKitSwiftDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../Vendor\"/**";
+				DEVELOPMENT_TEAM = G497YX6CBT;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = LFLiveKitSwiftDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = com.youku.LaiFeng;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

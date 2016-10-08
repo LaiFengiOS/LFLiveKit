@@ -9,7 +9,7 @@
 #import "LFLivePreview.h"
 #import "UIControl+YYAdd.h"
 #import "UIView+YYAdd.h"
-#import <LFLiveKit/LFLiveKit.h>
+#import "LFLiveKit.h"
 
 inline static NSString *formatedSpeed(float bytes, float elapsed_milli) {
     if (elapsed_milli <= 0) {
@@ -262,11 +262,12 @@ inline static NSString *formatedSpeed(float bytes, float elapsed_milli) {
 //        NSURL *movieURL = [NSURL fileURLWithPath:pathToMovie];
 //        _session.saveLocalVideoPath = movieURL;
         
+        /*
         UIImageView *imageView = [[UIImageView alloc] init];
         imageView.alpha = 0.8;
         imageView.frame = CGRectMake(100, 100, 29, 29);
         imageView.image = [UIImage imageNamed:@"ios-29x29"];
-        _session.warterMarkView = imageView;
+        _session.warterMarkView = imageView;*/
         
     }
     return _session;

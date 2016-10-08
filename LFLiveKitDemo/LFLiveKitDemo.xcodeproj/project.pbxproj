@@ -25,30 +25,13 @@
 		84D8B4631D75782700752B56 /* close_preview@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D8B4581D75782700752B56 /* close_preview@2x.png */; };
 		84D8B4641D75782700752B56 /* close_preview@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D8B4591D75782700752B56 /* close_preview@3x.png */; };
 		84D8B4651D75782700752B56 /* ios-29x29.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D8B45A1D75782700752B56 /* ios-29x29.png */; };
-		84D8B4681D75783F00752B56 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D8B4661D75783F00752B56 /* GPUImage.framework */; };
 		84D8B4CF1D757F0700752B56 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D8B4CE1D757F0700752B56 /* libstdc++.tbd */; };
-		84D8B5541D76822C00752B56 /* pili-librtmp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D8B5531D76822C00752B56 /* pili-librtmp.framework */; };
-		84D8B5F41D768B9E00752B56 /* LFLiveKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D8B5F11D768B8300752B56 /* LFLiveKit.framework */; };
+		BC8B37EEE1CEEF9B5614DC91 /* libPods-LFLiveKitDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B1CCEEE06FCFAF75D105A51 /* libPods-LFLiveKitDemo.a */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		84D8B5F01D768B8300752B56 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 84D8B5EC1D768B8300752B56 /* LFLiveKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 84D8B3901D7574D600752B56;
-			remoteInfo = LFLiveKit;
-		};
-		84D8B5F21D768B9700752B56 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 84D8B5EC1D768B8300752B56 /* LFLiveKit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 84D8B38F1D7574D600752B56;
-			remoteInfo = LFLiveKit;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
+		289A9C4510CD7EA6F4CE9897 /* Pods-LFLiveKitDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LFLiveKitDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LFLiveKitDemo/Pods-LFLiveKitDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		5B1CCEEE06FCFAF75D105A51 /* libPods-LFLiveKitDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LFLiveKitDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		84D8B4261D75778B00752B56 /* LFLiveKitDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LFLiveKitDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84D8B42A1D75778B00752B56 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		84D8B42C1D75778B00752B56 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -74,10 +57,8 @@
 		84D8B4581D75782700752B56 /* close_preview@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close_preview@2x.png"; sourceTree = "<group>"; };
 		84D8B4591D75782700752B56 /* close_preview@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close_preview@3x.png"; sourceTree = "<group>"; };
 		84D8B45A1D75782700752B56 /* ios-29x29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios-29x29.png"; sourceTree = "<group>"; };
-		84D8B4661D75783F00752B56 /* GPUImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GPUImage.framework; path = ../Vendor/GPUImage.framework; sourceTree = "<group>"; };
 		84D8B4CE1D757F0700752B56 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
-		84D8B5531D76822C00752B56 /* pili-librtmp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "pili-librtmp.framework"; path = "../Vendor/pili-librtmp.framework"; sourceTree = "<group>"; };
-		84D8B5EC1D768B8300752B56 /* LFLiveKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LFLiveKit.xcodeproj; path = ../FrameWork/LFLiveKit.xcodeproj; sourceTree = "<group>"; };
+		96E1231310083A3881AD2AB6 /* Pods-LFLiveKitDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LFLiveKitDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-LFLiveKitDemo/Pods-LFLiveKitDemo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,25 +66,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84D8B5F41D768B9E00752B56 /* LFLiveKit.framework in Frameworks */,
-				84D8B5541D76822C00752B56 /* pili-librtmp.framework in Frameworks */,
 				84D8B4CF1D757F0700752B56 /* libstdc++.tbd in Frameworks */,
-				84D8B4681D75783F00752B56 /* GPUImage.framework in Frameworks */,
+				BC8B37EEE1CEEF9B5614DC91 /* libPods-LFLiveKitDemo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		65E0CF98FF954863E543A0E1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5B1CCEEE06FCFAF75D105A51 /* libPods-LFLiveKitDemo.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		84D8B41D1D75778B00752B56 = {
 			isa = PBXGroup;
 			children = (
-				84D8B5EC1D768B8300752B56 /* LFLiveKit.xcodeproj */,
-				84D8B5531D76822C00752B56 /* pili-librtmp.framework */,
 				84D8B4CE1D757F0700752B56 /* libstdc++.tbd */,
-				84D8B4661D75783F00752B56 /* GPUImage.framework */,
 				84D8B4281D75778B00752B56 /* LFLiveKitDemo */,
 				84D8B4271D75778B00752B56 /* Products */,
+				F3E359B8A7561F963C47A62F /* Pods */,
+				65E0CF98FF954863E543A0E1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -170,12 +156,13 @@
 			path = images;
 			sourceTree = "<group>";
 		};
-		84D8B5ED1D768B8300752B56 /* Products */ = {
+		F3E359B8A7561F963C47A62F /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				84D8B5F11D768B8300752B56 /* LFLiveKit.framework */,
+				289A9C4510CD7EA6F4CE9897 /* Pods-LFLiveKitDemo.debug.xcconfig */,
+				96E1231310083A3881AD2AB6 /* Pods-LFLiveKitDemo.release.xcconfig */,
 			);
-			name = Products;
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -185,14 +172,16 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 84D8B43D1D75778B00752B56 /* Build configuration list for PBXNativeTarget "LFLiveKitDemo" */;
 			buildPhases = (
+				A819C09CC049A57DC5C97E12 /* 📦 Check Pods Manifest.lock */,
 				84D8B4221D75778B00752B56 /* Sources */,
 				84D8B4231D75778B00752B56 /* Frameworks */,
 				84D8B4241D75778B00752B56 /* Resources */,
+				883533331BE4DCC0DB5075CF /* 📦 Embed Pods Frameworks */,
+				4CC4C37B93D109913E475307 /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				84D8B5F31D768B9700752B56 /* PBXTargetDependency */,
 			);
 			name = LFLiveKitDemo;
 			productName = LFLiveKitDemo;
@@ -225,28 +214,12 @@
 			mainGroup = 84D8B41D1D75778B00752B56;
 			productRefGroup = 84D8B4271D75778B00752B56 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 84D8B5ED1D768B8300752B56 /* Products */;
-					ProjectRef = 84D8B5EC1D768B8300752B56 /* LFLiveKit.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				84D8B4251D75778B00752B56 /* LFLiveKitDemo */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		84D8B5F11D768B8300752B56 /* LFLiveKit.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = LFLiveKit.framework;
-			remoteRef = 84D8B5F01D768B8300752B56 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		84D8B4241D75778B00752B56 /* Resources */ = {
@@ -270,6 +243,54 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		4CC4C37B93D109913E475307 /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LFLiveKitDemo/Pods-LFLiveKitDemo-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		883533331BE4DCC0DB5075CF /* 📦 Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LFLiveKitDemo/Pods-LFLiveKitDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A819C09CC049A57DC5C97E12 /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		84D8B4221D75778B00752B56 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -285,14 +306,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		84D8B5F31D768B9700752B56 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = LFLiveKit;
-			targetProxy = 84D8B5F21D768B9700752B56 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		84D8B4321D75778B00752B56 /* Main.storyboard */ = {
@@ -398,19 +411,17 @@
 		};
 		84D8B43E1D75778B00752B56 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 289A9C4510CD7EA6F4CE9897 /* Pods-LFLiveKitDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = G497YX6CBT;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../Vendor\"/**",
-				);
-				HEADER_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = LFLiveKitDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "";
-				OTHER_LDFLAGS = "-all_load";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.youku.LaiFeng;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -418,19 +429,17 @@
 		};
 		84D8B43F1D75778B00752B56 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 96E1231310083A3881AD2AB6 /* Pods-LFLiveKitDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = G497YX6CBT;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../Vendor\"/**",
-				);
-				HEADER_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = LFLiveKitDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "";
-				OTHER_LDFLAGS = "-all_load";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.youku.LaiFeng;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

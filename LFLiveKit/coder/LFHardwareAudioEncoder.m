@@ -48,6 +48,7 @@
 - (void)dealloc {
     if (aacBuf) free(aacBuf);
     if (leftBuf) free(leftBuf);
+    if(m_converter) AudioConverterDispose(m_converter);
 }
 
 #pragma mark -- LFAudioEncoder

@@ -98,7 +98,7 @@ NSString *const LFAudioComponentFailedToCreateNotification = @"LFAudioComponentF
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
-    dispatch_sync(self.taskQueue, ^{
+    dispatch_async(self.taskQueue, ^{
         if (self.componetInstance) {
             self.isRunning = NO;
             AudioOutputUnitStop(self.componetInstance);
@@ -121,7 +121,7 @@ NSString *const LFAudioComponentFailedToCreateNotification = @"LFAudioComponentF
             AudioOutputUnitStart(self.componetInstance);
         });
     } else {
-        dispatch_sync(self.taskQueue, ^{
+        dispatch_async(self.taskQueue, ^{
             self.isRunning = NO;
             NSLog(@"MicrophoneSource: stopRunning");
             AudioOutputUnitStop(self.componetInstance);
@@ -182,7 +182,7 @@ NSString *const LFAudioComponentFailedToCreateNotification = @"LFAudioComponentF
         reason = [[[notification userInfo] objectForKey:AVAudioSessionInterruptionTypeKey] integerValue];
         if (reason == AVAudioSessionInterruptionTypeBegan) {
             if (self.isRunning) {
-                dispatch_sync(self.taskQueue, ^{
+                dispatch_async(self.taskQueue, ^{
                     NSLog(@"MicrophoneSource: stopRunning");
                     AudioOutputUnitStop(self.componetInstance);
                 });

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F3858C76FA5230BD4B34FEF /* libPods-LFLiveKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D9E53AEC8F2938295308B625 /* libPods-LFLiveKit.a */; };
 		84D8B4BF1D757EB800752B56 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D8B4BE1D757EB800752B56 /* VideoToolbox.framework */; };
 		84D8B4C11D757EBE00752B56 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D8B4C01D757EBE00752B56 /* AudioToolbox.framework */; };
 		84D8B4C31D757EC400752B56 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D8B4C21D757EC400752B56 /* AVFoundation.framework */; };
@@ -63,6 +64,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7F7E051931BABE0B14FE6A57 /* Pods-LFLiveKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LFLiveKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LFLiveKit/Pods-LFLiveKit.debug.xcconfig"; sourceTree = "<group>"; };
 		84D8B3901D7574D600752B56 /* LFLiveKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LFLiveKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		84D8B4BE1D757EB800752B56 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
 		84D8B4C01D757EBE00752B56 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -119,6 +121,8 @@
 		84D8B5B81D768B6E00752B56 /* LFStreamSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFStreamSocket.h; sourceTree = "<group>"; };
 		84D8B5B91D768B6E00752B56 /* NSMutableArray+LFAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+LFAdd.h"; sourceTree = "<group>"; };
 		84D8B5BA1D768B6E00752B56 /* NSMutableArray+LFAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+LFAdd.m"; sourceTree = "<group>"; };
+		BF1D108D206BBD2267CDB4FB /* Pods-LFLiveKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LFLiveKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-LFLiveKit/Pods-LFLiveKit.release.xcconfig"; sourceTree = "<group>"; };
+		D9E53AEC8F2938295308B625 /* libPods-LFLiveKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LFLiveKit.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +135,7 @@
 				84D8B4C31D757EC400752B56 /* AVFoundation.framework in Frameworks */,
 				84D8B4C11D757EBE00752B56 /* AudioToolbox.framework in Frameworks */,
 				84D8B4BF1D757EB800752B56 /* VideoToolbox.framework in Frameworks */,
+				1F3858C76FA5230BD4B34FEF /* libPods-LFLiveKit.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -149,6 +154,8 @@
 				84D8B4C01D757EBE00752B56 /* AudioToolbox.framework */,
 				84D8B4BE1D757EB800752B56 /* VideoToolbox.framework */,
 				84D8B3911D7574D600752B56 /* Products */,
+				D77470616157694EC6FD0A0D /* Pods */,
+				9ABACAFFC334034AA0115426 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -272,6 +279,23 @@
 			path = publish;
 			sourceTree = "<group>";
 		};
+		9ABACAFFC334034AA0115426 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D9E53AEC8F2938295308B625 /* libPods-LFLiveKit.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D77470616157694EC6FD0A0D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				7F7E051931BABE0B14FE6A57 /* Pods-LFLiveKit.debug.xcconfig */,
+				BF1D108D206BBD2267CDB4FB /* Pods-LFLiveKit.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -315,10 +339,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 84D8B3981D7574D600752B56 /* Build configuration list for PBXNativeTarget "LFLiveKit" */;
 			buildPhases = (
+				2833F857062C89FFF3975A1B /* 📦 Check Pods Manifest.lock */,
 				84D8B38B1D7574D600752B56 /* Sources */,
 				84D8B38C1D7574D600752B56 /* Frameworks */,
 				84D8B38D1D7574D600752B56 /* Headers */,
 				84D8B38E1D7574D600752B56 /* Resources */,
+				D64BB080ABC44A32A8D6E2CF /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -369,6 +395,39 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2833F857062C89FFF3975A1B /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		D64BB080ABC44A32A8D6E2CF /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LFLiveKit/Pods-LFLiveKit-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		84D8B38B1D7574D600752B56 /* Sources */ = {
@@ -495,15 +554,18 @@
 		};
 		84D8B3991D7574D600752B56 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7F7E051931BABE0B14FE6A57 /* Pods-LFLiveKit.debug.xcconfig */;
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MACH_O_TYPE = staticlib;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.youku.LFLiveKit;
@@ -514,15 +576,18 @@
 		};
 		84D8B39A1D7574D600752B56 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BF1D108D206BBD2267CDB4FB /* Pods-LFLiveKit.release.xcconfig */;
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MACH_O_TYPE = staticlib;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.youku.LFLiveKit;

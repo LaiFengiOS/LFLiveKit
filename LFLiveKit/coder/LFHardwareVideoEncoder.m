@@ -2,10 +2,9 @@
 //  LFHardwareVideoEncoder.m
 //  LFLiveKit
 //
-//  Created by 倾慕 on 16/5/2.
-//  Copyright © 2016年 倾慕. All rights reserved.
+//  Created by LaiFeng on 16/5/20.
+//  Copyright © 2016年 LaiFeng All rights reserved.
 //
-
 #import "LFHardwareVideoEncoder.h"
 #import <VideoToolbox/VideoToolbox.h>
 
@@ -21,6 +20,7 @@
 @property (nonatomic, strong) LFLiveVideoConfiguration *configuration;
 @property (nonatomic, weak) id<LFVideoEncodingDelegate> h264Delegate;
 @property (nonatomic) NSInteger currentVideoBitRate;
+@property (nonatomic) BOOL isBackGround;
 
 @end
 
@@ -32,7 +32,8 @@
         NSLog(@"USE LFHardwareVideoEncoder");
         _configuration = configuration;
         [self resetCompressionSession];
-
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterBackground:) name:UIApplicationWillResignActiveNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationDidBecomeActiveNotification object:nil];
 #ifdef DEBUG
         enabledWriteVideoFile = NO;
         [self initForFilePath];
@@ -72,6 +73,7 @@
 }
 
 - (void)setVideoBitRate:(NSInteger)videoBitRate {
+    if(_isBackGround) return;
     VTSessionSetProperty(compressionSession, kVTCompressionPropertyKey_AverageBitRate, (__bridge CFTypeRef)@(videoBitRate));
     NSArray *limit = @[@(videoBitRate * 1.5/8), @(1)];
     VTSessionSetProperty(compressionSession, kVTCompressionPropertyKey_DataRateLimits, (__bridge CFArrayRef)limit);
@@ -90,11 +92,12 @@
         CFRelease(compressionSession);
         compressionSession = NULL;
     }
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark -- LFVideoEncoder
 - (void)encodeVideoData:(CVPixelBufferRef)pixelBuffer timeStamp:(uint64_t)timeStamp {
-    
+    if(_isBackGround) return;
     frameCount++;
     CMTime presentationTimeStamp = CMTimeMake(frameCount, (int32_t)_configuration.videoFrameRate);
     VTEncodeInfoFlags flags;
@@ -118,6 +121,16 @@
 
 - (void)setDelegate:(id<LFVideoEncodingDelegate>)delegate {
     _h264Delegate = delegate;
+}
+
+#pragma mark -- Notification
+- (void)willEnterBackground:(NSNotification*)notification{
+    _isBackGround = YES;
+}
+
+- (void)willEnterForeground:(NSNotification*)notification{
+    [self resetCompressionSession];
+    _isBackGround = NO;
 }
 
 #pragma mark -- VideoCallBack

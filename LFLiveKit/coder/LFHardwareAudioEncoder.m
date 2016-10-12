@@ -2,8 +2,8 @@
 //  LFHardwareAudioEncoder.m
 //  LFLiveKit
 //
-//  Created by 倾慕 on 16/5/2.
-//  Copyright © 2016年 倾慕. All rights reserved.
+//  Created by LaiFeng on 16/5/20.
+//  Copyright © 2016年 LaiFeng All rights reserved.
 //
 
 #import "LFHardwareAudioEncoder.h"
@@ -35,7 +35,7 @@
         if (!aacBuf) {
             aacBuf = malloc(_configuration.bufferLength);
         }
-
+        
         
 #ifdef DEBUG
         enabledWriteVideoFile = NO;
@@ -48,7 +48,6 @@
 - (void)dealloc {
     if (aacBuf) free(aacBuf);
     if (leftBuf) free(leftBuf);
-    if(m_converter) AudioConverterDispose(m_converter);
 }
 
 #pragma mark -- LFAudioEncoder
@@ -60,7 +59,7 @@
     if (![self createAudioConvert]) {
         return;
     }
-
+    
     if(leftLength + audioData.length >= self.configuration.bufferLength){
         ///<  发送
         NSInteger totalSize = leftLength + audioData.length;
@@ -100,7 +99,7 @@
     AudioBufferList buffers;
     buffers.mNumberBuffers = 1;
     buffers.mBuffers[0] = inBuffer;
-
+    
     
     // 初始化一个输出缓冲列表
     AudioBufferList outBufferList;
@@ -134,7 +133,7 @@
 }
 
 - (void)stopEncoder {
-
+    
 }
 
 #pragma mark -- CustomMethod
@@ -142,7 +141,7 @@
     if (m_converter != nil) {
         return TRUE;
     }
-
+    
     AudioStreamBasicDescription inputFormat = {0};
     inputFormat.mSampleRate = _configuration.audioSampleRate;
     inputFormat.mFormatID = kAudioFormatLinearPCM;
@@ -152,14 +151,14 @@
     inputFormat.mBitsPerChannel = 16;
     inputFormat.mBytesPerFrame = inputFormat.mBitsPerChannel / 8 * inputFormat.mChannelsPerFrame;
     inputFormat.mBytesPerPacket = inputFormat.mBytesPerFrame * inputFormat.mFramesPerPacket;
-
+    
     AudioStreamBasicDescription outputFormat; // 这里开始是输出音频格式
     memset(&outputFormat, 0, sizeof(outputFormat));
     outputFormat.mSampleRate = inputFormat.mSampleRate;       // 采样率保持一致
     outputFormat.mFormatID = kAudioFormatMPEG4AAC;            // AAC编码 kAudioFormatMPEG4AAC kAudioFormatMPEG4AAC_HE_V2
     outputFormat.mChannelsPerFrame = (UInt32)_configuration.numberOfChannels;;
     outputFormat.mFramesPerPacket = 1024;                     // AAC一帧是1024个字节
-
+    
     const OSType subtype = kAudioFormatMPEG4AAC;
     AudioClassDescription requestedCodecs[2] = {
         {
@@ -177,16 +176,16 @@
     OSStatus result = AudioConverterNewSpecific(&inputFormat, &outputFormat, 2, requestedCodecs, &m_converter);;
     UInt32 outputBitrate = _configuration.audioBitrate;
     UInt32 propSize = sizeof(outputBitrate);
-//    UInt32 outputPacketSize = 0;
-
+    //    UInt32 outputPacketSize = 0;
+    
     
     if(result == noErr) {
         result = AudioConverterSetProperty(m_converter, kAudioConverterEncodeBitRate, propSize, &outputBitrate);
     }
     
-//    if(result == noErr) {
-//        AudioConverterGetProperty(m_converter, kAudioConverterPropertyMaximumOutputPacketSize, &propSize, &outputPacketSize);
-//    }
+    //    if(result == noErr) {
+    //        AudioConverterGetProperty(m_converter, kAudioConverterPropertyMaximumOutputPacketSize, &propSize, &outputPacketSize);
+    //    }
     
     return YES;
 }

@@ -2,8 +2,8 @@
 //  LFH264VideoEncoder
 //  LFLiveKit
 //
-//  Created by feng on 7/5/16.
-//  Copyright (c) 2014 zhanqi.tv. All rights reserved.
+//  Created by LaiFeng on 16/5/20.
+//  Copyright © 2016年 LaiFeng All rights reserved.
 //
 
 #import <CoreMedia/CoreMedia.h>

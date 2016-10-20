@@ -1,0 +1,519 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8495F6B01DB8F37300542124 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8495F6AF1DB8F37300542124 /* main.m */; };
+		8495F6B31DB8F37300542124 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8495F6B21DB8F37300542124 /* AppDelegate.m */; };
+		8495F6B61DB8F37300542124 /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8495F6B51DB8F37300542124 /* FirstViewController.m */; };
+		8495F6B91DB8F37300542124 /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8495F6B81DB8F37300542124 /* SecondViewController.m */; };
+		8495F6BC1DB8F37300542124 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8495F6BA1DB8F37300542124 /* Main.storyboard */; };
+		8495F6BE1DB8F37300542124 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8495F6BD1DB8F37300542124 /* Assets.xcassets */; };
+		8495F6C11DB8F37300542124 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8495F6BF1DB8F37300542124 /* LaunchScreen.storyboard */; };
+		8495F6D31DB8F3CD00542124 /* LFLiveKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8495F6D01DB8F37E00542124 /* LFLiveKit.framework */; };
+		8495F6D71DB8F49800542124 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8495F6D51DB8F49800542124 /* GPUImage.framework */; };
+		8495F6D81DB8F49800542124 /* pili-librtmp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8495F6D61DB8F49800542124 /* pili-librtmp.framework */; };
+		84D003561DB8F7FA00560583 /* UIControl+YYAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D003471DB8F7FA00560583 /* UIControl+YYAdd.m */; };
+		84D003571DB8F7FA00560583 /* UIView+YYAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D003491DB8F7FA00560583 /* UIView+YYAdd.m */; };
+		84D003581DB8F7FA00560583 /* camra_beauty@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D0034B1DB8F7FA00560583 /* camra_beauty@2x.png */; };
+		84D003591DB8F7FA00560583 /* camra_beauty@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D0034C1DB8F7FA00560583 /* camra_beauty@3x.png */; };
+		84D0035A1DB8F7FA00560583 /* camra_beauty_close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D0034D1DB8F7FA00560583 /* camra_beauty_close@2x.png */; };
+		84D0035B1DB8F7FA00560583 /* camra_beauty_close@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D0034E1DB8F7FA00560583 /* camra_beauty_close@3x.png */; };
+		84D0035C1DB8F7FA00560583 /* camra_preview@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D0034F1DB8F7FA00560583 /* camra_preview@2x.png */; };
+		84D0035D1DB8F7FA00560583 /* camra_preview@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D003501DB8F7FA00560583 /* camra_preview@3x.png */; };
+		84D0035E1DB8F7FA00560583 /* close_preview@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D003511DB8F7FA00560583 /* close_preview@2x.png */; };
+		84D0035F1DB8F7FA00560583 /* close_preview@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D003521DB8F7FA00560583 /* close_preview@3x.png */; };
+		84D003601DB8F7FA00560583 /* ios-29x29.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D003531DB8F7FA00560583 /* ios-29x29.png */; };
+		84D003611DB8F7FA00560583 /* LFLivePreview.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D003551DB8F7FA00560583 /* LFLivePreview.m */; };
+		84D003641DB8F83400560583 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D003631DB8F83400560583 /* libstdc++.tbd */; };
+		84D0036A1DB8F85E00560583 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D003691DB8F85E00560583 /* VideoToolbox.framework */; };
+		84D0036C1DB8F86700560583 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D0036B1DB8F86700560583 /* AudioToolbox.framework */; };
+		84D0036E1DB8F86D00560583 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D0036D1DB8F86D00560583 /* AVFoundation.framework */; };
+		84D003711DB8F8BD00560583 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D003701DB8F8BD00560583 /* UIKit.framework */; };
+		84D003731DB8F8C200560583 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D003721DB8F8C200560583 /* Foundation.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		8495F6CD1DB8F37E00542124 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8495F6C81DB8F37E00542124 /* LFLiveKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 84D8B3901D7574D600752B56;
+			remoteInfo = LFLiveKit;
+		};
+		8495F6CF1DB8F37E00542124 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8495F6C81DB8F37E00542124 /* LFLiveKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8495F66B1DB8F14600542124;
+			remoteInfo = LFLiveKitFramework;
+		};
+		8495F6D11DB8F3C400542124 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8495F6C81DB8F37E00542124 /* LFLiveKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8495F66A1DB8F14600542124;
+			remoteInfo = LFLiveKitFramework;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		8495F6AB1DB8F37300542124 /* LFLiveKitFrameworkDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LFLiveKitFrameworkDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8495F6AF1DB8F37300542124 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		8495F6B11DB8F37300542124 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		8495F6B21DB8F37300542124 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		8495F6B41DB8F37300542124 /* FirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirstViewController.h; sourceTree = "<group>"; };
+		8495F6B51DB8F37300542124 /* FirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirstViewController.m; sourceTree = "<group>"; };
+		8495F6B71DB8F37300542124 /* SecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
+		8495F6B81DB8F37300542124 /* SecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
+		8495F6BB1DB8F37300542124 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8495F6BD1DB8F37300542124 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8495F6C01DB8F37300542124 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8495F6C21DB8F37300542124 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8495F6C81DB8F37E00542124 /* LFLiveKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LFLiveKit.xcodeproj; path = ../../FrameWork/LFLiveKit.xcodeproj; sourceTree = "<group>"; };
+		8495F6D51DB8F49800542124 /* GPUImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GPUImage.framework; path = vendors/GPUImage.framework; sourceTree = "<group>"; };
+		8495F6D61DB8F49800542124 /* pili-librtmp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "pili-librtmp.framework"; path = "vendors/pili-librtmp.framework"; sourceTree = "<group>"; };
+		84D003461DB8F7FA00560583 /* UIControl+YYAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIControl+YYAdd.h"; sourceTree = "<group>"; };
+		84D003471DB8F7FA00560583 /* UIControl+YYAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIControl+YYAdd.m"; sourceTree = "<group>"; };
+		84D003481DB8F7FA00560583 /* UIView+YYAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+YYAdd.h"; sourceTree = "<group>"; };
+		84D003491DB8F7FA00560583 /* UIView+YYAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+YYAdd.m"; sourceTree = "<group>"; };
+		84D0034B1DB8F7FA00560583 /* camra_beauty@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camra_beauty@2x.png"; sourceTree = "<group>"; };
+		84D0034C1DB8F7FA00560583 /* camra_beauty@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camra_beauty@3x.png"; sourceTree = "<group>"; };
+		84D0034D1DB8F7FA00560583 /* camra_beauty_close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camra_beauty_close@2x.png"; sourceTree = "<group>"; };
+		84D0034E1DB8F7FA00560583 /* camra_beauty_close@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camra_beauty_close@3x.png"; sourceTree = "<group>"; };
+		84D0034F1DB8F7FA00560583 /* camra_preview@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camra_preview@2x.png"; sourceTree = "<group>"; };
+		84D003501DB8F7FA00560583 /* camra_preview@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camra_preview@3x.png"; sourceTree = "<group>"; };
+		84D003511DB8F7FA00560583 /* close_preview@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close_preview@2x.png"; sourceTree = "<group>"; };
+		84D003521DB8F7FA00560583 /* close_preview@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close_preview@3x.png"; sourceTree = "<group>"; };
+		84D003531DB8F7FA00560583 /* ios-29x29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios-29x29.png"; sourceTree = "<group>"; };
+		84D003541DB8F7FA00560583 /* LFLivePreview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFLivePreview.h; sourceTree = "<group>"; };
+		84D003551DB8F7FA00560583 /* LFLivePreview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFLivePreview.m; sourceTree = "<group>"; };
+		84D003631DB8F83400560583 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
+		84D003651DB8F84000560583 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
+		84D003671DB8F84800560583 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		84D003691DB8F85E00560583 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
+		84D0036B1DB8F86700560583 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		84D0036D1DB8F86D00560583 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		84D003701DB8F8BD00560583 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		84D003721DB8F8C200560583 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8495F6A81DB8F37300542124 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84D003731DB8F8C200560583 /* Foundation.framework in Frameworks */,
+				84D003711DB8F8BD00560583 /* UIKit.framework in Frameworks */,
+				84D0036E1DB8F86D00560583 /* AVFoundation.framework in Frameworks */,
+				84D0036C1DB8F86700560583 /* AudioToolbox.framework in Frameworks */,
+				84D0036A1DB8F85E00560583 /* VideoToolbox.framework in Frameworks */,
+				84D003641DB8F83400560583 /* libstdc++.tbd in Frameworks */,
+				8495F6D71DB8F49800542124 /* GPUImage.framework in Frameworks */,
+				8495F6D81DB8F49800542124 /* pili-librtmp.framework in Frameworks */,
+				8495F6D31DB8F3CD00542124 /* LFLiveKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8495F6A21DB8F37300542124 = {
+			isa = PBXGroup;
+			children = (
+				8495F6C81DB8F37E00542124 /* LFLiveKit.xcodeproj */,
+				8495F6AD1DB8F37300542124 /* LFLiveKitFrameworkDemo */,
+				8495F6AC1DB8F37300542124 /* Products */,
+				8495F6D41DB8F49800542124 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		8495F6AC1DB8F37300542124 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8495F6AB1DB8F37300542124 /* LFLiveKitFrameworkDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8495F6AD1DB8F37300542124 /* LFLiveKitFrameworkDemo */ = {
+			isa = PBXGroup;
+			children = (
+				8495F6B11DB8F37300542124 /* AppDelegate.h */,
+				8495F6B21DB8F37300542124 /* AppDelegate.m */,
+				8495F6B41DB8F37300542124 /* FirstViewController.h */,
+				8495F6B51DB8F37300542124 /* FirstViewController.m */,
+				8495F6B71DB8F37300542124 /* SecondViewController.h */,
+				8495F6B81DB8F37300542124 /* SecondViewController.m */,
+				84D003451DB8F7FA00560583 /* category */,
+				84D0034A1DB8F7FA00560583 /* images */,
+				84D003541DB8F7FA00560583 /* LFLivePreview.h */,
+				84D003551DB8F7FA00560583 /* LFLivePreview.m */,
+				8495F6BA1DB8F37300542124 /* Main.storyboard */,
+				8495F6BD1DB8F37300542124 /* Assets.xcassets */,
+				8495F6BF1DB8F37300542124 /* LaunchScreen.storyboard */,
+				8495F6C21DB8F37300542124 /* Info.plist */,
+				8495F6AE1DB8F37300542124 /* Supporting Files */,
+			);
+			path = LFLiveKitFrameworkDemo;
+			sourceTree = "<group>";
+		};
+		8495F6AE1DB8F37300542124 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				8495F6AF1DB8F37300542124 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8495F6C91DB8F37E00542124 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8495F6CE1DB8F37E00542124 /* LFLiveKit.framework */,
+				8495F6D01DB8F37E00542124 /* LFLiveKit.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8495F6D41DB8F49800542124 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				84D003721DB8F8C200560583 /* Foundation.framework */,
+				84D003701DB8F8BD00560583 /* UIKit.framework */,
+				84D0036D1DB8F86D00560583 /* AVFoundation.framework */,
+				84D0036B1DB8F86700560583 /* AudioToolbox.framework */,
+				84D003691DB8F85E00560583 /* VideoToolbox.framework */,
+				84D003671DB8F84800560583 /* libz.tbd */,
+				84D003651DB8F84000560583 /* libresolv.tbd */,
+				84D003631DB8F83400560583 /* libstdc++.tbd */,
+				8495F6D51DB8F49800542124 /* GPUImage.framework */,
+				8495F6D61DB8F49800542124 /* pili-librtmp.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		84D003451DB8F7FA00560583 /* category */ = {
+			isa = PBXGroup;
+			children = (
+				84D003461DB8F7FA00560583 /* UIControl+YYAdd.h */,
+				84D003471DB8F7FA00560583 /* UIControl+YYAdd.m */,
+				84D003481DB8F7FA00560583 /* UIView+YYAdd.h */,
+				84D003491DB8F7FA00560583 /* UIView+YYAdd.m */,
+			);
+			path = category;
+			sourceTree = "<group>";
+		};
+		84D0034A1DB8F7FA00560583 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				84D0034B1DB8F7FA00560583 /* camra_beauty@2x.png */,
+				84D0034C1DB8F7FA00560583 /* camra_beauty@3x.png */,
+				84D0034D1DB8F7FA00560583 /* camra_beauty_close@2x.png */,
+				84D0034E1DB8F7FA00560583 /* camra_beauty_close@3x.png */,
+				84D0034F1DB8F7FA00560583 /* camra_preview@2x.png */,
+				84D003501DB8F7FA00560583 /* camra_preview@3x.png */,
+				84D003511DB8F7FA00560583 /* close_preview@2x.png */,
+				84D003521DB8F7FA00560583 /* close_preview@3x.png */,
+				84D003531DB8F7FA00560583 /* ios-29x29.png */,
+			);
+			path = images;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8495F6AA1DB8F37300542124 /* LFLiveKitFrameworkDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8495F6C51DB8F37300542124 /* Build configuration list for PBXNativeTarget "LFLiveKitFrameworkDemo" */;
+			buildPhases = (
+				8495F6A71DB8F37300542124 /* Sources */,
+				8495F6A81DB8F37300542124 /* Frameworks */,
+				8495F6A91DB8F37300542124 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8495F6D21DB8F3C400542124 /* PBXTargetDependency */,
+			);
+			name = LFLiveKitFrameworkDemo;
+			productName = LFLiveKitFrameworkDemo;
+			productReference = 8495F6AB1DB8F37300542124 /* LFLiveKitFrameworkDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8495F6A31DB8F37300542124 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0800;
+				ORGANIZATIONNAME = admin;
+				TargetAttributes = {
+					8495F6AA1DB8F37300542124 = {
+						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = G497YX6CBT;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 8495F6A61DB8F37300542124 /* Build configuration list for PBXProject "LFLiveKitFrameworkDemo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 8495F6A21DB8F37300542124;
+			productRefGroup = 8495F6AC1DB8F37300542124 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 8495F6C91DB8F37E00542124 /* Products */;
+					ProjectRef = 8495F6C81DB8F37E00542124 /* LFLiveKit.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				8495F6AA1DB8F37300542124 /* LFLiveKitFrameworkDemo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		8495F6CE1DB8F37E00542124 /* LFLiveKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = LFLiveKit.framework;
+			remoteRef = 8495F6CD1DB8F37E00542124 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		8495F6D01DB8F37E00542124 /* LFLiveKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = LFLiveKit.framework;
+			remoteRef = 8495F6CF1DB8F37E00542124 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8495F6A91DB8F37300542124 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84D0035A1DB8F7FA00560583 /* camra_beauty_close@2x.png in Resources */,
+				8495F6C11DB8F37300542124 /* LaunchScreen.storyboard in Resources */,
+				84D003581DB8F7FA00560583 /* camra_beauty@2x.png in Resources */,
+				8495F6BE1DB8F37300542124 /* Assets.xcassets in Resources */,
+				84D0035D1DB8F7FA00560583 /* camra_preview@3x.png in Resources */,
+				84D0035B1DB8F7FA00560583 /* camra_beauty_close@3x.png in Resources */,
+				84D003601DB8F7FA00560583 /* ios-29x29.png in Resources */,
+				84D0035F1DB8F7FA00560583 /* close_preview@3x.png in Resources */,
+				84D0035E1DB8F7FA00560583 /* close_preview@2x.png in Resources */,
+				8495F6BC1DB8F37300542124 /* Main.storyboard in Resources */,
+				84D0035C1DB8F7FA00560583 /* camra_preview@2x.png in Resources */,
+				84D003591DB8F7FA00560583 /* camra_beauty@3x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8495F6A71DB8F37300542124 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84D003561DB8F7FA00560583 /* UIControl+YYAdd.m in Sources */,
+				8495F6B91DB8F37300542124 /* SecondViewController.m in Sources */,
+				84D003571DB8F7FA00560583 /* UIView+YYAdd.m in Sources */,
+				8495F6B31DB8F37300542124 /* AppDelegate.m in Sources */,
+				84D003611DB8F7FA00560583 /* LFLivePreview.m in Sources */,
+				8495F6B61DB8F37300542124 /* FirstViewController.m in Sources */,
+				8495F6B01DB8F37300542124 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8495F6D21DB8F3C400542124 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = LFLiveKitFramework;
+			targetProxy = 8495F6D11DB8F3C400542124 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		8495F6BA1DB8F37300542124 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8495F6BB1DB8F37300542124 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		8495F6BF1DB8F37300542124 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8495F6C01DB8F37300542124 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		8495F6C31DB8F37300542124 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		8495F6C41DB8F37300542124 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		8495F6C61DB8F37300542124 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = G497YX6CBT;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/vendors",
+				);
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/vendors\"";
+				INFOPLIST_FILE = LFLiveKitFrameworkDemo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = com.youku.LFLiveKitFrameworkDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		8495F6C71DB8F37300542124 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = G497YX6CBT;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/vendors",
+				);
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/vendors\"";
+				INFOPLIST_FILE = LFLiveKitFrameworkDemo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = com.youku.LFLiveKitFrameworkDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8495F6A61DB8F37300542124 /* Build configuration list for PBXProject "LFLiveKitFrameworkDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8495F6C31DB8F37300542124 /* Debug */,
+				8495F6C41DB8F37300542124 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8495F6C51DB8F37300542124 /* Build configuration list for PBXNativeTarget "LFLiveKitFrameworkDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8495F6C61DB8F37300542124 /* Debug */,
+				8495F6C71DB8F37300542124 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 8495F6A31DB8F37300542124 /* Project object */;
+}

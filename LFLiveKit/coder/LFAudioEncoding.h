@@ -8,13 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
-#if __has_include(<LFLiveKit/LFLiveKit.h>)
-#import <LFLiveKit/LFAudioFrame.h>
-#import <LFLiveKit/LFLiveAudioConfiguration.h>
-#else
 #import "LFAudioFrame.h"
 #import "LFLiveAudioConfiguration.h"
-#endif
 
 
 

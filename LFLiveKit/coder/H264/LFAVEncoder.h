@@ -13,13 +13,8 @@
 #import <AVFoundation/AVVideoSettings.h>
 #import <sys/stat.h>
 
-#if __has_include(<LFLiveKit/LFLiveKit.h>)
-#import <LFLiveKit/LFVideoEncoder.h>
-#import <LFLiveKit/LFMP4Atom.h>
-#else
 #import "LFVideoEncoder.h"
 #import "LFMP4Atom.h"
-#endif
 
 
 

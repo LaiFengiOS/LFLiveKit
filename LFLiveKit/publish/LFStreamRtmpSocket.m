@@ -10,8 +10,6 @@
 
 #if __has_include(<pili-librtmp/rtmp.h>)
 #import <pili-librtmp/rtmp.h>
-#elif __has_include("pili-librtmp/rtmp.h")
-#import "pili-librtmp/rtmp.h"
 #else
 #import "rtmp.h"
 #endif
@@ -541,7 +539,6 @@ void RTMPErrorCallback(RTMPError *error, void *userData) {
 }
 
 void ConnectionTimeCallback(PILI_CONNECTION_TIME *conn_time, void *userData) {
-    LFStreamRTMPSocket *socket = (__bridge LFStreamRTMPSocket*)userData;
 }
 
 #pragma mark -- LFStreamingBufferDelegate

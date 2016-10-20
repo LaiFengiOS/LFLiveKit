@@ -6,11 +6,7 @@
 //  Copyright © 2016年 LaiFeng All rights reserved.
 //
 
-#if __has_include(<LFLiveKit/LFLiveKit.h>)
-#import <LFLiveKit/LFAudioEncoding.h>
-#else
 #import "LFAudioEncoding.h"
-#endif
 
 @interface LFHardwareAudioEncoder : NSObject<LFAudioEncoding>
 

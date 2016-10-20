@@ -176,16 +176,11 @@
     OSStatus result = AudioConverterNewSpecific(&inputFormat, &outputFormat, 2, requestedCodecs, &m_converter);;
     UInt32 outputBitrate = _configuration.audioBitrate;
     UInt32 propSize = sizeof(outputBitrate);
-    //    UInt32 outputPacketSize = 0;
     
     
     if(result == noErr) {
         result = AudioConverterSetProperty(m_converter, kAudioConverterEncodeBitRate, propSize, &outputBitrate);
     }
-    
-    //    if(result == noErr) {
-    //        AudioConverterGetProperty(m_converter, kAudioConverterPropertyMaximumOutputPacketSize, &propSize, &outputPacketSize);
-    //    }
     
     return YES;
 }

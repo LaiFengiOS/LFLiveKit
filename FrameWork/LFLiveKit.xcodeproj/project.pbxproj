@@ -7,7 +7,54 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1F3858C76FA5230BD4B34FEF /* libPods-LFLiveKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D9E53AEC8F2938295308B625 /* libPods-LFLiveKit.a */; };
+		8495F66F1DB8F14600542124 /* LFLiveKitFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = 8495F66D1DB8F14600542124 /* LFLiveKitFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8495F6731DB8F1EE00542124 /* LFAudioCapture.h in Headers */ = {isa = PBXBuildFile; fileRef = 84D8B5851D768B6E00752B56 /* LFAudioCapture.h */; };
+		8495F6741DB8F1EE00542124 /* LFVideoCapture.h in Headers */ = {isa = PBXBuildFile; fileRef = 84D8B5871D768B6E00752B56 /* LFVideoCapture.h */; };
+		8495F6751DB8F1EE00542124 /* LFAVEncoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 84D8B58B1D768B6E00752B56 /* LFAVEncoder.h */; };
+		8495F6761DB8F1EE00542124 /* LFMP4Atom.h in Headers */ = {isa = PBXBuildFile; fileRef = 84D8B58D1D768B6E00752B56 /* LFMP4Atom.h */; };
+		8495F6771DB8F1EE00542124 /* LFNALUnit.h in Headers */ = {isa = PBXBuildFile; fileRef = 84D8B5901D768B6E00752B56 /* LFNALUnit.h */; };
+		8495F6781DB8F1EE00542124 /* LFVideoEncoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 84D8B5911D768B6E00752B56 /* LFVideoEncoder.h */; };
+		8495F6791DB8F1EE00542124 /* LFAudioEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 84D8B5931D768B6E00752B56 /* LFAudioEncoding.h */; };
+		8495F67A1DB8F1EE00542124 /* LFH264VideoEncoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 84D8B5941D768B6E00752B56 /* LFH264VideoEncoder.h */; };
+		8495F67B1DB8F1EE00542124 /* LFHardwareAudioEncoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 84D8B5961D768B6E00752B56 /* LFHardwareAudioEncoder.h */; };
+		8495F67C1DB8F1EE00542124 /* LFHardwareVideoEncoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 84D8B5981D768B6E00752B56 /* LFHardwareVideoEncoder.h */; };
+		8495F67D1DB8F1EE00542124 /* LFVideoEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 84D8B59A1D768B6E00752B56 /* LFVideoEncoding.h */; };
+		8495F67E1DB8F1EE00542124 /* LFLiveAudioConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 84D8B59C1D768B6E00752B56 /* LFLiveAudioConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8495F67F1DB8F1EE00542124 /* LFLiveVideoConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 84D8B59E1D768B6E00752B56 /* LFLiveVideoConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8495F6801DB8F1EE00542124 /* LFGPUImageBeautyFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 84D8B5A11D768B6E00752B56 /* LFGPUImageBeautyFilter.h */; };
+		8495F6811DB8F1EE00542124 /* LFGPUImageEmptyFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 84D8B5A31D768B6E00752B56 /* LFGPUImageEmptyFilter.h */; };
+		8495F6831DB8F1EE00542124 /* LFLiveSession.h in Headers */ = {isa = PBXBuildFile; fileRef = 84D8B5A61D768B6E00752B56 /* LFLiveSession.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8495F6841DB8F1EE00542124 /* LFAudioFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = 84D8B5A91D768B6E00752B56 /* LFAudioFrame.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8495F6851DB8F1EE00542124 /* LFFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = 84D8B5AB1D768B6E00752B56 /* LFFrame.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8495F6861DB8F1EE00542124 /* LFLiveDebug.h in Headers */ = {isa = PBXBuildFile; fileRef = 84D8B5AD1D768B6E00752B56 /* LFLiveDebug.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8495F6871DB8F1EE00542124 /* LFLiveStreamInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 84D8B5AF1D768B6E00752B56 /* LFLiveStreamInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8495F6881DB8F1EE00542124 /* LFVideoFrame.h in Headers */ = {isa = PBXBuildFile; fileRef = 84D8B5B11D768B6E00752B56 /* LFVideoFrame.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8495F6891DB8F1EE00542124 /* LFStreamingBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 84D8B5B41D768B6E00752B56 /* LFStreamingBuffer.h */; };
+		8495F68A1DB8F1EE00542124 /* LFStreamRTMPSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 84D8B5B61D768B6E00752B56 /* LFStreamRTMPSocket.h */; };
+		8495F68B1DB8F1EE00542124 /* LFStreamSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 84D8B5B81D768B6E00752B56 /* LFStreamSocket.h */; };
+		8495F68C1DB8F1EE00542124 /* NSMutableArray+LFAdd.h in Headers */ = {isa = PBXBuildFile; fileRef = 84D8B5B91D768B6E00752B56 /* NSMutableArray+LFAdd.h */; };
+		8495F68D1DB8F27000542124 /* LFAudioCapture.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B5861D768B6E00752B56 /* LFAudioCapture.m */; };
+		8495F68E1DB8F27000542124 /* LFVideoCapture.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B5881D768B6E00752B56 /* LFVideoCapture.m */; };
+		8495F68F1DB8F27000542124 /* LFAVEncoder.mm in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B58C1D768B6E00752B56 /* LFAVEncoder.mm */; };
+		8495F6901DB8F27000542124 /* LFMP4Atom.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B58E1D768B6E00752B56 /* LFMP4Atom.m */; };
+		8495F6911DB8F27000542124 /* LFVideoEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B5921D768B6E00752B56 /* LFVideoEncoder.m */; };
+		8495F6921DB8F27000542124 /* LFH264VideoEncoder.mm in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B5951D768B6E00752B56 /* LFH264VideoEncoder.mm */; };
+		8495F6931DB8F27000542124 /* LFHardwareAudioEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B5971D768B6E00752B56 /* LFHardwareAudioEncoder.m */; };
+		8495F6941DB8F27000542124 /* LFHardwareVideoEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B5991D768B6E00752B56 /* LFHardwareVideoEncoder.m */; };
+		8495F6951DB8F27000542124 /* LFLiveAudioConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B59D1D768B6E00752B56 /* LFLiveAudioConfiguration.m */; };
+		8495F6961DB8F27000542124 /* LFLiveVideoConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B59F1D768B6E00752B56 /* LFLiveVideoConfiguration.m */; };
+		8495F6971DB8F27000542124 /* LFGPUImageBeautyFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B5A21D768B6E00752B56 /* LFGPUImageBeautyFilter.m */; };
+		8495F6981DB8F27000542124 /* LFGPUImageEmptyFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B5A41D768B6E00752B56 /* LFGPUImageEmptyFilter.m */; };
+		8495F6991DB8F27000542124 /* LFLiveSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B5A71D768B6E00752B56 /* LFLiveSession.m */; };
+		8495F69A1DB8F27000542124 /* LFAudioFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B5AA1D768B6E00752B56 /* LFAudioFrame.m */; };
+		8495F69B1DB8F27000542124 /* LFFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B5AC1D768B6E00752B56 /* LFFrame.m */; };
+		8495F69C1DB8F27000542124 /* LFLiveDebug.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B5AE1D768B6E00752B56 /* LFLiveDebug.m */; };
+		8495F69D1DB8F27000542124 /* LFLiveStreamInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B5B01D768B6E00752B56 /* LFLiveStreamInfo.m */; };
+		8495F69E1DB8F27000542124 /* LFVideoFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B5B21D768B6E00752B56 /* LFVideoFrame.m */; };
+		8495F69F1DB8F27000542124 /* LFStreamingBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B5B51D768B6E00752B56 /* LFStreamingBuffer.m */; };
+		8495F6A01DB8F27000542124 /* LFStreamRtmpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B5B71D768B6E00752B56 /* LFStreamRtmpSocket.m */; };
+		8495F6A11DB8F27000542124 /* NSMutableArray+LFAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B5BA1D768B6E00752B56 /* NSMutableArray+LFAdd.m */; };
+		84D0036F1DB8F88F00560583 /* LFNALUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B58F1D768B6E00752B56 /* LFNALUnit.cpp */; };
 		84D8B4BF1D757EB800752B56 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D8B4BE1D757EB800752B56 /* VideoToolbox.framework */; };
 		84D8B4C11D757EBE00752B56 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D8B4C01D757EBE00752B56 /* AudioToolbox.framework */; };
 		84D8B4C31D757EC400752B56 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D8B4C21D757EC400752B56 /* AVFoundation.framework */; };
@@ -64,7 +111,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		7F7E051931BABE0B14FE6A57 /* Pods-LFLiveKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LFLiveKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LFLiveKit/Pods-LFLiveKit.debug.xcconfig"; sourceTree = "<group>"; };
+		8495F66B1DB8F14600542124 /* LFLiveKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LFLiveKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8495F66D1DB8F14600542124 /* LFLiveKitFramework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LFLiveKitFramework.h; sourceTree = "<group>"; };
+		8495F66E1DB8F14600542124 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		84D8B3901D7574D600752B56 /* LFLiveKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LFLiveKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		84D8B4BE1D757EB800752B56 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
 		84D8B4C01D757EBE00752B56 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -121,11 +170,16 @@
 		84D8B5B81D768B6E00752B56 /* LFStreamSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFStreamSocket.h; sourceTree = "<group>"; };
 		84D8B5B91D768B6E00752B56 /* NSMutableArray+LFAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+LFAdd.h"; sourceTree = "<group>"; };
 		84D8B5BA1D768B6E00752B56 /* NSMutableArray+LFAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+LFAdd.m"; sourceTree = "<group>"; };
-		BF1D108D206BBD2267CDB4FB /* Pods-LFLiveKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LFLiveKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-LFLiveKit/Pods-LFLiveKit.release.xcconfig"; sourceTree = "<group>"; };
-		D9E53AEC8F2938295308B625 /* libPods-LFLiveKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LFLiveKit.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		8495F6671DB8F14600542124 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		84D8B38C1D7574D600752B56 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -135,13 +189,21 @@
 				84D8B4C31D757EC400752B56 /* AVFoundation.framework in Frameworks */,
 				84D8B4C11D757EBE00752B56 /* AudioToolbox.framework in Frameworks */,
 				84D8B4BF1D757EB800752B56 /* VideoToolbox.framework in Frameworks */,
-				1F3858C76FA5230BD4B34FEF /* libPods-LFLiveKit.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8495F66C1DB8F14600542124 /* LFLiveKitFramework */ = {
+			isa = PBXGroup;
+			children = (
+				8495F66D1DB8F14600542124 /* LFLiveKitFramework.h */,
+				8495F66E1DB8F14600542124 /* Info.plist */,
+			);
+			path = LFLiveKitFramework;
+			sourceTree = "<group>";
+		};
 		84D8B3861D7574D600752B56 = {
 			isa = PBXGroup;
 			children = (
@@ -153,8 +215,8 @@
 				84D8B4C21D757EC400752B56 /* AVFoundation.framework */,
 				84D8B4C01D757EBE00752B56 /* AudioToolbox.framework */,
 				84D8B4BE1D757EB800752B56 /* VideoToolbox.framework */,
+				8495F66C1DB8F14600542124 /* LFLiveKitFramework */,
 				84D8B3911D7574D600752B56 /* Products */,
-				D77470616157694EC6FD0A0D /* Pods */,
 				9ABACAFFC334034AA0115426 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -163,6 +225,7 @@
 			isa = PBXGroup;
 			children = (
 				84D8B3901D7574D600752B56 /* LFLiveKit.framework */,
+				8495F66B1DB8F14600542124 /* LFLiveKit.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -282,23 +345,46 @@
 		9ABACAFFC334034AA0115426 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D9E53AEC8F2938295308B625 /* libPods-LFLiveKit.a */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		D77470616157694EC6FD0A0D /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				7F7E051931BABE0B14FE6A57 /* Pods-LFLiveKit.debug.xcconfig */,
-				BF1D108D206BBD2267CDB4FB /* Pods-LFLiveKit.release.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		8495F6681DB8F14600542124 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8495F6861DB8F1EE00542124 /* LFLiveDebug.h in Headers */,
+				8495F6881DB8F1EE00542124 /* LFVideoFrame.h in Headers */,
+				8495F6871DB8F1EE00542124 /* LFLiveStreamInfo.h in Headers */,
+				8495F6851DB8F1EE00542124 /* LFFrame.h in Headers */,
+				8495F6841DB8F1EE00542124 /* LFAudioFrame.h in Headers */,
+				8495F67F1DB8F1EE00542124 /* LFLiveVideoConfiguration.h in Headers */,
+				8495F67E1DB8F1EE00542124 /* LFLiveAudioConfiguration.h in Headers */,
+				8495F6831DB8F1EE00542124 /* LFLiveSession.h in Headers */,
+				8495F66F1DB8F14600542124 /* LFLiveKitFramework.h in Headers */,
+				8495F6731DB8F1EE00542124 /* LFAudioCapture.h in Headers */,
+				8495F6741DB8F1EE00542124 /* LFVideoCapture.h in Headers */,
+				8495F6751DB8F1EE00542124 /* LFAVEncoder.h in Headers */,
+				8495F6761DB8F1EE00542124 /* LFMP4Atom.h in Headers */,
+				8495F6771DB8F1EE00542124 /* LFNALUnit.h in Headers */,
+				8495F6781DB8F1EE00542124 /* LFVideoEncoder.h in Headers */,
+				8495F6791DB8F1EE00542124 /* LFAudioEncoding.h in Headers */,
+				8495F67A1DB8F1EE00542124 /* LFH264VideoEncoder.h in Headers */,
+				8495F67B1DB8F1EE00542124 /* LFHardwareAudioEncoder.h in Headers */,
+				8495F67C1DB8F1EE00542124 /* LFHardwareVideoEncoder.h in Headers */,
+				8495F67D1DB8F1EE00542124 /* LFVideoEncoding.h in Headers */,
+				8495F6801DB8F1EE00542124 /* LFGPUImageBeautyFilter.h in Headers */,
+				8495F6811DB8F1EE00542124 /* LFGPUImageEmptyFilter.h in Headers */,
+				8495F6891DB8F1EE00542124 /* LFStreamingBuffer.h in Headers */,
+				8495F68A1DB8F1EE00542124 /* LFStreamRTMPSocket.h in Headers */,
+				8495F68B1DB8F1EE00542124 /* LFStreamSocket.h in Headers */,
+				8495F68C1DB8F1EE00542124 /* NSMutableArray+LFAdd.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		84D8B38D1D7574D600752B56 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -335,16 +421,31 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		8495F66A1DB8F14600542124 /* LFLiveKitFramework */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8495F6701DB8F14600542124 /* Build configuration list for PBXNativeTarget "LFLiveKitFramework" */;
+			buildPhases = (
+				8495F6661DB8F14600542124 /* Sources */,
+				8495F6671DB8F14600542124 /* Frameworks */,
+				8495F6681DB8F14600542124 /* Headers */,
+				8495F6691DB8F14600542124 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LFLiveKitFramework;
+			productName = LFLiveKitFramework;
+			productReference = 8495F66B1DB8F14600542124 /* LFLiveKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		84D8B38F1D7574D600752B56 /* LFLiveKit */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 84D8B3981D7574D600752B56 /* Build configuration list for PBXNativeTarget "LFLiveKit" */;
 			buildPhases = (
-				2833F857062C89FFF3975A1B /* 📦 Check Pods Manifest.lock */,
 				84D8B38B1D7574D600752B56 /* Sources */,
 				84D8B38C1D7574D600752B56 /* Frameworks */,
 				84D8B38D1D7574D600752B56 /* Headers */,
-				84D8B38E1D7574D600752B56 /* Resources */,
-				D64BB080ABC44A32A8D6E2CF /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -364,6 +465,10 @@
 				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = admin;
 				TargetAttributes = {
+					8495F66A1DB8F14600542124 = {
+						CreatedOnToolsVersion = 8.0;
+						ProvisioningStyle = Automatic;
+					};
 					84D8B38F1D7574D600752B56 = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
@@ -382,12 +487,13 @@
 			projectRoot = "";
 			targets = (
 				84D8B38F1D7574D600752B56 /* LFLiveKit */,
+				8495F66A1DB8F14600542124 /* LFLiveKitFramework */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		84D8B38E1D7574D600752B56 /* Resources */ = {
+		8495F6691DB8F14600542124 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -396,40 +502,36 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		2833F857062C89FFF3975A1B /* 📦 Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "📦 Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		D64BB080ABC44A32A8D6E2CF /* 📦 Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "📦 Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LFLiveKit/Pods-LFLiveKit-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
+		8495F6661DB8F14600542124 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84D0036F1DB8F88F00560583 /* LFNALUnit.cpp in Sources */,
+				8495F68D1DB8F27000542124 /* LFAudioCapture.m in Sources */,
+				8495F68E1DB8F27000542124 /* LFVideoCapture.m in Sources */,
+				8495F68F1DB8F27000542124 /* LFAVEncoder.mm in Sources */,
+				8495F6901DB8F27000542124 /* LFMP4Atom.m in Sources */,
+				8495F6911DB8F27000542124 /* LFVideoEncoder.m in Sources */,
+				8495F6921DB8F27000542124 /* LFH264VideoEncoder.mm in Sources */,
+				8495F6931DB8F27000542124 /* LFHardwareAudioEncoder.m in Sources */,
+				8495F6941DB8F27000542124 /* LFHardwareVideoEncoder.m in Sources */,
+				8495F6951DB8F27000542124 /* LFLiveAudioConfiguration.m in Sources */,
+				8495F6961DB8F27000542124 /* LFLiveVideoConfiguration.m in Sources */,
+				8495F6971DB8F27000542124 /* LFGPUImageBeautyFilter.m in Sources */,
+				8495F6981DB8F27000542124 /* LFGPUImageEmptyFilter.m in Sources */,
+				8495F6991DB8F27000542124 /* LFLiveSession.m in Sources */,
+				8495F69A1DB8F27000542124 /* LFAudioFrame.m in Sources */,
+				8495F69B1DB8F27000542124 /* LFFrame.m in Sources */,
+				8495F69C1DB8F27000542124 /* LFLiveDebug.m in Sources */,
+				8495F69D1DB8F27000542124 /* LFLiveStreamInfo.m in Sources */,
+				8495F69E1DB8F27000542124 /* LFVideoFrame.m in Sources */,
+				8495F69F1DB8F27000542124 /* LFStreamingBuffer.m in Sources */,
+				8495F6A01DB8F27000542124 /* LFStreamRtmpSocket.m in Sources */,
+				8495F6A11DB8F27000542124 /* NSMutableArray+LFAdd.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		84D8B38B1D7574D600752B56 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -462,6 +564,66 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		8495F6711DB8F14600542124 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../samples/LFLiveKitFrameworkDemo/vendors/GPUImage.framework\"",
+					"\"$(SRCROOT)/../samples/LFLiveKitFrameworkDemo/vendors/pili-librtmp.framework\"",
+				);
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../samples/LFLiveKitFrameworkDemo/vendors/GPUImage.framework/Headers\"",
+					"\"$(SRCROOT)/../samples/LFLiveKitFrameworkDemo/vendors/pili-librtmp.framework/Headers\"",
+				);
+				INFOPLIST_FILE = LFLiveKitFramework/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				PRODUCT_BUNDLE_IDENTIFIER = com.youku.LFLiveKit;
+				PRODUCT_NAME = LFLiveKit;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		8495F6721DB8F14600542124 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../samples/LFLiveKitFrameworkDemo/vendors/GPUImage.framework\"",
+					"\"$(SRCROOT)/../samples/LFLiveKitFrameworkDemo/vendors/pili-librtmp.framework\"",
+				);
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../samples/LFLiveKitFrameworkDemo/vendors/GPUImage.framework/Headers\"",
+					"\"$(SRCROOT)/../samples/LFLiveKitFrameworkDemo/vendors/pili-librtmp.framework/Headers\"",
+				);
+				INFOPLIST_FILE = LFLiveKitFramework/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				PRODUCT_BUNDLE_IDENTIFIER = com.youku.LFLiveKit;
+				PRODUCT_NAME = LFLiveKit;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 		84D8B3961D7574D600752B56 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -554,13 +716,15 @@
 		};
 		84D8B3991D7574D600752B56 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7F7E051931BABE0B14FE6A57 /* Pods-LFLiveKit.debug.xcconfig */;
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				HEADER_SEARCH_PATHS = "$(inherited)";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../LFLiveKitDemo/Pods\"/**",
+				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -576,13 +740,15 @@
 		};
 		84D8B39A1D7574D600752B56 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BF1D108D206BBD2267CDB4FB /* Pods-LFLiveKit.release.xcconfig */;
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				HEADER_SEARCH_PATHS = "$(inherited)";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../LFLiveKitDemo/Pods\"/**",
+				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -599,6 +765,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		8495F6701DB8F14600542124 /* Build configuration list for PBXNativeTarget "LFLiveKitFramework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8495F6711DB8F14600542124 /* Debug */,
+				8495F6721DB8F14600542124 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		84D8B38A1D7574D600752B56 /* Build configuration list for PBXProject "LFLiveKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

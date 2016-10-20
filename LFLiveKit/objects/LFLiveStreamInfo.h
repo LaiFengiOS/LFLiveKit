@@ -7,14 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-
-#if __has_include(<LFLiveKit/LFLiveKit.h>)
-#import <LFLiveKit/LFLiveAudioConfiguration.h>
-#import <LFLiveKit/LFLiveVideoConfiguration.h>
-#else
 #import "LFLiveAudioConfiguration.h"
 #import "LFLiveVideoConfiguration.h"
-#endif
 
 
 

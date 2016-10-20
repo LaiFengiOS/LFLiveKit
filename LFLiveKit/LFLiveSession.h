@@ -9,22 +9,12 @@
 
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
-#if __has_include(<LFLiveKit/LFLiveKit.h>)
-#import <LFLiveKit/LFLiveStreamInfo.h>
-#import <LFLiveKit/LFAudioFrame.h>
-#import <LFLiveKit/LFVideoFrame.h>
-#import <LFLiveKit/LFLiveAudioConfiguration.h>
-#import <LFLiveKit/LFLiveVideoConfiguration.h>
-#import <LFLiveKit/LFLiveDebug.h>
-#else
 #import "LFLiveStreamInfo.h"
 #import "LFAudioFrame.h"
 #import "LFVideoFrame.h"
 #import "LFLiveAudioConfiguration.h"
 #import "LFLiveVideoConfiguration.h"
 #import "LFLiveDebug.h"
-
-#endif
 
 
 

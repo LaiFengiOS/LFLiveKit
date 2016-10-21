@@ -271,12 +271,10 @@
     __weak typeof(self) _self = self;
     @autoreleasepool {
         GPUImageFramebuffer *imageFramebuffer = output.framebufferForOutput;
-        CVPixelBufferRef pixelBuffer = NULL;
-        CVPixelBufferCreateWithBytes(kCFAllocatorDefault, _self.configuration.videoSize.width, _self.configuration.videoSize.height, kCVPixelFormatType_32BGRA, [imageFramebuffer byteBuffer], _self.configuration.videoSize.width * 4, NULL, NULL, NULL, &pixelBuffer);
+        CVPixelBufferRef pixelBuffer = [imageFramebuffer pixelBuffer];
         if (pixelBuffer && _self.delegate && [_self.delegate respondsToSelector:@selector(captureOutput:pixelBuffer:)]) {
             [_self.delegate captureOutput:_self pixelBuffer:pixelBuffer];
         }
-        CFRelease(pixelBuffer);
     }
 }
 
@@ -301,7 +299,7 @@
     ///< 调节镜像
     [self reloadMirror];
     
-    ///< 480*640 比例为4:3  强制转换为16:9
+    //< 480*640 比例为4:3  强制转换为16:9
     if([self.configuration.avSessionPreset isEqualToString:AVCaptureSessionPreset640x480]){
         CGRect cropRect = self.configuration.landscape ? CGRectMake(0, 0.125, 1, 0.75) : CGRectMake(0.125, 0, 0.75, 1);
         self.cropfilter = [[GPUImageCropFilter alloc] initWithCropRegion:cropRect];
@@ -311,7 +309,7 @@
         [self.videoCamera addTarget:self.filter];
     }
     
-    ///< 添加水印
+    //< 添加水印
     if(self.warterMarkView){
         [self.filter addTarget:self.blendFilter];
         [self.uiElementInput addTarget:self.blendFilter];
@@ -331,7 +329,7 @@
     [self.uiElementInput forceProcessingAtSize:self.configuration.videoSize];
     
     
-    ///< 输出数据
+    //< 输出数据
     __weak typeof(self) _self = self;
     [self.output setFrameProcessingCompletionBlock:^(GPUImageOutput *output, CMTime time) {
         [_self processVideo:output];

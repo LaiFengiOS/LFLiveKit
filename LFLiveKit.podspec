@@ -17,6 +17,6 @@ Pod::Spec.new do |s|
   s.libraries = "c++", "z"
 
   s.requires_arc = true
-  s.dependency 'LMGPUImage'
+  s.dependency 'GPUImage'
   s.dependency 'pili-librtmp', '1.0.3.1'
 end

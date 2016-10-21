@@ -6,6 +6,21 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		84D003751DB8FE1000560583 /* LFLiveKitFramework-universal */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 84D003761DB8FE1000560583 /* Build configuration list for PBXAggregateTarget "LFLiveKitFramework-universal" */;
+			buildPhases = (
+				84D0037B1DB8FE1C00560583 /* ShellScript */,
+			);
+			dependencies = (
+				84D0037A1DB8FE1800560583 /* PBXTargetDependency */,
+			);
+			name = "LFLiveKitFramework-universal";
+			productName = "LFLiveKitFramework-universal";
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		8495F66F1DB8F14600542124 /* LFLiveKitFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = 8495F66D1DB8F14600542124 /* LFLiveKitFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8495F6731DB8F1EE00542124 /* LFAudioCapture.h in Headers */ = {isa = PBXBuildFile; fileRef = 84D8B5851D768B6E00752B56 /* LFAudioCapture.h */; };
@@ -109,6 +124,16 @@
 		84D8B5E91D768B6E00752B56 /* NSMutableArray+LFAdd.h in Headers */ = {isa = PBXBuildFile; fileRef = 84D8B5B91D768B6E00752B56 /* NSMutableArray+LFAdd.h */; };
 		84D8B5EA1D768B6E00752B56 /* NSMutableArray+LFAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B5BA1D768B6E00752B56 /* NSMutableArray+LFAdd.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		84D003791DB8FE1800560583 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 84D8B3871D7574D600752B56 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8495F66A1DB8F14600542124;
+			remoteInfo = LFLiveKitFramework;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		8495F66B1DB8F14600542124 /* LFLiveKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LFLiveKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -429,6 +454,7 @@
 				8495F6671DB8F14600542124 /* Frameworks */,
 				8495F6681DB8F14600542124 /* Headers */,
 				8495F6691DB8F14600542124 /* Resources */,
+				84D0037D1DB9023F00560583 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -469,6 +495,11 @@
 						CreatedOnToolsVersion = 8.0;
 						ProvisioningStyle = Automatic;
 					};
+					84D003751DB8FE1000560583 = {
+						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = G497YX6CBT;
+						ProvisioningStyle = Automatic;
+					};
 					84D8B38F1D7574D600752B56 = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
@@ -488,6 +519,7 @@
 			targets = (
 				84D8B38F1D7574D600752B56 /* LFLiveKit */,
 				8495F66A1DB8F14600542124 /* LFLiveKitFramework */,
+				84D003751DB8FE1000560583 /* LFLiveKitFramework-universal */,
 			);
 		};
 /* End PBXProject section */
@@ -501,6 +533,35 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		84D0037B1DB8FE1C00560583 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "../scripts/build-universal-framework.sh\n";
+		};
+		84D0037D1DB9023F00560583 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "echo \"${env}\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8495F6661DB8F14600542124 /* Sources */ = {
@@ -563,6 +624,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		84D0037A1DB8FE1800560583 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8495F66A1DB8F14600542124 /* LFLiveKitFramework */;
+			targetProxy = 84D003791DB8FE1800560583 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
 		8495F6711DB8F14600542124 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -588,6 +657,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.youku.LFLiveKit;
 				PRODUCT_NAME = LFLiveKit;
 				SKIP_INSTALL = YES;
@@ -618,9 +688,26 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.youku.LFLiveKit;
 				PRODUCT_NAME = LFLiveKit;
 				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		84D003771DB8FE1000560583 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = G497YX6CBT;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		84D003781DB8FE1000560583 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = G497YX6CBT;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
@@ -723,7 +810,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../LFLiveKitDemo/Pods\"/**",
+					"\"$(SRCROOT)/../samples/LFLiveKitDemo/Pods\"/**",
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -747,7 +834,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../LFLiveKitDemo/Pods\"/**",
+					"\"$(SRCROOT)/../samples/LFLiveKitDemo/Pods\"/**",
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -770,6 +857,15 @@
 			buildConfigurations = (
 				8495F6711DB8F14600542124 /* Debug */,
 				8495F6721DB8F14600542124 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		84D003761DB8FE1000560583 /* Build configuration list for PBXAggregateTarget "LFLiveKitFramework-universal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84D003771DB8FE1000560583 /* Debug */,
+				84D003781DB8FE1000560583 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

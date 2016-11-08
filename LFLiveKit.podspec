@@ -2,7 +2,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "LFLiveKit"
-  s.version      = "2.4.3"
+  s.version      = "2.5"
   s.summary      = "LaiFeng ios Live. LFLiveKit."
   s.homepage     = "https://github.com/chenliming777"
   s.license      = { :type => "MIT", :file => "LICENSE" }
@@ -17,6 +17,4 @@ Pod::Spec.new do |s|
   s.libraries = "c++", "z"
 
   s.requires_arc = true
-  s.dependency 'LMGPUImage'
-  s.dependency 'pili-librtmp', '1.0.3.1'
 end

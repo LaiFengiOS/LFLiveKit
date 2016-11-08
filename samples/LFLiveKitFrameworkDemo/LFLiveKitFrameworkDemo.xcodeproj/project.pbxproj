@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		843591661DD201D200811FC7 /* LFLiveKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8495F6CE1DB8F37E00542124 /* LFLiveKit.framework */; };
 		8495F6B01DB8F37300542124 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8495F6AF1DB8F37300542124 /* main.m */; };
 		8495F6B31DB8F37300542124 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8495F6B21DB8F37300542124 /* AppDelegate.m */; };
 		8495F6B61DB8F37300542124 /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8495F6B51DB8F37300542124 /* FirstViewController.m */; };
@@ -14,9 +15,6 @@
 		8495F6BC1DB8F37300542124 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8495F6BA1DB8F37300542124 /* Main.storyboard */; };
 		8495F6BE1DB8F37300542124 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8495F6BD1DB8F37300542124 /* Assets.xcassets */; };
 		8495F6C11DB8F37300542124 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8495F6BF1DB8F37300542124 /* LaunchScreen.storyboard */; };
-		8495F6D31DB8F3CD00542124 /* LFLiveKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8495F6D01DB8F37E00542124 /* LFLiveKit.framework */; };
-		8495F6D71DB8F49800542124 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8495F6D51DB8F49800542124 /* GPUImage.framework */; };
-		8495F6D81DB8F49800542124 /* pili-librtmp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8495F6D61DB8F49800542124 /* pili-librtmp.framework */; };
 		84D003561DB8F7FA00560583 /* UIControl+YYAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D003471DB8F7FA00560583 /* UIControl+YYAdd.m */; };
 		84D003571DB8F7FA00560583 /* UIView+YYAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D003491DB8F7FA00560583 /* UIView+YYAdd.m */; };
 		84D003581DB8F7FA00560583 /* camra_beauty@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D0034B1DB8F7FA00560583 /* camra_beauty@2x.png */; };
@@ -38,6 +36,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		843591641DD201CC00811FC7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8495F6C81DB8F37E00542124 /* LFLiveKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8495F66A1DB8F14600542124;
+			remoteInfo = LFLiveKitFramework;
+		};
 		8495F6CD1DB8F37E00542124 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8495F6C81DB8F37E00542124 /* LFLiveKit.xcodeproj */;
@@ -52,16 +57,10 @@
 			remoteGlobalIDString = 8495F66B1DB8F14600542124;
 			remoteInfo = LFLiveKitFramework;
 		};
-		8495F6D11DB8F3C400542124 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8495F6C81DB8F37E00542124 /* LFLiveKit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8495F66A1DB8F14600542124;
-			remoteInfo = LFLiveKitFramework;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		843591671DD204FA00811FC7 /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
 		8495F6AB1DB8F37300542124 /* LFLiveKitFrameworkDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LFLiveKitFrameworkDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8495F6AF1DB8F37300542124 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8495F6B11DB8F37300542124 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -107,15 +106,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				843591661DD201D200811FC7 /* LFLiveKit.framework in Frameworks */,
 				84D003731DB8F8C200560583 /* Foundation.framework in Frameworks */,
 				84D003711DB8F8BD00560583 /* UIKit.framework in Frameworks */,
 				84D0036E1DB8F86D00560583 /* AVFoundation.framework in Frameworks */,
 				84D0036C1DB8F86700560583 /* AudioToolbox.framework in Frameworks */,
 				84D0036A1DB8F85E00560583 /* VideoToolbox.framework in Frameworks */,
 				84D003641DB8F83400560583 /* libstdc++.tbd in Frameworks */,
-				8495F6D71DB8F49800542124 /* GPUImage.framework in Frameworks */,
-				8495F6D81DB8F49800542124 /* pili-librtmp.framework in Frameworks */,
-				8495F6D31DB8F3CD00542124 /* LFLiveKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -182,6 +179,7 @@
 		8495F6D41DB8F49800542124 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				843591671DD204FA00811FC7 /* libstdc++.6.0.9.tbd */,
 				84D003721DB8F8C200560583 /* Foundation.framework */,
 				84D003701DB8F8BD00560583 /* UIKit.framework */,
 				84D0036D1DB8F86D00560583 /* AVFoundation.framework */,
@@ -237,7 +235,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				8495F6D21DB8F3C400542124 /* PBXTargetDependency */,
+				843591651DD201CC00811FC7 /* PBXTargetDependency */,
 			);
 			name = LFLiveKitFrameworkDemo;
 			productName = LFLiveKitFrameworkDemo;
@@ -341,10 +339,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		8495F6D21DB8F3C400542124 /* PBXTargetDependency */ = {
+		843591651DD201CC00811FC7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = LFLiveKitFramework;
-			targetProxy = 8495F6D11DB8F3C400542124 /* PBXContainerItemProxy */;
+			targetProxy = 843591641DD201CC00811FC7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -408,7 +406,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -449,7 +447,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -461,14 +459,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = G497YX6CBT;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/vendors",
-				);
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/vendors\"";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = LFLiveKitFrameworkDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.youku.LFLiveKitFrameworkDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -479,14 +478,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = G497YX6CBT;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/vendors",
-				);
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/vendors\"";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = LFLiveKitFrameworkDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.youku.LFLiveKitFrameworkDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

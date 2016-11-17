@@ -100,7 +100,7 @@ static const NSUInteger defaultSendBufferMaxCount = 600;///< 最大缓冲区为6
     
     NSArray *iFrames = [self expireIFrames];///<  删除一个I帧（但一个I帧可能对应多个nal）
     self.lastDropFrames += [iFrames count];
-    if (iFrames) {
+    if (iFrames && iFrames.count > 0) {
         [self.list removeObjectsInArray:iFrames];
         return;
     }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5EA73C6322E98031301F2E03 /* Pods_LFLiveKitSwiftDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A28643F373DE90D96602753C /* Pods_LFLiveKitSwiftDemo.framework */; };
 		84D8B48C1D757D4000752B56 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B48B1D757D4000752B56 /* AppDelegate.swift */; };
 		84D8B48E1D757D4000752B56 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B48D1D757D4000752B56 /* ViewController.swift */; };
 		84D8B4911D757D4000752B56 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84D8B48F1D757D4000752B56 /* Main.storyboard */; };
@@ -21,12 +22,11 @@
 		84D8B4B21D757DBB00752B56 /* close_preview@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D8B4AA1D757DBB00752B56 /* close_preview@2x.png */; };
 		84D8B4B31D757DBB00752B56 /* close_preview@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D8B4AB1D757DBB00752B56 /* close_preview@3x.png */; };
 		84D8B4BD1D757E0E00752B56 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D8B4BC1D757E0E00752B56 /* libstdc++.tbd */; };
-		9CA0546A1BD4E74670872B9B /* libPods-LFLiveKitSwiftDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E0C4364E65B82DECF3326D9 /* libPods-LFLiveKitSwiftDemo.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		4E0C4364E65B82DECF3326D9 /* libPods-LFLiveKitSwiftDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LFLiveKitSwiftDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7265B07B4B6CEE8ECE8F7A63 /* Pods-LFLiveKitSwiftDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LFLiveKitSwiftDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LFLiveKitSwiftDemo/Pods-LFLiveKitSwiftDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		843592751DD30BF000811FC7 /* LFLiveKitSwiftDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LFLiveKitSwiftDemo-Bridging-Header.h"; sourceTree = "<group>"; };
 		84D8B4881D757D4000752B56 /* LFLiveKitSwiftDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LFLiveKitSwiftDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84D8B48B1D757D4000752B56 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		84D8B48D1D757D4000752B56 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -43,6 +43,7 @@
 		84D8B4AA1D757DBB00752B56 /* close_preview@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close_preview@2x.png"; sourceTree = "<group>"; };
 		84D8B4AB1D757DBB00752B56 /* close_preview@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close_preview@3x.png"; sourceTree = "<group>"; };
 		84D8B4BC1D757E0E00752B56 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
+		A28643F373DE90D96602753C /* Pods_LFLiveKitSwiftDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LFLiveKitSwiftDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAC498DB742E949DED005ECE /* Pods-LFLiveKitSwiftDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LFLiveKitSwiftDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-LFLiveKitSwiftDemo/Pods-LFLiveKitSwiftDemo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -52,7 +53,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				84D8B4BD1D757E0E00752B56 /* libstdc++.tbd in Frameworks */,
-				9CA0546A1BD4E74670872B9B /* libPods-LFLiveKitSwiftDemo.a in Frameworks */,
+				5EA73C6322E98031301F2E03 /* Pods_LFLiveKitSwiftDemo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,7 +63,7 @@
 		23FA2B0543E0C2A8E7C84D9E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				4E0C4364E65B82DECF3326D9 /* libPods-LFLiveKitSwiftDemo.a */,
+				A28643F373DE90D96602753C /* Pods_LFLiveKitSwiftDemo.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -91,6 +92,7 @@
 			children = (
 				84D8B48B1D757D4000752B56 /* AppDelegate.swift */,
 				84D8B48D1D757D4000752B56 /* ViewController.swift */,
+				843592751DD30BF000811FC7 /* LFLiveKitSwiftDemo-Bridging-Header.h */,
 				84D8B48F1D757D4000752B56 /* Main.storyboard */,
 				84D8B4A31D757DBB00752B56 /* images */,
 				84D8B4921D757D4000752B56 /* Assets.xcassets */,
@@ -320,7 +322,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -359,7 +361,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -375,13 +377,13 @@
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = LFLiveKitSwiftDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = com.youku.LaiFeng;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "LFLiveKitSwiftDemo/LFLiveKitSwiftDemo-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -395,13 +397,13 @@
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = LFLiveKitSwiftDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = com.youku.LaiFeng;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "LFLiveKitSwiftDemo/LFLiveKitSwiftDemo-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

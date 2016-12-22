@@ -317,7 +317,6 @@
         [self.blendFilter addTarget:self.gpuImageView];
         if(self.saveLocalVideo) [self.blendFilter addTarget:self.movieWriter];
         [self.filter addTarget:self.output];
-        [self.uiElementInput update];
     }else{
         [self.filter addTarget:self.output];
         [self.output addTarget:self.gpuImageView];
@@ -333,6 +332,9 @@
     //< 输出数据
     __weak typeof(self) _self = self;
     [self.output setFrameProcessingCompletionBlock:^(GPUImageOutput *output, CMTime time) {
+        if(_self.warterMarkView){
+            [_self.uiElementInput update];
+        }
         [_self processVideo:output];
     }];
     

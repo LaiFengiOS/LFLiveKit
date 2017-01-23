@@ -86,6 +86,13 @@ typedef NS_ENUM(NSInteger,LFLiveCaptureTypeMask) {
 /** The torch control capture flash is on or off */
 @property (nonatomic, assign) BOOL torch;
 
+/** The continuousAutoFocus control continuousAutoFocus is on or off */
+@property (nonatomic, assign) BOOL continuousAutoFocus;
+
+/** The continuousAutoExposure control continuousAutoExposure is on or off */
+@property (nonatomic, assign) BOOL continuousAutoExposure;
+
+
 /** The mirror control mirror of front camera is on or off */
 @property (nonatomic, assign) BOOL mirror;
 

@@ -41,6 +41,8 @@
 @synthesize beautyLevel = _beautyLevel;
 @synthesize brightLevel = _brightLevel;
 @synthesize zoomScale = _zoomScale;
+@synthesize continuousAutoFocus = _continuousAutoFocus;
+@synthesize continuousAutoExposure = _continuousAutoExposure;
 
 #pragma mark -- LifeCycle
 - (instancetype)initWithVideoConfiguration:(LFLiveVideoConfiguration *)configuration {
@@ -156,6 +158,58 @@
 
 - (BOOL)torch {
     return self.videoCamera.inputCamera.torchMode;
+}
+
+- (void)setContinuousAutoFocus:(BOOL)continuousAutoFocus {
+  bool ret = false;
+
+  if (!self.videoCamera.captureSession) return;
+  AVCaptureFocusMode newMode = continuousAutoFocus ? AVCaptureFocusModeContinuousAutoFocus : AVCaptureFocusModeAutoFocus;
+  AVCaptureSession *session = (AVCaptureSession *)self.videoCamera.captureSession;
+  [session beginConfiguration];
+  if (self.videoCamera.inputCamera) {
+    if ([self.videoCamera.inputCamera isFocusModeSupported:newMode]) {
+      NSError *err = nil;
+      if ([self.videoCamera.inputCamera lockForConfiguration:&err]) {
+        self.videoCamera.inputCamera.focusMode = newMode;
+        [self.videoCamera.inputCamera unlockForConfiguration];
+        ret = true;
+      } else {
+        NSLog(@"Error while locking device for auto focus: %@", err);
+        ret = false;
+      }
+    } else {
+      NSLog(@"Auto focus not available in current camera input");
+    }
+  }
+  [session commitConfiguration];
+  _continuousAutoFocus = ret;
+}
+
+- (void)setContinuousAutoExposure:(BOOL)continuousAutoExposure {
+  bool ret = false;
+
+  if (!self.videoCamera.captureSession) return;
+  AVCaptureExposureMode newMode = continuousAutoExposure ? AVCaptureExposureModeContinuousAutoExposure : AVCaptureExposureModeAutoExpose;
+  AVCaptureSession *session = (AVCaptureSession *)self.videoCamera.captureSession;
+  [session beginConfiguration];
+  if (self.videoCamera.inputCamera) {
+    if ([self.videoCamera.inputCamera isExposureModeSupported: newMode]) {
+      NSError *err = nil;
+      if ([self.videoCamera.inputCamera lockForConfiguration:&err]) {
+        self.videoCamera.inputCamera.exposureMode = newMode;
+        [self.videoCamera.inputCamera unlockForConfiguration];
+        ret = true;
+      } else {
+        NSLog(@"Error while locking device for auto exposure: %@", err);
+        ret = false;
+      }
+    } else {
+      NSLog(@"Auto exposure not available in current camera input");
+    }
+  }
+  [session commitConfiguration];
+  continuousAutoExposure = ret;
 }
 
 - (void)setMirror:(BOOL)mirror {

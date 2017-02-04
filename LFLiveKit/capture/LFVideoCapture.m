@@ -287,14 +287,21 @@
     [self.output removeAllTargets];
     [self.cropfilter removeAllTargets];
     
+    self.output = [[LFGPUImageEmptyFilter alloc] init];
+    self.filter = [[GPUImageFilterGroup alloc] init];
+
     if (self.beautyFace) {
-        self.output = [[LFGPUImageEmptyFilter alloc] init];
-        self.filter = [[LFGPUImageBeautyFilter alloc] init];
-        self.beautyFilter = (LFGPUImageBeautyFilter*)self.filter;
+        self.beautyFilter = [[LFGPUImageBeautyFilter alloc] init];
+        
+        [(GPUImageFilterGroup *)self.filter addFilter:self.beautyFilter];
+        [(GPUImageFilterGroup *)self.filter setInitialFilters:@[self.beautyFilter]];
+        [(GPUImageFilterGroup *)self.filter setTerminalFilter:self.beautyFilter];
+
+
     } else {
-        self.output = [[LFGPUImageEmptyFilter alloc] init];
-        self.filter = [[LFGPUImageEmptyFilter alloc] init];
         self.beautyFilter = nil;
+        
+        [(GPUImageFilterGroup *)self.filter addFilter:[[LFGPUImageEmptyFilter alloc] init]];
     }
     
     ///< 调节镜像

@@ -9,6 +9,7 @@
 #import "LFVideoCapture.h"
 #import "LFGPUImageBeautyFilter.h"
 #import "LFGPUImageEmptyFilter.h"
+#import "RKGPUImageMemoryFilter.h"s
 
 #if __has_include(<GPUImage/GPUImage.h>)
 #import <GPUImage/GPUImage.h>
@@ -293,9 +294,12 @@
     if (self.beautyFace) {
         self.beautyFilter = [[LFGPUImageBeautyFilter alloc] init];
         
-        [(GPUImageFilterGroup *)self.filter addFilter:self.beautyFilter];
-        [(GPUImageFilterGroup *)self.filter setInitialFilters:@[self.beautyFilter]];
-        [(GPUImageFilterGroup *)self.filter setTerminalFilter:self.beautyFilter];
+//        [(GPUImageFilterGroup *)self.filter addFilter:self.beautyFilter];
+        RKGPUImageMemoryFilter *colorFilter = [[RKGPUImageMemoryFilter alloc] init];
+        [(GPUImageFilterGroup *)self.filter addFilter:colorFilter];
+
+        [(GPUImageFilterGroup *)self.filter setInitialFilters:@[colorFilter]];
+        [(GPUImageFilterGroup *)self.filter setTerminalFilter:colorFilter];
 
 
     } else {

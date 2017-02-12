@@ -294,11 +294,12 @@
     if (self.beautyFace) {
         self.beautyFilter = [[LFGPUImageBeautyFilter alloc] init];
         
-//        [(GPUImageFilterGroup *)self.filter addFilter:self.beautyFilter];
+        [(GPUImageFilterGroup *)self.filter addFilter:self.beautyFilter];
         RKGPUImageMemoryFilter *colorFilter = [[RKGPUImageMemoryFilter alloc] init];
+        [self.beautyFilter addTarget:colorFilter];
         [(GPUImageFilterGroup *)self.filter addFilter:colorFilter];
 
-        [(GPUImageFilterGroup *)self.filter setInitialFilters:@[colorFilter]];
+        [(GPUImageFilterGroup *)self.filter setInitialFilters:@[self.beautyFilter]];
         [(GPUImageFilterGroup *)self.filter setTerminalFilter:colorFilter];
 
 

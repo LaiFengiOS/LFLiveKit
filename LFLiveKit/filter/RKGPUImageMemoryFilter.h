@@ -2,7 +2,7 @@
 //  RKGPUImageMemoryFilter.h
 //  LFLiveKit
 //
-//  Created by Racing on 2017/2/5.
+//  Created by Racing on 2017/2/12.
 //  Copyright © 2017年 admin. All rights reserved.
 //
 
@@ -10,8 +10,9 @@
 
 @class GPUImagePicture;
 
-@interface RKGPUImageMemoryFilter : GPUImageFilterGroup {
-    GPUImagePicture *lookupImageSource1;
+@interface RKGPUImageMemoryFilter : GPUImageFilterGroup
+{
+    GPUImagePicture *lookupImageSource;
     GPUImagePicture *lookupImageSource2;
     GPUImagePicture *lookupImageSource3;
 }

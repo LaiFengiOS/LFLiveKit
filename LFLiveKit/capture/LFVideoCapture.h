@@ -10,6 +10,40 @@
 #import <AVFoundation/AVFoundation.h>
 #import "LFLiveVideoConfiguration.h"
 
+typedef NS_ENUM(NSInteger, RKColorFilter) {
+    RKColorFilterNone,
+    RKColorFilterRich,
+    RKColorFilterWarm,
+    RKColorFilterSoft,
+    RKColorFilterRose,
+    RKColorFilterMorning,
+    RKColorFilterSunshine,
+    RKColorFilterSunset,
+    RKColorFilterCool,
+    RKColorFilterFreeze,
+    RKColorFilterOcean,
+    RKColorFilterDream,
+    RKColorFilterViolet,
+    RKColorFilterMellow,
+    RKColorFilterBleak,
+    RKColorFilterMemory,
+    RKColorFilterPure,
+    RKColorFilterCalm,
+    RKColorFilterAutumn,
+    RKColorFilterFantasy,
+    RKColorFilterFreedom,
+    RKColorFilterMild,
+    RKColorFilterPrairie,
+    RKColorFilterDeep,
+    RKColorFilterGlow,
+    RKColorFilterMemoir,
+    RKColorFilterMist,
+    RKColorFilterVivid,
+    RKColorFilterChill,
+    RKColorFilterPinky,
+    RKColorFilterAdventure
+};
+
 @class LFVideoCapture;
 /** LFVideoCapture callback videoData */
 @protocol LFVideoCaptureDelegate <NSObject>
@@ -68,6 +102,8 @@
 /* The saveLocalVideoPath is save the local video  path */
 @property (nonatomic, strong, nullable) NSURL *saveLocalVideoPath;
 
+@property (nonatomic, copy, readonly, nullable) NSString *currentFilterName;
+
 #pragma mark - Initializer
 ///=============================================================================
 /// @name Initializer
@@ -80,5 +116,9 @@
    capture unstable.
  */
 - (nullable instancetype)initWithVideoConfiguration:(nullable LFLiveVideoConfiguration *)configuration NS_DESIGNATED_INITIALIZER;
+
+- (void)previousFilter;
+
+- (void)nextFilter;
 
 @end

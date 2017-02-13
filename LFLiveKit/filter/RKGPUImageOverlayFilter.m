@@ -25,28 +25,28 @@ NSString *const kRKGPUImageOverlayFragmentShaderString = SHADER_STRING
      lowp float gColor;
      lowp float bColor;
      if (imageColor.r < 0.5) {
-         rColor = 2.*textureColor.r*imageColor.r;
+         rColor = 2.0 * textureColor.r * imageColor.r;
      } else {
-         rColor = 1.-2.*(1.-textureColor.r)*(1.-imageColor.r);
+         rColor = 1.0 - 2.0 * (1.0 - textureColor.r) * (1.0 - imageColor.r);
      }
      
      if (imageColor.g < 0.5) {
-         gColor = 2.*textureColor.g*imageColor.g;
+         gColor = 2.0 * textureColor.g * imageColor.g;
      } else {
-         gColor = 1.-2.*(1.-textureColor.g)*(1.-imageColor.g);
+         gColor = 1.0 - 2.0 * (1.0 - textureColor.g) * (1.0 - imageColor.g);
      }
      
      if (imageColor.b < 0.5) {
-         bColor = 2.*textureColor.b*imageColor.b;
+         bColor = 2.0 * textureColor.b * imageColor.b;
      } else {
-         bColor = 1.-2.*(1.-textureColor.b)*(1.-imageColor.b);
+         bColor = 1.0 - 2.0 * (1.0 - textureColor.b) * (1.0 - imageColor.b);
      }
      
      lowp vec3 result = vec3(rColor, gColor, bColor);
      result = clamp(result, 0.0, 1.0);
      gl_FragColor = vec4(result, 1.0);
  }
- );
+);
 #else
 NSString *const kGPUImageInvertFragmentShaderString = SHADER_STRING
 (
@@ -56,37 +56,41 @@ NSString *const kGPUImageInvertFragmentShaderString = SHADER_STRING
  uniform sampler2D inputImageTexture;
  uniform sampler2D inputImageTexture2; // lookup texture
  
- vec3 applyColorMap(vec3 inputTexture, sampler2D colorMap) {
-     float size = 33.0;
-     
-     float sliceSize = 1.0 / size;
-     float slicePixelSize = sliceSize / size;
-     float sliceInnerSize = slicePixelSize * (size - 1.0);
-     float xOffset = 0.5 * sliceSize + inputTexture.x * (1.0 - sliceSize);
-     float yOffset = 0.5 * slicePixelSize + inputTexture.y * sliceInnerSize;
-     float zOffset = inputTexture.z * (size - 1.0);
-     float zSlice0 = floor(zOffset);
-     float zSlice1 = zSlice0 + 1.0;
-     float s0 = yOffset + (zSlice0 * sliceSize);
-     float s1 = yOffset + (zSlice1 * sliceSize);
-     vec4 sliceColor0 = texture2D(colorMap, vec2(xOffset, s0));
-     vec4 sliceColor1 = texture2D(colorMap, vec2(xOffset, s1));
-     
-     return mix(sliceColor0, sliceColor1, zOffset - zSlice0).rgb;
- }
- 
  void main(){
      vec3 textureColor = texture2D(inputImageTexture, textureCoordinate).rgb;
-     vec3 result = applyColorMap(textureColor, inputImageTexture2);
+     vec3 imageColor = texture2D(inputImageTexture2, textureCoordinate).rgb;
+     
+     float rColor;
+     float gColor;
+     float bColor;
+     if (imageColor.r < 0.5) {
+         rColor = 2.0 * textureColor.r * imageColor.r;
+     } else {
+         rColor = 1.0 - 2.0 * (1.0 - textureColor.r) * (1.0 - imageColor.r);
+     }
+     
+     if (imageColor.g < 0.5) {
+         gColor = 2.0 * textureColor.g * imageColor.g;
+     } else {
+         gColor = 1.0 - 2.0 * (1.0 - textureColor.g) * (1.0 - imageColor.g);
+     }
+     
+     if (imageColor.b < 0.5) {
+         bColor = 2.0 * textureColor.b * imageColor.b;
+     } else {
+         bColor = 1.0 - 2.0 * (1.0 - textureColor.b) * (1.0 - imageColor.b);
+     }
+     
+     vec3 result = vec3(rColor, gColor, bColor);
      result = clamp(result, 0.0, 1.0);
      gl_FragColor = vec4(result, 1.0);
  }
- );
+);
 #endif
 
 @implementation RKGPUImageOverlayFilter
 
-- (instancetype)init; {
+- (instancetype)init {
     if (!(self = [super initWithFragmentShaderFromString:kRKGPUImageOverlayFragmentShaderString])) {
         return nil;
     }

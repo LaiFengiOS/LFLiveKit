@@ -121,6 +121,14 @@
     }
 }
 
+- (void)previousFilter {
+    [self.videoCaptureSource previousFilter];
+}
+
+- (void)nextFilter {
+    [self.videoCaptureSource nextFilter];
+}
+
 #pragma mark -- PrivateMethod
 - (void)pushSendBuffer:(LFFrame*)frame{
     if(self.relativeTimestamps == 0){
@@ -216,6 +224,11 @@
 }
 
 #pragma mark -- Getter Setter
+
+- (NSString *)currentFilterName {
+    return self.videoCaptureSource.currentFilterName;
+}
+
 - (void)setRunning:(BOOL)running {
     if (_running == running) return;
     [self willChangeValueForKey:@"running"];

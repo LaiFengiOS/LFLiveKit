@@ -9,7 +9,7 @@
 #import "LFVideoCapture.h"
 #import "LFGPUImageBeautyFilter.h"
 #import "LFGPUImageEmptyFilter.h"
-#import "RKGPUImageMemoryFilter.h"s
+#import "RKGPUImageColorFilter.h"
 
 #if __has_include(<GPUImage/GPUImage.h>)
 #import <GPUImage/GPUImage.h>
@@ -18,6 +18,12 @@
 #else
 #import "GPUImage.h"
 #endif
+
+static NSString * const kColorFilterTypeKey = @"type";
+static NSString * const kColorFilterNameKey = @"name";
+static NSString * const kColorFilterColorMapKey = @"colorMap";
+static NSString * const kColorFilterSoftLightKey = @"softLight";
+static NSString * const kColorFilterOverlayKey = @"overlay";
 
 @interface LFVideoCapture ()
 
@@ -34,6 +40,10 @@
 @property (nonatomic, strong) UIView *waterMarkContentView;
 
 @property (nonatomic, strong) GPUImageMovieWriter *movieWriter;
+
+@property (nonatomic, assign) NSInteger currentFilterIndex;
+
+@property (nonatomic, copy, readonly) NSArray *filterInfos;
 
 @end
 
@@ -57,6 +67,161 @@
         self.brightLevel = 0.5;
         self.zoomScale = 1.0;
         self.mirror = YES;
+        _currentFilterIndex = 0;
+        _filterInfos = @[@{kColorFilterTypeKey: @(RKColorFilterNone),
+                           kColorFilterNameKey: NSLocalizedString(@"NORMAL_FILTER", nil)},
+                         
+//                         @{kColorFilterTypeKey: @(RKColorFilterRich),
+//                           kColorFilterNameKey: NSLocalizedString(@"RICH_FILTER", nil),
+//                           kColorFilterColorMapKey: @"rich_map",
+//                           kColorFilterSoftLightKey: @"overlay_softlight6"},
+                         
+                         @{kColorFilterTypeKey: @(RKColorFilterWarm),
+                           kColorFilterNameKey: NSLocalizedString(@"WARM_FILTER", nil),
+                           kColorFilterColorMapKey: @"warm_map",
+                           kColorFilterSoftLightKey: @"overlay_softlight2"},
+                         
+                         @{kColorFilterTypeKey: @(RKColorFilterSoft),
+                           kColorFilterNameKey: NSLocalizedString(@"SOFT_FILTER", nil),
+                           kColorFilterColorMapKey: @"soft_map"},
+                         
+                         @{kColorFilterTypeKey: @(RKColorFilterRose),
+                           kColorFilterNameKey: NSLocalizedString(@"ROSE_FILTER", nil),
+                           kColorFilterColorMapKey: @"rose_map"},
+                         
+                         @{kColorFilterTypeKey: @(RKColorFilterMorning),
+                           kColorFilterNameKey: NSLocalizedString(@"MORNING_FILTER", nil),
+                           kColorFilterColorMapKey: @"morning_map"},
+                         
+                         @{kColorFilterTypeKey: @(RKColorFilterSunshine),
+                           kColorFilterNameKey: NSLocalizedString(@"SUNSHINE_FILTER", nil),
+                           kColorFilterColorMapKey: @"sunshine_map",
+                           kColorFilterSoftLightKey: @"overlay_softlight2"},
+                         
+                         @{kColorFilterTypeKey: @(RKColorFilterSunset),
+                           kColorFilterNameKey: NSLocalizedString(@"SUNSET_FILTER", nil),
+                           kColorFilterColorMapKey: @"sunset_map",
+                           kColorFilterSoftLightKey: @"overlay_softlight1"},
+                         
+                         @{kColorFilterTypeKey: @(RKColorFilterCool),
+                           kColorFilterNameKey: NSLocalizedString(@"COOL_FILTER", nil),
+                           kColorFilterColorMapKey: @"cool_map",
+                           kColorFilterSoftLightKey: @"overlay_softlight2"},
+                         
+                         @{kColorFilterTypeKey: @(RKColorFilterFreeze),
+                           kColorFilterNameKey: NSLocalizedString(@"FREEZE_FILTER", nil),
+                           kColorFilterColorMapKey: @"freeze_map",
+                           kColorFilterSoftLightKey: @"overlay_softlight1"},
+                         
+                         @{kColorFilterTypeKey: @(RKColorFilterOcean),
+                           kColorFilterNameKey: NSLocalizedString(@"OCEAN_FILTER", nil),
+                           kColorFilterColorMapKey: @"ocean_map",
+                           kColorFilterSoftLightKey: @"overlay_softlight1"},
+                         
+                         @{kColorFilterTypeKey: @(RKColorFilterDream),
+                           kColorFilterNameKey: NSLocalizedString(@"DREAM_FILTER", nil),
+                           kColorFilterColorMapKey: @"dream_map",
+                           kColorFilterSoftLightKey: @"overlay_softlight3"},
+                         
+                         @{kColorFilterTypeKey: @(RKColorFilterViolet),
+                           kColorFilterNameKey: NSLocalizedString(@"VIOLET_FILTER", nil),
+                           kColorFilterColorMapKey: @"violet_map",
+                           kColorFilterSoftLightKey: @"overlay_softlight1"},
+                         
+                         @{kColorFilterTypeKey: @(RKColorFilterMellow),
+                           kColorFilterNameKey: NSLocalizedString(@"MELLOW_FILTER", nil),
+                           kColorFilterColorMapKey: @"mellow_map",
+                           kColorFilterSoftLightKey: @"overlay_softlight6"},
+                         
+//                         @{kColorFilterTypeKey: @(RKColorFilterBleak),
+//                           kColorFilterNameKey: NSLocalizedString(@"BLEAK_FILTER", nil),
+//                           kColorFilterColorMapKey: @"bleak_map",
+//                           kColorFilterSoftLightKey: @"overlay_softlight1",
+//                           kColorFilterOverlayKey: @"overlay_softlight2"},
+                         
+                         @{kColorFilterTypeKey: @(RKColorFilterMemory),
+                           kColorFilterNameKey: NSLocalizedString(@"MEMORY_FILTER", nil),
+                           kColorFilterColorMapKey: @"memory_map",
+                           kColorFilterSoftLightKey: @"overlay_softlight1",
+                           kColorFilterOverlayKey: @"overlay_softlight3"},
+                         
+                         @{kColorFilterTypeKey: @(RKColorFilterPure),
+                           kColorFilterNameKey: NSLocalizedString(@"PURE_FILTER", nil),
+                           kColorFilterColorMapKey: @"pure_map"},
+                         
+                         @{kColorFilterTypeKey: @(RKColorFilterCalm),
+                           kColorFilterNameKey: NSLocalizedString(@"CALM_FILTER", nil),
+                           kColorFilterColorMapKey: @"calm_map",
+                           kColorFilterSoftLightKey: @"overlay_softlight2"},
+                         
+                         @{kColorFilterTypeKey: @(RKColorFilterAutumn),
+                           kColorFilterNameKey: NSLocalizedString(@"AUTUMN_FILTER", nil),
+                           kColorFilterColorMapKey: @"autumn_map",
+                           kColorFilterSoftLightKey: @"overlay_softlight1",
+                           kColorFilterOverlayKey: @"overlay_softlight3"},
+                         
+                         @{kColorFilterTypeKey: @(RKColorFilterFantasy),
+                           kColorFilterNameKey: NSLocalizedString(@"FANTASY_FILTER", nil),
+                           kColorFilterColorMapKey: @"fantasy_map",
+                           kColorFilterSoftLightKey: @"overlay_softlight4"},
+                         
+                         @{kColorFilterTypeKey: @(RKColorFilterFreedom),
+                           kColorFilterNameKey: NSLocalizedString(@"FREEDOM_FILTER", nil),
+                           kColorFilterColorMapKey: @"freedom_map",
+                           kColorFilterSoftLightKey: @"overlay_softlight2"},
+                         
+                         @{kColorFilterTypeKey: @(RKColorFilterMild),
+                           kColorFilterNameKey: NSLocalizedString(@"MILD_FILTER", nil),
+                           kColorFilterColorMapKey: @"mild_map",
+                           kColorFilterSoftLightKey: @"overlay_softlight5"},
+                         
+                         @{kColorFilterTypeKey: @(RKColorFilterPrairie),
+                           kColorFilterNameKey: NSLocalizedString(@"PRAIRIE_FILTER", nil),
+                           kColorFilterColorMapKey: @"prairie_map",
+                           kColorFilterSoftLightKey: @"overlay_softlight5"},
+                         
+                         @{kColorFilterTypeKey: @(RKColorFilterDeep),
+                           kColorFilterNameKey: NSLocalizedString(@"DEEP_FILTER", nil),
+                           kColorFilterColorMapKey: @"deep_map",
+                           kColorFilterSoftLightKey: @"overlay_softlight2"},
+                         
+                         @{kColorFilterTypeKey: @(RKColorFilterGlow),
+                           kColorFilterNameKey: NSLocalizedString(@"GLOW_FILTER", nil),
+                           kColorFilterColorMapKey: @"glow_map",
+                           kColorFilterSoftLightKey: @"overlay_softlight5"},
+                         
+//                         @{kColorFilterTypeKey: @(RKColorFilterMemoir),
+//                           kColorFilterNameKey: NSLocalizedString(@"MEMOIR_FILTER", nil),
+//                           kColorFilterColorMapKey: @"memoir_map",
+//                           kColorFilterSoftLightKey: @"overlay_softlight6"},
+                         
+                         @{kColorFilterTypeKey: @(RKColorFilterMist),
+                           kColorFilterNameKey: NSLocalizedString(@"MIST_FILTER", nil),
+                           kColorFilterColorMapKey: @"mist_map",
+                           kColorFilterSoftLightKey: @"overlay_softlight5"},
+                         
+                         @{kColorFilterTypeKey: @(RKColorFilterVivid),
+                           kColorFilterNameKey: NSLocalizedString(@"VIVID_FILTER", nil),
+                           kColorFilterColorMapKey: @"vivid_map",
+                           kColorFilterSoftLightKey: @"overlay_softlight1"},
+                         
+//                         @{kColorFilterTypeKey: @(RKColorFilterChill),
+//                           kColorFilterNameKey: NSLocalizedString(@"CHILL_FILTER", nil),
+//                           kColorFilterColorMapKey: @"chill_map",
+//                           kColorFilterSoftLightKey: @"overlay_softlight1",
+//                           kColorFilterOverlayKey: @"overlay_softlight5"},
+                         
+                         @{kColorFilterTypeKey: @(RKColorFilterPinky),
+                           kColorFilterNameKey: NSLocalizedString(@"PINKY_FILTER", nil),
+                           kColorFilterColorMapKey: @"pinky_map",
+                           kColorFilterSoftLightKey: @"overlay_softlight5"},
+                         
+                         @{kColorFilterTypeKey: @(RKColorFilterAdventure),
+                           kColorFilterNameKey: NSLocalizedString(@"ADVENTURE_FILTER", nil),
+                           kColorFilterColorMapKey: @"adventure_map",
+                           kColorFilterSoftLightKey: @"overlay_softlight2",
+                           kColorFilterOverlayKey: @"overlay_softlight3"}
+                         ];
     }
     return self;
 }
@@ -71,7 +236,35 @@
     }
 }
 
+#pragma mark -- Public
+
+- (void)previousFilter {
+    self.currentFilterIndex--;
+    [self reloadFilter];
+}
+
+- (void)nextFilter {
+    self.currentFilterIndex++;
+    [self reloadFilter];
+}
+
 #pragma mark -- Setter Getter
+
+- (NSString *)currentFilterName {
+    NSDictionary *filterInfo = self.filterInfos[self.currentFilterIndex];
+    return filterInfo[kColorFilterNameKey];
+}
+
+- (void)setCurrentFilterIndex:(NSInteger)currentFilterIndex {
+    if (currentFilterIndex < 0) {
+        currentFilterIndex = self.filterInfos.count - 1;
+        
+    } else if (currentFilterIndex >= self.filterInfos.count) {
+        currentFilterIndex = 0;
+    }
+    
+    _currentFilterIndex = currentFilterIndex;
+}
 
 - (GPUImageVideoCamera *)videoCamera{
     if(!_videoCamera){
@@ -290,23 +483,40 @@
     
     self.output = [[LFGPUImageEmptyFilter alloc] init];
     self.filter = [[GPUImageFilterGroup alloc] init];
+    
+    NSDictionary *filterInfo = self.filterInfos[self.currentFilterIndex];
+    NSString *colorMap = filterInfo[kColorFilterColorMapKey];
+    NSString *softLight = filterInfo[kColorFilterSoftLightKey];
+    NSString *overlay = filterInfo[kColorFilterOverlayKey];
+    RKGPUImageColorFilter *colorFilter = [[RKGPUImageColorFilter alloc] initWithColorMap:colorMap softLight:softLight overlay:overlay];
 
     if (self.beautyFace) {
         self.beautyFilter = [[LFGPUImageBeautyFilter alloc] init];
-        
         [(GPUImageFilterGroup *)self.filter addFilter:self.beautyFilter];
-        RKGPUImageMemoryFilter *colorFilter = [[RKGPUImageMemoryFilter alloc] init];
-        [self.beautyFilter addTarget:colorFilter];
-        [(GPUImageFilterGroup *)self.filter addFilter:colorFilter];
-
+        
+        if (colorFilter) {
+            [self.beautyFilter addTarget:colorFilter];
+            [(GPUImageFilterGroup *)self.filter addFilter:colorFilter];
+            [(GPUImageFilterGroup *)self.filter setTerminalFilter:colorFilter];
+        }
+        
         [(GPUImageFilterGroup *)self.filter setInitialFilters:@[self.beautyFilter]];
-        [(GPUImageFilterGroup *)self.filter setTerminalFilter:colorFilter];
-
-
+        [(GPUImageFilterGroup *)self.filter setTerminalFilter:colorFilter ? colorFilter : self.beautyFilter];
+        
     } else {
         self.beautyFilter = nil;
         
-        [(GPUImageFilterGroup *)self.filter addFilter:[[LFGPUImageEmptyFilter alloc] init]];
+        LFGPUImageEmptyFilter *emptyFilter = [[LFGPUImageEmptyFilter alloc] init];
+        [(GPUImageFilterGroup *)self.filter addFilter:emptyFilter];
+        
+        if (colorFilter) {
+            [emptyFilter addTarget:colorFilter];
+            [(GPUImageFilterGroup *)self.filter addFilter:colorFilter];
+            [(GPUImageFilterGroup *)self.filter setTerminalFilter:colorFilter];
+        }
+        
+        [(GPUImageFilterGroup *)self.filter setInitialFilters:@[emptyFilter]];
+        [(GPUImageFilterGroup *)self.filter setTerminalFilter:colorFilter ? colorFilter : emptyFilter];
     }
     
     ///< 调节镜像

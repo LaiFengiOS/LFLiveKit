@@ -77,7 +77,7 @@ NSString *const kGPUImageInvertFragmentShaderString = SHADER_STRING
 
 @implementation RKGPUImageColorMapFilter
 
-- (instancetype)init; {
+- (instancetype)init {
     if (!(self = [super initWithFragmentShaderFromString:kRKGPUImageColorMapFragmentShaderString])) {
         return nil;
     }

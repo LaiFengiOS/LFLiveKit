@@ -17,38 +17,27 @@ NSString *const kRKGPUImageOverlayFragmentShaderString = SHADER_STRING
  uniform sampler2D inputImageTexture;
  uniform sampler2D inputImageTexture2; // lookup texture
  
- void main(){
+ lowp float overlayCal(lowp float a, lowp float b) {
+     if (b < 0.5) {
+         return 2.0 * a * b;
+     } else {
+         return 1.0 - 2.0 * (1.0 - a) * (1.0 - b);
+     }
+ }
+ 
+ void main() {
      lowp vec3 textureColor = texture2D(inputImageTexture, textureCoordinate).rgb;
      lowp vec3 imageColor = texture2D(inputImageTexture2, textureCoordinate).rgb;
      
-     lowp float rColor;
-     lowp float gColor;
-     lowp float bColor;
-     if (imageColor.r < 0.5) {
-         rColor = 2.0 * textureColor.r * imageColor.r;
-     } else {
-         rColor = 1.0 - 2.0 * (1.0 - textureColor.r) * (1.0 - imageColor.r);
-     }
-     
-     if (imageColor.g < 0.5) {
-         gColor = 2.0 * textureColor.g * imageColor.g;
-     } else {
-         gColor = 1.0 - 2.0 * (1.0 - textureColor.g) * (1.0 - imageColor.g);
-     }
-     
-     if (imageColor.b < 0.5) {
-         bColor = 2.0 * textureColor.b * imageColor.b;
-     } else {
-         bColor = 1.0 - 2.0 * (1.0 - textureColor.b) * (1.0 - imageColor.b);
-     }
-     
-     lowp vec3 result = vec3(rColor, gColor, bColor);
+     lowp vec3 result = vec3(overlayCal(textureColor.r, imageColor.r),
+                             overlayCal(textureColor.g, imageColor.g),
+                             overlayCal(textureColor.b, imageColor.b));
      result = clamp(result, 0.0, 1.0);
      gl_FragColor = vec4(result, 1.0);
  }
 );
 #else
-NSString *const kGPUImageInvertFragmentShaderString = SHADER_STRING
+NSString *const kRKGPUImageOverlayFragmentShaderString = SHADER_STRING
 (
  varying vec2 textureCoordinate;
  varying vec2 textureCoordinate2; // TODO: This is not used
@@ -56,32 +45,21 @@ NSString *const kGPUImageInvertFragmentShaderString = SHADER_STRING
  uniform sampler2D inputImageTexture;
  uniform sampler2D inputImageTexture2; // lookup texture
  
- void main(){
+ float overlayCal(float a, float b) {
+     if (b < 0.5) {
+         return 2.0 * a * b;
+     } else {
+         return 1.0 - 2.0 * (1.0 - a) * (1.0 - b);
+     }
+ }
+ 
+ void main() {
      vec3 textureColor = texture2D(inputImageTexture, textureCoordinate).rgb;
      vec3 imageColor = texture2D(inputImageTexture2, textureCoordinate).rgb;
      
-     float rColor;
-     float gColor;
-     float bColor;
-     if (imageColor.r < 0.5) {
-         rColor = 2.0 * textureColor.r * imageColor.r;
-     } else {
-         rColor = 1.0 - 2.0 * (1.0 - textureColor.r) * (1.0 - imageColor.r);
-     }
-     
-     if (imageColor.g < 0.5) {
-         gColor = 2.0 * textureColor.g * imageColor.g;
-     } else {
-         gColor = 1.0 - 2.0 * (1.0 - textureColor.g) * (1.0 - imageColor.g);
-     }
-     
-     if (imageColor.b < 0.5) {
-         bColor = 2.0 * textureColor.b * imageColor.b;
-     } else {
-         bColor = 1.0 - 2.0 * (1.0 - textureColor.b) * (1.0 - imageColor.b);
-     }
-     
-     vec3 result = vec3(rColor, gColor, bColor);
+     vec3 result = vec3(overlayCal(textureColor.r, imageColor.r),
+                        overlayCal(textureColor.g, imageColor.g),
+                        overlayCal(textureColor.b, imageColor.b));
      result = clamp(result, 0.0, 1.0);
      gl_FragColor = vec4(result, 1.0);
  }

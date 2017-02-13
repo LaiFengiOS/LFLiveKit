@@ -17,38 +17,27 @@ NSString *const kRKGPUImageSoftLightFragmentShaderString = SHADER_STRING
  uniform sampler2D inputImageTexture;
  uniform sampler2D inputImageTexture2; // lookup texture
  
- void main(){
+ lowp float softLightCal(lowp float a, lowp float b) {
+     if (b < 0.5) {
+         return 2.0 * a * b + a * a * (1.0 - 2.0 * b);
+     } else {
+         return 2.0 * a * (1.0 - b) + sqrt(a) * (2.0 * b - 1.0);
+     }
+ }
+ 
+ void main() {
      lowp vec3 textureColor = texture2D(inputImageTexture, textureCoordinate).rgb;
      lowp vec3 imageColor = texture2D(inputImageTexture2, textureCoordinate).rgb;
 
-     lowp float rColor;
-     lowp float gColor;
-     lowp float bColor;
-     if (imageColor.r < 0.5) {
-         rColor = 2.0 * textureColor.r * imageColor.r + textureColor.r * textureColor.r *(1.0 - 2.0 * imageColor.r);
-     } else {
-         rColor = 2.0 * textureColor.r * (1.0 - imageColor.r) + sqrt(textureColor.r) * (2.0 * imageColor.r - 1.0);
-     }
-     
-     if (imageColor.g < 0.5) {
-         gColor = 2.0 * textureColor.g * imageColor.g + textureColor.g * textureColor.g * (1.0 - 2.0 * imageColor.g);
-     } else {
-         gColor = 2.0 * textureColor.g * (1.0 - imageColor.g) + sqrt(textureColor.g) * (2.0 * imageColor.g - 1.0);
-     }
-     
-     if (imageColor.b < 0.5) {
-         bColor = 2.0 * textureColor.b * imageColor.b + textureColor.b * textureColor.b * (1.0 - 2.0 * imageColor.b);
-     } else {
-         bColor = 2.0 * textureColor.b * (1.0 - imageColor.b) + sqrt(textureColor.b) * (2.0 * imageColor.b - 1.0);
-     }
-     
-     lowp vec3 result = vec3(rColor, gColor, bColor);
+     lowp vec3 result = vec3(softLightCal(textureColor.r, imageColor.r),
+                             softLightCal(textureColor.g, imageColor.g),
+                             softLightCal(textureColor.b, imageColor.b));
      result = clamp(result, 0.0, 1.0);
      gl_FragColor = vec4(result, 1.0);
  }
 );
 #else
-NSString *const kGPUImageInvertFragmentShaderString = SHADER_STRING
+NSString *const kRKGPUImageSoftLightFragmentShaderString = SHADER_STRING
 (
  varying vec2 textureCoordinate;
  varying vec2 textureCoordinate2; // TODO: This is not used
@@ -56,32 +45,21 @@ NSString *const kGPUImageInvertFragmentShaderString = SHADER_STRING
  uniform sampler2D inputImageTexture;
  uniform sampler2D inputImageTexture2; // lookup texture
  
- void main(){
+ float softLightCal(float a, float b) {
+     if (b < 0.5) {
+         return 2.0 * a * b + a * a * (1.0 - 2.0 * b);
+     } else {
+         return 2.0 * a * (1.0 - b) + sqrt(a) * (2.0 * b - 1.0);
+     }
+ }
+ 
+ void main() {
      vec3 textureColor = texture2D(inputImageTexture, textureCoordinate).rgb;
      vec3 imageColor = texture2D(inputImageTexture2, textureCoordinate).rgb;
      
-     float rColor;
-     float gColor;
-     float bColor;
-     if (imageColor.r < 0.5) {
-         rColor = 2.0 * textureColor.r * imageColor.r + textureColor.r * textureColor.r *(1.0 - 2.0 * imageColor.r);
-     } else {
-         rColor = 2.0 * textureColor.r * (1.0 - imageColor.r) + sqrt(textureColor.r) * (2.0 * imageColor.r - 1.0);
-     }
-     
-     if (imageColor.g < 0.5) {
-         gColor = 2.0 * textureColor.g * imageColor.g + textureColor.g * textureColor.g * (1.0 - 2.0 * imageColor.g);
-     } else {
-         gColor = 2.0 * textureColor.g * (1.0 - imageColor.g) + sqrt(textureColor.g) * (2.0 * imageColor.g - 1.0);
-     }
-     
-     if (imageColor.b < 0.5) {
-         bColor = 2.0 * textureColor.b * imageColor.b + textureColor.b * textureColor.b * (1.0 - 2.0 * imageColor.b);
-     } else {
-         bColor = 2.0 * textureColor.b * (1.0 - imageColor.b) + sqrt(textureColor.b) * (2.0 * imageColor.b - 1.0);
-     }
-     
-     vec3 result = vec3(rColor, gColor, bColor);
+     vec3 result = vec3(softLightCal(textureColor.r, imageColor.r),
+                        softLightCal(textureColor.g, imageColor.g),
+                        softLightCal(textureColor.b, imageColor.b));
      result = clamp(result, 0.0, 1.0);
      gl_FragColor = vec4(result, 1.0);
  }

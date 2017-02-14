@@ -561,11 +561,13 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
 }
 
 - (void)reloadMirror{
-    if(self.mirror && self.captureDevicePosition == AVCaptureDevicePositionFront){
-        self.videoCamera.horizontallyMirrorFrontFacingCamera = YES;
-    }else{
-        self.videoCamera.horizontallyMirrorFrontFacingCamera = NO;
-    }
+//    if(self.mirror && self.captureDevicePosition == AVCaptureDevicePositionFront){
+//        self.videoCamera.horizontallyMirrorFrontFacingCamera = YES;
+//    }else{
+//        self.videoCamera.horizontallyMirrorFrontFacingCamera = NO;
+//    }
+    
+    [self.gpuImageView setInputRotation:(self.mirror && self.captureDevicePosition == AVCaptureDevicePositionFront) ? kGPUImageFlipHorizonal : kGPUImageNoRotation atIndex:0];
 }
 
 #pragma mark Notification

@@ -7,6 +7,7 @@
 //
 
 #import "RKGPUImageColorFilter.h"
+#import "GPUImageFilter.h"
 #import "GPUImagePicture.h"
 #import "RKGPUImageColorMapFilter.h"
 #import "RKGUPImageSoftLightFilter.h"
@@ -14,16 +15,23 @@
 
 @implementation RKGPUImageColorFilter
 
+#pragma mark - LifeCycle
+
 - (instancetype)initWithColorMap:(NSString *)colorMap softLight:(NSString *)softLight overlay:(NSString *)overlay {
     if (!(self = [super init])) {
         return nil;
     }
+    
+    [self addFilter:[[GPUImageFilter alloc] init]];
+    
     if (colorMap.length > 0) {
         UIImage *colorMapImage = [UIImage imageNamed:colorMap];
         NSAssert(colorMapImage, @"To use GPUImageAmatorkaFilter you need to add lookup_amatorka.png from GPUImage/framework/Resources to your application bundle.");
         
         colorMapImageSource = [[GPUImagePicture alloc] initWithImage:colorMapImage];
         RKGPUImageColorMapFilter *colorMapFilter = [[RKGPUImageColorMapFilter alloc] init];
+        [filters.lastObject addTarget:colorMapFilter];
+
         [self addFilter:colorMapFilter];
         
         [colorMapImageSource addTarget:colorMapFilter atTextureLocation:1];
@@ -37,12 +45,12 @@
         softLightImageSource = [[GPUImagePicture alloc] initWithImage:softLightimage];
         
         RKGUPImageSoftLightFilter *softLightFilter = [[RKGUPImageSoftLightFilter alloc] init];
-        if (filters.lastObject) {
-            [filters.lastObject addTarget:softLightFilter];
-        }
+        [filters.lastObject addTarget:softLightFilter];
+
+        [self addFilter:softLightFilter];
+        
         [softLightImageSource addTarget:softLightFilter];
         [softLightImageSource processImage];
-        [self addFilter:softLightFilter];
         
     }
     
@@ -53,22 +61,17 @@
         overlayImageSource = [[GPUImagePicture alloc] initWithImage:overlayImage];
         
         RKGPUImageOverlayFilter *overlayFilter = [[RKGPUImageOverlayFilter alloc] init];
-        if (filters.lastObject) {
-            [filters.lastObject addTarget:overlayFilter];
-        }
+        [filters.lastObject addTarget:overlayFilter];
+        
+        [self addFilter:overlayFilter];
+
         [overlayImageSource addTarget:overlayFilter];
         [overlayImageSource processImage];
-        [self addFilter:overlayFilter];
     }
     
-    if (filters.count > 0) {
-        self.initialFilters = [NSArray arrayWithObjects:filters.firstObject, nil];
-        self.terminalFilter = filters.lastObject;
-        return self;
-        
-    }
-    
-    return nil;
+    self.initialFilters = @[filters.firstObject];
+    self.terminalFilter = filters.lastObject;
+    return self;
 }
 
 - (instancetype)init {
@@ -77,6 +80,12 @@
     }
     
     return self;
+}
+
+#pragma mark - Accessor
+
+- (NSString *)localizedName {
+    return NSLocalizedString(@"NORMAL_FILTER", nil);
 }
 
 @end

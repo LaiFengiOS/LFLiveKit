@@ -15,6 +15,7 @@
     GPUImagePicture *softLightImageSource;
     GPUImagePicture *overlayImageSource;
 }
+@property (copy, nonatomic, readonly) NSString *localizedName;
 
 - (instancetype)initWithColorMap:(NSString *)colorMap softLight:(NSString *)softLight overlay:(NSString *)overlay;
 

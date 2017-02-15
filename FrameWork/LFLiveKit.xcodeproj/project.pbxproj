@@ -849,20 +849,6 @@
 			remoteGlobalIDString = 8495F66A1DB8F14600542124;
 			remoteInfo = LFLiveKitFramework;
 		};
-		C16E7DC41E5424F20067DE28 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 84D8B3871D7574D600752B56 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C1FF50A01E46520D0029A4D4;
-			remoteInfo = LFLiveKitBundle;
-		};
-		C16E7DC61E5424F50067DE28 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 84D8B3871D7574D600752B56 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C1FF50A01E46520D0029A4D4;
-			remoteInfo = LFLiveKitBundle;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -2459,7 +2445,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				C16E7DC71E5424F50067DE28 /* PBXTargetDependency */,
 			);
 			name = LFLiveKitFramework;
 			productName = LFLiveKitFramework;
@@ -2477,7 +2462,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				C16E7DC51E5424F20067DE28 /* PBXTargetDependency */,
 			);
 			name = LFLiveKit;
 			productName = LFLiveKit;
@@ -3136,16 +3120,6 @@
 			isa = PBXTargetDependency;
 			target = 8495F66A1DB8F14600542124 /* LFLiveKitFramework */;
 			targetProxy = 84D003791DB8FE1800560583 /* PBXContainerItemProxy */;
-		};
-		C16E7DC51E5424F20067DE28 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C1FF50A01E46520D0029A4D4 /* LFLiveKitBundle */;
-			targetProxy = C16E7DC41E5424F20067DE28 /* PBXContainerItemProxy */;
-		};
-		C16E7DC71E5424F50067DE28 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C1FF50A01E46520D0029A4D4 /* LFLiveKitBundle */;
-			targetProxy = C16E7DC61E5424F50067DE28 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

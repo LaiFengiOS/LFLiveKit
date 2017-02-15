@@ -127,7 +127,8 @@ typedef NS_ENUM(NSInteger,LFLiveCaptureTypeMask) {
 /* The saveLocalVideoPath is save the local video  path */
 @property (nonatomic, strong, nullable) NSURL *saveLocalVideoPath;
 
-@property (nonatomic, copy, readonly, nullable) NSString *currentFilterName;
+/* The currentColorFilterName is localized name of current color filter */
+@property (nonatomic, copy, readonly, nullable) NSString *currentColorFilterName;
 
 #pragma mark - Initializer
 ///=============================================================================
@@ -160,9 +161,11 @@ typedef NS_ENUM(NSInteger,LFLiveCaptureTypeMask) {
 /** support outer input pcm audio(set LFLiveCaptureTypeMask) .*/
 - (void)pushAudio:(nullable NSData*)audioData;
 
-- (void)previousFilter;
+/** Switch to previous color filter. */
+- (void)previousColorFilter;
 
-- (void)nextFilter;
+/** Switch to next color filter. */
+- (void)nextColorFilter;
 
 @end
 

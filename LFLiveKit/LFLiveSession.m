@@ -121,12 +121,12 @@
     }
 }
 
-- (void)previousFilter {
-    [self.videoCaptureSource previousFilter];
+- (void)previousColorFilter {
+    [self.videoCaptureSource previousColorFilter];
 }
 
-- (void)nextFilter {
-    [self.videoCaptureSource nextFilter];
+- (void)nextColorFilter {
+    [self.videoCaptureSource nextColorFilter];
 }
 
 #pragma mark -- PrivateMethod
@@ -225,8 +225,8 @@
 
 #pragma mark -- Getter Setter
 
-- (NSString *)currentFilterName {
-    return self.videoCaptureSource.currentFilterName;
+- (NSString *)currentColorFilterName {
+    return self.videoCaptureSource.currentColorFilterName;
 }
 
 - (void)setRunning:(BOOL)running {

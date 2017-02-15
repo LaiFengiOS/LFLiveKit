@@ -799,6 +799,7 @@
 		C16E7DAA1E53F7460067DE28 /* RKGPUImageColorFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = C16E7DA71E53F7460067DE28 /* RKGPUImageColorFilter.h */; };
 		C16E7DAB1E53F7460067DE28 /* RKGPUImageColorFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = C16E7DA81E53F7460067DE28 /* RKGPUImageColorFilter.m */; };
 		C16E7DAC1E53F7460067DE28 /* RKGPUImageColorFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = C16E7DA81E53F7460067DE28 /* RKGPUImageColorFilter.m */; };
+		C16E7DBA1E5417BB0067DE28 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C16E7DB81E5417BB0067DE28 /* Localizable.strings */; };
 		C1FF50CF1E46523F0029A4D4 /* adventure_map.png in Resources */ = {isa = PBXBuildFile; fileRef = C1FF50A81E46523F0029A4D4 /* adventure_map.png */; };
 		C1FF50D01E46523F0029A4D4 /* autumn_map.png in Resources */ = {isa = PBXBuildFile; fileRef = C1FF50A91E46523F0029A4D4 /* autumn_map.png */; };
 		C1FF50D11E46523F0029A4D4 /* bleak_map.png in Resources */ = {isa = PBXBuildFile; fileRef = C1FF50AA1E46523F0029A4D4 /* bleak_map.png */; };
@@ -1340,6 +1341,10 @@
 		C16E7DA21E53F70F0067DE28 /* RKGPUImageAdventureFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKGPUImageAdventureFilter.m; sourceTree = "<group>"; };
 		C16E7DA71E53F7460067DE28 /* RKGPUImageColorFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKGPUImageColorFilter.h; sourceTree = "<group>"; };
 		C16E7DA81E53F7460067DE28 /* RKGPUImageColorFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKGPUImageColorFilter.m; sourceTree = "<group>"; };
+		C16E7DB91E5417BB0067DE28 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		C16E7DBB1E5417C10067DE28 /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/Localizable.strings; sourceTree = "<group>"; };
+		C16E7DBC1E5417C60067DE28 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		C16E7DBD1E5417CB0067DE28 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		C1FF50A11E46520D0029A4D4 /* LFLiveKitBundle.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LFLiveKitBundle.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1FF50A31E46520D0029A4D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C1FF50A81E46523F0029A4D4 /* adventure_map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = adventure_map.png; sourceTree = "<group>"; };
@@ -2050,6 +2055,7 @@
 		C1FF50A21E46520D0029A4D4 /* LFLiveKitBundle */ = {
 			isa = PBXGroup;
 			children = (
+				C16E7DB81E5417BB0067DE28 /* Localizable.strings */,
 				C1FF50A71E46523F0029A4D4 /* Filters */,
 				C1FF50A31E46520D0029A4D4 /* Info.plist */,
 			);
@@ -2513,6 +2519,10 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
+				id,
+				"zh-Hans",
+				"zh-Hant",
 			);
 			mainGroup = 84D8B3861D7574D600752B56;
 			productRefGroup = 84D8B3911D7574D600752B56 /* Products */;
@@ -2544,6 +2554,7 @@
 				C1FF50E41E46523F0029A4D4 /* overlay_softlight1.png in Resources */,
 				C1FF50E01E46523F0029A4D4 /* mist_map.png in Resources */,
 				C1FF50EB1E46523F0029A4D4 /* prairie_map.png in Resources */,
+				C16E7DBA1E5417BB0067DE28 /* Localizable.strings in Resources */,
 				C1FF50DA1E46523F0029A4D4 /* glow_map.png in Resources */,
 				C1FF50D41E46523F0029A4D4 /* cool_map.png in Resources */,
 				C1FF50D21E46523F0029A4D4 /* calm_map.png in Resources */,
@@ -3111,6 +3122,20 @@
 			targetProxy = 84D003791DB8FE1800560583 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		C16E7DB81E5417BB0067DE28 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C16E7DB91E5417BB0067DE28 /* Base */,
+				C16E7DBB1E5417C10067DE28 /* id */,
+				C16E7DBC1E5417C60067DE28 /* zh-Hans */,
+				C16E7DBD1E5417CB0067DE28 /* zh-Hant */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		8495F6711DB8F14600542124 /* Debug */ = {

@@ -102,7 +102,8 @@ typedef NS_ENUM(NSInteger, RKColorFilter) {
 /* The saveLocalVideoPath is save the local video  path */
 @property (nonatomic, strong, nullable) NSURL *saveLocalVideoPath;
 
-@property (nonatomic, copy, readonly, nullable) NSString *currentFilterName;
+/* The currentColorFilterName is localized name of current color filter */
+@property (nonatomic, copy, readonly, nullable) NSString *currentColorFilterName;
 
 #pragma mark - Initializer
 ///=============================================================================
@@ -117,8 +118,10 @@ typedef NS_ENUM(NSInteger, RKColorFilter) {
  */
 - (nullable instancetype)initWithVideoConfiguration:(nullable LFLiveVideoConfiguration *)configuration NS_DESIGNATED_INITIALIZER;
 
-- (void)previousFilter;
+/** Switch to previous color filter. */
+- (void)previousColorFilter;
 
-- (void)nextFilter;
+/** Switch to next color filter. */
+- (void)nextColorFilter;
 
 @end

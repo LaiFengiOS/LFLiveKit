@@ -335,6 +335,16 @@
     return self.videoCaptureSource.mirror;
 }
 
+- (void)setMirrorOutput:(BOOL)mirrorOutput {
+    [self willChangeValueForKey:@"mirrorOutput"];
+    [self.videoCaptureSource setMirrorOutput:mirrorOutput];
+    [self didChangeValueForKey:@"mirrorOutput"];
+}
+
+- (BOOL)mirrorOutput {
+    return self.videoCaptureSource.mirrorOutput;
+}
+
 - (void)setMuted:(BOOL)muted {
     [self willChangeValueForKey:@"muted"];
     [self.audioCaptureSource setMuted:muted];

@@ -119,7 +119,7 @@ typedef NS_ENUM(NSInteger,LFLiveCaptureTypeMask) {
 @property (nonatomic, strong, nullable) UIView *warterMarkView;
 
 /* The currentImage is videoCapture shot */
-@property (nonatomic, strong,readonly ,nullable) UIImage *currentImage;
+@property (nonatomic, strong, readonly, nullable) UIImage *currentImage;
 
 /* The saveLocalVideo is save the local video */
 @property (nonatomic, assign) BOOL saveLocalVideo;
@@ -129,6 +129,9 @@ typedef NS_ENUM(NSInteger,LFLiveCaptureTypeMask) {
 
 /* The currentColorFilterName is localized name of current color filter */
 @property (nonatomic, copy, readonly, nullable) NSString *currentColorFilterName;
+
+/** The mirrorOuput control mirror of output is on or off */
+@property (nonatomic, assign) BOOL mirrorOutput;
 
 #pragma mark - Initializer
 ///=============================================================================

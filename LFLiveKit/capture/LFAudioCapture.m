@@ -45,8 +45,8 @@ NSString *const LFAudioComponentFailedToCreateNotification = @"LFAudioComponentF
         
         AudioComponentDescription acd;
         acd.componentType = kAudioUnitType_Output;
-        //acd.componentSubType = kAudioUnitSubType_VoiceProcessingIO;
-        acd.componentSubType = kAudioUnitSubType_RemoteIO;
+        acd.componentSubType = kAudioUnitSubType_VoiceProcessingIO;
+//        acd.componentSubType = kAudioUnitSubType_RemoteIO;
         acd.componentManufacturer = kAudioUnitManufacturer_Apple;
         acd.componentFlags = 0;
         acd.componentFlagsMask = 0;

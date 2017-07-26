@@ -445,8 +445,6 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
     [self.blendFilter forceProcessingAtSize:self.configuration.videoSize];
     [self.uiElementInput forceProcessingAtSize:self.configuration.videoSize];
     
-    [self.output setInputRotation:self.mirrorOutput ? kGPUImageFlipHorizonal : kGPUImageNoRotation atIndex:0];
-    
     //< 输出数据
     __weak typeof(self) _self = self;
     [self.output setFrameProcessingCompletionBlock:^(GPUImageOutput *output, CMTime time) {
@@ -463,6 +461,8 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
 //    }
     
     [self.gpuImageView setInputRotation:(self.mirror && self.captureDevicePosition == AVCaptureDevicePositionFront) ? kGPUImageFlipHorizonal : kGPUImageNoRotation atIndex:0];
+    
+    [self.output setInputRotation:(self.mirrorOutput && self.captureDevicePosition == AVCaptureDevicePositionFront) ? kGPUImageFlipHorizonal : kGPUImageNoRotation atIndex:0];
 }
 
 #pragma mark Notification

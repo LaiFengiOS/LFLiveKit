@@ -105,7 +105,7 @@ typedef NS_ENUM(NSInteger, RKColorFilter) {
 /* The currentColorFilterName is localized name of current color filter */
 @property (nonatomic, copy, readonly, nullable) NSString *currentColorFilterName;
 
-/** The mirrorOuput control mirror of output is on or off */
+/** The mirrorOuput control mirror of front camera output is on or off */
 @property (nonatomic, assign) BOOL mirrorOutput;
 
 #pragma mark - Initializer

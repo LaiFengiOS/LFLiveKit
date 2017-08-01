@@ -355,6 +355,18 @@
     return self.audioCaptureSource.muted;
 }
 
+- (void)setAudioMixer:(NSURL*)audioPath {
+    [self willChangeValueForKey:@"audioPath"];
+    [self.audioCaptureSource setAudioPath:audioPath];
+    [self.audioCaptureSource setIsLoadAudioFile:NO];
+    [self.audioCaptureSource setMixer:YES];
+    [self didChangeValueForKey:@"audioPath"];
+}
+
+- (BOOL)isAudioMixer {
+    return self.audioCaptureSource.mixer;
+}
+
 - (void)setWarterMarkView:(UIView *)warterMarkView{
     [self.videoCaptureSource setWarterMarkView:warterMarkView];
 }

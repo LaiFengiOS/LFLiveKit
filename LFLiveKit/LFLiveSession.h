@@ -133,6 +133,9 @@ typedef NS_ENUM(NSInteger,LFLiveCaptureTypeMask) {
 /** The mirrorOuput control mirror of output is on or off */
 @property (nonatomic, assign) BOOL mirrorOutput;
 
+/** The audioPath will mix audio data */
+@property (nonatomic, strong, nullable) NSURL *audioPath;
+
 #pragma mark - Initializer
 ///=============================================================================
 /// @name Initializer

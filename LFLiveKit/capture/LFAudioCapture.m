@@ -244,6 +244,87 @@ static OSStatus handleInputBuffer(void *inRefCon,
                 AudioBuffer ab = buffers.mBuffers[i];
                 memset(ab.mData, 0, ab.mDataByteSize);
             }
+        } else if (source.mixer) {
+            if (!source.isLoadAudioFile) {
+                source.dataSizeCount = 0;
+                                
+                AVURLAsset *asset = [AVURLAsset URLAssetWithURL:source.audioPath options:nil];
+                NSError *assetError = nil;
+                AVAssetReader *assetReader = [[AVAssetReader alloc] initWithAsset:asset error:&assetError];
+                
+                NSDictionary *outputSettings = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                [NSNumber numberWithInt:kAudioFormatLinearPCM], AVFormatIDKey,
+                                                [NSNumber numberWithFloat:44100.0], AVSampleRateKey,
+                                                [NSNumber numberWithInt:2], AVNumberOfChannelsKey,
+                                                [NSNumber numberWithInt:16], AVLinearPCMBitDepthKey,
+                                                [NSNumber numberWithBool:NO], AVLinearPCMIsNonInterleaved,
+                                                [NSNumber numberWithBool:NO], AVLinearPCMIsFloatKey,
+                                                [NSNumber numberWithBool:NO], AVLinearPCMIsBigEndianKey,
+                                                nil];
+                
+                AVAssetReaderOutput *assetReaderOutput = [AVAssetReaderAudioMixOutput assetReaderAudioMixOutputWithAudioTracks:asset.tracks audioSettings: outputSettings];
+                
+                if ([assetReader canAddOutput: assetReaderOutput]) {
+                    [assetReader addOutput: assetReaderOutput];
+                    [assetReader startReading];
+                    
+                    NSMutableData *data= [NSMutableData data];
+                    for (;;) {
+                        CMSampleBufferRef nextBuffer = [assetReaderOutput copyNextSampleBuffer];
+                        if (nextBuffer) {
+                            AudioBufferList audioBufferList;
+                            CMBlockBufferRef blockBuffer;
+                            
+                            CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer(nextBuffer,
+                                                                                    nil,
+                                                                                    &audioBufferList,
+                                                                                    sizeof(audioBufferList),
+                                                                                    nil,
+                                                                                    nil,
+                                                                                    0,
+                                                                                    &blockBuffer);
+                            
+                            AudioBuffer audioBuffer = audioBufferList.mBuffers[0];
+                            NSData *audioData = [NSData dataWithBytes:audioBuffer.mData length:audioBuffer.mDataByteSize];
+                            char *audioBytes;
+                            audioBytes = malloc([audioData length]);
+                            [audioData getBytes:audioBytes length:audioBuffer.mDataByteSize];
+                            source.dataSizeTotal += audioBuffer.mDataByteSize;
+                            [data appendBytes:audioBytes length:audioBuffer.mDataByteSize];
+                        } else {
+                            [assetReader cancelReading];
+                            break;
+                        }
+                    }
+                    
+                    source.mp3Data = malloc(source.dataSizeTotal);
+                    [data getBytes:source.mp3Data length:source.dataSizeTotal];
+                    source.isLoadAudioFile = YES;
+                }
+            }
+            
+            if (source.dataSizeTotal >= source.dataSizeCount) {
+                for (int i = 0; i < buffers.mNumberBuffers; i++) {
+                    AudioBuffer ab = buffers.mBuffers[i];
+                    NSData *audioData = [NSData dataWithBytes:ab.mData length:ab.mDataByteSize];
+                    char *audioBytes;
+                    audioBytes = malloc([audioData length]);
+                    [audioData getBytes:audioBytes length:[audioData length]];
+                    
+                    NSUInteger diffSize = source.dataSizeTotal - source.dataSizeCount;
+                    NSInteger dataByteSize = diffSize >= ab.mDataByteSize ? ab.mDataByteSize : diffSize;
+                    for (int j = 0; j < dataByteSize; j++) {
+                        audioBytes[j] += (source.mp3Data[j + source.dataSizeCount] / 2);
+                        if (audioBytes[j] >= 127) audioBytes[j] = 127;
+                        else if (audioBytes[j] <= -128) audioBytes[j] = -128;
+                    }
+                    
+                    memcpy(ab.mData, audioBytes, ab.mDataByteSize);
+                    source.dataSizeCount += ab.mDataByteSize;
+                }
+            } else {
+                source.mixer = NO;
+            }
         }
 
         if (!status) {

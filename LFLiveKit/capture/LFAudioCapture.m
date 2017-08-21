@@ -245,6 +245,46 @@ static OSStatus handleInputBuffer(void *inRefCon,
                 memset(ab.mData, 0, ab.mDataByteSize);
             }
         }
+        
+        if (source.delegate && [source.delegate respondsToSelector:@selector(captureOutput:audioDataBeforeMixing:)]) {
+            [source.delegate captureOutput:source audioDataBeforeMixing:[NSData dataWithBytes:buffers.mBuffers[0].mData length:buffers.mBuffers[0].mDataByteSize]];
+        }
+        
+        if (source.inputAudioDataArray.count > 0) {
+            AudioBuffer ab = buffers.mBuffers[0];
+            char *innerAudioBytes = ab.mData;
+            
+            int startIndex = 0;
+            for(;;) {
+                NSData *inputAudioData = [source.inputAudioDataArray objectAtIndex:0];
+                char *inputAudioBytes;
+                inputAudioBytes = malloc([inputAudioData length]);
+                [inputAudioData getBytes:inputAudioBytes length:[inputAudioData length]];
+                
+                for (int i = startIndex; i < ab.mDataByteSize; i++) {
+                    innerAudioBytes[i] += inputAudioBytes[source.inputAudioDataStartIndex];
+                    
+                    if (innerAudioBytes[i] >= 127) innerAudioBytes[i] = 127;
+                    else if (innerAudioBytes[i] <= -128) innerAudioBytes[i] = -128;
+                    
+                    startIndex ++;
+                    source.inputAudioDataStartIndex++;
+                    
+                    if (startIndex % [inputAudioData length] == 0 || source.inputAudioDataStartIndex >= [inputAudioData length]) {
+                        source.inputAudioDataStartIndex = 0;
+                        [source.inputAudioDataArray removeObjectAtIndex:0];
+                        break;
+                    }
+                }
+                
+                if (startIndex >= ab.mDataByteSize) {
+                    memcpy(ab.mData, innerAudioBytes, ab.mDataByteSize);
+                    break;
+                }
+                
+                if (source.inputAudioDataArray.count < 1) break;
+            }
+        }
 
         if (!status) {
             if (source.delegate && [source.delegate respondsToSelector:@selector(captureOutput:audioData:)]) {

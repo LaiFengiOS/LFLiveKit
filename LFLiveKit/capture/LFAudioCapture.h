@@ -18,6 +18,7 @@ extern NSString *_Nullable const LFAudioComponentFailedToCreateNotification;
 /** LFAudioCapture callback audioData */
 @protocol LFAudioCaptureDelegate <NSObject>
 - (void)captureOutput:(nullable LFAudioCapture *)capture audioData:(nullable NSData*)audioData;
+- (void)captureOutput:(nullable LFAudioCapture *)capture audioDataBeforeMixing:(nullable NSData*)audioData;
 @end
 
 
@@ -36,6 +37,10 @@ extern NSString *_Nullable const LFAudioComponentFailedToCreateNotification;
 
 /** The running control start capture or stop capture*/
 @property (nonatomic, assign) BOOL running;
+
+@property (nonatomic, strong, nullable) NSMutableArray *inputAudioDataArray;
+
+@property (nonatomic, assign) int inputAudioDataStartIndex;
 
 #pragma mark - Initializer
 ///=============================================================================

@@ -121,6 +121,14 @@
     }
 }
 
+- (void)previousColorFilter {
+    [self.videoCaptureSource previousColorFilter];
+}
+
+- (void)nextColorFilter {
+    [self.videoCaptureSource nextColorFilter];
+}
+
 #pragma mark -- PrivateMethod
 - (void)pushSendBuffer:(LFFrame*)frame{
     if(self.relativeTimestamps == 0){
@@ -216,6 +224,11 @@
 }
 
 #pragma mark -- Getter Setter
+
+- (NSString *)currentColorFilterName {
+    return self.videoCaptureSource.currentColorFilterName;
+}
+
 - (void)setRunning:(BOOL)running {
     if (_running == running) return;
     [self willChangeValueForKey:@"running"];
@@ -320,6 +333,16 @@
 
 - (BOOL)mirror {
     return self.videoCaptureSource.mirror;
+}
+
+- (void)setMirrorOutput:(BOOL)mirrorOutput {
+    [self willChangeValueForKey:@"mirrorOutput"];
+    [self.videoCaptureSource setMirrorOutput:mirrorOutput];
+    [self didChangeValueForKey:@"mirrorOutput"];
+}
+
+- (BOOL)mirrorOutput {
+    return self.videoCaptureSource.mirrorOutput;
 }
 
 - (void)setMuted:(BOOL)muted {

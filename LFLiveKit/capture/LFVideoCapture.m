@@ -9,6 +9,33 @@
 #import "LFVideoCapture.h"
 #import "LFGPUImageBeautyFilter.h"
 #import "LFGPUImageEmptyFilter.h"
+#import "RKGPUImageColorFilter.h"
+#import "RKGPUImageWarmFilter.h"
+#import "RKGPUImageSoftFilter.h"
+#import "RKGPUImageRoseFilter.h"
+#import "RKGPUImageMorningFilter.h"
+#import "RKGPUImageSunshineFilter.h"
+#import "RKGPUImageSunsetFilter.h"
+#import "RKGPUImageCoolFilter.h"
+#import "RKGPUImageFreezeFilter.h"
+#import "RKGPUImageOceanFilter.h"
+#import "RKGPUImageDreamFilter.h"
+#import "RKGPUImageVioletFilter.h"
+#import "RKGPUImageMellowFilter.h"
+#import "RKGPUImageMemoryFilter.h"
+#import "RKGPUImagePureFilter.h"
+#import "RKGPUImageCalmFilter.h"
+#import "RKGPUImageAutumnFilter.h"
+#import "RKGPUImageFantasyFilter.h"
+#import "RKGPUImageFreedomFilter.h"
+#import "RKGPUImageMildFilter.h"
+#import "RKGPUImagePrairieFilter.h"
+#import "RKGPUImageDeepFilter.h"
+#import "RKGPUImageGlowFilter.h"
+#import "RKGPUImageMistFilter.h"
+#import "RKGPUImageVividFilter.h"
+#import "RKGPUImagePinkyFilter.h"
+#import "RKGPUImageAdventureFilter.h"
 
 #if __has_include(<GPUImage/GPUImage.h>)
 #import <GPUImage/GPUImage.h>
@@ -17,6 +44,12 @@
 #else
 #import "GPUImage.h"
 #endif
+
+static NSString * const kColorFilterTypeKey = @"type";
+static NSString * const kColorFilterNameKey = @"name";
+static NSString * const kColorFilterColorMapKey = @"colorMap";
+static NSString * const kColorFilterSoftLightKey = @"softLight";
+static NSString * const kColorFilterOverlayKey = @"overlay";
 
 @interface LFVideoCapture ()
 
@@ -34,6 +67,12 @@
 
 @property (nonatomic, strong) GPUImageMovieWriter *movieWriter;
 
+@property (nonatomic, assign) NSInteger currentColorFilterIndex;
+
+@property (nonatomic, copy, readonly) NSArray<RKGPUImageColorFilter *> *colorFilters;
+
+@property (nonatomic, strong) RKGPUImageColorFilter *colorFilter;
+
 @end
 
 @implementation LFVideoCapture
@@ -45,6 +84,35 @@
 #pragma mark -- LifeCycle
 - (instancetype)initWithVideoConfiguration:(LFLiveVideoConfiguration *)configuration {
     if (self = [super init]) {
+        _currentColorFilterIndex = 0;
+        _colorFilters = @[[[RKGPUImageColorFilter alloc] init],
+                          [[RKGPUImageWarmFilter alloc] init],
+                          [[RKGPUImageSoftFilter alloc] init],
+                          [[RKGPUImageRoseFilter alloc] init],
+                          [[RKGPUImageMorningFilter alloc] init],
+                          [[RKGPUImageSunshineFilter alloc] init],
+                          [[RKGPUImageSunsetFilter alloc] init],
+                          [[RKGPUImageCoolFilter alloc] init],
+                          [[RKGPUImageFreezeFilter alloc] init],
+                          [[RKGPUImageOceanFilter alloc] init],
+                          [[RKGPUImageDreamFilter alloc] init],
+                          [[RKGPUImageVioletFilter alloc] init],
+                          [[RKGPUImageMellowFilter alloc] init],
+                          [[RKGPUImageMemoryFilter alloc] init],
+                          [[RKGPUImagePureFilter alloc] init],
+                          [[RKGPUImageCalmFilter alloc] init],
+                          [[RKGPUImageAutumnFilter alloc] init],
+                          [[RKGPUImageFantasyFilter alloc] init],
+                          [[RKGPUImageFreedomFilter alloc] init],
+                          [[RKGPUImageMildFilter alloc] init],
+                          [[RKGPUImagePrairieFilter alloc] init],
+                          [[RKGPUImageDeepFilter alloc] init],
+                          [[RKGPUImageGlowFilter alloc] init],
+                          [[RKGPUImageMistFilter alloc] init],
+                          [[RKGPUImageVividFilter alloc] init],
+                          [[RKGPUImagePinkyFilter alloc] init],
+                          [[RKGPUImageAdventureFilter alloc] init]
+                          ];
         _configuration = configuration;
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterBackground:) name:UIApplicationWillResignActiveNotification object:nil];
@@ -70,7 +138,34 @@
     }
 }
 
+#pragma mark -- Public
+
+- (void)previousColorFilter {
+    self.currentColorFilterIndex--;
+    [self reloadFilter];
+}
+
+- (void)nextColorFilter {
+    self.currentColorFilterIndex++;
+    [self reloadFilter];
+}
+
 #pragma mark -- Setter Getter
+
+- (NSString *)currentColorFilterName {
+    return self.colorFilter.localizedName;
+}
+
+- (void)setCurrentColorFilterIndex:(NSInteger)currentColorFilterIndex {
+    if (currentColorFilterIndex < 0) {
+        currentColorFilterIndex = self.colorFilters.count - 1;
+        
+    } else if (currentColorFilterIndex >= self.colorFilters.count) {
+        currentColorFilterIndex = 0;
+    }
+    
+    _currentColorFilterIndex = currentColorFilterIndex;
+}
 
 - (GPUImageVideoCamera *)videoCamera{
     if(!_videoCamera){
@@ -160,6 +255,11 @@
 
 - (void)setMirror:(BOOL)mirror {
     _mirror = mirror;
+}
+
+- (void)setMirrorOutput:(BOOL)mirrorOutput {
+    _mirrorOutput = mirrorOutput;
+    [self reloadFilter];
 }
 
 - (void)setBeautyFace:(BOOL)beautyFace{
@@ -286,15 +386,31 @@
     [self.videoCamera removeAllTargets];
     [self.output removeAllTargets];
     [self.cropfilter removeAllTargets];
+    [self.colorFilter removeAllTargets];
+    [self.beautyFilter removeAllTargets];
     
+    self.output = [[LFGPUImageEmptyFilter alloc] init];
+    self.filter = [[GPUImageFilterGroup alloc] init];
+    
+    self.colorFilter = self.colorFilters[self.currentColorFilterIndex];
+
+    // 美肌
     if (self.beautyFace) {
-        self.output = [[LFGPUImageEmptyFilter alloc] init];
-        self.filter = [[LFGPUImageBeautyFilter alloc] init];
-        self.beautyFilter = (LFGPUImageBeautyFilter*)self.filter;
+        self.beautyFilter = [[LFGPUImageBeautyFilter alloc] init];
+        
+        [(GPUImageFilterGroup *)self.filter setInitialFilters:@[self.beautyFilter]];
+        [(GPUImageFilterGroup *)self.filter addFilter:self.beautyFilter];
+        
+        [self.beautyFilter addTarget:self.colorFilter];
+        [(GPUImageFilterGroup *)self.filter addFilter:self.colorFilter];
+        [(GPUImageFilterGroup *)self.filter setTerminalFilter:self.colorFilter];
+        
     } else {
-        self.output = [[LFGPUImageEmptyFilter alloc] init];
-        self.filter = [[LFGPUImageEmptyFilter alloc] init];
         self.beautyFilter = nil;
+        
+        [(GPUImageFilterGroup *)self.filter setInitialFilters:@[self.colorFilter]];
+        [(GPUImageFilterGroup *)self.filter addFilter:self.colorFilter];
+        [(GPUImageFilterGroup *)self.filter setTerminalFilter:self.colorFilter];
     }
     
     ///< 调节镜像
@@ -320,7 +436,7 @@
         [self.uiElementInput update];
     }else{
         [self.filter addTarget:self.output];
-        [self.output addTarget:self.gpuImageView];
+        [self.filter addTarget:self.gpuImageView];
         if(self.saveLocalVideo) [self.output addTarget:self.movieWriter];
     }
     
@@ -328,7 +444,6 @@
     [self.output forceProcessingAtSize:self.configuration.videoSize];
     [self.blendFilter forceProcessingAtSize:self.configuration.videoSize];
     [self.uiElementInput forceProcessingAtSize:self.configuration.videoSize];
-    
     
     //< 输出数据
     __weak typeof(self) _self = self;
@@ -339,11 +454,15 @@
 }
 
 - (void)reloadMirror{
-    if(self.mirror && self.captureDevicePosition == AVCaptureDevicePositionFront){
-        self.videoCamera.horizontallyMirrorFrontFacingCamera = YES;
-    }else{
-        self.videoCamera.horizontallyMirrorFrontFacingCamera = NO;
-    }
+//    if(self.mirror && self.captureDevicePosition == AVCaptureDevicePositionFront){
+//        self.videoCamera.horizontallyMirrorFrontFacingCamera = YES;
+//    }else{
+//        self.videoCamera.horizontallyMirrorFrontFacingCamera = NO;
+//    }
+    
+    [self.gpuImageView setInputRotation:(self.mirror && self.captureDevicePosition == AVCaptureDevicePositionFront) ? kGPUImageFlipHorizonal : kGPUImageNoRotation atIndex:0];
+    
+    [self.output setInputRotation:(self.mirrorOutput && self.captureDevicePosition == AVCaptureDevicePositionFront) ? kGPUImageFlipHorizonal : kGPUImageNoRotation atIndex:0];
 }
 
 #pragma mark Notification

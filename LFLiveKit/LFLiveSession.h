@@ -119,13 +119,19 @@ typedef NS_ENUM(NSInteger,LFLiveCaptureTypeMask) {
 @property (nonatomic, strong, nullable) UIView *warterMarkView;
 
 /* The currentImage is videoCapture shot */
-@property (nonatomic, strong,readonly ,nullable) UIImage *currentImage;
+@property (nonatomic, strong, readonly, nullable) UIImage *currentImage;
 
 /* The saveLocalVideo is save the local video */
 @property (nonatomic, assign) BOOL saveLocalVideo;
 
 /* The saveLocalVideoPath is save the local video  path */
 @property (nonatomic, strong, nullable) NSURL *saveLocalVideoPath;
+
+/* The currentColorFilterName is localized name of current color filter */
+@property (nonatomic, copy, readonly, nullable) NSString *currentColorFilterName;
+
+/** The mirrorOuput control mirror of output is on or off */
+@property (nonatomic, assign) BOOL mirrorOutput;
 
 #pragma mark - Initializer
 ///=============================================================================
@@ -157,6 +163,12 @@ typedef NS_ENUM(NSInteger,LFLiveCaptureTypeMask) {
 
 /** support outer input pcm audio(set LFLiveCaptureTypeMask) .*/
 - (void)pushAudio:(nullable NSData*)audioData;
+
+/** Switch to previous color filter. */
+- (void)previousColorFilter;
+
+/** Switch to next color filter. */
+- (void)nextColorFilter;
 
 @end
 

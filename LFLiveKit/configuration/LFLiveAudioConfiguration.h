@@ -68,6 +68,8 @@ typedef NS_ENUM (NSUInteger, LFLiveAudioQuality){
 /// flv编码音频头 44100 为0x12 0x10
 @property (nonatomic, assign, readonly) char *asc;
 /// 缓存区长度
-@property (nonatomic, assign,readonly) NSUInteger bufferLength;
+@property (nonatomic, assign, readonly) NSUInteger bufferLength;
+/// 是否開啟消除回音(default NO)
+@property (nonatomic, assign) BOOL echoCancellation;
 
 @end

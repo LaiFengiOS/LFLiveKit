@@ -252,38 +252,32 @@ static OSStatus handleInputBuffer(void *inRefCon,
         
         if (source.inputAudioDataArray.count > 0) {
             AudioBuffer ab = buffers.mBuffers[0];
-            char *innerAudioBytes = ab.mData;
+            char *captureAudioBytes = ab.mData;
             
-            int startIndex = 0;
-            for(;;) {
-                NSData *inputAudioData = [source.inputAudioDataArray objectAtIndex:0];
-                char *inputAudioBytes;
-                inputAudioBytes = malloc([inputAudioData length]);
-                [inputAudioData getBytes:inputAudioBytes length:[inputAudioData length]];
+            NSData *inputAudioData = source.inputAudioDataArray.firstObject;
+            char *inputAudioBytes = malloc(inputAudioData.length);
+            [inputAudioData getBytes:inputAudioBytes length:inputAudioData.length];
+            
+            for (int i = 0; i < ab.mDataByteSize; i++) {
+                char result = captureAudioBytes[i] + inputAudioBytes[source.inputAudioDataCurrentIndex];
+                captureAudioBytes[i] = MAX(-128, MIN(127, result));
                 
-                for (int i = startIndex; i < ab.mDataByteSize; i++) {
-                    innerAudioBytes[i] += inputAudioBytes[source.inputAudioDataStartIndex];
+                source.inputAudioDataCurrentIndex++;
+                if (source.inputAudioDataCurrentIndex >= inputAudioData.length) {
+                    source.inputAudioDataCurrentIndex = 0;
+                    [source.inputAudioDataArray removeObjectAtIndex:0];
+                    inputAudioData = source.inputAudioDataArray.firstObject;
                     
-                    if (innerAudioBytes[i] >= 127) innerAudioBytes[i] = 127;
-                    else if (innerAudioBytes[i] <= -128) innerAudioBytes[i] = -128;
-                    
-                    startIndex ++;
-                    source.inputAudioDataStartIndex++;
-                    
-                    if (startIndex % [inputAudioData length] == 0 || source.inputAudioDataStartIndex >= [inputAudioData length]) {
-                        source.inputAudioDataStartIndex = 0;
-                        [source.inputAudioDataArray removeObjectAtIndex:0];
+                    if (!inputAudioData) {
                         break;
                     }
+                    
+                    inputAudioBytes = malloc(inputAudioData.length);
+                    [inputAudioData getBytes:inputAudioBytes length:inputAudioData.length];
                 }
-                
-                if (startIndex >= ab.mDataByteSize) {
-                    memcpy(ab.mData, innerAudioBytes, ab.mDataByteSize);
-                    break;
-                }
-                
-                if (source.inputAudioDataArray.count < 1) break;
             }
+            
+            memcpy(ab.mData, captureAudioBytes, ab.mDataByteSize);
         }
 
         if (!status) {

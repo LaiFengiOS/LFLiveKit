@@ -119,9 +119,9 @@
     if(self.captureType & LFLiveInputMaskAudio){
         if (self.uploading) [self.audioEncoder encodeAudioData:audioData timeStamp:NOW];
         
-    } else if(self.captureType & LFLiveCaptureMaskAudioInputVideoAndMixAudio) {
+    } else if(self.captureType & LFLiveMixMaskAudioInputVideo) {
         if (!self.audioCaptureSource.inputAudioDataArray) {
-            self.audioCaptureSource.inputAudioDataArray = [[NSMutableArray alloc] init];
+            self.audioCaptureSource.inputAudioDataArray = [NSMutableArray array];
         }
         [self.audioCaptureSource.inputAudioDataArray addObject:audioData];
     }
@@ -149,7 +149,7 @@
     if (self.uploading) [self.audioEncoder encodeAudioData:audioData timeStamp:NOW];
 }
 
-- (void)captureOutput:(nullable LFAudioCapture *)capture audioDataBeforeMixing:(nullable NSData*)audioData {
+- (void)captureOutput:(nullable LFAudioCapture *)capture audioDataBeforeMixing:(nullable NSData *)audioData {
     if ([self.delegate respondsToSelector:@selector(liveSession:audioDataBeforeMixing:)]) {
         [self.delegate liveSession:self audioDataBeforeMixing:audioData];
     }

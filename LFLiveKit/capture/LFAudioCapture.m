@@ -245,6 +245,40 @@ static OSStatus handleInputBuffer(void *inRefCon,
                 memset(ab.mData, 0, ab.mDataByteSize);
             }
         }
+        
+        if (source.delegate && [source.delegate respondsToSelector:@selector(captureOutput:audioDataBeforeMixing:)]) {
+            [source.delegate captureOutput:source audioDataBeforeMixing:[NSData dataWithBytes:buffers.mBuffers[0].mData length:buffers.mBuffers[0].mDataByteSize]];
+        }
+        
+        if (source.inputAudioDataArray.count > 0) {
+            AudioBuffer ab = buffers.mBuffers[0];
+            char *captureAudioBytes = ab.mData;
+            
+            NSData *inputAudioData = source.inputAudioDataArray.firstObject;
+            char *inputAudioBytes = malloc(inputAudioData.length);
+            [inputAudioData getBytes:inputAudioBytes length:inputAudioData.length];
+            
+            for (int i = 0; i < ab.mDataByteSize; i++) {
+                char result = captureAudioBytes[i] + inputAudioBytes[source.inputAudioDataCurrentIndex];
+                captureAudioBytes[i] = MAX(-128, MIN(127, result));
+                
+                source.inputAudioDataCurrentIndex++;
+                if (source.inputAudioDataCurrentIndex >= inputAudioData.length) {
+                    source.inputAudioDataCurrentIndex = 0;
+                    [source.inputAudioDataArray removeObjectAtIndex:0];
+                    inputAudioData = source.inputAudioDataArray.firstObject;
+                    
+                    if (!inputAudioData) {
+                        break;
+                    }
+                    
+                    inputAudioBytes = malloc(inputAudioData.length);
+                    [inputAudioData getBytes:inputAudioBytes length:inputAudioData.length];
+                }
+            }
+            
+            memcpy(ab.mData, captureAudioBytes, ab.mDataByteSize);
+        }
 
         if (!status) {
             if (source.delegate && [source.delegate respondsToSelector:@selector(captureOutput:audioData:)]) {

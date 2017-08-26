@@ -246,7 +246,7 @@ static OSStatus handleInputBuffer(void *inRefCon,
             }
         }
         
-        if (source.delegate && [source.delegate respondsToSelector:@selector(captureOutput:audioDataBeforeMixing:)]) {
+        if ([source.delegate respondsToSelector:@selector(captureOutput:audioDataBeforeMixing:)]) {
             [source.delegate captureOutput:source audioDataBeforeMixing:[NSData dataWithBytes:buffers.mBuffers[0].mData length:buffers.mBuffers[0].mDataByteSize]];
         }
         

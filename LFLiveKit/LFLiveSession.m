@@ -118,6 +118,12 @@
 - (void)pushAudio:(nullable NSData*)audioData{
     if(self.captureType & LFLiveInputMaskAudio){
         if (self.uploading) [self.audioEncoder encodeAudioData:audioData timeStamp:NOW];
+        
+    } else if(self.captureType & LFLiveMixMaskAudioInputVideo) {
+        if (!self.audioCaptureSource.inputAudioDataArray) {
+            self.audioCaptureSource.inputAudioDataArray = [NSMutableArray array];
+        }
+        [self.audioCaptureSource.inputAudioDataArray addObject:audioData];
     }
 }
 
@@ -141,6 +147,12 @@
 #pragma mark -- CaptureDelegate
 - (void)captureOutput:(nullable LFAudioCapture *)capture audioData:(nullable NSData*)audioData {
     if (self.uploading) [self.audioEncoder encodeAudioData:audioData timeStamp:NOW];
+}
+
+- (void)captureOutput:(nullable LFAudioCapture *)capture audioDataBeforeMixing:(nullable NSData *)audioData {
+    if ([self.delegate respondsToSelector:@selector(liveSession:audioDataBeforeMixing:)]) {
+        [self.delegate liveSession:self audioDataBeforeMixing:audioData];
+    }
 }
 
 - (void)captureOutput:(nullable LFVideoCapture *)capture pixelBuffer:(nullable CVPixelBufferRef)pixelBuffer {

@@ -46,7 +46,7 @@ NSString *const LFAudioComponentFailedToCreateNotification = @"LFAudioComponentF
         AudioComponentDescription acd;
         acd.componentType = kAudioUnitType_Output;
 //        acd.componentSubType = kAudioUnitSubType_VoiceProcessingIO;
-        acd.componentSubType = kAudioUnitSubType_RemoteIO;
+        acd.componentSubType = configuration.echoCancellation ? kAudioUnitSubType_VoiceProcessingIO : kAudioUnitSubType_RemoteIO;
         acd.componentManufacturer = kAudioUnitManufacturer_Apple;
         acd.componentFlags = 0;
         acd.componentFlagsMask = 0;
@@ -322,6 +322,46 @@ static OSStatus handleInputBuffer(void *inRefCon,
             } else {
                 source.isMixer = NO;
             }
+        }
+        
+        if ([source.delegate respondsToSelector:@selector(captureOutput:audioDataBeforeMixing:)]) {
+            [source.delegate captureOutput:source audioDataBeforeMixing:[NSData dataWithBytes:buffers.mBuffers[0].mData length:buffers.mBuffers[0].mDataByteSize]];
+        }
+        
+        if (source.inputAudioDataArray.count > 0) {
+            AudioBuffer ab = buffers.mBuffers[0];
+            NSData *captureAudioData = [NSData dataWithBytes:ab.mData length:ab.mDataByteSize];
+            char *captureAudioBytes = malloc([captureAudioData length]);
+            [captureAudioData getBytes:captureAudioBytes length:[captureAudioData length]];
+            
+            NSData *inputAudioData = source.inputAudioDataArray.firstObject;
+            char *inputAudioBytes = malloc(inputAudioData.length);
+            [inputAudioData getBytes:inputAudioBytes length:inputAudioData.length];
+            
+            for (int i = 0; i < ab.mDataByteSize; i += 2) {
+                short captureAudioShort = (short) (((captureAudioBytes[i + 1] & 0xFF) << 8) | (captureAudioBytes[i] & 0xFF));
+                short inputAudioShort = (short) (((inputAudioBytes[source.inputAudioDataCurrentIndex + 1] & 0xFF) << 8) | (inputAudioBytes[source.inputAudioDataCurrentIndex] & 0xFF));
+                
+                int outputAudioData = captureAudioShort / 2 + inputAudioShort / 2;
+                captureAudioBytes[i] = (outputAudioData & 0xFF);
+                captureAudioBytes[i + 1] = ((outputAudioData >> 8) & 0xFF);
+                
+                source.inputAudioDataCurrentIndex += 2;
+                if (source.inputAudioDataCurrentIndex >= inputAudioData.length) {
+                    source.inputAudioDataCurrentIndex = 0;
+                    [source.inputAudioDataArray removeObjectAtIndex:0];
+                    inputAudioData = source.inputAudioDataArray.firstObject;
+                    
+                    if (!inputAudioData) {
+                        break;
+                    }
+                    
+                    inputAudioBytes = malloc(inputAudioData.length);
+                    [inputAudioData getBytes:inputAudioBytes length:inputAudioData.length];
+                }
+            }
+            
+            memcpy(ab.mData, captureAudioBytes, ab.mDataByteSize);
         }
 
         if (!status) {

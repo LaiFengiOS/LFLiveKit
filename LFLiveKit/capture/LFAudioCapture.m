@@ -252,17 +252,23 @@ static OSStatus handleInputBuffer(void *inRefCon,
         
         if (source.inputAudioDataArray.count > 0) {
             AudioBuffer ab = buffers.mBuffers[0];
-            char *captureAudioBytes = ab.mData;
+            NSData *captureAudioData = [NSData dataWithBytes:ab.mData length:ab.mDataByteSize];
+            char *captureAudioBytes = malloc([captureAudioData length]);
+            [captureAudioData getBytes:captureAudioBytes length:[captureAudioData length]];
             
             NSData *inputAudioData = source.inputAudioDataArray.firstObject;
             char *inputAudioBytes = malloc(inputAudioData.length);
             [inputAudioData getBytes:inputAudioBytes length:inputAudioData.length];
             
-            for (int i = 0; i < ab.mDataByteSize; i++) {
-                char result = captureAudioBytes[i] + inputAudioBytes[source.inputAudioDataCurrentIndex];
-                captureAudioBytes[i] = MAX(-128, MIN(127, result));
+            for (int i = 0; i < ab.mDataByteSize; i += 2) {
+                short captureAudioShort = (short) (((captureAudioBytes[i + 1] & 0xFF) << 8) | (captureAudioBytes[i] & 0xFF));
+                short inputAudioShort = (short) (((inputAudioBytes[source.inputAudioDataCurrentIndex + 1] & 0xFF) << 8) | (inputAudioBytes[source.inputAudioDataCurrentIndex] & 0xFF));
                 
-                source.inputAudioDataCurrentIndex++;
+                int outputAudioData = captureAudioShort / 2 + inputAudioShort / 2;
+                captureAudioBytes[i] = (outputAudioData & 0xFF);
+                captureAudioBytes[i + 1] = ((outputAudioData >> 8) & 0xFF);
+                
+                source.inputAudioDataCurrentIndex += 2;
                 if (source.inputAudioDataCurrentIndex >= inputAudioData.length) {
                     source.inputAudioDataCurrentIndex = 0;
                     [source.inputAudioDataArray removeObjectAtIndex:0];

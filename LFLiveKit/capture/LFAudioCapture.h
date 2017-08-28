@@ -34,9 +34,9 @@ extern NSString *_Nullable const LFAudioComponentFailedToCreateNotification;
 /** The muted control callbackAudioData,muted will memset 0.*/
 @property (nonatomic, assign) BOOL muted;
 
-@property (nonatomic, assign) BOOL mixer;
+@property (nonatomic, assign) BOOL isMixer;
 
-@property (nonatomic, assign) BOOL isLoadAudioFile;
+@property (nonatomic, assign) BOOL isLoadingAudioFile;
 
 @property (nonatomic, strong, nullable) NSURL *audioPath;
 

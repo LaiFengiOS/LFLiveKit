@@ -244,8 +244,8 @@ static OSStatus handleInputBuffer(void *inRefCon,
                 AudioBuffer ab = buffers.mBuffers[i];
                 memset(ab.mData, 0, ab.mDataByteSize);
             }
-        } else if (source.mixer) {
-            if (!source.isLoadAudioFile) {
+        } else if (source.isMixer) {
+            if (!source.isLoadingAudioFile) {
                 source.dataSizeCount = 0;
                                 
                 AVURLAsset *asset = [AVURLAsset URLAssetWithURL:source.audioPath options:nil];
@@ -268,38 +268,35 @@ static OSStatus handleInputBuffer(void *inRefCon,
                     [assetReader addOutput: assetReaderOutput];
                     [assetReader startReading];
                     
-                    NSMutableData *data= [NSMutableData data];
-                    for (;;) {
-                        CMSampleBufferRef nextBuffer = [assetReaderOutput copyNextSampleBuffer];
-                        if (nextBuffer) {
-                            AudioBufferList audioBufferList;
-                            CMBlockBufferRef blockBuffer;
-                            
-                            CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer(nextBuffer,
-                                                                                    nil,
-                                                                                    &audioBufferList,
-                                                                                    sizeof(audioBufferList),
-                                                                                    nil,
-                                                                                    nil,
-                                                                                    0,
-                                                                                    &blockBuffer);
-                            
-                            AudioBuffer audioBuffer = audioBufferList.mBuffers[0];
-                            NSData *audioData = [NSData dataWithBytes:audioBuffer.mData length:audioBuffer.mDataByteSize];
-                            char *audioBytes;
-                            audioBytes = malloc([audioData length]);
-                            [audioData getBytes:audioBytes length:audioBuffer.mDataByteSize];
-                            source.dataSizeTotal += audioBuffer.mDataByteSize;
-                            [data appendBytes:audioBytes length:audioBuffer.mDataByteSize];
-                        } else {
-                            [assetReader cancelReading];
-                            break;
-                        }
+                    NSMutableData *data = [NSMutableData data];
+                    CMSampleBufferRef nextBuffer = [assetReaderOutput copyNextSampleBuffer];
+                    while (nextBuffer) {
+                        AudioBufferList audioBufferList;
+                        CMBlockBufferRef blockBuffer;
+                        
+                        CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer(nextBuffer,
+                                                                                nil,
+                                                                                &audioBufferList,
+                                                                                sizeof(audioBufferList),
+                                                                                nil,
+                                                                                nil,
+                                                                                0,
+                                                                                &blockBuffer);
+                        
+                        AudioBuffer audioBuffer = audioBufferList.mBuffers[0];
+                        NSData *audioData = [NSData dataWithBytes:audioBuffer.mData length:audioBuffer.mDataByteSize];
+                        char *audioBytes;
+                        audioBytes = malloc([audioData length]);
+                        [audioData getBytes:audioBytes length:audioBuffer.mDataByteSize];
+                        source.dataSizeTotal += audioBuffer.mDataByteSize;
+                        [data appendBytes:audioBytes length:audioBuffer.mDataByteSize];
+                        nextBuffer = [assetReaderOutput copyNextSampleBuffer];
                     }
+                    [assetReader cancelReading];
                     
                     source.mp3Data = malloc(source.dataSizeTotal);
                     [data getBytes:source.mp3Data length:source.dataSizeTotal];
-                    source.isLoadAudioFile = YES;
+                    source.isLoadingAudioFile = YES;
                 }
             }
             
@@ -323,7 +320,7 @@ static OSStatus handleInputBuffer(void *inRefCon,
                     source.dataSizeCount += ab.mDataByteSize;
                 }
             } else {
-                source.mixer = NO;
+                source.isMixer = NO;
             }
         }
 

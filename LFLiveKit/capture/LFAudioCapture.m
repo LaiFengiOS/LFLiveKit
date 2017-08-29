@@ -252,15 +252,13 @@ static OSStatus handleInputBuffer(void *inRefCon,
                 NSError *assetError = nil;
                 AVAssetReader *assetReader = [[AVAssetReader alloc] initWithAsset:asset error:&assetError];
                 
-                NSDictionary *outputSettings = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                [NSNumber numberWithInt:kAudioFormatLinearPCM], AVFormatIDKey,
-                                                [NSNumber numberWithFloat:44100.0], AVSampleRateKey,
-                                                [NSNumber numberWithInt:2], AVNumberOfChannelsKey,
-                                                [NSNumber numberWithInt:16], AVLinearPCMBitDepthKey,
-                                                [NSNumber numberWithBool:NO], AVLinearPCMIsNonInterleaved,
-                                                [NSNumber numberWithBool:NO], AVLinearPCMIsFloatKey,
-                                                [NSNumber numberWithBool:NO], AVLinearPCMIsBigEndianKey,
-                                                nil];
+                NSDictionary *outputSettings = @{AVFormatIDKey: @(kAudioFormatLinearPCM),
+                                                 AVSampleRateKey: @44100,
+                                                 AVNumberOfChannelsKey: @2,
+                                                 AVLinearPCMBitDepthKey: @16,
+                                                 AVLinearPCMIsNonInterleaved: @NO,
+                                                 AVLinearPCMIsFloatKey: @NO,
+                                                 AVLinearPCMIsBigEndianKey: @NO};
                 
                 AVAssetReaderOutput *assetReaderOutput = [AVAssetReaderAudioMixOutput assetReaderAudioMixOutputWithAudioTracks:asset.tracks audioSettings: outputSettings];
                 

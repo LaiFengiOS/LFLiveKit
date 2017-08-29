@@ -244,6 +244,82 @@ static OSStatus handleInputBuffer(void *inRefCon,
                 AudioBuffer ab = buffers.mBuffers[i];
                 memset(ab.mData, 0, ab.mDataByteSize);
             }
+        } else if (source.isMixer) {
+            if (!source.isLoadingAudioFile) {
+                source.dataSizeCount = 0;
+                                
+                AVURLAsset *asset = [AVURLAsset URLAssetWithURL:source.audioPath options:nil];
+                NSError *assetError = nil;
+                AVAssetReader *assetReader = [[AVAssetReader alloc] initWithAsset:asset error:&assetError];
+                
+                NSDictionary *outputSettings = @{AVFormatIDKey: @(kAudioFormatLinearPCM),
+                                                 AVSampleRateKey: @44100,
+                                                 AVNumberOfChannelsKey: @2,
+                                                 AVLinearPCMBitDepthKey: @16,
+                                                 AVLinearPCMIsNonInterleaved: @NO,
+                                                 AVLinearPCMIsFloatKey: @NO,
+                                                 AVLinearPCMIsBigEndianKey: @NO};
+                
+                AVAssetReaderOutput *assetReaderOutput = [AVAssetReaderAudioMixOutput assetReaderAudioMixOutputWithAudioTracks:asset.tracks audioSettings: outputSettings];
+                
+                if ([assetReader canAddOutput: assetReaderOutput]) {
+                    [assetReader addOutput: assetReaderOutput];
+                    [assetReader startReading];
+                    
+                    NSMutableData *data = [NSMutableData data];
+                    CMSampleBufferRef nextBuffer = [assetReaderOutput copyNextSampleBuffer];
+                    while (nextBuffer) {
+                        AudioBufferList audioBufferList;
+                        CMBlockBufferRef blockBuffer;
+                        
+                        CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer(nextBuffer,
+                                                                                nil,
+                                                                                &audioBufferList,
+                                                                                sizeof(audioBufferList),
+                                                                                nil,
+                                                                                nil,
+                                                                                0,
+                                                                                &blockBuffer);
+                        
+                        AudioBuffer audioBuffer = audioBufferList.mBuffers[0];
+                        NSData *audioData = [NSData dataWithBytes:audioBuffer.mData length:audioBuffer.mDataByteSize];
+                        char *audioBytes;
+                        audioBytes = malloc([audioData length]);
+                        [audioData getBytes:audioBytes length:audioBuffer.mDataByteSize];
+                        source.dataSizeTotal += audioBuffer.mDataByteSize;
+                        [data appendBytes:audioBytes length:audioBuffer.mDataByteSize];
+                        nextBuffer = [assetReaderOutput copyNextSampleBuffer];
+                    }
+                    [assetReader cancelReading];
+                    
+                    source.mp3Data = malloc(source.dataSizeTotal);
+                    [data getBytes:source.mp3Data length:source.dataSizeTotal];
+                    source.isLoadingAudioFile = YES;
+                }
+            }
+            
+            if (source.dataSizeTotal >= source.dataSizeCount) {
+                for (int i = 0; i < buffers.mNumberBuffers; i++) {
+                    AudioBuffer ab = buffers.mBuffers[i];
+                    NSData *audioData = [NSData dataWithBytes:ab.mData length:ab.mDataByteSize];
+                    char *audioBytes;
+                    audioBytes = malloc([audioData length]);
+                    [audioData getBytes:audioBytes length:[audioData length]];
+                    
+                    NSUInteger diffSize = source.dataSizeTotal - source.dataSizeCount;
+                    NSInteger dataByteSize = diffSize >= ab.mDataByteSize ? ab.mDataByteSize : diffSize;
+                    for (int j = 0; j < dataByteSize; j++) {
+                        audioBytes[j] += (source.mp3Data[j + source.dataSizeCount] / 2);
+                        if (audioBytes[j] >= 127) audioBytes[j] = 127;
+                        else if (audioBytes[j] <= -128) audioBytes[j] = -128;
+                    }
+                    
+                    memcpy(ab.mData, audioBytes, ab.mDataByteSize);
+                    source.dataSizeCount += ab.mDataByteSize;
+                }
+            } else {
+                source.isMixer = NO;
+            }
         }
         
         if ([source.delegate respondsToSelector:@selector(captureOutput:audioDataBeforeMixing:)]) {
@@ -252,17 +328,23 @@ static OSStatus handleInputBuffer(void *inRefCon,
         
         if (source.inputAudioDataArray.count > 0) {
             AudioBuffer ab = buffers.mBuffers[0];
-            char *captureAudioBytes = ab.mData;
+            NSData *captureAudioData = [NSData dataWithBytes:ab.mData length:ab.mDataByteSize];
+            char *captureAudioBytes = malloc([captureAudioData length]);
+            [captureAudioData getBytes:captureAudioBytes length:[captureAudioData length]];
             
             NSData *inputAudioData = source.inputAudioDataArray.firstObject;
             char *inputAudioBytes = malloc(inputAudioData.length);
             [inputAudioData getBytes:inputAudioBytes length:inputAudioData.length];
             
-            for (int i = 0; i < ab.mDataByteSize; i++) {
-                char result = captureAudioBytes[i] + inputAudioBytes[source.inputAudioDataCurrentIndex];
-                captureAudioBytes[i] = MAX(-128, MIN(127, result));
+            for (int i = 0; i < ab.mDataByteSize; i += 2) {
+                short captureAudioShort = (short) (((captureAudioBytes[i + 1] & 0xFF) << 8) | (captureAudioBytes[i] & 0xFF));
+                short inputAudioShort = (short) (((inputAudioBytes[source.inputAudioDataCurrentIndex + 1] & 0xFF) << 8) | (inputAudioBytes[source.inputAudioDataCurrentIndex] & 0xFF));
                 
-                source.inputAudioDataCurrentIndex++;
+                int outputAudioData = captureAudioShort / 2 + inputAudioShort / 2;
+                captureAudioBytes[i] = (outputAudioData & 0xFF);
+                captureAudioBytes[i + 1] = ((outputAudioData >> 8) & 0xFF);
+                
+                source.inputAudioDataCurrentIndex += 2;
                 if (source.inputAudioDataCurrentIndex >= inputAudioData.length) {
                     source.inputAudioDataCurrentIndex = 0;
                     [source.inputAudioDataArray removeObjectAtIndex:0];

@@ -120,10 +120,9 @@
         if (self.uploading) [self.audioEncoder encodeAudioData:audioData timeStamp:NOW];
         
     } else if(self.captureType & LFLiveMixMaskAudioInputVideo) {
-        if (!self.audioCaptureSource.inputAudioDataArray) {
-            self.audioCaptureSource.inputAudioDataArray = [NSMutableArray array];
+        if (audioData) {
+            [self.audioCaptureSource mixSideData:audioData];
         }
-        [self.audioCaptureSource.inputAudioDataArray addObject:audioData];
     }
 }
 
@@ -135,6 +134,10 @@
     [self.videoCaptureSource nextColorFilter];
 }
 
+- (void)playSound:(nonnull NSURL *)soundUrl {
+    [self.audioCaptureSource mixSound:soundUrl];
+}
+
 #pragma mark -- PrivateMethod
 - (void)pushSendBuffer:(LFFrame*)frame{
     if(self.relativeTimestamps == 0){
@@ -144,16 +147,21 @@
     [self.socket sendFrame:frame];
 }
 
-#pragma mark -- CaptureDelegate
-- (void)captureOutput:(nullable LFAudioCapture *)capture audioData:(nullable NSData*)audioData {
-    if (self.uploading) [self.audioEncoder encodeAudioData:audioData timeStamp:NOW];
-}
+#pragma mark -- Audio Capture Delegate
 
-- (void)captureOutput:(nullable LFAudioCapture *)capture audioDataBeforeMixing:(nullable NSData *)audioData {
+- (void)captureOutput:(nullable LFAudioCapture *)capture audioBeforeSideMixing:(nullable NSData *)data {
     if ([self.delegate respondsToSelector:@selector(liveSession:audioDataBeforeMixing:)]) {
-        [self.delegate liveSession:self audioDataBeforeMixing:audioData];
+        [self.delegate liveSession:self audioDataBeforeMixing:data];
     }
 }
+
+- (void)captureOutput:(nullable LFAudioCapture *)capture didFinishAudioProcessing:(nullable NSData *)data {
+    if (self.uploading) {
+        [self.audioEncoder encodeAudioData:data timeStamp:NOW];
+    }
+}
+
+#pragma mark - Video Capture Delegate
 
 - (void)captureOutput:(nullable LFVideoCapture *)capture pixelBuffer:(nullable CVPixelBufferRef)pixelBuffer {
     if (self.uploading) [self.videoEncoder encodeVideoData:pixelBuffer timeStamp:NOW];
@@ -365,14 +373,6 @@
 
 - (BOOL)muted {
     return self.audioCaptureSource.muted;
-}
-
-- (void)setAudioPath:(NSURL*)audioPath {
-    [self willChangeValueForKey:@"audioPath"];
-    [self.audioCaptureSource setAudioPath:audioPath];
-    [self.audioCaptureSource setIsLoadingAudioFile:NO];
-    [self.audioCaptureSource setIsMixer:YES];
-    [self didChangeValueForKey:@"audioPath"];
 }
 
 - (void)setWarterMarkView:(UIView *)warterMarkView{

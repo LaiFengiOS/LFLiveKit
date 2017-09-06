@@ -17,8 +17,8 @@ extern NSString *_Nullable const LFAudioComponentFailedToCreateNotification;
 @class LFAudioCapture;
 /** LFAudioCapture callback audioData */
 @protocol LFAudioCaptureDelegate <NSObject>
-- (void)captureOutput:(nullable LFAudioCapture *)capture audioData:(nullable NSData *)audioData;
-- (void)captureOutput:(nullable LFAudioCapture *)capture audioDataBeforeMixing:(nullable NSData *)audioData;
+- (void)captureOutput:(nullable LFAudioCapture *)capture audioBeforeSideMixing:(nullable NSData *)data;
+- (void)captureOutput:(nullable LFAudioCapture *)capture didFinishAudioProcessing:(nullable NSData *)data;
 @end
 
 
@@ -35,24 +35,24 @@ extern NSString *_Nullable const LFAudioComponentFailedToCreateNotification;
 /** The muted control callbackAudioData,muted will memset 0.*/
 @property (nonatomic, assign) BOOL muted;
 
-@property (nonatomic, assign) BOOL isMixer;
+//@property (nonatomic, assign) BOOL isMixer;
+//
+//@property (nonatomic, assign) BOOL isLoadingAudioFile;
 
-@property (nonatomic, assign) BOOL isLoadingAudioFile;
+//@property (nonatomic, strong, nullable) NSURL *audioPath;
 
-@property (nonatomic, strong, nullable) NSURL *audioPath;
-
-@property (nonatomic, assign) int dataSizeTotal;
-
-@property (nonatomic, assign) long dataSizeCount;
-
-@property char* _Nullable mp3Data;
+//@property (nonatomic, assign) int dataSizeTotal;
+//
+//@property (nonatomic, assign) long dataSizeCount;
+//
+//@property char* _Nullable mp3Data;
 
 /** The running control start capture or stop capture*/
 @property (nonatomic, assign) BOOL running;
 
-@property (nonatomic, strong, nullable) NSMutableArray *inputAudioDataArray;
-
-@property (nonatomic, assign) int inputAudioDataCurrentIndex;
+//@property (nonatomic, strong, nullable) NSMutableArray *inputAudioDataArray;
+//
+//@property (nonatomic, assign) int inputAudioDataCurrentIndex;
 
 #pragma mark - Initializer
 ///=============================================================================
@@ -66,5 +66,9 @@ extern NSString *_Nullable const LFAudioComponentFailedToCreateNotification;
    capture unstable.
  */
 - (nullable instancetype)initWithAudioConfiguration:(nullable LFLiveAudioConfiguration *)configuration NS_DESIGNATED_INITIALIZER;
+
+- (void)mixSound:(nonnull NSURL *)url;
+
+- (void)mixSideData:(nonnull NSData *)data;
 
 @end

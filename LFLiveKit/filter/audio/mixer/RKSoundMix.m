@@ -64,6 +64,8 @@
         
         AudioBuffer audioBuffer = audioBufferList.mBuffers[0];
         [_soundData appendBytes:audioBuffer.mData length:audioBuffer.mDataByteSize];
+        CFRelease(nextBuffer);
+        CFRelease(blockBuffer);
     }
     [assetReader cancelReading];
 }

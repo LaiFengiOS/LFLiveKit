@@ -32,7 +32,7 @@ NSString *const LFAudioComponentFailedToCreateNotification = @"LFAudioComponentF
         self.taskQueue = dispatch_queue_create("com.youku.Laifeng.audioCapture.Queue", NULL);
         
         AVAudioSession *session = [AVAudioSession sharedInstance];
-        
+        [session setMode:AVAudioSessionModeDefault error:nil];
         
         [[NSNotificationCenter defaultCenter] addObserver: self
                                                  selector: @selector(handleRouteChange:)

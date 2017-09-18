@@ -138,6 +138,14 @@
     [self.audioCaptureSource mixSound:soundUrl];
 }
 
+- (void)playSoundSequences:(nonnull NSArray<NSURL *> *)urls {
+    [self.audioCaptureSource mixSoundSequences:urls];
+}
+
+- (void)playSoundSequences:(nonnull NSArray<NSURL *> *)urls interval:(NSTimeInterval)interval{
+    
+}
+
 #pragma mark -- PrivateMethod
 - (void)pushSendBuffer:(LFFrame*)frame{
     if(self.relativeTimestamps == 0){

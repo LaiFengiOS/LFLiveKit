@@ -177,5 +177,9 @@ typedef NS_ENUM(NSInteger,LFLiveCaptureTypeMask) {
 
 - (void)playSound:(nonnull NSURL *)soundUrl;
 
+- (void)playSoundSequences:(nonnull NSArray<NSURL *> *)urls;
+
+- (void)playSoundSequences:(nonnull NSArray<NSURL *> *)urls interval:(NSTimeInterval)interval;
+
 @end
 

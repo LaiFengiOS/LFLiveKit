@@ -78,22 +78,63 @@
     return _mixedSize == _soundData.length;
 }
 
+
 - (void)process:(AudioBufferList)buffers {
     if (self.isFinished) {
         return;
     }
+//    const char *soundBytes = _soundData.bytes;
+//    for (int i = 0; i < buffers.mNumberBuffers; i++) {
+//        AudioBuffer buf = buffers.mBuffers[i];
+//        char *audioBytes = buf.mData;
+//        NSUInteger mixSize = MIN(_soundData.length - _mixedSize, buf.mDataByteSize);
+//        for (int j = 0; j < mixSize; j++) {
+//            char byte = audioBytes[j] + soundBytes[_mixedSize + j] / 2;
+//            if (byte > 127) byte = 127;
+//            else if (byte <-128) byte = -128;
+//            audioBytes[j] = byte;
+//        }
+//        _mixedSize += mixSize;
+//    }
     const char *soundBytes = _soundData.bytes;
-    for (int i = 0; i < buffers.mNumberBuffers; i++) {
-        AudioBuffer buf = buffers.mBuffers[i];
-        char *audioBytes = buf.mData;
-        NSUInteger mixSize = MIN(_soundData.length - _mixedSize, buf.mDataByteSize);
-        for (int j = 0; j < mixSize; j++) {
-            char byte = audioBytes[j] + soundBytes[_mixedSize + j] / 2;
-            if (byte > 127) byte = 127;
-            else if (byte <-128) byte = -128;
-            audioBytes[j] = byte;
+    
+    if (self.mixingChannels == 2) {
+        for (int i = 0; i < buffers.mNumberBuffers; i++) {
+            AudioBuffer buf = buffers.mBuffers[i];
+            char *audioBytes = buf.mData;
+            NSUInteger mixSize = MIN(_soundData.length - _mixedSize, buf.mDataByteSize);
+            for (int j = 0; j < buf.mDataByteSize; j += 2) {
+                short a = (short)(((audioBytes[j + 1] & 0xFF) << 8) | (audioBytes[j] & 0xFF));
+                short b = (short)(((soundBytes[_mixedSize + j + 1] & 0xFF) << 8) | (soundBytes[_mixedSize + j] & 0xFF));
+                
+                int mixed = (a + b) / 2;
+                //int mixed = a + b - a * b / 65536.0;
+                audioBytes[j] = mixed & 0xFF;
+                audioBytes[j + 1] = (mixed >> 8) & 0xFF;
+            }
+            _mixedSize += mixSize;
         }
-        _mixedSize += mixSize;
+    } else {
+        for (int i = 0; i < buffers.mNumberBuffers; i++) {
+            AudioBuffer buf = buffers.mBuffers[i];
+            char *audioBytes = buf.mData;
+            for (int j = 0; j < buf.mDataByteSize; j += 2) {
+                short a = (short)(((audioBytes[j + 1] & 0xFF) << 8) | (audioBytes[j] & 0xFF));
+                short b = (short)(((soundBytes[_mixedSize + 1] & 0xFF) << 8) | (soundBytes[_mixedSize] & 0xFF));
+                short c = (short)(((soundBytes[_mixedSize + 3] & 0xFF) << 8) | (soundBytes[_mixedSize + 2] & 0xFF));
+                
+                int mixed = (a + b + c) / 3;
+                //int mixed = a + b + c - (a * b + b * c + c * a) / 65536.0 + a * b * c / (65536.0 * 65536.0) ;
+                audioBytes[j] = mixed & 0xFF;
+                audioBytes[j + 1] = (mixed >> 8) & 0xFF;
+                
+                _mixedSize += 2 * 2;
+                
+                if (_mixedSize >= _soundData.length) {
+                    return;
+                }
+            }
+        }
     }
 }
 

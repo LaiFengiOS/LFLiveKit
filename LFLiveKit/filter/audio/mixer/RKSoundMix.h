@@ -12,6 +12,7 @@
 @interface RKSoundMix : NSObject <RKAudioMix>
 
 @property (strong, nonatomic, readonly, nonnull) NSURL *soundURL;
+@property (nonatomic) NSUInteger mixingChannels;
 @property (nonatomic, readonly) BOOL isFinished;
 
 - (instancetype)initWithURL:(nonnull NSURL *)url;

@@ -126,6 +126,7 @@ NSString *const LFAudioComponentFailedToCreateNotification = @"LFAudioComponentF
         }
     } else {
         self.soundMix = [[RKSoundMix alloc] initWithURL:url];
+        self.soundMix.mixingChannels = self.configuration.numberOfChannels;
     }
 }
 

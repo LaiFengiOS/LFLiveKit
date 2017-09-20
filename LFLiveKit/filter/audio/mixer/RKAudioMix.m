@@ -40,6 +40,7 @@
         short b = (short)(((sideBytes[_mixingDataIndex + 1] & 0xFF) << 8) | (sideBytes[_mixingDataIndex] & 0xFF));
         
         int mixed = (a + b) / 2;
+        //int mixed = a + b - a * b / 65536.0;
         audioBytes[i] = mixed & 0xFF;
         audioBytes[i + 1] = (mixed >> 8) & 0xFF;
         

@@ -142,8 +142,8 @@
     [self.audioCaptureSource mixSoundSequences:urls];
 }
 
-- (void)playSoundSequences:(nonnull NSArray<NSURL *> *)urls interval:(NSTimeInterval)interval{
-    
+- (void)playSoundSequences:(nonnull NSArray<NSURL *> *)urls interval:(NSTimeInterval)interval {
+    [self playSoundSequences:urls];
 }
 
 #pragma mark -- PrivateMethod

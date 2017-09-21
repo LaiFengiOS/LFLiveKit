@@ -7,6 +7,7 @@
 //
 
 #import "LFStreamRTMPSocket.h"
+#import "RKStreamLog.h"
 
 #if __has_include(<pili-librtmp/rtmp.h>)
 #import <pili-librtmp/rtmp.h>
@@ -270,6 +271,10 @@ SAVC(mp4a);
     if (PILI_RTMP_Connect(_rtmp, NULL, &_error) == FALSE) {
         goto Failed;
     }
+    
+    // logging
+    [RKStreamLog logger].host = [NSString stringWithUTF8String:_rtmp->ipstr];
+    [[RKStreamLog logger] fetchHostStatus];
 
     //连接流
     if (PILI_RTMP_ConnectStream(_rtmp, 0, &_error) == FALSE) {

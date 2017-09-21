@@ -672,6 +672,18 @@
 		BE35EB7B1F5EB4A300B615DF /* RKSoundMix.m in Sources */ = {isa = PBXBuildFile; fileRef = BE35EB6C1F5D2F3500B615DF /* RKSoundMix.m */; };
 		BE35EB7C1F5EB4A500B615DF /* RKAudioMix.m in Sources */ = {isa = PBXBuildFile; fileRef = BE35EB741F5D3EE600B615DF /* RKAudioMix.m */; };
 		BE35EB7D1F5EB4AD00B615DF /* RKDataLinkedList.m in Sources */ = {isa = PBXBuildFile; fileRef = BE35EB781F5D591400B615DF /* RKDataLinkedList.m */; };
+		BE35EB8D1F72736600B615DF /* STDPingServices.h in Headers */ = {isa = PBXBuildFile; fileRef = BE35EB891F72736600B615DF /* STDPingServices.h */; };
+		BE35EB8E1F72736600B615DF /* STDPingServices.h in Headers */ = {isa = PBXBuildFile; fileRef = BE35EB891F72736600B615DF /* STDPingServices.h */; };
+		BE35EB8F1F72736600B615DF /* STDPingServices.m in Sources */ = {isa = PBXBuildFile; fileRef = BE35EB8A1F72736600B615DF /* STDPingServices.m */; };
+		BE35EB901F72736600B615DF /* STDPingServices.m in Sources */ = {isa = PBXBuildFile; fileRef = BE35EB8A1F72736600B615DF /* STDPingServices.m */; };
+		BE35EB911F72736600B615DF /* STSimplePing.h in Headers */ = {isa = PBXBuildFile; fileRef = BE35EB8B1F72736600B615DF /* STSimplePing.h */; };
+		BE35EB921F72736600B615DF /* STSimplePing.h in Headers */ = {isa = PBXBuildFile; fileRef = BE35EB8B1F72736600B615DF /* STSimplePing.h */; };
+		BE35EB931F72736600B615DF /* STSimplePing.m in Sources */ = {isa = PBXBuildFile; fileRef = BE35EB8C1F72736600B615DF /* STSimplePing.m */; };
+		BE35EB941F72736600B615DF /* STSimplePing.m in Sources */ = {isa = PBXBuildFile; fileRef = BE35EB8C1F72736600B615DF /* STSimplePing.m */; };
+		BE35EB9D1F73853100B615DF /* RKStreamLog.h in Headers */ = {isa = PBXBuildFile; fileRef = BE35EB9B1F73853100B615DF /* RKStreamLog.h */; };
+		BE35EB9E1F73853100B615DF /* RKStreamLog.h in Headers */ = {isa = PBXBuildFile; fileRef = BE35EB9B1F73853100B615DF /* RKStreamLog.h */; };
+		BE35EB9F1F73853100B615DF /* RKStreamLog.m in Sources */ = {isa = PBXBuildFile; fileRef = BE35EB9C1F73853100B615DF /* RKStreamLog.m */; };
+		BE35EBA01F73853100B615DF /* RKStreamLog.m in Sources */ = {isa = PBXBuildFile; fileRef = BE35EB9C1F73853100B615DF /* RKStreamLog.m */; };
 		C1296A021E5072C400C992C7 /* RKGPUImageColorMapFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = C1296A001E5072C400C992C7 /* RKGPUImageColorMapFilter.h */; };
 		C1296A031E5072C400C992C7 /* RKGPUImageColorMapFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = C1296A011E5072C400C992C7 /* RKGPUImageColorMapFilter.m */; };
 		C1296A041E50735D00C992C7 /* RKGPUImageColorMapFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = C1296A011E5072C400C992C7 /* RKGPUImageColorMapFilter.m */; };
@@ -1328,6 +1340,12 @@
 		BE35EB741F5D3EE600B615DF /* RKAudioMix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKAudioMix.m; sourceTree = "<group>"; };
 		BE35EB771F5D591400B615DF /* RKDataLinkedList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKDataLinkedList.h; sourceTree = "<group>"; };
 		BE35EB781F5D591400B615DF /* RKDataLinkedList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKDataLinkedList.m; sourceTree = "<group>"; };
+		BE35EB891F72736600B615DF /* STDPingServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STDPingServices.h; sourceTree = "<group>"; };
+		BE35EB8A1F72736600B615DF /* STDPingServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STDPingServices.m; sourceTree = "<group>"; };
+		BE35EB8B1F72736600B615DF /* STSimplePing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STSimplePing.h; sourceTree = "<group>"; };
+		BE35EB8C1F72736600B615DF /* STSimplePing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STSimplePing.m; sourceTree = "<group>"; };
+		BE35EB9B1F73853100B615DF /* RKStreamLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKStreamLog.h; sourceTree = "<group>"; };
+		BE35EB9C1F73853100B615DF /* RKStreamLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKStreamLog.m; sourceTree = "<group>"; };
 		C1296A001E5072C400C992C7 /* RKGPUImageColorMapFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKGPUImageColorMapFilter.h; sourceTree = "<group>"; };
 		C1296A011E5072C400C992C7 /* RKGPUImageColorMapFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKGPUImageColorMapFilter.m; sourceTree = "<group>"; };
 		C1296A061E50C99200C992C7 /* RKGUPImageSoftLightFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKGUPImageSoftLightFilter.h; sourceTree = "<group>"; };
@@ -1519,6 +1537,7 @@
 		84358E851DD1FEB500811FC7 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				BE35EB881F72736500B615DF /* ping */,
 				84358E861DD1FEB500811FC7 /* GPUImage */,
 				84358FE31DD1FEB600811FC7 /* pili-librtmp */,
 			);
@@ -2061,6 +2080,8 @@
 				84D8B5B21D768B6E00752B56 /* LFVideoFrame.m */,
 				BE35EB771F5D591400B615DF /* RKDataLinkedList.h */,
 				BE35EB781F5D591400B615DF /* RKDataLinkedList.m */,
+				BE35EB9B1F73853100B615DF /* RKStreamLog.h */,
+				BE35EB9C1F73853100B615DF /* RKStreamLog.m */,
 			);
 			path = objects;
 			sourceTree = "<group>";
@@ -2103,6 +2124,17 @@
 				BE35EB741F5D3EE600B615DF /* RKAudioMix.m */,
 			);
 			path = mixer;
+			sourceTree = "<group>";
+		};
+		BE35EB881F72736500B615DF /* ping */ = {
+			isa = PBXGroup;
+			children = (
+				BE35EB891F72736600B615DF /* STDPingServices.h */,
+				BE35EB8A1F72736600B615DF /* STDPingServices.m */,
+				BE35EB8B1F72736600B615DF /* STSimplePing.h */,
+				BE35EB8C1F72736600B615DF /* STSimplePing.m */,
+			);
+			path = ping;
 			sourceTree = "<group>";
 		};
 		C16E7CEC1E5341C20067DE28 /* Color Filters */ = {
@@ -2284,6 +2316,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8495F6861DB8F1EE00542124 /* LFLiveDebug.h in Headers */,
+				BE35EB921F72736600B615DF /* STSimplePing.h in Headers */,
 				C1296A091E50C99200C992C7 /* RKGUPImageSoftLightFilter.h in Headers */,
 				BE35EB6D1F5D2F3500B615DF /* RKSoundMix.h in Headers */,
 				8495F6881DB8F1EE00542124 /* LFVideoFrame.h in Headers */,
@@ -2300,6 +2333,7 @@
 				8495F6831DB8F1EE00542124 /* LFLiveSession.h in Headers */,
 				C16E7D381E5349D40067DE28 /* RKGPUImageVioletFilter.h in Headers */,
 				C16E7D3E1E534A120067DE28 /* RKGPUImageMellowFilter.h in Headers */,
+				BE35EB9E1F73853100B615DF /* RKStreamLog.h in Headers */,
 				8495F66F1DB8F14600542124 /* LFLiveKitFramework.h in Headers */,
 				8495F6731DB8F1EE00542124 /* LFAudioCapture.h in Headers */,
 				C16E7D2C1E53496D0067DE28 /* RKGPUImageOceanFilter.h in Headers */,
@@ -2319,6 +2353,7 @@
 				8495F6781DB8F1EE00542124 /* LFVideoEncoder.h in Headers */,
 				C16E7D441E534A420067DE28 /* RKGPUImageBleakFilter.h in Headers */,
 				C16E7D561E534B1C0067DE28 /* RKGPUImageCalmFilter.h in Headers */,
+				BE35EB8E1F72736600B615DF /* STDPingServices.h in Headers */,
 				C16E7D501E534AE60067DE28 /* RKGPUImagePureFilter.h in Headers */,
 				C16E7D9E1E53F6DF0067DE28 /* RKGPUImagePinkyFilter.h in Headers */,
 				8495F6791DB8F1EE00542124 /* LFAudioEncoding.h in Headers */,
@@ -2376,6 +2411,8 @@
 				843590391DD1FEB600811FC7 /* GPUImageDifferenceBlendFilter.h in Headers */,
 				843591441DD1FEB600811FC7 /* GPUImageContext.h in Headers */,
 				843590331DD1FEB600811FC7 /* GPUImageCrosshairGenerator.h in Headers */,
+				BE35EB911F72736600B615DF /* STSimplePing.h in Headers */,
+				BE35EB8D1F72736600B615DF /* STDPingServices.h in Headers */,
 				C16E7D251E5349330067DE28 /* RKGPUImageFreezeFilter.h in Headers */,
 				84D8B5E01D768B6E00752B56 /* LFLiveStreamInfo.h in Headers */,
 				843590471DD1FEB600811FC7 /* GPUImageErosionFilter.h in Headers */,
@@ -2397,6 +2434,7 @@
 				C16E7DA31E53F70F0067DE28 /* RKGPUImageAdventureFilter.h in Headers */,
 				843591551DD1FEB600811FC7 /* handshake.h in Headers */,
 				84D8B5D71D768B6E00752B56 /* LFLiveKit.h in Headers */,
+				BE35EB9D1F73853100B615DF /* RKStreamLog.h in Headers */,
 				8435904D1DD1FEB600811FC7 /* GPUImageFalseColorFilter.h in Headers */,
 				843590111DD1FEB600811FC7 /* GPUImageCannyEdgeDetectionFilter.h in Headers */,
 				8435906F1DD1FEB600811FC7 /* GPUImageHazeFilter.h in Headers */,
@@ -2936,6 +2974,7 @@
 				C16E7D281E5349330067DE28 /* RKGPUImageFreezeFilter.m in Sources */,
 				843591B41DD20A7F00811FC7 /* GPUImageiOSBlurFilter.m in Sources */,
 				843591B51DD20A7F00811FC7 /* GPUImageJFAVoronoiFilter.m in Sources */,
+				BE35EB901F72736600B615DF /* STDPingServices.m in Sources */,
 				843591B61DD20A7F00811FC7 /* GPUImageKuwaharaFilter.m in Sources */,
 				843591B71DD20A7F00811FC7 /* GPUImageKuwaharaRadius3Filter.m in Sources */,
 				C16E7D821E53F5EF0067DE28 /* RKGPUImageGlowFilter.m in Sources */,
@@ -3033,6 +3072,7 @@
 				843592061DD20A7F00811FC7 /* GPUImageTwoInputCrossTextureSamplingFilter.m in Sources */,
 				843592071DD20A7F00811FC7 /* GPUImageTwoInputFilter.m in Sources */,
 				843592081DD20A7F00811FC7 /* GPUImageTwoPassFilter.m in Sources */,
+				BE35EBA01F73853100B615DF /* RKStreamLog.m in Sources */,
 				843592091DD20A7F00811FC7 /* GPUImageTwoPassTextureSamplingFilter.m in Sources */,
 				8435920A1DD20A7F00811FC7 /* GPUImageUIElement.m in Sources */,
 				8435920B1DD20A7F00811FC7 /* GPUImageUnsharpMaskFilter.m in Sources */,
@@ -3066,6 +3106,7 @@
 				8495F6971DB8F27000542124 /* LFGPUImageBeautyFilter.m in Sources */,
 				8495F6981DB8F27000542124 /* LFGPUImageEmptyFilter.m in Sources */,
 				8495F6991DB8F27000542124 /* LFLiveSession.m in Sources */,
+				BE35EB941F72736600B615DF /* STSimplePing.m in Sources */,
 				8495F69A1DB8F27000542124 /* LFAudioFrame.m in Sources */,
 				8495F69B1DB8F27000542124 /* LFFrame.m in Sources */,
 				BE35EB7A1F5D591400B615DF /* RKDataLinkedList.m in Sources */,
@@ -3180,6 +3221,7 @@
 				843590001DD1FEB600811FC7 /* GPUImageAlphaBlendFilter.m in Sources */,
 				843590AE1DD1FEB600811FC7 /* GPUImageMonochromeFilter.m in Sources */,
 				843591321DD1FEB600811FC7 /* GPUImageUIElement.m in Sources */,
+				BE35EB8F1F72736600B615DF /* STDPingServices.m in Sources */,
 				C16E7D271E5349330067DE28 /* RKGPUImageFreezeFilter.m in Sources */,
 				843591201DD1FEB600811FC7 /* GPUImageThresholdSketchFilter.m in Sources */,
 				843590B81DD1FEB600811FC7 /* GPUImageMovieComposition.m in Sources */,
@@ -3277,6 +3319,7 @@
 				8435909E1DD1FEB600811FC7 /* GPUImageLowPassFilter.m in Sources */,
 				843590761DD1FEB600811FC7 /* GPUImageHighPassFilter.m in Sources */,
 				843590F41DD1FEB600811FC7 /* GPUImageSharpenFilter.m in Sources */,
+				BE35EB9F1F73853100B615DF /* RKStreamLog.m in Sources */,
 				843591121DD1FEB600811FC7 /* GPUImageSubtractBlendFilter.m in Sources */,
 				843590101DD1FEB600811FC7 /* GPUImageBulgeDistortionFilter.m in Sources */,
 				8435913A1DD1FEB600811FC7 /* GPUImageVoronoiConsumerFilter.m in Sources */,
@@ -3310,6 +3353,7 @@
 				843590121DD1FEB600811FC7 /* GPUImageCannyEdgeDetectionFilter.m in Sources */,
 				843590041DD1FEB600811FC7 /* GPUImageAverageColor.m in Sources */,
 				843590CC1DD1FEB600811FC7 /* GPUImagePerlinNoiseFilter.m in Sources */,
+				BE35EB931F72736600B615DF /* STSimplePing.m in Sources */,
 				8435906C1DD1FEB600811FC7 /* GPUImageHardLightBlendFilter.m in Sources */,
 				843590321DD1FEB600811FC7 /* GPUImageCropFilter.m in Sources */,
 				843590241DD1FEB600811FC7 /* GPUImageColorInvertFilter.m in Sources */,

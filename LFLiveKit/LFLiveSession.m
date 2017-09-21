@@ -16,6 +16,7 @@
 #import "LFLiveStreamInfo.h"
 #import "LFGPUImageBeautyFilter.h"
 #import "LFH264VideoEncoder.h"
+#import "RKStreamLog.h"
 
 
 @interface LFLiveSession ()<LFAudioCaptureDelegate, LFVideoCaptureDelegate, LFAudioEncodingDelegate, LFVideoEncodingDelegate, LFStreamSocketDelegate>
@@ -102,6 +103,15 @@
     _streamInfo = streamInfo;
     _streamInfo.videoConfiguration = _videoConfiguration;
     _streamInfo.audioConfiguration = _audioConfiguration;
+    
+    [[RKStreamLog logger] fetchInfo];
+    __weak typeof(self) wSelf = self;
+    [RKStreamLog logger].logCallback = ^(NSDictionary *dic) {
+        if ([wSelf.delegate respondsToSelector:@selector(liveSession:log:)]) {
+            [wSelf.delegate liveSession:wSelf log:dic];
+        }
+    };
+    
     [self.socket start];
 }
 
@@ -243,6 +253,9 @@
             [self.delegate liveSession:self errorCode:errorCode];
         }
     });
+    [[RKStreamLog logger] logWithDict:@{@"lt": @"pfld",
+                                        @"er": @(errorCode)
+                                        }];
 }
 
 - (void)socketDebug:(nullable id<LFStreamSocket>)socket debugInfo:(nullable LFLiveDebug *)debugInfo {
@@ -259,23 +272,58 @@
 - (void)socketBufferStatus:(nullable id<LFStreamSocket>)socket status:(LFLiveBuffferState)status {
     if((self.captureType & LFLiveCaptureMaskVideo || self.captureType & LFLiveInputMaskVideo) && self.adaptiveBitrate){
         NSUInteger videoBitRate = [self.videoEncoder videoBitRate];
+        NSUInteger targetBitrate = videoBitRate;
         if (status == LFLiveBuffferDecline) {
             if (videoBitRate < _videoConfiguration.videoMaxBitRate) {
-                videoBitRate = videoBitRate + 50 * 1000;
-                [self.videoEncoder setVideoBitRate:videoBitRate];
-                NSLog(@"Increase bitrate %@", @(videoBitRate));
+                targetBitrate = videoBitRate + 50 * 1000;
+                [self.videoEncoder setVideoBitRate:targetBitrate];
+                NSLog(@"Increase bitrate %@", @(targetBitrate));
             }
         } else {
             if (videoBitRate > self.videoConfiguration.videoMinBitRate) {
-                videoBitRate = videoBitRate - 100 * 1000;
-                [self.videoEncoder setVideoBitRate:videoBitRate];
-                NSLog(@"Decline bitrate %@", @(videoBitRate));
+                targetBitrate = videoBitRate - 100 * 1000;
+                [self.videoEncoder setVideoBitRate:targetBitrate];
+                NSLog(@"Decline bitrate %@", @(targetBitrate));
             }
+        }
+        if (targetBitrate != videoBitRate) {
+            [[RKStreamLog logger] logWithDict:@{@"lt": @"pbrt",
+                                                @"vbr": @(targetBitrate)
+                                                }];
         }
     }
 }
 
 #pragma mark -- Getter Setter
+
+// 17 media
+- (void)setProvider:(NSString *)provider {
+    [RKStreamLog logger].pd = provider;
+}
+
+- (void)setLiveId:(NSString *)liveId {
+    [RKStreamLog logger].sid = liveId;
+}
+
+- (void)setUserId:(NSString *)userId {
+    [RKStreamLog logger].uid = userId;
+}
+
+- (void)setLongitude:(NSString *)longitude {
+    [RKStreamLog logger].lnt = longitude;
+}
+
+- (void)setLatitude:(NSString *)latitude {
+    [RKStreamLog logger].ltt = latitude;
+}
+
+- (void)setRegion:(NSString *)region {
+    [RKStreamLog logger].rg = region;
+}
+
+- (void)setAppVersion:(NSString *)appVersion {
+    [RKStreamLog logger].av17 = appVersion;
+}
 
 - (NSString *)currentColorFilterName {
     return self.videoCaptureSource.currentColorFilterName;

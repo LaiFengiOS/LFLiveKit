@@ -267,6 +267,8 @@ typedef struct PILI_RTMP {
     int m_is_closing;
     int m_tcp_nodelay;
     uint32_t ip;
+    
+    char ipstr[16];
 } PILI_RTMP;
 
 int PILI_RTMP_ParseURL(const char *url, int *protocol, AVal *host,

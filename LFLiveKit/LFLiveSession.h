@@ -50,6 +50,8 @@ typedef NS_ENUM(NSInteger,LFLiveCaptureTypeMask) {
 - (void)liveSession:(nullable LFLiveSession *)session liveStateDidChange:(LFLiveState)state;
 /** live debug info callback */
 - (void)liveSession:(nullable LFLiveSession *)session debugInfo:(nullable LFLiveDebug *)debugInfo;
+/** live stream log callback */
+- (void)liveSession:(nullable LFLiveSession *)session log:(nullable NSDictionary *)dict;
 /** callback socket errorcode */
 - (void)liveSession:(nullable LFLiveSession *)session errorCode:(LFLiveSocketErrorCode)errorCode;
 /** callback inner audio data */
@@ -137,6 +139,15 @@ typedef NS_ENUM(NSInteger,LFLiveCaptureTypeMask) {
 
 /** The mirrorOuput control mirror of output is on or off */
 @property (nonatomic, assign) BOOL mirrorOutput;
+
+// 17 log
+@property (nonatomic, nullable) NSString *liveId;
+@property (nonatomic, nullable) NSString *provider;
+@property (nonatomic, nullable) NSString *userId;
+@property (nonatomic, nullable) NSString *longitude;
+@property (nonatomic, nullable) NSString *latitude;
+@property (nonatomic, nullable) NSString *region;
+@property (nonatomic, nullable) NSString *appVersion;
 
 #pragma mark - Initializer
 ///=============================================================================

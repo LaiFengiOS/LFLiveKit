@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <AVFoundation/AVFoundation.h>
 
 /// 音频码率 (默认96Kbps)
 typedef NS_ENUM (NSUInteger, LFLiveAudioBitRate) {
@@ -65,6 +66,10 @@ typedef NS_ENUM (NSUInteger, LFLiveAudioQuality){
 @property (nonatomic, assign) LFLiveAudioSampleRate audioSampleRate;
 /// 码率
 @property (nonatomic, assign) LFLiveAudioBitRate audioBitrate;
+/// Depending on audio source of PCM bits per channel may vary (default 16)
+@property (nonatomic, assign) NSUInteger inputBitsPerChannel;
+/// Depending on audio source of PCM audio format flags may vary
+@property (nonatomic, assign) AudioFormatFlags inputFormatFlags;
 /// flv编码音频头 44100 为0x12 0x10
 @property (nonatomic, assign, readonly) char *asc;
 /// 缓存区长度

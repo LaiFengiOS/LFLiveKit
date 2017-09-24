@@ -20,6 +20,8 @@
 + (instancetype)defaultConfigurationForQuality:(LFLiveAudioQuality)audioQuality {
     LFLiveAudioConfiguration *audioConfig = [LFLiveAudioConfiguration new];
     audioConfig.numberOfChannels = 2;
+    audioConfig.inputBitsPerChannel = 16;
+    audioConfig.inputFormatFlags = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagsNativeEndian | kAudioFormatFlagIsPacked;
     switch (audioQuality) {
     case LFLiveAudioQuality_Low: {
         audioConfig.audioBitrate = audioConfig.numberOfChannels == 1 ? LFLiveAudioBitRate_32Kbps : LFLiveAudioBitRate_64Kbps;
@@ -77,8 +79,8 @@
     self.asc[1] = ((sampleRateIndex & 0x1)<<7) | ((numberOfChannels & 0xF) << 3);
 }
 
-- (NSUInteger)bufferLength{
-    return 1024*2*self.numberOfChannels;
+- (NSUInteger)bufferLength {
+    return 1024 * (self.inputBitsPerChannel / 8) * self.numberOfChannels;
 }
 
 #pragma mark -- CustomMethod

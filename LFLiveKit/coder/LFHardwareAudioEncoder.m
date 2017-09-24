@@ -145,10 +145,10 @@
     AudioStreamBasicDescription inputFormat = {0};
     inputFormat.mSampleRate = _configuration.audioSampleRate;
     inputFormat.mFormatID = kAudioFormatLinearPCM;
-    inputFormat.mFormatFlags = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagsNativeEndian | kAudioFormatFlagIsPacked;
+    inputFormat.mFormatFlags = _configuration.inputFormatFlags;
     inputFormat.mChannelsPerFrame = (UInt32)_configuration.numberOfChannels;
     inputFormat.mFramesPerPacket = 1;
-    inputFormat.mBitsPerChannel = 16;
+    inputFormat.mBitsPerChannel = _configuration.inputBitsPerChannel;
     inputFormat.mBytesPerFrame = inputFormat.mBitsPerChannel / 8 * inputFormat.mChannelsPerFrame;
     inputFormat.mBytesPerPacket = inputFormat.mBytesPerFrame * inputFormat.mFramesPerPacket;
     

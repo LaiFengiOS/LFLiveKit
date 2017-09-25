@@ -146,6 +146,14 @@
     [self playSoundSequences:urls];
 }
 
+- (void)startBackgroundSound:(nonnull NSURL *)soundUrl {
+    [self.audioCaptureSource mixBackgroundSound:soundUrl];
+}
+
+- (void)stopBackgroundSound {
+    [self.audioCaptureSource mixBackgroundSound:nil];
+}
+
 #pragma mark -- PrivateMethod
 - (void)pushSendBuffer:(LFFrame*)frame{
     if(self.relativeTimestamps == 0){

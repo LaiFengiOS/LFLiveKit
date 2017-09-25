@@ -182,5 +182,9 @@ typedef NS_ENUM(NSInteger,LFLiveCaptureTypeMask) {
 /** Not supported yet. Behavior will be the same as [playSoundSequences:] for now. */
 - (void)playSoundSequences:(nonnull NSArray<NSURL *> *)urls interval:(NSTimeInterval)interval;
 
+- (void)startBackgroundSound:(nonnull NSURL *)soundUrl;
+
+- (void)stopBackgroundSound;
+
 @end
 

@@ -75,7 +75,7 @@
 }
 
 - (BOOL)isFinished {
-    return _mixedSize == _soundData.length;
+    return _mixedSize == _soundData.length && !_repeated;
 }
 
 
@@ -113,6 +113,9 @@
                 audioBytes[j + 1] = (mixed >> 8) & 0xFF;
             }
             _mixedSize += mixSize;
+            if (_mixedSize >= _soundData.length && _repeated) {
+                [self reset];
+            }
         }
     } else {
         for (int i = 0; i < buffers.mNumberBuffers; i++) {
@@ -131,7 +134,11 @@
                 _mixedSize += 2 * 2;
                 
                 if (_mixedSize >= _soundData.length) {
-                    return;
+                    if (_repeated) {
+                        [self reset];
+                    } else {
+                        return;
+                    }
                 }
             }
         }

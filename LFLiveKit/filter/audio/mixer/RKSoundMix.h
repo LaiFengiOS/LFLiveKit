@@ -13,6 +13,7 @@
 
 @property (strong, nonatomic, readonly, nonnull) NSURL *soundURL;
 @property (nonatomic) NSUInteger mixingChannels;
+@property (nonatomic) BOOL repeated;
 @property (nonatomic, readonly) BOOL isFinished;
 
 - (instancetype)initWithURL:(nonnull NSURL *)url;

@@ -24,6 +24,7 @@ NSString *const LFAudioComponentFailedToCreateNotification = @"LFAudioComponentF
 @property (strong, nonatomic) NSMutableArray<NSURL *> *mixSoundQueue;
 
 @property (strong, nonatomic) RKSoundMix *soundMix;
+@property (strong, nonatomic) RKSoundMix *bgSoundMix;
 @property (strong, nonatomic) RKAudioDataMix *audioMix;
 
 @end
@@ -153,7 +154,20 @@ NSString *const LFAudioComponentFailedToCreateNotification = @"LFAudioComponentF
     [self.audioMix pushData:data];
 }
 
+- (void)mixBackgroundSound:(nullable NSURL *)url {
+    if (!url) {
+        self.bgSoundMix = nil;
+    } else if (![self.bgSoundMix.soundURL isEqual:url]) {
+        self.bgSoundMix = [[RKSoundMix alloc] initWithURL:url];
+        self.bgSoundMix.mixingChannels = self.configuration.numberOfChannels;
+        self.bgSoundMix.repeated = YES;
+    }
+}
+
 - (void)processAudio:(AudioBufferList)buffers {
+    if (self.bgSoundMix) {
+        [self.bgSoundMix process:buffers];
+    }
     if (self.soundMix && !self.soundMix.isFinished) {
         [self.soundMix process:buffers];
     } else if (self.mixSoundQueue.count > 0) {

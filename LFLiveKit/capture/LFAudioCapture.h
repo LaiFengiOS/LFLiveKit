@@ -58,4 +58,6 @@ extern NSString *_Nullable const LFAudioComponentFailedToCreateNotification;
 
 - (void)mixSideData:(nonnull NSData *)data;
 
+- (void)mixBackgroundSound:(nullable NSURL *)url;
+
 @end

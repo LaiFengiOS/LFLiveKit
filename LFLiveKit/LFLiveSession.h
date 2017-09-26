@@ -188,5 +188,9 @@ typedef NS_ENUM(NSInteger,LFLiveCaptureTypeMask) {
 
 - (void)stopBackgroundSound;
 
+- (void)restartBackgroundSound;
+
+- (void)stopAllSounds;
+
 @end
 

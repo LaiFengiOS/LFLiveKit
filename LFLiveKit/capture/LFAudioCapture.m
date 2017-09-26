@@ -183,6 +183,12 @@ NSString *const LFAudioComponentFailedToCreateNotification = @"LFAudioComponentF
     }
 }
 
+- (void)stopSoundMixing {
+    self.soundMix = nil;
+    self.soundMixes = nil;
+    self.bgSoundMix = nil;
+}
+
 - (void)processAudio:(AudioBufferList)buffers {
     if (self.bgSoundMix) {
         [self.bgSoundMix process:buffers];

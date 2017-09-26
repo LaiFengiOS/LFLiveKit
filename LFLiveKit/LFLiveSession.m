@@ -68,6 +68,8 @@
 /// 当前是否采集到了关键帧
 @property (nonatomic, assign) BOOL hasKeyFrameVideo;
 
+@property (strong, nonatomic) NSURL *bgSoundURL;
+
 @end
 
 @implementation LFLiveSession
@@ -151,11 +153,21 @@
 }
 
 - (void)startBackgroundSound:(nonnull NSURL *)soundUrl {
+    self.bgSoundURL = soundUrl;
     [self.audioCaptureSource mixBackgroundSound:soundUrl];
 }
 
 - (void)stopBackgroundSound {
     [self.audioCaptureSource mixBackgroundSound:nil];
+}
+
+- (void)restartBackgroundSound {
+    [self stopBackgroundSound];
+    [self startBackgroundSound:self.bgSoundURL];
+}
+
+- (void)stopAllSounds {
+    [self.audioCaptureSource stopSoundMixing];
 }
 
 #pragma mark -- PrivateMethod

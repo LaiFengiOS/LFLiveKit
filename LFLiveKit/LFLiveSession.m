@@ -146,6 +146,10 @@
     [self playSoundSequences:urls];
 }
 
+- (void)playParallelSounds:(nonnull NSSet<NSURL *> *)urls {
+    [self.audioCaptureSource mixSounds:urls];
+}
+
 - (void)startBackgroundSound:(nonnull NSURL *)soundUrl {
     [self.audioCaptureSource mixBackgroundSound:soundUrl];
 }

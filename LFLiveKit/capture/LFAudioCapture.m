@@ -24,6 +24,7 @@ NSString *const LFAudioComponentFailedToCreateNotification = @"LFAudioComponentF
 @property (strong, nonatomic) NSMutableArray<NSURL *> *mixSoundQueue;
 
 @property (strong, nonatomic) RKSoundMix *soundMix;
+@property (strong, nonatomic) NSSet<RKSoundMix *> *soundMixes;
 @property (strong, nonatomic) RKSoundMix *bgSoundMix;
 @property (strong, nonatomic) RKAudioDataMix *audioMix;
 
@@ -131,6 +132,24 @@ NSString *const LFAudioComponentFailedToCreateNotification = @"LFAudioComponentF
     }
 }
 
+- (void)mixSounds:(nonnull NSSet<NSURL *> *)urls {
+    NSMutableSet *urlSet = [urls mutableCopy];
+    NSMutableSet *mixSet = [NSMutableSet new];
+    for (RKSoundMix *mix in self.soundMixes) {
+        if ([urls containsObject:mix.soundURL]) {
+            [mixSet addObject:mix];
+            [urlSet removeObject:mix.soundURL];
+            [mix reset];
+        }
+    }
+    for (NSURL *url in urlSet) {
+        RKSoundMix *mix = [[RKSoundMix alloc] initWithURL:url];
+        mix.mixingChannels = self.configuration.numberOfChannels;
+        [mixSet addObject:mix];
+    }
+    self.soundMixes = mixSet;
+}
+
 - (void)mixSoundSequences:(nonnull NSArray<NSURL *> *)urls {
     @synchronized (_mixSoundQueue) {
         [self.mixSoundQueue addObjectsFromArray:urls];
@@ -173,6 +192,18 @@ NSString *const LFAudioComponentFailedToCreateNotification = @"LFAudioComponentF
     } else if (self.mixSoundQueue.count > 0) {
         [self prepareNextMixSound];
         [self.soundMix process:buffers];
+    }
+    if (self.soundMixes) {
+        BOOL allFinished = YES;
+        for (RKSoundMix *mix in self.soundMixes) {
+            if (!mix.isFinished) {
+                [mix process:buffers];
+                allFinished = NO;
+            }
+        }
+        if (allFinished) {
+            self.soundMixes = nil;
+        }
     }
     [self.delegate captureOutput:self audioBeforeSideMixing:[NSData dataWithBytes:buffers.mBuffers[0].mData length:buffers.mBuffers[0].mDataByteSize]];
 

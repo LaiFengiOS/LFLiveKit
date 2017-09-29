@@ -60,30 +60,32 @@
         return;
     }
     
+    
     if(leftLength + audioData.length >= self.configuration.bufferLength){
-        ///<  发送
+        ///<  发送  达到发送大小
         NSInteger totalSize = leftLength + audioData.length;
-        NSInteger encodeCount = totalSize/self.configuration.bufferLength;
+        NSInteger encodeCount = totalSize/self.configuration.bufferLength;//audioData.length比较大，totalSize可能会是bufferLengthleft多倍
         char *totalBuf = malloc(totalSize);
         char *p = totalBuf;
         
-        memset(totalBuf, (int)totalSize, 0);
-        memcpy(totalBuf, leftBuf, leftLength);
-        memcpy(totalBuf + leftLength, audioData.bytes, audioData.length);
+        memset(totalBuf, 0, (int)totalSize);//初始化totalBuf
+        memcpy(totalBuf, leftBuf, leftLength);//copy上次剩余
+        memcpy(totalBuf + leftLength, audioData.bytes, audioData.length);////copy此次数据
         
         for(NSInteger index = 0;index < encodeCount;index++){
+            //从p的位置开始发送，发送bufferLength大小
             [self encodeBuffer:p  timeStamp:timeStamp];
             p += self.configuration.bufferLength;
         }
         
-        leftLength = totalSize%self.configuration.bufferLength;
-        memset(leftBuf, 0, self.configuration.bufferLength);
-        memcpy(leftBuf, totalBuf + (totalSize -leftLength), leftLength);
+        leftLength = totalSize%self.configuration.bufferLength;//改变发送剩余数据大小leftLength
+        memset(leftBuf, 0, self.configuration.bufferLength);//将leftBuf起始位置到bufferLength置0
+        memcpy(leftBuf, totalBuf + (totalSize -leftLength), leftLength);//将totalBuf剩余的放倒leftBuf当中，下次发送
         
         free(totalBuf);
         
     }else{
-        ///< 积累
+        ///< 积累  未达到发送大小
         memcpy(leftBuf+leftLength, audioData.bytes, audioData.length);
         leftLength = leftLength + audioData.length;
     }

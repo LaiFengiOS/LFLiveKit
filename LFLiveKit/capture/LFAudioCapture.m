@@ -8,6 +8,7 @@
 
 #import "LFAudioCapture.h"
 #import "RKSoundMix.h"
+#import "RKMultiAudioMix.h"
 #import <AudioToolbox/AudioToolbox.h>
 #import <AVFoundation/AVFoundation.h>
 
@@ -21,12 +22,16 @@ NSString *const LFAudioComponentFailedToCreateNotification = @"LFAudioComponentF
 @property (nonatomic, assign) BOOL isRunning;
 @property (nonatomic, strong,nullable) LFLiveAudioConfiguration *configuration;
 
-@property (strong, nonatomic) NSMutableArray<NSURL *> *mixSoundQueue;
+@property (strong, nonatomic) NSMutableArray<RKAudioMixPart *> *urlmixPartQueue;
 
-@property (strong, nonatomic) RKSoundMix *soundMix;
-@property (strong, nonatomic) NSSet<RKSoundMix *> *soundMixes;
-@property (strong, nonatomic) RKSoundMix *bgSoundMix;
-@property (strong, nonatomic) RKAudioDataMix *audioMix;
+@property (strong, nonatomic) NSMutableDictionary<NSURL *, RKAudioURLMixSrc *> *urlSrcCache;
+
+@property (strong, nonatomic) NSMutableDictionary<NSURL *, RKAudioMixPart *> *urlMixParts;
+
+@property (strong, nonatomic) RKAudioMixPart *sideDataPart;
+
+@property (weak, nonatomic) RKAudioMixPart *playingPartSingle;
+@property (weak, nonatomic) RKAudioMixPart *playingPartInQueue;
 
 @end
 
@@ -100,7 +105,9 @@ NSString *const LFAudioComponentFailedToCreateNotification = @"LFAudioComponentF
         
         [session setActive:YES error:nil];
         
-        _mixSoundQueue = [NSMutableArray new];
+        _urlmixPartQueue = [NSMutableArray new];
+        _urlSrcCache = [NSMutableDictionary  new];
+        _urlMixParts = [NSMutableDictionary new];
     }
     return self;
 }
@@ -119,103 +126,127 @@ NSString *const LFAudioComponentFailedToCreateNotification = @"LFAudioComponentF
     });
 }
 
-- (void)mixSound:(nonnull NSURL *)url {
-    if ([self.soundMix.soundURL isEqual:url]) {
-        if (!self.soundMix.isFinished) {
-            return;
-        } else {
-            [self.soundMix reset];
-        }
+- (RKAudioURLMixSrc *)sourceWithURL:(NSURL *)url {
+    RKAudioURLMixSrc *src = self.urlSrcCache[url];
+    if (!src) {
+        src = [[RKAudioURLMixSrc alloc] initWithURL:url];
+        src.mixingChannels = self.configuration.numberOfChannels;
+        self.urlSrcCache[url] = src;
+    }
+    return src;
+}
+
+- (void)mixSound:(nonnull NSURL *)url weight:(float)weight {
+    [self mixSound:url weight:weight repeated:NO];
+}
+
+- (void)mixSound:(nonnull NSURL *)url weight:(float)weight repeated:(BOOL)repeated {
+    RKAudioMixPart *part = self.urlMixParts[url];
+    if (part) {
+        [(RKAudioURLMixSrc*)part.source reset];
+        ((RKAudioURLMixSrc*)part.source).repeated = repeated;
     } else {
-        self.soundMix = [[RKSoundMix alloc] initWithURL:url];
-        self.soundMix.mixingChannels = self.configuration.numberOfChannels;
-    }
-}
-
-- (void)mixSounds:(nonnull NSSet<NSURL *> *)urls {
-    NSMutableSet *urlSet = [urls mutableCopy];
-    NSMutableSet *mixSet = [NSMutableSet new];
-    for (RKSoundMix *mix in self.soundMixes) {
-        if ([urls containsObject:mix.soundURL]) {
-            [mixSet addObject:mix];
-            [urlSet removeObject:mix.soundURL];
-            [mix reset];
+        if ([self.playingPartSingle.source isKindOfClass:RKAudioURLMixSrc.class]) {
+            NSURL *url = ((RKAudioURLMixSrc*)self.playingPartSingle.source).soundURL;
+            self.urlMixParts[url] = nil;
         }
+        RKAudioURLMixSrc *src = [self sourceWithURL:url];
+        [src reset];
+        src.repeated = repeated;
+        part = [[RKAudioMixPart alloc] init];
+        part.source = src;
+        self.urlMixParts[url] = part;
     }
-    for (NSURL *url in urlSet) {
-        RKSoundMix *mix = [[RKSoundMix alloc] initWithURL:url];
-        mix.mixingChannels = self.configuration.numberOfChannels;
-        [mixSet addObject:mix];
-    }
-    self.soundMixes = mixSet;
+    part.weight = weight;
+    self.playingPartSingle = part;
 }
 
-- (void)mixSoundSequences:(nonnull NSArray<NSURL *> *)urls {
-    @synchronized (_mixSoundQueue) {
-        [self.mixSoundQueue addObjectsFromArray:urls];
+- (void)mixSounds:(nonnull NSArray<NSURL *> *)urls weights:(nonnull NSArray<NSNumber *> *)weights {
+    for (int i = 0; i < urls.count; i++) {
+        NSURL *url = urls[i];
+        RKAudioMixPart *part = self.urlMixParts[url];
+        if (part) {
+            [(RKAudioURLMixSrc*)part.source reset];
+            ((RKAudioURLMixSrc*)part.source).repeated = NO;
+        } else {
+            RKAudioURLMixSrc *src = [self sourceWithURL:url];
+            [src reset];
+            src.repeated = NO;
+            part = [[RKAudioMixPart alloc] init];
+            part.source = src;
+            self.urlMixParts[url] = part;
+        }
+        part.weight = i < weights.count ? weights[i].floatValue : 0.5;
+    }
+}
+
+- (void)mixSoundSequences:(nonnull NSArray<NSURL *> *)urls weight:(float)weight {
+    @synchronized (_urlmixPartQueue) {
+        for (NSURL *url in urls) {
+            RKAudioURLMixSrc *src = [self sourceWithURL:url];
+            [src reset];
+            src.repeated = NO;
+            RKAudioMixPart *part = [[RKAudioMixPart alloc] init];
+            part.source = src;
+            part.weight = weight;
+            [self.urlmixPartQueue addObject:part];
+        }
     }
 }
 
 - (void)prepareNextMixSound {
-    @synchronized (_mixSoundQueue) {
-        NSURL *url = self.mixSoundQueue.firstObject;
-        if (url) {
-            [self mixSound:url];
-            [self.mixSoundQueue removeObjectAtIndex:0];
+    @synchronized (_urlmixPartQueue) {
+        RKAudioMixPart *part = self.urlmixPartQueue.firstObject;
+        if (part) {
+            [(RKAudioURLMixSrc*)part.source reset];
+            NSURL *url = ((RKAudioURLMixSrc*)part.source).soundURL;
+            self.urlMixParts[url] = part;
+            self.playingPartInQueue = part;
+            [self.urlmixPartQueue removeObjectAtIndex:0];
         }
     }
 }
 
-- (void)mixSideData:(nonnull NSData *)data {
-    if (!self.audioMix) {
-        self.audioMix = [[RKAudioDataMix alloc] init];
+- (void)mixSideData:(nonnull NSData *)data weight:(float)weight {
+    if (!self.sideDataPart) {
+        self.sideDataPart = [[RKAudioMixPart alloc] init];
+        self.sideDataPart.source = [[RKAudioDataMixSrc alloc] init];
     }
-    [self.audioMix pushData:data];
+    self.sideDataPart.weight = weight;
+    [(RKAudioDataMixSrc*)self.sideDataPart.source pushData:data];
 }
 
-- (void)mixBackgroundSound:(nullable NSURL *)url {
-    if (!url) {
-        self.bgSoundMix = nil;
-    } else if (![self.bgSoundMix.soundURL isEqual:url]) {
-        self.bgSoundMix = [[RKSoundMix alloc] initWithURL:url];
-        self.bgSoundMix.mixingChannels = self.configuration.numberOfChannels;
-        self.bgSoundMix.repeated = YES;
-    }
+- (void)stopMixSound:(NSURL *)url {
+    self.urlMixParts[url] = nil;
 }
 
-- (void)stopSoundMixing {
-    self.soundMix = nil;
-    self.soundMixes = nil;
-    self.bgSoundMix = nil;
+- (void)stopMixAllSounds {
+    @synchronized(_urlmixPartQueue) {
+        [self.urlmixPartQueue removeAllObjects];
+    }
+    [self.urlMixParts removeAllObjects];
 }
 
 - (void)processAudio:(AudioBufferList)buffers {
-    if (self.bgSoundMix) {
-        [self.bgSoundMix process:buffers];
+    for (NSURL *url in self.urlMixParts.allKeys) {
+        RKAudioMixPart *part = self.urlMixParts[url];
+        RKAudioURLMixSrc *src = part.source;
+        if (src.isFinished) {
+            self.urlMixParts[url] = nil;
+        }
     }
-    if (self.soundMix && !self.soundMix.isFinished) {
-        [self.soundMix process:buffers];
-    } else if (self.mixSoundQueue.count > 0) {
+    if (!self.playingPartInQueue && self.urlmixPartQueue.count > 0) {
         [self prepareNextMixSound];
-        [self.soundMix process:buffers];
     }
-    if (self.soundMixes) {
-        BOOL allFinished = YES;
-        for (RKSoundMix *mix in self.soundMixes) {
-            if (!mix.isFinished) {
-                [mix process:buffers];
-                allFinished = NO;
-            }
-        }
-        if (allFinished) {
-            self.soundMixes = nil;
-        }
-    }
+    
+    [RKMultiAudioMix mixParts:self.urlMixParts.allValues onAudio:buffers];
+    
     [self.delegate captureOutput:self audioBeforeSideMixing:[NSData dataWithBytes:buffers.mBuffers[0].mData length:buffers.mBuffers[0].mDataByteSize]];
 
-    if (self.audioMix) {
-        [self.audioMix process:buffers];
+    if (self.sideDataPart) {
+        [RKMultiAudioMix mixParts:@[self.sideDataPart] onAudio:buffers];
     }
+
     if (self.muted) {
         for (int i = 0; i < buffers.mNumberBuffers; i++) {
             AudioBuffer ab = buffers.mBuffers[i];

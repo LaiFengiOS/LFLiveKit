@@ -70,6 +70,7 @@
 @property (nonatomic, assign) BOOL hasKeyFrameVideo;
 
 @property (strong, nonatomic) NSURL *bgSoundURL;
+@property (assign, nonatomic) LFAudioMixVolume bgSoundVolume;
 
 @end
 
@@ -133,7 +134,7 @@
         
     } else if(self.captureType & LFLiveMixMaskAudioInputVideo) {
         if (audioData) {
-            [self.audioCaptureSource mixSideData:audioData];
+            [self.audioCaptureSource mixSideData:audioData weight:LFAudioMixVolumeVeryHigh / 10.0];
         }
     }
 }
@@ -147,11 +148,19 @@
 }
 
 - (void)playSound:(nonnull NSURL *)soundUrl {
-    [self.audioCaptureSource mixSound:soundUrl];
+    [self playSound:soundUrl volume:LFAudioMixVolumeHigh];
+}
+
+- (void)playSound:(nonnull NSURL *)soundUrl volume:(LFAudioMixVolume)volume {
+    [self.audioCaptureSource mixSound:soundUrl weight:volume / 10.0];
 }
 
 - (void)playSoundSequences:(nonnull NSArray<NSURL *> *)urls {
-    [self.audioCaptureSource mixSoundSequences:urls];
+    [self playSoundSequences:urls volume:LFAudioMixVolumeHigh];
+}
+
+- (void)playSoundSequences:(nonnull NSArray<NSURL *> *)urls volume:(LFAudioMixVolume)volume {
+    [self.audioCaptureSource mixSoundSequences:urls weight:volume / 10.0];
 }
 
 - (void)playSoundSequences:(nonnull NSArray<NSURL *> *)urls interval:(NSTimeInterval)interval {
@@ -159,25 +168,38 @@
 }
 
 - (void)playParallelSounds:(nonnull NSSet<NSURL *> *)urls {
-    [self.audioCaptureSource mixSounds:urls];
+    [self playParallelSounds:urls.allObjects volumes:nil];
+}
+
+- (void)playParallelSounds:(nonnull NSArray<NSURL *> *)urls volumes:(NSArray<NSNumber *> *)volumes {
+    NSMutableArray<NSNumber *> *weights = [NSMutableArray new];
+    for (int i = 0; i < urls.count; i++) {
+        [weights addObject:i < volumes.count ? @(volumes[i].unsignedIntegerValue / 10.0) : @(LFAudioMixVolumeNormal / 10.0)];
+    }
+    [self.audioCaptureSource mixSounds:urls weights:weights];
 }
 
 - (void)startBackgroundSound:(nonnull NSURL *)soundUrl {
+    [self startBackgroundSound:soundUrl volume:LFAudioMixVolumeVeryLow];
+}
+
+- (void)startBackgroundSound:(nonnull NSURL *)soundUrl volume:(LFAudioMixVolume)volume {
     self.bgSoundURL = soundUrl;
-    [self.audioCaptureSource mixBackgroundSound:soundUrl];
+    self.bgSoundVolume = volume;
+    [self.audioCaptureSource mixSound:soundUrl weight:volume / 10.0 repeated:YES];
 }
 
 - (void)stopBackgroundSound {
-    [self.audioCaptureSource mixBackgroundSound:nil];
+    [self.audioCaptureSource stopMixSound:self.bgSoundURL];
 }
 
 - (void)restartBackgroundSound {
     [self stopBackgroundSound];
-    [self startBackgroundSound:self.bgSoundURL];
+    [self startBackgroundSound:self.bgSoundURL volume:self.bgSoundVolume];
 }
 
 - (void)stopAllSounds {
-    [self.audioCaptureSource stopSoundMixing];
+    [self.audioCaptureSource stopMixAllSounds];
 }
 
 #pragma mark -- PrivateMethod

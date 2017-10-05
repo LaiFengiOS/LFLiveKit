@@ -42,6 +42,14 @@ typedef NS_ENUM(NSInteger,LFLiveCaptureTypeMask) {
     LFLiveCaptureDefaultMask = LFLiveCaptureMaskAll                                     ///< default is inner capture audio and video
 };
 
+typedef NS_ENUM(NSUInteger, LFAudioMixVolume) {
+    LFAudioMixVolumeVeryLow = 1,
+    LFAudioMixVolumeLow = 3,
+    LFAudioMixVolumeNormal = 5,
+    LFAudioMixVolumeHigh = 7,
+    LFAudioMixVolumeVeryHigh = 10
+};
+
 @class LFLiveSession;
 @protocol LFLiveSessionDelegate <NSObject>
 
@@ -186,16 +194,25 @@ typedef NS_ENUM(NSInteger,LFLiveCaptureTypeMask) {
 /** Switch to next color filter. */
 - (void)nextColorFilter;
 
+// volume is LFAudioMixVolumeNormal
 - (void)playSound:(nonnull NSURL *)soundUrl;
 
+- (void)playSound:(nonnull NSURL *)soundUrl volume:(LFAudioMixVolume)volume;
+
 - (void)playSoundSequences:(nonnull NSArray<NSURL *> *)urls;
+
+- (void)playSoundSequences:(nonnull NSArray<NSURL *> *)urls volume:(LFAudioMixVolume)volume;
 
 /** Not supported yet. Behavior will be the same as [playSoundSequences:] for now. */
 - (void)playSoundSequences:(nonnull NSArray<NSURL *> *)urls interval:(NSTimeInterval)interval;
 
 - (void)playParallelSounds:(nonnull NSSet<NSURL *> *)urls;
 
+- (void)playParallelSounds:(nonnull NSArray<NSURL *> *)urls volumes:(NSArray<NSNumber *> *)volumes;
+
 - (void)startBackgroundSound:(nonnull NSURL *)soundUrl;
+
+- (void)startBackgroundSound:(nonnull NSURL *)soundUrl volume:(LFAudioMixVolume)volume;
 
 - (void)stopBackgroundSound;
 

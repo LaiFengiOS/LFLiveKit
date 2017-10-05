@@ -52,16 +52,18 @@ extern NSString *_Nullable const LFAudioComponentFailedToCreateNotification;
  */
 - (nullable instancetype)initWithAudioConfiguration:(nullable LFLiveAudioConfiguration *)configuration NS_DESIGNATED_INITIALIZER;
 
-- (void)mixSound:(nonnull NSURL *)url;
+- (void)mixSound:(nonnull NSURL *)url weight:(float)weight;
 
-- (void)mixSounds:(nonnull NSSet<NSURL *> *)urls;
+- (void)mixSound:(nonnull NSURL *)url weight:(float)weight repeated:(BOOL)repeated;
 
-- (void)mixSoundSequences:(nonnull NSArray<NSURL *> *)urls;
+- (void)mixSounds:(nonnull NSArray<NSURL *> *)urls weights:(nonnull NSArray<NSNumber *> *)weights;
 
-- (void)mixSideData:(nonnull NSData *)data;
+- (void)mixSoundSequences:(nonnull NSArray<NSURL *> *)urls weight:(float)weight;
 
-- (void)mixBackgroundSound:(nullable NSURL *)url;
+- (void)mixSideData:(nonnull NSData *)data weight:(float)weight;
 
-- (void)stopSoundMixing;
+- (void)stopMixSound:(nonnull NSURL *)url;
+
+- (void)stopMixAllSounds;
 
 @end

@@ -675,7 +675,7 @@ print_bytes(void   *start,
             self.isConnecting = NO;
             self.isReconnecting = YES;
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self performSelector:@selector(_reconnect) withObject:nil afterDelay:self.reconnectInterval];
+                 [self performSelector:@selector(_delayedReconnect) withObject:nil afterDelay:self.reconnectInterval];
             });
             
         } else if (self.retryTimes4netWorkBreaken >= self.reconnectCount) {
@@ -689,9 +689,16 @@ print_bytes(void   *start,
     });
 }
 
-- (void)_reconnect{
+- (void)_delayedReconnect {
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
-    
+
+    dispatch_async(self.rtmpSendQueue, ^{
+	    [self _reconnect];
+    });
+}
+
+- (void)_reconnect {
+
     _isReconnecting = NO;
     if (_isConnected) return;
     

@@ -98,35 +98,36 @@
     inBuffer.mData = buf;
     inBuffer.mDataByteSize = (UInt32)self.configuration.bufferLength;
     
+    // 初始化一个输入缓冲列表 
     AudioBufferList buffers;
-    buffers.mNumberBuffers = 1;
+    buffers.mNumberBuffers = 1;//只有一个inBuffer
     buffers.mBuffers[0] = inBuffer;
     
     
-    // 初始化一个输出缓冲列表
+    // 初始化一个输出缓冲列表 
     AudioBufferList outBufferList;
-    outBufferList.mNumberBuffers = 1;
+    outBufferList.mNumberBuffers = 1;//只有一个outBuffer
     outBufferList.mBuffers[0].mNumberChannels = inBuffer.mNumberChannels;
     outBufferList.mBuffers[0].mDataByteSize = inBuffer.mDataByteSize;   // 设置缓冲区大小
-    outBufferList.mBuffers[0].mData = aacBuf;           // 设置AAC缓冲区
+    outBufferList.mBuffers[0].mData = aacBuf;           // 设置AAC缓冲区 编码后数据存放的位置
     UInt32 outputDataPacketSize = 1;
     if (AudioConverterFillComplexBuffer(m_converter, inputDataProc, &buffers, &outputDataPacketSize, &outBufferList, NULL) != noErr) {
         return;
     }
-    
+    //封装为LFAudioFrame方便以后推流使用
     LFAudioFrame *audioFrame = [LFAudioFrame new];
     audioFrame.timestamp = timeStamp;
     audioFrame.data = [NSData dataWithBytes:aacBuf length:outBufferList.mBuffers[0].mDataByteSize];
     
-    char exeData[2];
+    char exeData[2];//flv编码音频头 44100 为0x12 0x10
     exeData[0] = _configuration.asc[0];
     exeData[1] = _configuration.asc[1];
     audioFrame.audioInfo = [NSData dataWithBytes:exeData length:2];
     if (self.aacDeleage && [self.aacDeleage respondsToSelector:@selector(audioEncoder:audioFrame:)]) {
-        [self.aacDeleage audioEncoder:self audioFrame:audioFrame];
+        [self.aacDeleage audioEncoder:self audioFrame:audioFrame];//调用编码完成后代理
     }
     
-    if (self->enabledWriteVideoFile) {
+    if (self->enabledWriteVideoFile) {//写入本地文件中，debug时调用
         NSData *adts = [self adtsData:_configuration.numberOfChannels rawDataLength:audioFrame.data.length];
         fwrite(adts.bytes, 1, adts.length, self->fp);
         fwrite(audioFrame.data.bytes, 1, audioFrame.data.length, self->fp);
@@ -143,45 +144,47 @@
     if (m_converter != nil) {
         return TRUE;
     }
-    
+    // 音频输入描述
     AudioStreamBasicDescription inputFormat = {0};
-    inputFormat.mSampleRate = _configuration.audioSampleRate;
-    inputFormat.mFormatID = kAudioFormatLinearPCM;
-    inputFormat.mFormatFlags = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagsNativeEndian | kAudioFormatFlagIsPacked;
-    inputFormat.mChannelsPerFrame = (UInt32)_configuration.numberOfChannels;
-    inputFormat.mFramesPerPacket = 1;
-    inputFormat.mBitsPerChannel = 16;
-    inputFormat.mBytesPerFrame = inputFormat.mBitsPerChannel / 8 * inputFormat.mChannelsPerFrame;
-    inputFormat.mBytesPerPacket = inputFormat.mBytesPerFrame * inputFormat.mFramesPerPacket;
+    inputFormat.mSampleRate = _configuration.audioSampleRate;// 采样率
+    inputFormat.mFormatID = kAudioFormatLinearPCM;// 数据格式
+    inputFormat.mFormatFlags = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagsNativeEndian | kAudioFormatFlagIsPacked;// 格式标识
+    inputFormat.mChannelsPerFrame = (UInt32)_configuration.numberOfChannels;// 声道数
+    inputFormat.mFramesPerPacket = 1;//packet中包含的frame数目，无压缩时为1，可变比特率时，一个大点儿的固定值例如在ACC中1024。
+    inputFormat.mBitsPerChannel = 16;// 每个声道比特数，语音每采样点占用位数 
+    inputFormat.mBytesPerFrame = inputFormat.mBitsPerChannel / 8 * inputFormat.mChannelsPerFrame;// 每帧多少字节
+    inputFormat.mBytesPerPacket = inputFormat.mBytesPerFrame * inputFormat.mFramesPerPacket;// 一个packet中的字节数目，如果时可变的packet则为0
     
+    // 音频输出描述
     AudioStreamBasicDescription outputFormat; // 这里开始是输出音频格式
-    memset(&outputFormat, 0, sizeof(outputFormat));
+    memset(&outputFormat, 0, sizeof(outputFormat));// 初始化
     outputFormat.mSampleRate = inputFormat.mSampleRate;       // 采样率保持一致
     outputFormat.mFormatID = kAudioFormatMPEG4AAC;            // AAC编码 kAudioFormatMPEG4AAC kAudioFormatMPEG4AAC_HE_V2
     outputFormat.mChannelsPerFrame = (UInt32)_configuration.numberOfChannels;;
     outputFormat.mFramesPerPacket = 1024;                     // AAC一帧是1024个字节
     
     const OSType subtype = kAudioFormatMPEG4AAC;
+    //两种编码方式  软编码 硬编码
     AudioClassDescription requestedCodecs[2] = {
         {
             kAudioEncoderComponentType,
             subtype,
-            kAppleSoftwareAudioCodecManufacturer
+            kAppleSoftwareAudioCodecManufacturer// 软编码
         },
         {
             kAudioEncoderComponentType,
             subtype,
-            kAppleHardwareAudioCodecManufacturer
+            kAppleHardwareAudioCodecManufacturer// 硬编码
         }
     };
     
-    OSStatus result = AudioConverterNewSpecific(&inputFormat, &outputFormat, 2, requestedCodecs, &m_converter);;
+    OSStatus result = AudioConverterNewSpecific(&inputFormat, &outputFormat, 2, requestedCodecs, &m_converter);//创建AudioConverter ：输入描述，输出描述，requestedCodecs的数量，支持的编码方式，AudioConverter
     UInt32 outputBitrate = _configuration.audioBitrate;
     UInt32 propSize = sizeof(outputBitrate);
     
     
     if(result == noErr) {
-        result = AudioConverterSetProperty(m_converter, kAudioConverterEncodeBitRate, propSize, &outputBitrate);
+        result = AudioConverterSetProperty(m_converter, kAudioConverterEncodeBitRate, propSize, &outputBitrate);//设置码率
     }
     
     return YES;

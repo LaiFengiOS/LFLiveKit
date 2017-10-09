@@ -204,6 +204,7 @@ static void VideoCompressonOutputCallback(void *VTref, void *VTFrameRef, OSStatu
     if (statusCodeRet == noErr) {
         size_t bufferOffset = 0;
         static const int AVCCHeaderLength = 4;
+        // 循环获取nalu数据
         while (bufferOffset < totalLength - AVCCHeaderLength) {
             // Read the NAL unit length
             uint32_t NALUnitLength = 0;

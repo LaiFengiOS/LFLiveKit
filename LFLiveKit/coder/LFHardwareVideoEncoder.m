@@ -214,7 +214,7 @@ static void VideoCompressonOutputCallback(void *VTref, void *VTFrameRef, OSStatu
             memcpy(&NALUnitLength, dataPointer + bufferOffset, AVCCHeaderLength);
             
 
-            //关于大端和小端模式，请参考此网址：http://blog.csdn.net/sunjie886/article/details/54944810
+            //大小端转化，关于大端和小端模式，请参考此网址：http://blog.csdn.net/sunjie886/article/details/54944810
             NALUnitLength = CFSwapInt32BigToHost(NALUnitLength);
 
             //封装视频数据LFVideoFrame,方便以后推流

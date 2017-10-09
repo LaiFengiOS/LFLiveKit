@@ -179,6 +179,9 @@ static void VideoCompressonOutputCallback(void *VTref, void *VTFrameRef, OSStatu
             if (statusCode == noErr) {
                 videoEncoder->sps = [NSData dataWithBytes:sparameterSet length:sparameterSetSize];//设置sps
                 videoEncoder->pps = [NSData dataWithBytes:pparameterSet length:pparameterSetSize];//这只pps
+                //数据处理时，sps pps 数据可以作为一个普通h264帧，放在h264视频流的最前面。
+                //如果保存到文件中，需要将此数据前加上 [0 0 0 1] 4个字节，写入到h264文件的最前面。
+                //如果推流，将此数据放入flv数据区即可。
 
                 if (videoEncoder->enabledWriteVideoFile) {//debug
                     NSMutableData *data = [[NSMutableData alloc] init];
@@ -209,7 +212,9 @@ static void VideoCompressonOutputCallback(void *VTref, void *VTFrameRef, OSStatu
             // Read the NAL unit length
             uint32_t NALUnitLength = 0;
             memcpy(&NALUnitLength, dataPointer + bufferOffset, AVCCHeaderLength);
+            
 
+            //关于大端和小端模式，请参考此网址：http://blog.csdn.net/sunjie886/article/details/54944810
             NALUnitLength = CFSwapInt32BigToHost(NALUnitLength);
 
             //封装视频数据LFVideoFrame,方便以后推流

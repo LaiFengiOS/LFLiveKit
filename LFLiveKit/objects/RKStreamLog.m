@@ -44,7 +44,7 @@
     if (self.av17) dic[@"av17"] = self.av17;
     if (self.host) dic[@"host"] = self.host;
     if (self.pt) dic[@"pt"] = self.pt;
-    if (self.url) dic[@"url"] = self.url;
+    //if (self.url) dic[@"url"] = self.url;
     if (self.sid) dic[@"sid"] = self.sid;
     return dic;
 }

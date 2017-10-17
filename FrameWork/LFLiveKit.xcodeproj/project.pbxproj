@@ -24,7 +24,7 @@
 /* Begin PBXBuildFile section */
 		84358FF41DD1FEB600811FC7 /* GLProgram.h in Headers */ = {isa = PBXBuildFile; fileRef = 84358E871DD1FEB500811FC7 /* GLProgram.h */; };
 		84358FF51DD1FEB600811FC7 /* GLProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = 84358E881DD1FEB500811FC7 /* GLProgram.m */; };
-		84358FF61DD1FEB600811FC7 /* GPUImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 84358E891DD1FEB500811FC7 /* GPUImage.h */; };
+		84358FF61DD1FEB600811FC7 /* GPUImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 84358E891DD1FEB500811FC7 /* GPUImage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		84358FF71DD1FEB600811FC7 /* GPUImage3x3ConvolutionFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 84358E8A1DD1FEB500811FC7 /* GPUImage3x3ConvolutionFilter.h */; };
 		84358FF81DD1FEB600811FC7 /* GPUImage3x3ConvolutionFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 84358E8B1DD1FEB500811FC7 /* GPUImage3x3ConvolutionFilter.m */; };
 		84358FF91DD1FEB600811FC7 /* GPUImage3x3TextureSamplingFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 84358E8C1DD1FEB500811FC7 /* GPUImage3x3TextureSamplingFilter.h */; };
@@ -690,6 +690,7 @@
 		BE388E8D1F821360000499F8 /* RKAudioMixSource.m in Sources */ = {isa = PBXBuildFile; fileRef = BE388E8B1F821360000499F8 /* RKAudioMixSource.m */; };
 		BE388E8E1F83328D000499F8 /* RKMultiAudioMix.m in Sources */ = {isa = PBXBuildFile; fileRef = BE388E7F1F821059000499F8 /* RKMultiAudioMix.m */; };
 		BE388E8F1F833290000499F8 /* RKAudioMixSource.m in Sources */ = {isa = PBXBuildFile; fileRef = BE388E8B1F821360000499F8 /* RKAudioMixSource.m */; };
+		BE4059691F95CF0E00BF9962 /* GPUImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 84358E891DD1FEB500811FC7 /* GPUImage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C1296A021E5072C400C992C7 /* RKGPUImageColorMapFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = C1296A001E5072C400C992C7 /* RKGPUImageColorMapFilter.h */; };
 		C1296A031E5072C400C992C7 /* RKGPUImageColorMapFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = C1296A011E5072C400C992C7 /* RKGPUImageColorMapFilter.m */; };
 		C1296A041E50735D00C992C7 /* RKGPUImageColorMapFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = C1296A011E5072C400C992C7 /* RKGPUImageColorMapFilter.m */; };
@@ -2338,6 +2339,7 @@
 				8495F6851DB8F1EE00542124 /* LFFrame.h in Headers */,
 				C16E7D4A1E534A820067DE28 /* RKGPUImageMemoryFilter.h in Headers */,
 				8495F6841DB8F1EE00542124 /* LFAudioFrame.h in Headers */,
+				BE4059691F95CF0E00BF9962 /* GPUImage.h in Headers */,
 				C16E7D7A1E53F5C50067DE28 /* RKGPUImageDeepFilter.h in Headers */,
 				C16E7D021E5347CC0067DE28 /* RKGPUImageSoftFilter.h in Headers */,
 				C16E7D621E53F4DF0067DE28 /* RKGPUImageFantasyFilter.h in Headers */,
@@ -2402,6 +2404,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84358FF61DD1FEB600811FC7 /* GPUImage.h in Headers */,
 				84D8B5DE1D768B6E00752B56 /* LFLiveDebug.h in Headers */,
 				C16E7D731E53F5950067DE28 /* RKGPUImagePrairieFilter.h in Headers */,
 				843590CB1DD1FEB600811FC7 /* GPUImagePerlinNoiseFilter.h in Headers */,
@@ -2614,7 +2617,6 @@
 				843590571DD1FEB600811FC7 /* GPUImageFourInputFilter.h in Headers */,
 				C16E7D071E53480C0067DE28 /* RKGPUImageRoseFilter.h in Headers */,
 				8435909D1DD1FEB600811FC7 /* GPUImageLowPassFilter.h in Headers */,
-				84358FF61DD1FEB600811FC7 /* GPUImage.h in Headers */,
 				84D8B5CA1D768B6E00752B56 /* LFHardwareAudioEncoder.h in Headers */,
 				843590891DD1FEB600811FC7 /* GPUImageKuwaharaFilter.h in Headers */,
 				8435900B1DD1FEB600811FC7 /* GPUImageBrightnessFilter.h in Headers */,

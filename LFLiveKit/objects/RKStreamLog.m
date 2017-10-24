@@ -32,19 +32,17 @@
     dic[@"tm"] = @((NSUInteger)CACurrentMediaTime());
     if (self.uid) dic[@"uid"] = self.uid;
     if (self.pd) dic[@"pd"] = self.pd;
-    if (self.lt) dic[@"lt"] = self.lt;
     if (self.os) dic[@"os"] = self.os;
     if (self.osv) dic[@"osv"] = self.osv;
     if (self.mod) dic[@"mod"] = self.mod;
     if (self.cr) dic[@"cr"] = self.cr;
     if (self.nt) dic[@"nt"] = self.nt;
-    if (self.lnt) dic[@"lnt"] = self.lnt;
-    if (self.ltt) dic[@"ltt"] = self.ltt;
+    if (self.lnt != 0) dic[@"lnt"] = @(self.lnt);
+    if (self.ltt != 0) dic[@"ltt"] = @(self.ltt);
     if (self.rg) dic[@"rg"] = self.rg;
     if (self.av17) dic[@"av17"] = self.av17;
     if (self.host) dic[@"host"] = self.host;
-    if (self.pt) dic[@"pt"] = self.pt;
-    //if (self.url) dic[@"url"] = self.url;
+    if (self.url) dic[@"url"] = self.url;
     if (self.sid) dic[@"sid"] = self.sid;
     return dic;
 }
@@ -131,11 +129,9 @@
         if (pingItem.status != STDPingStatusFinished) {
             NSLog(@"%@", pingItem.description);
         } else {
-            wSelf.pingloss = [NSString stringWithFormat:@"%f", _ping.lossPercentage];
-            wSelf.pingRtt = [NSString stringWithFormat:@"%li",_ping.averageRetryTime];
             [wSelf logWithDict:@{@"lt": @"pv",
-                                 @"prtt": wSelf.pingRtt,
-                                 @"plss": wSelf.pingloss
+                                 @"prtt": @(_ping.averageRetryTime),
+                                 @"plss": @(_ping.lossPercentage)
                                  }];
         }
     }];

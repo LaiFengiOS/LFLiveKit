@@ -152,10 +152,10 @@ typedef NS_ENUM(NSUInteger, LFAudioMixVolume) {
 @property (nonatomic, nullable) NSString *liveId;
 @property (nonatomic, nullable) NSString *provider;
 @property (nonatomic, nullable) NSString *userId;
-@property (nonatomic, nullable) NSString *longitude;
-@property (nonatomic, nullable) NSString *latitude;
 @property (nonatomic, nullable) NSString *region;
 @property (nonatomic, nullable) NSString *appVersion;
+@property (nonatomic) double longitude;
+@property (nonatomic) double latitude;
 
 #pragma mark - Initializer
 ///=============================================================================

@@ -224,6 +224,20 @@ SAVC(mp4a);
                 _self.debugInfo.timeStamp = CACurrentMediaTime() * 1000;
             }
             
+            _self.debugInfo.elapsedMilliForSpeed = CACurrentMediaTime() * 1000 - _self.debugInfo.timeStampForSpeed;
+            _self.debugInfo.bandwidthForSpeed += frame.data.length;
+            if(_self.debugInfo.elapsedMilliForSpeed >=20*1000 ){
+                int speed = (int)_self.debugInfo.bandwidthForSpeed/20;
+                if(_self.debugInfo.elapsedMilliForSpeed <100*1000){
+                    //非第一次统计.才记录.
+                    [[RKStreamLog logger] logWithDict:@{@"lt": @"pspd",
+                                                        @"spd": @(speed)}];
+                }
+                _self.debugInfo.lastSpeed = _self.debugInfo.bandwidthForSpeed;
+                _self.debugInfo.bandwidthForSpeed = 0;
+                _self.debugInfo.timeStampForSpeed = CACurrentMediaTime() * 1000;
+            }
+            
             //修改发送状态
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 //< 这里只为了不循环调用sendFrame方法 调用栈是保证先出栈再进栈
@@ -280,6 +294,12 @@ SAVC(mp4a);
     if (PILI_RTMP_ConnectStream(_rtmp, 0, &_error) == FALSE) {
         goto Failed;
     }
+    int64_t initInterval = ([NSDate date].timeIntervalSince1970 - [RKStreamLog logger].initStartTime) * 1000;
+    [[RKStreamLog logger] logWithDict:@{@"lt": @"pinit",
+                                        @"interval": @(initInterval)}];
+    //reconnect times
+    [[RKStreamLog logger] logWithDict:@{@"lt": @"retryTimes",@"retryTimes": @(self.retryTimes4netWorkBreaken),
+                                        @"maxTryTimes": @(self.reconnectCount)}];
 
     if (self.delegate && [self.delegate respondsToSelector:@selector(socketStatus:status:)]) {
         [self.delegate socketStatus:self status:LFLiveStart];

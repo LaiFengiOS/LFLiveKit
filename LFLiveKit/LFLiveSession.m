@@ -105,6 +105,7 @@
     _streamInfo.videoConfiguration = _videoConfiguration;
     _streamInfo.audioConfiguration = _audioConfiguration;
     
+    [RKStreamLog logger].initStartTime = [NSDate date].timeIntervalSince1970;
     [[RKStreamLog logger] fetchInfo];
     __weak typeof(self) wSelf = self;
     [RKStreamLog logger].logCallback = ^(NSDictionary *dic) {
@@ -112,6 +113,9 @@
             [wSelf.delegate liveSession:wSelf log:dic];
         }
     };
+    NSUInteger videoBitRate = [self.videoEncoder videoBitRate];
+    [[RKStreamLog logger] logWithDict:@{@"lt" : @"pbrt",
+                                        @"vbr": @(videoBitRate)}];
     
     [self.socket start];
 }
@@ -331,11 +335,11 @@
     [RKStreamLog logger].uid = userId;
 }
 
-- (void)setLongitude:(NSString *)longitude {
+- (void)setLongitude:(double)longitude {
     [RKStreamLog logger].lnt = longitude;
 }
 
-- (void)setLatitude:(NSString *)latitude {
+- (void)setLatitude:(double)latitude {
     [RKStreamLog logger].ltt = latitude;
 }
 

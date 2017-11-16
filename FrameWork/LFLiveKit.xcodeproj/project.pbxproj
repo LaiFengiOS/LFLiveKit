@@ -639,7 +639,7 @@
 		8495F69D1DB8F27000542124 /* LFLiveStreamInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B5B01D768B6E00752B56 /* LFLiveStreamInfo.m */; };
 		8495F69E1DB8F27000542124 /* LFVideoFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B5B21D768B6E00752B56 /* LFVideoFrame.m */; };
 		8495F69F1DB8F27000542124 /* LFStreamingBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B5B51D768B6E00752B56 /* LFStreamingBuffer.m */; };
-		8495F6A01DB8F27000542124 /* LFStreamRtmpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B5B71D768B6E00752B56 /* LFStreamRtmpSocket.m */; };
+		8495F6A01DB8F27000542124 /* LFStreamRTMPSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B5B71D768B6E00752B56 /* LFStreamRTMPSocket.m */; };
 		8495F6A11DB8F27000542124 /* NSMutableArray+LFAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B5BA1D768B6E00752B56 /* NSMutableArray+LFAdd.m */; };
 		84D0036F1DB8F88F00560583 /* LFNALUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B58F1D768B6E00752B56 /* LFNALUnit.cpp */; };
 		84D8B4BF1D757EB800752B56 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D8B4BE1D757EB800752B56 /* VideoToolbox.framework */; };
@@ -691,7 +691,7 @@
 		84D8B5E41D768B6E00752B56 /* LFStreamingBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 84D8B5B41D768B6E00752B56 /* LFStreamingBuffer.h */; };
 		84D8B5E51D768B6E00752B56 /* LFStreamingBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B5B51D768B6E00752B56 /* LFStreamingBuffer.m */; };
 		84D8B5E61D768B6E00752B56 /* LFStreamRTMPSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 84D8B5B61D768B6E00752B56 /* LFStreamRTMPSocket.h */; };
-		84D8B5E71D768B6E00752B56 /* LFStreamRtmpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B5B71D768B6E00752B56 /* LFStreamRtmpSocket.m */; };
+		84D8B5E71D768B6E00752B56 /* LFStreamRTMPSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B5B71D768B6E00752B56 /* LFStreamRTMPSocket.m */; };
 		84D8B5E81D768B6E00752B56 /* LFStreamSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 84D8B5B81D768B6E00752B56 /* LFStreamSocket.h */; };
 		84D8B5E91D768B6E00752B56 /* NSMutableArray+LFAdd.h in Headers */ = {isa = PBXBuildFile; fileRef = 84D8B5B91D768B6E00752B56 /* NSMutableArray+LFAdd.h */; };
 		84D8B5EA1D768B6E00752B56 /* NSMutableArray+LFAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B5BA1D768B6E00752B56 /* NSMutableArray+LFAdd.m */; };
@@ -1630,7 +1630,7 @@
 		84D8B5B41D768B6E00752B56 /* LFStreamingBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFStreamingBuffer.h; sourceTree = "<group>"; };
 		84D8B5B51D768B6E00752B56 /* LFStreamingBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFStreamingBuffer.m; sourceTree = "<group>"; };
 		84D8B5B61D768B6E00752B56 /* LFStreamRTMPSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFStreamRTMPSocket.h; sourceTree = "<group>"; };
-		84D8B5B71D768B6E00752B56 /* LFStreamRtmpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFStreamRtmpSocket.m; sourceTree = "<group>"; };
+		84D8B5B71D768B6E00752B56 /* LFStreamRTMPSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFStreamRTMPSocket.m; sourceTree = "<group>"; };
 		84D8B5B81D768B6E00752B56 /* LFStreamSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFStreamSocket.h; sourceTree = "<group>"; };
 		84D8B5B91D768B6E00752B56 /* NSMutableArray+LFAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+LFAdd.h"; sourceTree = "<group>"; };
 		84D8B5BA1D768B6E00752B56 /* NSMutableArray+LFAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+LFAdd.m"; sourceTree = "<group>"; };
@@ -2554,7 +2554,7 @@
 				84D8B5B41D768B6E00752B56 /* LFStreamingBuffer.h */,
 				84D8B5B51D768B6E00752B56 /* LFStreamingBuffer.m */,
 				84D8B5B61D768B6E00752B56 /* LFStreamRTMPSocket.h */,
-				84D8B5B71D768B6E00752B56 /* LFStreamRtmpSocket.m */,
+				84D8B5B71D768B6E00752B56 /* LFStreamRTMPSocket.m */,
 				84D8B5B81D768B6E00752B56 /* LFStreamSocket.h */,
 				84D8B5B91D768B6E00752B56 /* NSMutableArray+LFAdd.h */,
 				84D8B5BA1D768B6E00752B56 /* NSMutableArray+LFAdd.m */,
@@ -3949,7 +3949,7 @@
 				8495F69E1DB8F27000542124 /* LFVideoFrame.m in Sources */,
 				C16E7D0A1E53480C0067DE28 /* RKGPUImageRoseFilter.m in Sources */,
 				8495F69F1DB8F27000542124 /* LFStreamingBuffer.m in Sources */,
-				8495F6A01DB8F27000542124 /* LFStreamRtmpSocket.m in Sources */,
+				8495F6A01DB8F27000542124 /* LFStreamRTMPSocket.m in Sources */,
 				8495F6A11DB8F27000542124 /* NSMutableArray+LFAdd.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4114,7 +4114,7 @@
 				843591361DD1FEB600811FC7 /* GPUImageVideoCamera.m in Sources */,
 				843590581DD1FEB600811FC7 /* GPUImageFourInputFilter.m in Sources */,
 				8435912C1DD1FEB600811FC7 /* GPUImageTwoInputFilter.m in Sources */,
-				84D8B5E71D768B6E00752B56 /* LFStreamRtmpSocket.m in Sources */,
+				84D8B5E71D768B6E00752B56 /* LFStreamRTMPSocket.m in Sources */,
 				843590441DD1FEB600811FC7 /* GPUImageDivideBlendFilter.m in Sources */,
 				843590FA1DD1FEB600811FC7 /* GPUImageSketchFilter.m in Sources */,
 				843591221DD1FEB600811FC7 /* GPUImageTiltShiftFilter.m in Sources */,

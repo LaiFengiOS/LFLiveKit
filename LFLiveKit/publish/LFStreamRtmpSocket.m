@@ -13,6 +13,7 @@
 #import <pili-librtmp/rtmp.h>
 #else
 #import "rtmp.h"
+#import "log.h"
 #endif
 
 static const NSInteger RetryTimesBreaken = 5;  ///<  重连1分钟  3秒一次 一共20次
@@ -92,6 +93,10 @@ SAVC(mp4a);
         else _reconnectCount = RetryTimesBreaken;
         
         [self addObserver:self forKeyPath:@"isSending" options:NSKeyValueObservingOptionNew context:nil];//这里改成observer主要考虑一直到发送出错情况下，可以继续发送
+
+#if DEBUG
+        RTMP_LogSetLevel(RTMP_LOGDEBUG);
+#endif
     }
     return self;
 }

@@ -208,7 +208,7 @@ typedef NS_ENUM(NSUInteger, LFAudioMixVolume) {
 
 - (void)playParallelSounds:(nonnull NSSet<NSURL *> *)urls;
 
-- (void)playParallelSounds:(nonnull NSArray<NSURL *> *)urls volumes:(NSArray<NSNumber *> *)volumes;
+- (void)playParallelSounds:(nonnull NSArray<NSURL *> *)urls volumes:(nullable NSArray<NSNumber *> *)volumes;
 
 - (void)startBackgroundSound:(nonnull NSURL *)soundUrl;
 

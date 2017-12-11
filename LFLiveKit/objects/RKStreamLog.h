@@ -46,6 +46,8 @@
 
 + (instancetype)logger;
 
+- (NSDictionary *)basicInfo;
+
 - (void)logWithDict:(NSDictionary *)dic;
 
 - (void)fetchInfo;

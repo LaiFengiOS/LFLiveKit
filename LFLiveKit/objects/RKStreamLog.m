@@ -27,6 +27,10 @@
     return logger;
 }
 
+- (NSDictionary *)basicInfo {
+    return [self basicLog];
+}
+
 - (NSMutableDictionary *)basicLog {
     NSMutableDictionary *dic = [NSMutableDictionary new];
     dic[@"tm"] = @((NSUInteger)CACurrentMediaTime());

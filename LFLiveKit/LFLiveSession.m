@@ -351,6 +351,10 @@
     [RKStreamLog logger].av17 = appVersion;
 }
 
+- (NSDictionary *)logInfo {
+    return [RKStreamLog logger].basicInfo;
+}
+
 - (NSString *)currentColorFilterName {
     return self.videoCaptureSource.currentColorFilterName;
 }

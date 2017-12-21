@@ -108,6 +108,8 @@ typedef NS_ENUM(NSInteger, RKColorFilter) {
 /** The mirrorOuput control mirror of front camera output is on or off */
 @property (nonatomic, assign) BOOL mirrorOutput;
 
+@property (nonatomic) int beautyMode;
+
 #pragma mark - Initializer
 ///=============================================================================
 /// @name Initializer

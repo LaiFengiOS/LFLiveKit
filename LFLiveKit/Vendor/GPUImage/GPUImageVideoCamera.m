@@ -217,7 +217,8 @@ void setColorConversion709( GLfloat conversionMatrix[9] )
     
 	_captureSessionPreset = sessionPreset;
     [_captureSession setSessionPreset:_captureSessionPreset];
-
+    NSLog(@"capture session preset = %@", _captureSessionPreset);
+    
 // This will let you get 60 FPS video from the 720p preset on an iPhone 4S, but only that device and that preset
 //    AVCaptureConnection *conn = [videoOutput connectionWithMediaType:AVMediaTypeVideo];
 //    

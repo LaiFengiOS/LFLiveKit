@@ -221,5 +221,7 @@ typedef NS_ENUM(NSUInteger, LFAudioMixVolume) {
 
 - (void)stopAllSounds;
 
+- (void)setBeautyFilter:(int)mode;
+
 @end
 

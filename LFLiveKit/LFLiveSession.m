@@ -206,6 +206,10 @@
     [self.audioCaptureSource stopMixAllSounds];
 }
 
+- (void)setBeautyFilter:(int)mode {
+    self.videoCaptureSource.beautyMode = mode;
+}
+
 #pragma mark -- PrivateMethod
 - (void)pushSendBuffer:(LFFrame*)frame{
     if(self.relativeTimestamps == 0){

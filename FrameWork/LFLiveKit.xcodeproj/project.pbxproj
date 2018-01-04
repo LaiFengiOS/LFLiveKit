@@ -704,6 +704,10 @@
 		BE3B63801FFBA19B003EA717 /* RKGPUImageEyeFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = BE3B637D1FFBA19A003EA717 /* RKGPUImageEyeFilter.m */; };
 		BE3B63811FFBA19B003EA717 /* RKGPUImageEyeFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = BE3B637D1FFBA19A003EA717 /* RKGPUImageEyeFilter.m */; };
 		BE4059691F95CF0E00BF9962 /* GPUImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 84358E891DD1FEB500811FC7 /* GPUImage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE9A433F1FFDE122000A47C5 /* RKGPULogWhiteFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = BE9A433D1FFDE122000A47C5 /* RKGPULogWhiteFilter.h */; };
+		BE9A43401FFDE122000A47C5 /* RKGPULogWhiteFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = BE9A433D1FFDE122000A47C5 /* RKGPULogWhiteFilter.h */; };
+		BE9A43411FFDE122000A47C5 /* RKGPULogWhiteFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = BE9A433E1FFDE122000A47C5 /* RKGPULogWhiteFilter.m */; };
+		BE9A43421FFDE122000A47C5 /* RKGPULogWhiteFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = BE9A433E1FFDE122000A47C5 /* RKGPULogWhiteFilter.m */; };
 		C1296A021E5072C400C992C7 /* RKGPUImageColorMapFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = C1296A001E5072C400C992C7 /* RKGPUImageColorMapFilter.h */; };
 		C1296A031E5072C400C992C7 /* RKGPUImageColorMapFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = C1296A011E5072C400C992C7 /* RKGPUImageColorMapFilter.m */; };
 		C1296A041E50735D00C992C7 /* RKGPUImageColorMapFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = C1296A011E5072C400C992C7 /* RKGPUImageColorMapFilter.m */; };
@@ -1378,6 +1382,8 @@
 		BE3B63791FFB8277003EA717 /* fairy_tale.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fairy_tale.png; sourceTree = "<group>"; };
 		BE3B637C1FFBA19A003EA717 /* RKGPUImageEyeFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RKGPUImageEyeFilter.h; sourceTree = "<group>"; };
 		BE3B637D1FFBA19A003EA717 /* RKGPUImageEyeFilter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RKGPUImageEyeFilter.m; sourceTree = "<group>"; };
+		BE9A433D1FFDE122000A47C5 /* RKGPULogWhiteFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RKGPULogWhiteFilter.h; sourceTree = "<group>"; };
+		BE9A433E1FFDE122000A47C5 /* RKGPULogWhiteFilter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RKGPULogWhiteFilter.m; sourceTree = "<group>"; };
 		C1296A001E5072C400C992C7 /* RKGPUImageColorMapFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKGPUImageColorMapFilter.h; sourceTree = "<group>"; };
 		C1296A011E5072C400C992C7 /* RKGPUImageColorMapFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKGPUImageColorMapFilter.m; sourceTree = "<group>"; };
 		C1296A061E50C99200C992C7 /* RKGUPImageSoftLightFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKGUPImageSoftLightFilter.h; sourceTree = "<group>"; };
@@ -2095,6 +2101,8 @@
 				C1296A0D1E50D37100C992C7 /* RKGPUImageOverlayFilter.m */,
 				BE3B636B1FF4E04D003EA717 /* RKGPUImageWhitenFilter.h */,
 				BE3B636C1FF4E04D003EA717 /* RKGPUImageWhitenFilter.m */,
+				BE9A433D1FFDE122000A47C5 /* RKGPULogWhiteFilter.h */,
+				BE9A433E1FFDE122000A47C5 /* RKGPULogWhiteFilter.m */,
 				BE3B63711FFB66B9003EA717 /* RKGPUImageFairytaleFilter.h */,
 				BE3B63721FFB66B9003EA717 /* RKGPUImageFairytaleFilter.m */,
 				BE3B637C1FFBA19A003EA717 /* RKGPUImageEyeFilter.h */,
@@ -2420,6 +2428,7 @@
 				C16E7D201E5348F80067DE28 /* RKGPUImageCoolFilter.h in Headers */,
 				8495F6801DB8F1EE00542124 /* LFGPUImageBeautyFilter.h in Headers */,
 				C16E7D081E53480C0067DE28 /* RKGPUImageRoseFilter.h in Headers */,
+				BE9A43401FFDE122000A47C5 /* RKGPULogWhiteFilter.h in Headers */,
 				8495F6811DB8F1EE00542124 /* LFGPUImageEmptyFilter.h in Headers */,
 				8495F6891DB8F1EE00542124 /* LFStreamingBuffer.h in Headers */,
 				8495F68A1DB8F1EE00542124 /* LFStreamRTMPSocket.h in Headers */,
@@ -2447,6 +2456,7 @@
 				84D8B5DA1D768B6E00752B56 /* LFAudioFrame.h in Headers */,
 				8435911B1DD1FEB600811FC7 /* GPUImageThresholdEdgeDetectionFilter.h in Headers */,
 				843591111DD1FEB600811FC7 /* GPUImageSubtractBlendFilter.h in Headers */,
+				BE9A433F1FFDE122000A47C5 /* RKGPULogWhiteFilter.h in Headers */,
 				C16E7D5B1E534B6E0067DE28 /* RKGPUImageAutumnFilter.h in Headers */,
 				843590B51DD1FEB600811FC7 /* GPUImageMovie.h in Headers */,
 				843590731DD1FEB600811FC7 /* GPUImageHighlightShadowTintFilter.h in Headers */,
@@ -3101,6 +3111,7 @@
 				843591EB1DD20A7F00811FC7 /* GPUImageSharpenFilter.m in Sources */,
 				843591EC1DD20A7F00811FC7 /* GPUImageShiTomasiFeatureDetectionFilter.m in Sources */,
 				843591ED1DD20A7F00811FC7 /* GPUImageSingleComponentGaussianBlurFilter.m in Sources */,
+				BE9A43421FFDE122000A47C5 /* RKGPULogWhiteFilter.m in Sources */,
 				843591EE1DD20A7F00811FC7 /* GPUImageSketchFilter.m in Sources */,
 				843591EF1DD20A7F00811FC7 /* GPUImageSkinToneFilter.m in Sources */,
 				843591F01DD20A7F00811FC7 /* GPUImageSmoothToonFilter.m in Sources */,
@@ -3353,6 +3364,7 @@
 				8435904E1DD1FEB600811FC7 /* GPUImageFalseColorFilter.m in Sources */,
 				843591241DD1FEB600811FC7 /* GPUImageToneCurveFilter.m in Sources */,
 				8435914D1DD1FEB600811FC7 /* GPUImageView.m in Sources */,
+				BE9A43411FFDE122000A47C5 /* RKGPULogWhiteFilter.m in Sources */,
 				843591161DD1FEB600811FC7 /* GPUImageTextureInput.m in Sources */,
 				843590E81DD1FEB600811FC7 /* GPUImageRGBFilter.m in Sources */,
 				8435902A1DD1FEB600811FC7 /* GPUImageColorPackingFilter.m in Sources */,

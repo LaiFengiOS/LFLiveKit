@@ -40,6 +40,7 @@
 #import "GPUImageSharpenFilter.h"
 #import "GPUImageWhiteBalanceFilter.h"
 #import "GPUImageContrastFilter.h"
+#import "RKGPULogWhiteFilter.h"
 
 #import <Vision/Vision.h>
 
@@ -82,6 +83,7 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
 @property (nonatomic, strong) GPUImageSharpenFilter *sharpenFilter;
 @property (strong, nonatomic) GPUImageWhiteBalanceFilter *whiteBalanceFilter;
 @property (strong, nonatomic) GPUImageContrastFilter *contrastFilter;
+@property (strong, nonatomic) RKGPULogWhiteFilter *logWhiteFilter;
 
 @property (strong, nonatomic) VNDetectFaceRectanglesRequest *faceRectRequest;
 @property (strong, nonatomic) VNDetectFaceLandmarksRequest *faceMarkRequest;
@@ -415,9 +417,15 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
     [self.contrastFilter removeAllTargets];
     [self.whiteBalanceFilter removeAllTargets];
     [self.sharpenFilter removeAllTargets];
+    [self.logWhiteFilter removeAllTargets];
     
     _blendFilter = nil;
     _uiElementInput = nil;
+    self.beautyFilter = nil;
+    self.sharpenFilter = nil;
+    self.whiteBalanceFilter = nil;
+    self.contrastFilter = nil;
+    self.logWhiteFilter = nil;
     
     self.output = [[LFGPUImageEmptyFilter alloc] init];
     GPUImageFilterGroup *filterGroup = [[GPUImageFilterGroup alloc] init];
@@ -428,41 +436,9 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
 
     // 美肌
     if (self.beautyFace) {
-        self.beautyFilter = [[LFGPUImageBeautyFilter alloc] init];
-        self.beautyFilter.brightLevel = 0.025;
-        
-        self.sharpenFilter = [[GPUImageSharpenFilter alloc] init];
-        self.sharpenFilter.sharpness = 0.5;
-        
-        self.whiteBalanceFilter = [[GPUImageWhiteBalanceFilter alloc] init];
-        self.whiteBalanceFilter.temperature = 4700;
-        
-        self.contrastFilter = [[GPUImageContrastFilter alloc] init];
-        self.contrastFilter.contrast = 1.05;
-        
-        [filterGroup setInitialFilters:@[self.beautyFilter]];
-        [filterGroup addFilter:self.beautyFilter];
-        [self.beautyFilter addTarget:self.sharpenFilter];
-        [filterGroup addFilter:self.sharpenFilter];
-        
-        [self.sharpenFilter addTarget:self.contrastFilter];
-        [filterGroup addFilter:self.contrastFilter];
-
-        [self.contrastFilter addTarget:self.whiteBalanceFilter];
-        [filterGroup addFilter:self.whiteBalanceFilter];
-        
-        [self.whiteBalanceFilter addTarget:self.colorFilter];
-        [filterGroup addFilter:self.colorFilter];
-        [filterGroup setTerminalFilter:self.colorFilter];
+        [self applyBeautyFilters:filterGroup];
     } else {
-        self.beautyFilter = nil;
-        self.sharpenFilter = nil;
-        self.whiteBalanceFilter = nil;
-        self.contrastFilter = nil;
-        
-        [(GPUImageFilterGroup *)self.filter setInitialFilters:@[self.colorFilter]];
-        [(GPUImageFilterGroup *)self.filter addFilter:self.colorFilter];
-        [(GPUImageFilterGroup *)self.filter setTerminalFilter:self.colorFilter];
+        [self applyNormalFilters:filterGroup];
     }
     
     ///< 调节镜像
@@ -503,6 +479,41 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
         [_self processVideo:output];
     }];
     
+}
+
+- (void)applyBeautyFilters:(GPUImageFilterGroup *)filterGroup {
+    self.logWhiteFilter = [[RKGPULogWhiteFilter alloc] init];
+    [self.logWhiteFilter setBeta:4.0];
+    
+    self.beautyFilter = [[LFGPUImageBeautyFilter alloc] init];
+    
+    self.sharpenFilter = [[GPUImageSharpenFilter alloc] init];
+    self.sharpenFilter.sharpness = 0.5;
+    
+    self.whiteBalanceFilter = [[GPUImageWhiteBalanceFilter alloc] init];
+    self.whiteBalanceFilter.temperature = 4700;
+    
+    [filterGroup setInitialFilters:@[self.beautyFilter]];
+    [filterGroup addFilter:self.beautyFilter];
+    
+    [self.beautyFilter addTarget:self.sharpenFilter];
+    [filterGroup addFilter:self.sharpenFilter];
+    
+    [self.sharpenFilter addTarget:self.whiteBalanceFilter];
+    [filterGroup addFilter:self.whiteBalanceFilter];
+    
+    [self.whiteBalanceFilter addTarget:self.logWhiteFilter];
+    [filterGroup addFilter:self.logWhiteFilter];
+    
+    [self.logWhiteFilter addTarget:self.colorFilter];
+    [filterGroup addFilter:self.colorFilter];
+    [filterGroup setTerminalFilter:self.colorFilter];
+}
+
+- (void)applyNormalFilters:(GPUImageFilterGroup *)filterGroup {
+    [filterGroup setInitialFilters:@[self.colorFilter]];
+    [filterGroup addFilter:self.colorFilter];
+    [filterGroup setTerminalFilter:self.colorFilter];
 }
 
 - (void)reloadMirror{

@@ -143,6 +143,17 @@
     }
 }
 
+- (BOOL)sendSeiJson:(nonnull id)jsonObj {
+    if (self.uploading) {
+        NSData *data = [NSJSONSerialization dataWithJSONObject:jsonObj options:0 error:nil];
+        if (data) {
+            [self.socket sendSeiWithJson:data];
+            return YES;
+        }
+    }
+    return NO;
+}
+
 - (void)previousColorFilter {
     [self.videoCaptureSource previousColorFilter];
 }

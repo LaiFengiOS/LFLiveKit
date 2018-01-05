@@ -192,6 +192,8 @@ typedef NS_ENUM(NSUInteger, LFAudioMixVolume) {
 /** support outer input pcm audio(set LFLiveCaptureTypeMask) .*/
 - (void)pushAudio:(nullable NSData*)audioData;
 
+- (BOOL)sendSeiJson:(nonnull id)jsonObj;
+
 /** Switch to previous color filter. */
 - (void)previousColorFilter;
 

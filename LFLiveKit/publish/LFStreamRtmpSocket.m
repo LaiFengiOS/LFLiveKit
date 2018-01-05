@@ -70,6 +70,8 @@ SAVC(mp4a);
 @property (nonatomic, assign) BOOL sendVideoHead;
 @property (nonatomic, assign) BOOL sendAudioHead;
 
+@property (strong, nonatomic) NSData *seiData;
+
 @end
 
 @implementation LFStreamRTMPSocket
@@ -421,7 +423,12 @@ Failed:
 }
 
 - (void)sendVideo:(LFVideoFrame *)frame {
-
+    if (_seiData) {
+        [self sendSeiAndVideo:frame];
+        _seiData = nil;
+        return;
+    }
+    
     NSInteger i = 0;
     NSInteger rtmpLength = frame.data.length + 9;
     unsigned char *body = (unsigned char *)malloc(rtmpLength);
@@ -442,6 +449,102 @@ Failed:
     body[i++] = (frame.data.length) & 0xff;
     memcpy(&body[i], frame.data.bytes, frame.data.length);
 
+    [self sendPacket:RTMP_PACKET_TYPE_VIDEO data:body size:(rtmpLength) nTimestamp:frame.timestamp];
+    free(body);
+}
+
+- (void)sendSeiWithJson:(NSData *)data {
+    _seiData = data;
+}
+
+void
+print_bytes(void   *start,
+            size_t  length)
+{
+    uint8_t *base = NULL;
+    size_t   idx = 0;
+    
+    if (!start || length <= 0)
+        return;
+    
+    base = (uint8_t *)(start);
+    for (idx = 0; idx < length; idx++)
+        printf("%02X%s", base[idx] & 0xFF, (idx + 1) % 16 == 0 ? "\n" : " ");
+    printf("\n");
+}
+
+- (void)sendSeiAndVideo:(LFVideoFrame *)frame {
+    /* 17.Media System Time Synchronization UUID
+     * 7627DFE0-4924-4084-B98D-F2C9444B8E98 */
+    static const uint8_t app_17_uuid[] =
+    {0x76, 0x27, 0xDF, 0xE0,
+        0x49, 0x24, 0x40, 0x84,
+        0xB9, 0x8D, 0xF2, 0xC9,
+        0x44, 0x4B, 0x8E, 0x98};
+    
+    NSUInteger payloadSize = 16 + 1 + _seiData.length;
+    NSUInteger payloadSizeLength = payloadSize / 255 + 1;
+    
+    NSUInteger nalulen = 2 + payloadSizeLength + payloadSize + 1;
+    
+    NSInteger i = 0;
+    NSInteger rtmpLength = 5 + 4 + nalulen;
+    rtmpLength += 4 + frame.data.length;
+    
+    unsigned char *body = (unsigned char *)malloc(rtmpLength);
+    memset(body, 0, rtmpLength);
+    
+    if (frame.isKeyFrame) {
+        body[i++] = 0x17;        // 1:Iframe  7:AVC
+    } else {
+        body[i++] = 0x27;        // 2:Pframe  7:AVC
+    }
+    body[i++] = 0x01;    // AVC NALU
+    body[i++] = 0x00;
+    body[i++] = 0x00;
+    body[i++] = 0x00;
+    
+    /* nalu length */
+    body[i++] = (nalulen >> 24) & 0xff;
+    body[i++] = (nalulen >> 16) & 0xff;
+    body[i++] = (nalulen >>  8) & 0xff;
+    body[i++] = (nalulen) & 0xff;
+    
+    /* SEI NALU header, user unregistered type, and payload size */
+    body[i++] = 0x66;
+    body[i++] = 0x05;
+    NSUInteger size = payloadSize;
+    while (size >= 255) {
+        body[i++] = 0xff;
+        size -= 255;
+    }
+    body[i++] = (uint8_t)size;
+    
+    /* UUID */
+    memcpy(&body[i], app_17_uuid, sizeof(app_17_uuid));
+    i += sizeof(app_17_uuid);
+    
+    /* content type */
+    body[i++] = 0x01;
+    
+    /* data */
+    memcpy(&body[i], _seiData.bytes, _seiData.length);
+    i += _seiData.length;
+    
+    /* rbsp_trailing_bits */
+    body[i++] = 0x80;
+    
+    //    NSLog(@"send sei");
+    //    print_bytes(body, rtmpLength - 4 - frame.data.length);
+    
+    // video frame
+    body[i++] = (frame.data.length >> 24) & 0xff;
+    body[i++] = (frame.data.length >> 16) & 0xff;
+    body[i++] = (frame.data.length >>  8) & 0xff;
+    body[i++] = (frame.data.length) & 0xff;
+    memcpy(&body[i], frame.data.bytes, frame.data.length);
+    i += frame.data.length;
+    
     [self sendPacket:RTMP_PACKET_TYPE_VIDEO data:body size:(rtmpLength) nTimestamp:frame.timestamp];
     free(body);
 }

@@ -213,9 +213,13 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
 }
 
 - (void)setPreView:(UIView *)preView {
-    if (self.gpuImageView.superview) [self.gpuImageView removeFromSuperview];
+    if (self.gpuImageView.superview) {
+        [self.gpuImageView removeFromSuperview];
+    }
     [preView insertSubview:self.gpuImageView atIndex:0];
     self.gpuImageView.frame = CGRectMake(0, 0, preView.frame.size.width, preView.frame.size.height);
+    
+    [self reloadFilter];
 }
 
 - (UIView *)preView {
@@ -282,14 +286,6 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
 
 - (void)setBeautyFace:(BOOL)beautyFace{
     _beautyFace = beautyFace;
-    [self reloadFilter];
-}
-
-- (void)setBeautyMode:(int)beautyMode {
-    if (_beautyMode == beautyMode) {
-        return;
-    }
-    _beautyMode = beautyMode;
     [self reloadFilter];
 }
 
@@ -394,16 +390,6 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
 }
 
 #pragma mark -- Custom Method
-- (void)processVideo:(GPUImageOutput *)output {
-    __weak typeof(self) _self = self;
-    @autoreleasepool {
-        GPUImageFramebuffer *imageFramebuffer = output.framebufferForOutput;
-        CVPixelBufferRef pixelBuffer = [imageFramebuffer pixelBuffer];
-        if (pixelBuffer && _self.delegate && [_self.delegate respondsToSelector:@selector(captureOutput:pixelBuffer:)]) {
-            [_self.delegate captureOutput:_self pixelBuffer:pixelBuffer];
-        }
-    }
-}
 
 - (void)reloadFilter{
     [self.filter removeAllTargets];
@@ -458,13 +444,19 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
     if(self.warterMarkView){
         [self.filter addTarget:self.blendFilter];
         [self.uiElementInput addTarget:self.blendFilter];
-        [self.blendFilter addTarget:self.gpuImageView];
+        if (self.preView) {
+            [self.blendFilter addTarget:self.gpuImageView];
+        }
         if(self.saveLocalVideo) [self.blendFilter addTarget:self.movieWriter];
         [self.filter addTarget:self.output];
         [self.uiElementInput update];
     }else{
         [self.filter addTarget:self.output];
-        [self.filter addTarget:self.gpuImageView];
+        if (self.preView) {
+            [self.filter addTarget:self.gpuImageView];
+        } else {
+            [self.output addTarget:[[LFGPUImageEmptyFilter alloc] init]];
+        }
         if(self.saveLocalVideo) [self.output addTarget:self.movieWriter];
     }
     
@@ -480,6 +472,17 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
         [_self processVideo:output];
     }];
     
+}
+
+- (void)processVideo:(GPUImageOutput *)output {
+    __weak typeof(self) _self = self;
+    @autoreleasepool {
+        GPUImageFramebuffer *imageFramebuffer = output.framebufferForOutput;
+        CVPixelBufferRef pixelBuffer = [imageFramebuffer pixelBuffer];
+        if (pixelBuffer && _self.delegate && [_self.delegate respondsToSelector:@selector(captureOutput:pixelBuffer:)]) {
+            [_self.delegate captureOutput:_self pixelBuffer:pixelBuffer];
+        }
+    }
 }
 
 - (void)applyBeautyFilters:(GPUImageFilterGroup *)filterGroup {
@@ -517,13 +520,7 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
     [filterGroup setTerminalFilter:self.colorFilter];
 }
 
-- (void)reloadMirror{
-//    if(self.mirror && self.captureDevicePosition == AVCaptureDevicePositionFront){
-//        self.videoCamera.horizontallyMirrorFrontFacingCamera = YES;
-//    }else{
-//        self.videoCamera.horizontallyMirrorFrontFacingCamera = NO;
-//    }
-    
+- (void)reloadMirror {
     [self.gpuImageView setInputRotation:(self.mirror && self.captureDevicePosition == AVCaptureDevicePositionFront) ? kGPUImageFlipHorizonal : kGPUImageNoRotation atIndex:0];
     
     [self.output setInputRotation:(self.mirrorOutput && self.captureDevicePosition == AVCaptureDevicePositionFront) ? kGPUImageFlipHorizonal : kGPUImageNoRotation atIndex:0];

@@ -206,10 +206,6 @@
     [self.audioCaptureSource stopMixAllSounds];
 }
 
-- (void)setBeautyFilter:(int)mode {
-    self.videoCaptureSource.beautyMode = mode;
-}
-
 #pragma mark -- PrivateMethod
 - (void)pushSendBuffer:(LFFrame*)frame{
     if(self.relativeTimestamps == 0){
@@ -236,7 +232,12 @@
 #pragma mark - Video Capture Delegate
 
 - (void)captureOutput:(nullable LFVideoCapture *)capture pixelBuffer:(nullable CVPixelBufferRef)pixelBuffer {
-    if (self.uploading) [self.videoEncoder encodeVideoData:pixelBuffer timeStamp:NOW];
+    if ([self.delegate respondsToSelector:@selector(liveSession:willOutputVideoFrame:)]) {
+        pixelBuffer = [self.delegate liveSession:self willOutputVideoFrame:pixelBuffer];
+    }
+    if (self.uploading) {
+        [self.videoEncoder encodeVideoData:pixelBuffer timeStamp:NOW];
+    }
 }
 
 #pragma mark -- EncoderDelegate

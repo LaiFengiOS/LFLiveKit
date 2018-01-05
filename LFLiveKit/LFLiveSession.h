@@ -64,6 +64,9 @@ typedef NS_ENUM(NSUInteger, LFAudioMixVolume) {
 - (void)liveSession:(nullable LFLiveSession *)session errorCode:(LFLiveSocketErrorCode)errorCode;
 /** callback inner audio data */
 - (void)liveSession:(nullable LFLiveSession *)session audioDataBeforeMixing:(nullable NSData *)audioData;
+
+- (nullable CVPixelBufferRef)liveSession:(nullable LFLiveSession *)session willOutputVideoFrame:(nonnull CVPixelBufferRef)pixelBuffer;
+
 @end
 
 @class LFLiveStreamInfo;
@@ -220,8 +223,6 @@ typedef NS_ENUM(NSUInteger, LFAudioMixVolume) {
 - (void)restartBackgroundSound;
 
 - (void)stopAllSounds;
-
-- (void)setBeautyFilter:(int)mode;
 
 @end
 

@@ -7,7 +7,6 @@
 //
 
 #import "LFVideoCapture.h"
-#import "LFGPUImageBeautyFilter.h"
 #import "LFGPUImageEmptyFilter.h"
 #import "RKGPUImageColorFilter.h"
 #import "RKGPUImageWarmFilter.h"
@@ -37,6 +36,7 @@
 #import "RKGPUImagePinkyFilter.h"
 #import "RKGPUImageAdventureFilter.h"
 
+#import "RKGPUImageBeautyFilter.h"
 #import "GPUImageSharpenFilter.h"
 #import "GPUImageWhiteBalanceFilter.h"
 #import "GPUImageContrastFilter.h"
@@ -79,7 +79,7 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
 
 @property (nonatomic, strong) RKGPUImageColorFilter *colorFilter;
 
-@property (nonatomic, strong) LFGPUImageBeautyFilter *beautyFilter;
+@property (nonatomic, strong) RKGPUImageBeautyFilter *beautyFilter;
 @property (nonatomic, strong) GPUImageSharpenFilter *sharpenFilter;
 @property (strong, nonatomic) GPUImageWhiteBalanceFilter *whiteBalanceFilter;
 @property (strong, nonatomic) GPUImageContrastFilter *contrastFilter;
@@ -476,6 +476,7 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
     //< 输出数据
     __weak typeof(self) _self = self;
     [self.output setFrameProcessingCompletionBlock:^(GPUImageOutput *output, CMTime time) {
+        glFlush();
         [_self processVideo:output];
     }];
     
@@ -485,7 +486,7 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
     self.logWhiteFilter = [[RKGPULogWhiteFilter alloc] init];
     [self.logWhiteFilter setBeta:4.0];
     
-    self.beautyFilter = [[LFGPUImageBeautyFilter alloc] init];
+    self.beautyFilter = [[RKGPUImageBeautyFilter alloc] init];
     
     self.sharpenFilter = [[GPUImageSharpenFilter alloc] init];
     self.sharpenFilter.sharpness = 0.5;

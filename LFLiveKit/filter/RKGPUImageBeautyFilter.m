@@ -236,7 +236,8 @@ NSString *const kLFGPUImageBeautyFragmentShaderString = SHADER_STRING
 
 - (instancetype)init {
     if (self = [super initWithFragmentShaderFromString:kRKGPUImageBeautyFragmentShaderString]) {
-        [self setParams:0 tone:0];
+        GPUVector4 fBeautyParam = {0.33, 0.63, 0.4, 0.35};
+        [self setFloatVec4:fBeautyParam forUniform:@"params"];
     }
     return self;
 }
@@ -247,11 +248,6 @@ NSString *const kLFGPUImageBeautyFragmentShaderString = SHADER_STRING
     
     CGPoint offset = CGPointMake(2.0f / inputTextureSize.width, 2.0 / inputTextureSize.height);
     [self setPoint:offset forUniformName:@"singleStepOffset"];
-}
-
-- (void)setParams:(CGFloat)beauty tone:(CGFloat)tone {
-    GPUVector4 fBeautyParam = {0.33, 0.63, 0.4, 0.35};
-    [self setFloatVec4:fBeautyParam forUniform:@"params"];
 }
 
 @end

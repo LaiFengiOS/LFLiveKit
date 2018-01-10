@@ -93,10 +93,16 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
 @end
 
 @implementation LFVideoCapture
+@synthesize delegate = _delegate;
+@synthesize running = _running;
+@synthesize beautyFace = _beautyFace;
 @synthesize torch = _torch;
-@synthesize beautyLevel = _beautyLevel;
-@synthesize brightLevel = _brightLevel;
+@synthesize mirror = _mirror;
 @synthesize zoomScale = _zoomScale;
+@synthesize warterMarkView = _warterMarkView;
+@synthesize saveLocalVideo = _saveLocalVideo;
+@synthesize saveLocalVideoPath = _saveLocalVideoPath;
+@synthesize mirrorOutput = _mirrorOutput;
 
 #pragma mark -- LifeCycle
 - (instancetype)initWithVideoConfiguration:(LFLiveVideoConfiguration *)configuration {
@@ -137,8 +143,6 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarChanged:) name:UIApplicationWillChangeStatusBarOrientationNotification object:nil];
         
         self.beautyFace = YES;
-        self.beautyLevel = 0.5;
-        self.brightLevel = 0.5;
         self.zoomScale = 1.0;
         self.mirror = YES;
     }
@@ -191,7 +195,6 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
         _videoCamera.horizontallyMirrorFrontFacingCamera = NO;
         _videoCamera.horizontallyMirrorRearFacingCamera = NO;
         _videoCamera.frameRate = (int32_t)_configuration.videoFrameRate;
-        //_videoCamera.delegate = self;
     }
     return _videoCamera;
 }
@@ -287,28 +290,6 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
 - (void)setBeautyFace:(BOOL)beautyFace{
     _beautyFace = beautyFace;
     [self reloadFilter];
-}
-
-- (void)setBeautyLevel:(CGFloat)beautyLevel {
-    _beautyLevel = beautyLevel;
-    if (self.beautyFilter) {
-//        [self.beautyFilter setBeautyLevel:_beautyLevel];
-    }
-}
-
-- (CGFloat)beautyLevel {
-    return _beautyLevel;
-}
-
-- (void)setBrightLevel:(CGFloat)brightLevel {
-    _brightLevel = brightLevel;
-    if (self.beautyFilter) {
-//        [self.beautyFilter setBrightLevel:brightLevel];
-    }
-}
-
-- (CGFloat)brightLevel {
-    return _brightLevel;
 }
 
 - (void)setZoomScale:(CGFloat)zoomScale {
@@ -454,8 +435,6 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
         [self.filter addTarget:self.output];
         if (self.preView) {
             [self.filter addTarget:self.gpuImageView];
-        } else {
-            [self.output addTarget:[[LFGPUImageEmptyFilter alloc] init]];
         }
         if(self.saveLocalVideo) [self.output addTarget:self.movieWriter];
     }
@@ -468,7 +447,7 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
     //< 输出数据
     __weak typeof(self) _self = self;
     [self.output setFrameProcessingCompletionBlock:^(GPUImageOutput *output, CMTime time) {
-        glFlush();
+        glFinish();
         [_self processVideo:output];
     }];
     
@@ -502,10 +481,10 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
     
     [self.beautyFilter addTarget:self.sharpenFilter];
     [filterGroup addFilter:self.sharpenFilter];
-    
+
     [self.sharpenFilter addTarget:self.whiteBalanceFilter];
     [filterGroup addFilter:self.whiteBalanceFilter];
-    
+
     [self.whiteBalanceFilter addTarget:self.logWhiteFilter];
     [filterGroup addFilter:self.logWhiteFilter];
     
@@ -565,8 +544,14 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
 #pragma mark - GPUImageVideoCamera Delegate
 
 - (void)willOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer {
+    NSLog(@"GPUImageVideoCamera willOutputSampleBuffer");
+    /*
     if (@available(iOS 11.0, *)) {
         [self processFacialBeauty:sampleBuffer];
+    }*/
+    CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+    if ([self.delegate respondsToSelector:@selector(captureOutput:pixelBuffer:)]) {
+        [self.delegate captureOutput:self pixelBuffer:pixelBuffer];
     }
 }
 

@@ -17,9 +17,9 @@
 #import "LFGPUImageBeautyFilter.h"
 #import "LFH264VideoEncoder.h"
 #import "RKStreamLog.h"
+#import "RKVideoCapture.h"
 
-
-@interface LFLiveSession ()<LFAudioCaptureDelegate, LFVideoCaptureDelegate, LFAudioEncodingDelegate, LFVideoEncodingDelegate, LFStreamSocketDelegate>
+@interface LFLiveSession ()<LFAudioCaptureDelegate, LFVideoCaptureInterfaceDelegate, LFAudioEncodingDelegate, LFVideoEncodingDelegate, LFStreamSocketDelegate>
 
 /// 音频配置
 @property (nonatomic, strong) LFLiveAudioConfiguration *audioConfiguration;
@@ -28,7 +28,7 @@
 /// 声音采集
 @property (nonatomic, strong) LFAudioCapture *audioCaptureSource;
 /// 视频采集
-@property (nonatomic, strong) LFVideoCapture *videoCaptureSource;
+@property (nonatomic, strong) id<LFVideoCaptureInterface> videoCaptureSource;
 /// 音频编码
 @property (nonatomic, strong) id<LFAudioEncoding> audioEncoder;
 /// 视频编码
@@ -431,26 +431,6 @@
     return self.videoCaptureSource.beautyFace;
 }
 
-- (void)setBeautyLevel:(CGFloat)beautyLevel {
-    [self willChangeValueForKey:@"beautyLevel"];
-    [self.videoCaptureSource setBeautyLevel:beautyLevel];
-    [self didChangeValueForKey:@"beautyLevel"];
-}
-
-- (CGFloat)beautyLevel {
-    return self.videoCaptureSource.beautyLevel;
-}
-
-- (void)setBrightLevel:(CGFloat)brightLevel {
-    [self willChangeValueForKey:@"brightLevel"];
-    [self.videoCaptureSource setBrightLevel:brightLevel];
-    [self didChangeValueForKey:@"brightLevel"];
-}
-
-- (CGFloat)brightLevel {
-    return self.videoCaptureSource.brightLevel;
-}
-
 - (void)setZoomScale:(CGFloat)zoomScale {
     [self willChangeValueForKey:@"zoomScale"];
     [self.videoCaptureSource setZoomScale:zoomScale];
@@ -526,7 +506,8 @@
 - (LFVideoCapture *)videoCaptureSource {
     if (!_videoCaptureSource) {
         if(self.captureType & LFLiveCaptureMaskVideo){
-            _videoCaptureSource = [[LFVideoCapture alloc] initWithVideoConfiguration:_videoConfiguration];
+            //_videoCaptureSource = [[LFVideoCapture alloc] initWithVideoConfiguration:_videoConfiguration];
+            _videoCaptureSource = [[RKVideoCapture alloc] initWithVideoConfiguration:_videoConfiguration];
             _videoCaptureSource.delegate = self;
         }
     }

@@ -261,11 +261,11 @@ NSString *const kLFGPUImageBeautyFragmentShaderString = SHADER_STRING
 }
 
 - (void)setParams:(CGFloat)beauty tone:(CGFloat)tone {
-    GPUVector4 fBeautyParam = {0.33, 0.63, 0.4, 0.35};
-//    fBeautyParam.one = 1.0 - 0.6 * beauty;
-//    fBeautyParam.two = 1.0 - 0.3 * beauty;
-//    fBeautyParam.three = 0.1 + 0.3 * tone;
-//    fBeautyParam.four = 0.1 + 0.3 * tone;
+    GPUVector4 fBeautyParam;
+    fBeautyParam.one = 1.0 - 0.6 * beauty;
+    fBeautyParam.two = 1.0 - 0.3 * beauty;
+    fBeautyParam.three = 0.1 + 0.3 * tone;
+    fBeautyParam.four = 0.1 + 0.3 * tone;
     [self setFloatVec4:fBeautyParam forUniform:@"params"];
 }
 

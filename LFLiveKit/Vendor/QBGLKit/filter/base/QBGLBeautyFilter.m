@@ -249,12 +249,14 @@ char * const kQBBeautyFilterFragment = STRING
 
 - (void)setInputSize:(CGSize)inputSize {
     [super setInputSize:inputSize];
-    const GLfloat offset[] = {1 / self.inputSize.width, 1 / self.inputSize.height};
+    const GLfloat offset[] = {2.0 / self.inputSize.width, 2.0 / self.inputSize.height};
     glUniform2fv([self.program uniformWithName:"singleStepOffset"], 1, offset);
 }
 
 - (void)setBeautyParams {
-    const GLfloat params[] = {0.33f, 0.63f, 0.4f, 0.35f};
+    float beauty = 0.5f, tone = 0.5f;
+    const GLfloat params[] = {1.0 - 0.6 * beauty, 1.0 - 0.3 * beauty, 0.1 + 0.3 * tone, 0.1 + 0.3 * tone};
+    //const GLfloat params[] = {0.33f, 0.63f, 0.4f, 0.35f};
     glUniform4fv([self.program uniformWithName:"params"], 1, params);
 }
 

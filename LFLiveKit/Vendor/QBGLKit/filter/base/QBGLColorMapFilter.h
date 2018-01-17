@@ -7,6 +7,7 @@
 //
 
 #import "QBGLFilter.h"
+#import "QBGLFilterTypes.h"
 
 @interface QBGLColorMapFilter : QBGLFilter
 
@@ -14,6 +15,7 @@
 @property (copy, nonatomic, nullable) NSString *overlayName1;
 @property (copy, nonatomic, nullable) NSString *overlayName2;
 @property (copy, nonatomic, nullable) NSString *localizedName;
+@property (nonatomic) QBGLFilterType type;
 
 - (nonnull instancetype)initWithColorMap:(nullable NSString *)colorMapName
                                 overlay1:(nullable NSString *)overlayName1

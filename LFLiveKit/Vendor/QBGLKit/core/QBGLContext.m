@@ -67,12 +67,20 @@
     if (!_colorFilter) {
         _colorFilter = [[QBGLColorMapFilter alloc] init];
     }
+    if (_colorFilter.type != _colorFilterType) {
+        [QBGLFilterFactory refactorColorFilter:_colorFilter withType:_colorFilterType];
+        _colorFilter.type = _colorFilterType;
+    }
     return _colorFilter;
 }
 
 - (QBGLBeautyColorMapFilter *)beautyColorFilter {
     if (!_beautyColorFilter) {
         _beautyColorFilter = [[QBGLBeautyColorMapFilter alloc] init];
+    }
+    if (_beautyColorFilter.type != _colorFilterType) {
+        [QBGLFilterFactory refactorColorFilter:_beautyColorFilter withType:_colorFilterType];
+        _beautyColorFilter.type = _colorFilterType;
     }
     return _beautyColorFilter;
 }
@@ -87,16 +95,6 @@
     } else {
         return self.normalFilter;
     }
-}
-
-- (void)setColorFilterType:(QBGLFilterType)colorFilterType {
-    if (_colorFilterType == colorFilterType) {
-        return;
-    }
-    _colorFilterType = colorFilterType;
-
-    [QBGLFilterFactory refactorColorFilter:self.beautyColorFilter withType:colorFilterType];
-    [QBGLFilterFactory refactorColorFilter:self.colorFilter withType:colorFilterType];
 }
 
 - (void)setBeautyEnabled:(BOOL)beautyEnabled {

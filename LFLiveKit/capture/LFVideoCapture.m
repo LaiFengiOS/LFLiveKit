@@ -448,18 +448,18 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
     __weak typeof(self) _self = self;
     [self.output setFrameProcessingCompletionBlock:^(GPUImageOutput *output, CMTime time) {
         glFinish();
-        [_self processVideo:output];
+        [_self processVideo:output atTime:time];
     }];
     
 }
 
-- (void)processVideo:(GPUImageOutput *)output {
+- (void)processVideo:(GPUImageOutput *)output atTime:(CMTime)time {
     __weak typeof(self) _self = self;
     @autoreleasepool {
         GPUImageFramebuffer *imageFramebuffer = output.framebufferForOutput;
         CVPixelBufferRef pixelBuffer = [imageFramebuffer pixelBuffer];
-        if (pixelBuffer && _self.delegate && [_self.delegate respondsToSelector:@selector(captureOutput:pixelBuffer:)]) {
-            [_self.delegate captureOutput:_self pixelBuffer:pixelBuffer];
+        if (pixelBuffer && [_self.delegate respondsToSelector:@selector(captureOutput:pixelBuffer:atTime:)]) {
+            [_self.delegate captureOutput:_self pixelBuffer:pixelBuffer atTime:time];
         }
     }
 }
@@ -549,10 +549,10 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
     if (@available(iOS 11.0, *)) {
         [self processFacialBeauty:sampleBuffer];
     }*/
-    CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
-    if ([self.delegate respondsToSelector:@selector(captureOutput:pixelBuffer:)]) {
-        [self.delegate captureOutput:self pixelBuffer:pixelBuffer];
-    }
+//    CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+//    if ([self.delegate respondsToSelector:@selector(captureOutput:pixelBuffer:)]) {
+//        [self.delegate captureOutput:self pixelBuffer:pixelBuffer];
+//    }
 }
 
 - (void)processFacialBeauty:(CMSampleBufferRef)sampleBuffer {

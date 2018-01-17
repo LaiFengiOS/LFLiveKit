@@ -243,11 +243,12 @@
         [_glkView display];
     }
     
-    if ([self.delegate respondsToSelector:@selector(captureOutput:pixelBuffer:)]) {
+    if ([self.delegate respondsToSelector:@selector(captureOutput:pixelBuffer:atTime:)]) {
         self.glContext.viewPortSize = self.glContext.outputSize;
         [self.glContext renderToOutput];
         glFlush();
-        [self.delegate captureOutput:self pixelBuffer:self.glContext.outputPixelBuffer];
+        CMTime time = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);
+        [self.delegate captureOutput:self pixelBuffer:self.glContext.outputPixelBuffer atTime:time];
     }
 }
 

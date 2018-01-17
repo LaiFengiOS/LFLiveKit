@@ -242,9 +242,9 @@
 
 #pragma mark - Video Capture Delegate
 
-- (void)captureOutput:(nullable LFVideoCapture *)capture pixelBuffer:(nullable CVPixelBufferRef)pixelBuffer {
-    if ([self.delegate respondsToSelector:@selector(liveSession:willOutputVideoFrame:)]) {
-        pixelBuffer = [self.delegate liveSession:self willOutputVideoFrame:pixelBuffer];
+- (void)captureOutput:(nullable LFVideoCapture *)capture pixelBuffer:(nullable CVPixelBufferRef)pixelBuffer atTime:(CMTime)time {
+    if ([self.delegate respondsToSelector:@selector(liveSession:willOutputVideoFrame:atTime:)]) {
+        pixelBuffer = [self.delegate liveSession:self willOutputVideoFrame:pixelBuffer atTime:time];
     }
     if (self.uploading) {
         [self.videoEncoder encodeVideoData:pixelBuffer timeStamp:NOW];

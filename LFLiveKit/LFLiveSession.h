@@ -65,7 +65,7 @@ typedef NS_ENUM(NSUInteger, LFAudioMixVolume) {
 /** callback inner audio data */
 - (void)liveSession:(nullable LFLiveSession *)session audioDataBeforeMixing:(nullable NSData *)audioData;
 
-- (nullable CVPixelBufferRef)liveSession:(nullable LFLiveSession *)session willOutputVideoFrame:(nonnull CVPixelBufferRef)pixelBuffer;
+- (nullable CVPixelBufferRef)liveSession:(nullable LFLiveSession *)session willOutputVideoFrame:(nonnull CVPixelBufferRef)pixelBuffer atTime:(CMTime)time;
 
 @end
 

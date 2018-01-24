@@ -237,10 +237,11 @@
     [self.glContext loadYUVPixelBuffer:pixelBuffer];
     
     BOOL isBackCamera = self.captureDevicePosition == AVCaptureDevicePositionBack;
+    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
     
     if (_glkView) {
         self.glContext.viewPortSize = CGSizeMake(_glkView.drawableWidth, _glkView.drawableHeight);
-        [_glContext setRotation:180 flipHorizontal:isBackCamera];
+        [_glContext setRotation:orientation == UIInterfaceOrientationPortrait ? 180 : 0 flipHorizontal:isBackCamera || !_mirror];
         [_glkView bindDrawable];
         [self.glContext render];
         [_glkView display];
@@ -248,7 +249,7 @@
     
     if ([self.delegate respondsToSelector:@selector(captureOutput:pixelBuffer:atTime:)]) {
         self.glContext.viewPortSize = self.glContext.outputSize;
-        [_glContext setRotation:0 flipHorizontal:isBackCamera];
+        [_glContext setRotation:orientation == UIInterfaceOrientationPortrait ? 0 : 180 flipHorizontal:!isBackCamera && _mirrorOutput];
         [self.glContext renderToOutput];
         glFlush();
         CMTime time = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);

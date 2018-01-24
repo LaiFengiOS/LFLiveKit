@@ -36,13 +36,12 @@
 #import "RKGPUImagePinkyFilter.h"
 #import "RKGPUImageAdventureFilter.h"
 
+#import "LFGPUImageBeautyFilter.h"
 #import "RKGPUImageBeautyFilter.h"
 #import "GPUImageSharpenFilter.h"
 #import "GPUImageWhiteBalanceFilter.h"
 #import "GPUImageContrastFilter.h"
 #import "RKGPULogWhiteFilter.h"
-
-#import <Vision/Vision.h>
 
 #if __has_include(<GPUImage/GPUImage.h>)
 #import <GPUImage/GPUImage.h>
@@ -58,9 +57,10 @@ static NSString * const kColorFilterColorMapKey = @"colorMap";
 static NSString * const kColorFilterSoftLightKey = @"softLight";
 static NSString * const kColorFilterOverlayKey = @"overlay";
 
-@interface LFVideoCapture () <GPUImageVideoCameraDelegate>
+@interface LFVideoCapture ()
 
 @property (nonatomic, strong) GPUImageVideoCamera *videoCamera;
+@property (nonatomic, strong) LFGPUImageBeautyFilter *beautyFilter;
 @property (nonatomic, strong) GPUImageOutput<GPUImageInput> *filter;
 @property (nonatomic, strong) GPUImageCropFilter *cropfilter;
 @property (nonatomic, strong) GPUImageOutput<GPUImageInput> *output;
@@ -79,16 +79,12 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
 
 @property (nonatomic, strong) RKGPUImageColorFilter *colorFilter;
 
-@property (nonatomic, strong) RKGPUImageBeautyFilter *beautyFilter;
-@property (nonatomic, strong) GPUImageSharpenFilter *sharpenFilter;
+@property (strong, nonatomic) RKGPUImageBeautyFilter *rkBeautyFilter;
+@property (strong, nonatomic) GPUImageSharpenFilter *sharpenFilter;
 @property (strong, nonatomic) GPUImageWhiteBalanceFilter *whiteBalanceFilter;
 @property (strong, nonatomic) GPUImageContrastFilter *contrastFilter;
 @property (strong, nonatomic) RKGPULogWhiteFilter *logWhiteFilter;
 
-@property (strong, nonatomic) VNDetectFaceRectanglesRequest *faceRectRequest;
-@property (strong, nonatomic) VNDetectFaceLandmarksRequest *faceMarkRequest;
-@property (strong, nonatomic) VNSequenceRequestHandler *faceRectHandler;
-@property (strong, nonatomic) VNSequenceRequestHandler *faceMarkHandler;
 
 @end
 
@@ -221,8 +217,6 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
     }
     [preView insertSubview:self.gpuImageView atIndex:0];
     self.gpuImageView.frame = CGRectMake(0, 0, preView.frame.size.width, preView.frame.size.height);
-    
-    [self reloadFilter];
 }
 
 - (UIView *)preView {
@@ -381,6 +375,7 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
     [self.cropfilter removeAllTargets];
     [self.colorFilter removeAllTargets];
     [self.beautyFilter removeAllTargets];
+    [self.rkBeautyFilter removeAllTargets];
     [self.contrastFilter removeAllTargets];
     [self.whiteBalanceFilter removeAllTargets];
     [self.sharpenFilter removeAllTargets];
@@ -389,6 +384,7 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
     _blendFilter = nil;
     _uiElementInput = nil;
     self.beautyFilter = nil;
+    self.rkBeautyFilter = nil;
     self.sharpenFilter = nil;
     self.whiteBalanceFilter = nil;
     self.contrastFilter = nil;
@@ -403,7 +399,11 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
 
     // 美肌
     if (self.beautyFace) {
-        [self applyBeautyFilters:filterGroup];
+        if (_useAdvanceBeauty) {
+            [self applyAdvanceBeautyFilters:filterGroup];
+        } else {
+            [self applyBeautyFilters:filterGroup];
+        }
     } else {
         [self applyNormalFilters:filterGroup];
     }
@@ -447,7 +447,6 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
     //< 输出数据
     __weak typeof(self) _self = self;
     [self.output setFrameProcessingCompletionBlock:^(GPUImageOutput *output, CMTime time) {
-        glFinish();
         [_self processVideo:output atTime:time];
     }];
     
@@ -465,6 +464,17 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
 }
 
 - (void)applyBeautyFilters:(GPUImageFilterGroup *)filterGroup {
+    self.beautyFilter = [[LFGPUImageBeautyFilter alloc] init];
+    
+    [filterGroup setInitialFilters:@[self.beautyFilter]];
+    [filterGroup addFilter:self.beautyFilter];
+    
+    [self.beautyFilter addTarget:self.colorFilter];
+    [filterGroup addFilter:self.colorFilter];
+    [filterGroup setTerminalFilter:self.colorFilter];
+}
+
+- (void)applyAdvanceBeautyFilters:(GPUImageFilterGroup *)filterGroup {
     self.logWhiteFilter = [[RKGPULogWhiteFilter alloc] init];
     [self.logWhiteFilter setBeta:4.0];
     
@@ -541,65 +551,5 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
     }
 }
 
-#pragma mark - GPUImageVideoCamera Delegate
-
-- (void)willOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer {
-    NSLog(@"GPUImageVideoCamera willOutputSampleBuffer");
-    /*
-    if (@available(iOS 11.0, *)) {
-        [self processFacialBeauty:sampleBuffer];
-    }*/
-//    CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
-//    if ([self.delegate respondsToSelector:@selector(captureOutput:pixelBuffer:)]) {
-//        [self.delegate captureOutput:self pixelBuffer:pixelBuffer];
-//    }
-}
-
-- (void)processFacialBeauty:(CMSampleBufferRef)sampleBuffer {
-    NSTimeInterval start = CACurrentMediaTime();
-    if (!_faceRectRequest) {
-        _faceRectRequest = [[VNDetectFaceRectanglesRequest alloc] init];
-        _faceMarkRequest = [[VNDetectFaceLandmarksRequest alloc] init];
-        _faceRectHandler = [[VNSequenceRequestHandler alloc] init];
-        _faceMarkHandler = [[VNSequenceRequestHandler alloc] init];
-    }
-    CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
-    
-    NSError *error;
-    [_faceRectHandler performRequests:@[_faceRectRequest] onCVPixelBuffer:pixelBuffer orientation:kCGImagePropertyOrientationLeftMirrored error:&error];
-    if (error) {
-        NSLog(@"face rect detection error = %@", error);
-        return;
-    }
-    if (_faceRectRequest.results.count == 0) {
-        return;
-    }
-    _faceMarkRequest.inputFaceObservations = _faceRectRequest.results;
-    
-    [_faceMarkHandler performRequests:@[_faceMarkRequest] onCVPixelBuffer:pixelBuffer orientation:kCGImagePropertyOrientationLeftMirrored error:&error];
-    if (error) {
-        NSLog(@"face mark detection error = %@", error);
-        return;
-    }
-    //for (int i = 0; i < _faceMarkRequest.results.count; i++) {
-    for (VNFaceObservation *obv in _faceMarkRequest.results) {
-//        CGRect boundingBox = _faceMarkRequest.inputFaceObservations[i].boundingBox;
-//        VNFaceObservation *obv = _faceMarkRequest.results[i];
-        VNFaceLandmarkRegion2D *leftEye = obv.landmarks.leftEye;
-//        _eyeFilter.leftEyePosition = [self centerOfPoints:leftEye.normalizedPoints count:leftEye.pointCount];
-        VNFaceLandmarkRegion2D *rightEye = obv.landmarks.rightEye;
-//        _eyeFilter.rightEyePosition = [self centerOfPoints:rightEye.normalizedPoints count:rightEye.pointCount];
-    }
-    NSLog(@"facial features take %f sec", CACurrentMediaTime() - start);
-}
-
-- (CGPoint)centerOfPoints:(CGPoint *)points count:(NSUInteger)count {
-    CGFloat x = 0, y = 0;
-    for (int i = 0; i < count; i++) {
-        x += points[i].x;
-        y += points[i].y;
-    }
-    return CGPointMake(x / count, y / count);
-}
 
 @end

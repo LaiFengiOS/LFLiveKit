@@ -10,6 +10,8 @@
 
 @interface LFVideoCapture : NSObject <LFVideoCaptureInterface>
 
+@property (assign, nonatomic) BOOL useAdvanceBeauty;
+
 - (nullable instancetype)init UNAVAILABLE_ATTRIBUTE;
 + (nullable instancetype)new UNAVAILABLE_ATTRIBUTE;
 

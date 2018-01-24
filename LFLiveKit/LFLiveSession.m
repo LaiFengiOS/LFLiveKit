@@ -242,7 +242,7 @@
 
 #pragma mark - Video Capture Delegate
 
-- (void)captureOutput:(nullable LFVideoCapture *)capture pixelBuffer:(nullable CVPixelBufferRef)pixelBuffer atTime:(CMTime)time {
+- (void)captureOutput:(nullable id<LFVideoCaptureInterface>)capture pixelBuffer:(nullable CVPixelBufferRef)pixelBuffer atTime:(CMTime)time {
     if ([self.delegate respondsToSelector:@selector(liveSession:willOutputVideoFrame:atTime:)]) {
         pixelBuffer = [self.delegate liveSession:self willOutputVideoFrame:pixelBuffer atTime:time];
     }
@@ -503,11 +503,15 @@
     return _audioCaptureSource;
 }
 
-- (LFVideoCapture *)videoCaptureSource {
+- (id<LFVideoCaptureInterface>)videoCaptureSource {
     if (!_videoCaptureSource) {
         if(self.captureType & LFLiveCaptureMaskVideo){
-            //_videoCaptureSource = [[LFVideoCapture alloc] initWithVideoConfiguration:_videoConfiguration];
-            _videoCaptureSource = [[RKVideoCapture alloc] initWithVideoConfiguration:_videoConfiguration];
+            if (_gpuimageOn) {
+                _videoCaptureSource = [[LFVideoCapture alloc] initWithVideoConfiguration:_videoConfiguration];
+                ((LFVideoCapture*)_videoCaptureSource).useAdvanceBeauty = _gpuimageAdvanceBeautyEnabled;
+            } else {
+                _videoCaptureSource = [[RKVideoCapture alloc] initWithVideoConfiguration:_videoConfiguration];
+            }
             _videoCaptureSource.delegate = self;
         }
     }

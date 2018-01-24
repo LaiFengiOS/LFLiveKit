@@ -145,6 +145,10 @@ typedef NS_ENUM(NSUInteger, LFAudioMixVolume) {
 /** The mirrorOuput control mirror of output is on or off */
 @property (nonatomic, assign) BOOL mirrorOutput;
 
+@property (nonatomic, assign) BOOL gpuimageOn;
+
+@property (nonatomic, assign) BOOL gpuimageAdvanceBeautyEnabled;
+
 // 17 log
 @property (nonatomic, nullable) NSString *liveId;
 @property (nonatomic, nullable) NSString *provider;

@@ -33,8 +33,14 @@
 @implementation QBGLContext
 
 - (instancetype)init {
+    return [self initWithContext:nil];
+}
+
+- (instancetype)initWithContext:(EAGLContext *)context {
+    if (context.API == kEAGLRenderingAPIOpenGLES1)
+        @throw [NSException exceptionWithName:@"QBGLContext init error" reason:@"GL context  can't be kEAGLRenderingAPIOpenGLES1" userInfo:nil];
     if (self = [super init]) {
-        _glContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+        _glContext = context ?: [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];;
         [self becomeCurrentContext];
         CVOpenGLESTextureCacheCreate(kCFAllocatorDefault, NULL, _glContext, NULL, &_textureCacheRef);
     }
@@ -102,7 +108,9 @@
 }
 
 - (void)becomeCurrentContext {
-    [EAGLContext setCurrentContext:_glContext];
+    if ([EAGLContext currentContext] != _glContext) {
+        [EAGLContext setCurrentContext:_glContext];
+    }
 }
 
 - (void)setOutputSize:(CGSize)outputSize {
@@ -147,6 +155,7 @@
     }
     if (_outputPixelBuffer) {
         CFRelease(_outputPixelBuffer);
+        _outputPixelBuffer = NULL;
     }
     if (_outputFrameBuffer) {
         glDeleteFramebuffers(1, &_outputFrameBuffer);
@@ -176,12 +185,12 @@
     glBindFramebuffer(GL_FRAMEBUFFER, _outputFrameBuffer);
     [self.filter render];
     [self draw];
+    glFlush();
 }
 
 - (void)draw {
-    glActiveTexture(GL_TEXTURE0);
     glViewport(0, 0, _viewPortSize.width, _viewPortSize.height);
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }

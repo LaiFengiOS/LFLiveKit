@@ -9,6 +9,7 @@
 
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
+#import <OpenGLES/EAGL.h>
 #import "LFLiveStreamInfo.h"
 #import "LFAudioFrame.h"
 #import "LFVideoFrame.h"
@@ -159,6 +160,8 @@ typedef NS_ENUM(NSUInteger, LFAudioMixVolume) {
 @property (nonatomic) double latitude;
 @property (nonatomic, readonly, nonnull) NSDictionary *logInfo;
 
+@property (strong, nonatomic, readonly) EAGLContext *glContext;
+
 #pragma mark - Initializer
 ///=============================================================================
 /// @name Initializer
@@ -170,13 +173,20 @@ typedef NS_ENUM(NSUInteger, LFAudioMixVolume) {
    The designated initializer. Multiple instances with the same configuration will make the
    capture unstable.
  */
-- (nullable instancetype)initWithAudioConfiguration:(nullable LFLiveAudioConfiguration *)audioConfiguration videoConfiguration:(nullable LFLiveVideoConfiguration *)videoConfiguration;
+- (nullable instancetype)initWithAudioConfiguration:(nullable LFLiveAudioConfiguration *)audioConfiguration
+                                 videoConfiguration:(nullable LFLiveVideoConfiguration *)videoConfiguration;
 
+- (nullable instancetype)initWithAudioConfiguration:(nullable LFLiveAudioConfiguration *)audioConfiguration
+                                 videoConfiguration:(nullable LFLiveVideoConfiguration *)videoConfiguration
+                                        captureType:(LFLiveCaptureTypeMask)captureType;
 /**
  The designated initializer. Multiple instances with the same configuration will make the
  capture unstable.
  */
-- (nullable instancetype)initWithAudioConfiguration:(nullable LFLiveAudioConfiguration *)audioConfiguration videoConfiguration:(nullable LFLiveVideoConfiguration *)videoConfiguration captureType:(LFLiveCaptureTypeMask)captureType NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithAudioConfiguration:(nullable LFLiveAudioConfiguration *)audioConfiguration
+                                 videoConfiguration:(nullable LFLiveVideoConfiguration *)videoConfiguration
+                                        captureType:(LFLiveCaptureTypeMask)captureType
+                                        eaglContext:(EAGLContext *)glContext NS_DESIGNATED_INITIALIZER;
 
 /** The start stream .*/
 - (void)startLive:(nonnull LFLiveStreamInfo *)streamInfo;

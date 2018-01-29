@@ -18,6 +18,7 @@
 @property (strong, nonatomic) RKVideoCamera *videoCamera;
 @property (strong, nonatomic) QBGLContext *glContext;
 @property (strong, nonatomic) GLKView *glkView;
+@property (nonatomic) UIInterfaceOrientation displayOrientation;
 
 @end
 
@@ -33,15 +34,21 @@
 @synthesize mirrorOutput = _mirrorOutput;
 
 - (instancetype)initWithVideoConfiguration:(LFLiveVideoConfiguration *)configuration {
+    return [self initWithVideoConfiguration:configuration eaglContext:nil];
+}
+
+- (nullable instancetype)initWithVideoConfiguration:(nullable LFLiveVideoConfiguration *)configuration
+                                        eaglContext:(nullable EAGLContext *)glContext {
     if (self = [super init]) {
         _configuration = configuration;
-        
+        _eaglContext = glContext;
         self.beautyFace = YES;
         self.zoomScale = 1.0;
         self.mirror = YES;
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterBackground:) name:UIApplicationWillResignActiveNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationDidBecomeActiveNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarChanged:) name:UIApplicationWillChangeStatusBarOrientationNotification object:nil];
     }
     return self;
 }
@@ -91,7 +98,7 @@
 
 - (QBGLContext *)glContext {
     if (!_glContext) {
-        _glContext = [[QBGLContext alloc] init];
+        _glContext = [[QBGLContext alloc] initWithContext:_eaglContext];
         _glContext.outputSize = _configuration.videoSize;
         [_glContext setRotation:0 flipHorizontal:NO];
     }
@@ -230,6 +237,10 @@
     [UIApplication sharedApplication].idleTimerDisabled = YES;
 }
 
+- (void)statusBarChanged:(NSNotification *)notification {
+    self.displayOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+}
+
 #pragma mark - RKVideoCamera Delegate
 
 - (void)videoCamera:(RKVideoCamera *)camera didCaptureVideoSample:(CMSampleBufferRef)sampleBuffer {
@@ -237,7 +248,7 @@
     [self.glContext loadYUVPixelBuffer:pixelBuffer];
     
     BOOL isBackCamera = self.captureDevicePosition == AVCaptureDevicePositionBack;
-    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+    UIInterfaceOrientation orientation = self.displayOrientation;
     
     if (_glkView) {
         self.glContext.viewPortSize = CGSizeMake(_glkView.drawableWidth, _glkView.drawableHeight);
@@ -251,7 +262,7 @@
         self.glContext.viewPortSize = self.glContext.outputSize;
         [_glContext setRotation:orientation == UIInterfaceOrientationPortrait ? 0 : 180 flipHorizontal:!isBackCamera && _mirrorOutput];
         [self.glContext renderToOutput];
-        glFlush();
+        
         CMTime time = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);
         [self.delegate captureOutput:self pixelBuffer:self.glContext.outputPixelBuffer atTime:time];
     }

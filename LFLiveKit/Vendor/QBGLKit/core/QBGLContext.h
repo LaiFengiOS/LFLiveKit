@@ -24,6 +24,8 @@
 @property (nonatomic) QBGLFilterType colorFilterType;
 @property (nonatomic) BOOL beautyEnabled;
 
+- (instancetype)initWithContext:(EAGLContext *)context;
+
 - (void)loadYUVPixelBuffer:(CVPixelBufferRef)pixelBuffer;
 
 - (void)loadBGRAPixelBuffer:(CVPixelBufferRef)pixelBuffer;

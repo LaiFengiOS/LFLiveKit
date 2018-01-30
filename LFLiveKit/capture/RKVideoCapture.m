@@ -42,6 +42,7 @@
     if (self = [super init]) {
         _configuration = configuration;
         _eaglContext = glContext;
+        _displayOrientation = [[UIApplication sharedApplication] statusBarOrientation];
         self.beautyFace = YES;
         self.zoomScale = 1.0;
         self.mirror = YES;
@@ -238,7 +239,8 @@
 }
 
 - (void)statusBarChanged:(NSNotification *)notification {
-    self.displayOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+    UIInterfaceOrientation statusBar = [[UIApplication sharedApplication] statusBarOrientation];
+    self.displayOrientation = statusBar == UIInterfaceOrientationPortrait ? UIInterfaceOrientationPortraitUpsideDown : UIInterfaceOrientationPortrait;
 }
 
 #pragma mark - RKVideoCamera Delegate

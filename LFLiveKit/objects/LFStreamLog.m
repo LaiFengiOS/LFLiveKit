@@ -1,28 +1,28 @@
 //
-//  RKStreamLog.m
+//  LFStreamLog.m
 //  LFLiveKit
 //
 //  Created by Ken Sun on 2017/9/21.
 //  Copyright © 2017年 admin. All rights reserved.
 //
 
-#import "RKStreamLog.h"
-#import "STDPingServices.h"
+#import "LFStreamLog.h"
+#import "LFPingServices.h"
 #import <sys/utsname.h>
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
 #import <CoreTelephony/CTCarrier.h>
 #import <UIKit/UIKit.h>
 #import <SystemConfiguration/SystemConfiguration.h>
 
-@implementation RKStreamLog {
-    STDPingServices *_ping;
+@implementation LFStreamLog {
+    LFPingServices *_ping;
 }
 
 + (instancetype)logger {
-    static RKStreamLog *logger = nil;
+    static LFStreamLog *logger = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        logger = [[RKStreamLog alloc] init];
+        logger = [[LFStreamLog alloc] init];
     });
     return logger;
 }
@@ -129,7 +129,7 @@
 
 - (void)fetchHostStatus {
     __weak typeof(self) wSelf = self;
-    _ping = [STDPingServices startPingAddress:self.host times:15 handler:^(STDPingItem *pingItem, NSArray *pingItems) {
+    _ping = [LFPingServices startPingAddress:self.host times:15 handler:^(LFPingItem *pingItem, NSArray *pingItems) {
         if (pingItem.status != STDPingStatusFinished) {
             NSLog(@"%@", pingItem.description);
         } else {

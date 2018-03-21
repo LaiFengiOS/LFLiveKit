@@ -16,7 +16,7 @@
 #import "LFLiveStreamInfo.h"
 #import "LFGPUImageBeautyFilter.h"
 #import "LFH264VideoEncoder.h"
-#import "RKStreamLog.h"
+#import "LFStreamLog.h"
 #import "RKVideoCapture.h"
 
 @interface LFLiveSession ()<LFAudioCaptureDelegate, LFVideoCaptureInterfaceDelegate, LFAudioEncodingDelegate, LFVideoEncodingDelegate, LFStreamSocketDelegate>
@@ -122,16 +122,16 @@
     _streamInfo.videoConfiguration = _videoConfiguration;
     _streamInfo.audioConfiguration = _audioConfiguration;
     
-    [RKStreamLog logger].initStartTime = [NSDate date].timeIntervalSince1970;
-    [[RKStreamLog logger] fetchInfo];
+    [LFStreamLog logger].initStartTime = [NSDate date].timeIntervalSince1970;
+    [[LFStreamLog logger] fetchInfo];
     __weak typeof(self) wSelf = self;
-    [RKStreamLog logger].logCallback = ^(NSDictionary *dic) {
+    [LFStreamLog logger].logCallback = ^(NSDictionary *dic) {
         if ([wSelf.delegate respondsToSelector:@selector(liveSession:log:)]) {
             [wSelf.delegate liveSession:wSelf log:dic];
         }
     };
     NSUInteger videoBitRate = [self.videoEncoder videoBitRate];
-    [[RKStreamLog logger] logWithDict:@{@"lt" : @"pbrt",
+    [[LFStreamLog logger] logWithDict:@{@"lt" : @"pbrt",
                                         @"vbr": @(videoBitRate)}];
     
     [self.socket start];
@@ -312,7 +312,7 @@
             [self.delegate liveSession:self errorCode:errorCode];
         }
     });
-    [[RKStreamLog logger] logWithDict:@{@"lt": @"pfld",
+    [[LFStreamLog logger] logWithDict:@{@"lt": @"pfld",
                                         @"er": @(errorCode)
                                         }];
 }
@@ -346,7 +346,7 @@
             }
         }
         if (targetBitrate != videoBitRate) {
-            [[RKStreamLog logger] logWithDict:@{@"lt": @"pbrt",
+            [[LFStreamLog logger] logWithDict:@{@"lt": @"pbrt",
                                                 @"vbr": @(targetBitrate)
                                                 }];
         }
@@ -357,35 +357,35 @@
 
 // 17 media
 - (void)setProvider:(NSString *)provider {
-    [RKStreamLog logger].pd = provider;
+    [LFStreamLog logger].pd = provider;
 }
 
 - (void)setLiveId:(NSString *)liveId {
-    [RKStreamLog logger].sid = liveId;
+    [LFStreamLog logger].sid = liveId;
 }
 
 - (void)setUserId:(NSString *)userId {
-    [RKStreamLog logger].uid = userId;
+    [LFStreamLog logger].uid = userId;
 }
 
 - (void)setLongitude:(double)longitude {
-    [RKStreamLog logger].lnt = longitude;
+    [LFStreamLog logger].lnt = longitude;
 }
 
 - (void)setLatitude:(double)latitude {
-    [RKStreamLog logger].ltt = latitude;
+    [LFStreamLog logger].ltt = latitude;
 }
 
 - (void)setRegion:(NSString *)region {
-    [RKStreamLog logger].rg = region;
+    [LFStreamLog logger].rg = region;
 }
 
 - (void)setAppVersion:(NSString *)appVersion {
-    [RKStreamLog logger].av17 = appVersion;
+    [LFStreamLog logger].av17 = appVersion;
 }
 
 - (NSDictionary *)logInfo {
-    return [RKStreamLog logger].basicInfo;
+    return [LFStreamLog logger].basicInfo;
 }
 
 - (NSString *)currentColorFilterName {

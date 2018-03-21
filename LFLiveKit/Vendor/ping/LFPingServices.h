@@ -1,5 +1,5 @@
 //
-//  STDPingServices.h
+//  LFPingServices.h
 //  STKitDemo
 //
 //  Created by SunJiangting on 15-3-9.
@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "STSimplePing.h"
+#import "LFSimplePing.h"
 
 typedef NS_ENUM(NSInteger, STDPingStatus) {
     STDPingStatusDidStart,
@@ -20,7 +20,7 @@ typedef NS_ENUM(NSInteger, STDPingStatus) {
 };
 
 
-@interface STDPingItem : NSObject
+@interface LFPingItem : NSObject
 
 @property (copy, nonatomic) NSString *originalAddress;
 @property (copy, nonatomic) NSString *IPAddress;
@@ -33,7 +33,7 @@ typedef NS_ENUM(NSInteger, STDPingStatus) {
 @end
 
 
-@interface STDPingServices : NSObject
+@interface LFPingServices : NSObject
 
 // default 500ms
 @property (nonatomic) double timeoutMilliseconds;
@@ -42,7 +42,7 @@ typedef NS_ENUM(NSInteger, STDPingStatus) {
 
 + (instancetype)startPingAddress:(NSString *)address
                            times:(NSInteger)times
-                         handler:(void(^)(STDPingItem *pingItem, NSArray<STDPingItem *> *history))handler;
+                         handler:(void(^)(LFPingItem *pingItem, NSArray<LFPingItem *> *history))handler;
 
 - (void)cancel;
 

@@ -1,14 +1,14 @@
 //
-//  STDPingServices.m
+//  LFPingServices.m
 //  STKitDemo
 //
 //  Created by SunJiangting on 15-3-9.
 //  Copyright (c) 2015年 SunJiangting. All rights reserved.
 //
 
-#import "STDPingServices.h"
+#import "LFPingServices.h"
 
-@implementation STDPingItem
+@implementation LFPingItem
 
 - (NSString *)description {
     switch (self.status) {
@@ -33,29 +33,29 @@
 @end
 
 
-#pragma mark - STDPingServices Class
+#pragma mark - LFPingServices Class
 
-@interface STDPingServices () <STSimplePingDelegate> {
+@interface LFPingServices () <LFSimplePingDelegate> {
     BOOL _hasStarted;
     BOOL _isTimeout;
     NSInteger   _repingTimes;
     NSInteger   _sequenceNumber;
-    NSMutableArray<STDPingItem *> *_pingItems;
+    NSMutableArray<LFPingItem *> *_pingItems;
 }
 
 @property(nonatomic, copy)   NSString   *address;
-@property(nonatomic, strong) STSimplePing *simplePing;
+@property(nonatomic, strong) LFSimplePing *simplePing;
 
-@property (copy, nonatomic) void(^callbackHandler)(STDPingItem *item, NSArray<STDPingItem *> *pingItems);
+@property (copy, nonatomic) void(^callbackHandler)(LFPingItem *item, NSArray<LFPingItem *> *pingItems);
 
 @end
 
-@implementation STDPingServices
+@implementation LFPingServices
 
 + (instancetype)startPingAddress:(NSString *)address
                            times:(NSInteger)times
-                         handler:(void(^)(STDPingItem *pingItem, NSArray<STDPingItem *> *history))handler {
-    STDPingServices *services = [[STDPingServices alloc] initWithAddress:address sendnum:times];
+                         handler:(void(^)(LFPingItem *pingItem, NSArray<LFPingItem *> *history))handler {
+    LFPingServices *services = [[LFPingServices alloc] initWithAddress:address sendnum:times];
     services.callbackHandler = handler;
     [services startPing];
     return services;
@@ -68,8 +68,8 @@
         _address = address;
         _pingItems = [NSMutableArray arrayWithCapacity:10];
     
-        _simplePing = [[STSimplePing alloc] initWithHostName:address];
-        _simplePing.addressStyle = STSimplePingAddressStyleAny;
+        _simplePing = [[LFSimplePing alloc] initWithHostName:address];
+        _simplePing.addressStyle = LFSimplePingAddressStyleAny;
         _simplePing.delegate = self;
     }
     return self;
@@ -88,7 +88,7 @@
 }
 
 - (void)timeoutActionFired {
-    STDPingItem *pingItem = [[STDPingItem alloc] init];
+    LFPingItem *pingItem = [[LFPingItem alloc] init];
     pingItem.ICMPSequence = _sequenceNumber;
     pingItem.originalAddress = self.address;
     pingItem.status = STDPingStatusDidTimeout;
@@ -96,7 +96,7 @@
     [self handlePingItem:pingItem];
 }
 
-- (void)handlePingItem:(STDPingItem *)pingItem {
+- (void)handlePingItem:(LFPingItem *)pingItem {
     if (pingItem.status == STDPingStatusDidReceivePacket || pingItem.status == STDPingStatusDidTimeout) {
         [_pingItems addObject:pingItem];
     }
@@ -118,7 +118,7 @@
 - (void)cancel {
     [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(timeoutActionFired) object:nil];
     [self.simplePing stop];
-    STDPingItem *pingItem = [[STDPingItem alloc] init];
+    LFPingItem *pingItem = [[LFPingItem alloc] init];
     pingItem.status = STDPingStatusFinished;
     [_pingItems addObject:pingItem];
     if (self.callbackHandler) {
@@ -129,7 +129,7 @@
 - (long)averageRetryTime {
     double total = 0;
     long count = 0;
-    for (STDPingItem *item in _pingItems) {
+    for (LFPingItem *item in _pingItems) {
         if (item.status == STDPingStatusDidReceivePacket) {
             total += item.timeMilliseconds;
             count++;
@@ -140,7 +140,7 @@
 
 - (float)lossPercentage {
     int receivedCount = 0;
-    for (STDPingItem *item in _pingItems) {
+    for (LFPingItem *item in _pingItems) {
         if (item.status == STDPingStatusDidReceivePacket) {
             receivedCount++;
         }
@@ -154,7 +154,7 @@
     //    round-trip min/avg/max/stddev = 4.445/9.496/12.210/2.832 ms
     NSString *address = [_pingItems.firstObject originalAddress];
     __block NSInteger receivedCount = 0, allCount = 0;
-    [_pingItems enumerateObjectsUsingBlock:^(STDPingItem *obj, NSUInteger idx, BOOL *stop) {
+    [_pingItems enumerateObjectsUsingBlock:^(LFPingItem *obj, NSUInteger idx, BOOL *stop) {
         if (obj.status != STDPingStatusFinished && obj.status != STDPingStatusError) {
             allCount ++;
             if (obj.status == STDPingStatusDidReceivePacket) {
@@ -171,12 +171,12 @@
     return [description stringByReplacingOccurrencesOfString:@".0%" withString:@"%"];
 }
 
-#pragma mark - STSimplePing Delegate
+#pragma mark - LFSimplePing Delegate
 
-- (void)st_simplePing:(STSimplePing *)pinger didStartWithAddress:(NSData *)address {
+- (void)st_simplePing:(LFSimplePing *)pinger didStartWithAddress:(NSData *)address {
     NSData *packet = [pinger packetWithPingData:nil];
     if (!_hasStarted) {
-        STDPingItem *pingItem = [[STDPingItem alloc] init];
+        LFPingItem *pingItem = [[LFPingItem alloc] init];
         pingItem.IPAddress = pinger.IPAddress;
         pingItem.originalAddress = self.address;
         pingItem.dateBytesLength = packet.length - sizeof(STICMPHeader);
@@ -197,32 +197,32 @@
 // On the receive side, it does.  In that case, use +[SimplePing icmpInPacket:]
 // to find the ICMP header within the packet.
 
-- (void)st_simplePing:(STSimplePing *)pinger didSendPacket:(NSData *)packet sequenceNumber:(uint16_t)sequenceNumber {
+- (void)st_simplePing:(LFSimplePing *)pinger didSendPacket:(NSData *)packet sequenceNumber:(uint16_t)sequenceNumber {
     _sequenceNumber = sequenceNumber;
 }
 
-- (void)st_simplePing:(STSimplePing *)pinger didFailToSendPacket:(NSData *)packet sequenceNumber:(uint16_t)sequenceNumber error:(NSError *)error {
+- (void)st_simplePing:(LFSimplePing *)pinger didFailToSendPacket:(NSData *)packet sequenceNumber:(uint16_t)sequenceNumber error:(NSError *)error {
     [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(timeoutActionFired) object:nil];
     _sequenceNumber = sequenceNumber;
-    STDPingItem *pingItem = [[STDPingItem alloc] init];
+    LFPingItem *pingItem = [[LFPingItem alloc] init];
     pingItem.ICMPSequence = _sequenceNumber;
     pingItem.originalAddress = self.address;
     pingItem.status = STDPingStatusDidFailToSendPacket;
     [self handlePingItem:pingItem];
 }
 
-- (void)st_simplePing:(STSimplePing *)pinger didReceiveUnexpectedPacket:(NSData *)packet {
+- (void)st_simplePing:(LFSimplePing *)pinger didReceiveUnexpectedPacket:(NSData *)packet {
     [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(timeoutActionFired) object:nil];
-    STDPingItem *pingItem = [[STDPingItem alloc] init];
+    LFPingItem *pingItem = [[LFPingItem alloc] init];
     pingItem.ICMPSequence = _sequenceNumber;
     pingItem.originalAddress = self.address;
     pingItem.status = STDPingStatusDidReceiveUnexpectedPacket;
 //    [self handlePingItem:pingItem];
 }
 
-- (void)st_simplePing:(STSimplePing *)pinger didReceivePingResponsePacket:(NSData *)packet timeToLive:(NSInteger)timeToLive sequenceNumber:(uint16_t)sequenceNumber timeElapsed:(NSTimeInterval)timeElapsed {
+- (void)st_simplePing:(LFSimplePing *)pinger didReceivePingResponsePacket:(NSData *)packet timeToLive:(NSInteger)timeToLive sequenceNumber:(uint16_t)sequenceNumber timeElapsed:(NSTimeInterval)timeElapsed {
     [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(timeoutActionFired) object:nil];
-    STDPingItem *pingItem = [[STDPingItem alloc] init];
+    LFPingItem *pingItem = [[LFPingItem alloc] init];
     pingItem.IPAddress = pinger.IPAddress;
     pingItem.dateBytesLength = packet.length;
     pingItem.timeToLive = timeToLive;
@@ -233,18 +233,18 @@
     [self handlePingItem:pingItem];
 }
 
-- (void)st_simplePing:(STSimplePing *)pinger didFailWithError:(NSError *)error {
+- (void)st_simplePing:(LFSimplePing *)pinger didFailWithError:(NSError *)error {
     [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(timeoutActionFired) object:nil];
     [self.simplePing stop];
     
-    STDPingItem *errorPingItem = [[STDPingItem alloc] init];
+    LFPingItem *errorPingItem = [[LFPingItem alloc] init];
     errorPingItem.originalAddress = self.address;
     errorPingItem.status = STDPingStatusError;
     if (self.callbackHandler) {
         self.callbackHandler(errorPingItem, [_pingItems copy]);
     }
     
-    STDPingItem *pingItem = [[STDPingItem alloc] init];
+    LFPingItem *pingItem = [[LFPingItem alloc] init];
     pingItem.originalAddress = self.address;
     pingItem.IPAddress = pinger.IPAddress ?: pinger.hostName;
     [_pingItems addObject:pingItem];

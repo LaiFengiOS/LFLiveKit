@@ -6,7 +6,7 @@
     An object wrapper around the low-level BSD Sockets ping function.
  */
 
-#import "STSimplePing.h"
+#import "LFSimplePing.h"
 
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -99,7 +99,7 @@ static uint16_t st_in_cksum(const void *buffer, size_t bufferLen) {
 
 #pragma mark * SimplePing
 
-@interface STSimplePing ()
+@interface LFSimplePing ()
 
 // read/write versions of public properties
 
@@ -128,7 +128,7 @@ static uint16_t st_in_cksum(const void *buffer, size_t bufferLen) {
 
 @end
 
-@implementation STSimplePing
+@implementation LFSimplePing
 
 - (instancetype)initWithHostName:(NSString *)hostName {
     NSParameterAssert(hostName != nil);
@@ -162,7 +162,7 @@ static uint16_t st_in_cksum(const void *buffer, size_t bufferLen) {
  */
 
 - (void)didFailWithError:(NSError *)error {
-    id<STSimplePingDelegate>  strongDelegate;
+    id<LFSimplePingDelegate>  strongDelegate;
     
     assert(error != nil);
     
@@ -271,7 +271,7 @@ static uint16_t st_in_cksum(const void *buffer, size_t bufferLen) {
 - (void)sendPacket:(nonnull NSData *)packet {
     int                     err;
     ssize_t                 bytesSent;
-    id<STSimplePingDelegate>  strongDelegate;
+    id<LFSimplePingDelegate>  strongDelegate;
     // Send the packet.
     
     if (self.socket == NULL) {
@@ -521,7 +521,7 @@ static uint16_t st_in_cksum(const void *buffer, size_t bufferLen) {
     
     if (bytesRead > 0) {
         NSMutableData *         packet;
-        id<STSimplePingDelegate>  strongDelegate;
+        id<LFSimplePingDelegate>  strongDelegate;
         uint16_t                sequenceNumber;
         NSInteger timeToLive = 0;
 
@@ -570,10 +570,10 @@ static uint16_t st_in_cksum(const void *buffer, size_t bufferLen) {
 static void STSocketReadCallback(CFSocketRef s, CFSocketCallBackType type, CFDataRef address, const void *data, void *info) {
     // This C routine is called by CFSocket when there's data waiting on our 
     // ICMP socket.  It just redirects the call to Objective-C code.
-    STSimplePing *    obj;
+    LFSimplePing *    obj;
     
-    obj = (__bridge STSimplePing *) info;
-    assert([obj isKindOfClass:[STSimplePing class]]);
+    obj = (__bridge LFSimplePing *) info;
+    assert([obj isKindOfClass:[LFSimplePing class]]);
     
     #pragma unused(s)
     assert(s == obj.socket);
@@ -626,7 +626,7 @@ static void STSocketReadCallback(CFSocketRef s, CFSocketCallBackType type, CFDat
     } else {
         CFSocketContext         context = {0, (__bridge void *)(self), NULL, NULL, NULL};
         CFRunLoopSourceRef      rls;
-        id<STSimplePingDelegate>  strongDelegate;
+        id<LFSimplePingDelegate>  strongDelegate;
         
         // Wrap it in a CFSocket and schedule it on the runloop.
         
@@ -680,7 +680,7 @@ static void STSocketReadCallback(CFSocketRef s, CFSocketCallBackType type, CFDat
                         s = malloc(INET_ADDRSTRLEN);
                         inet_ntop(AF_INET, &(addr_in->sin_addr), s, INET_ADDRSTRLEN);
                         self.IPAddress = [NSString stringWithFormat:@"%s", s];
-                        if (self.addressStyle != STSimplePingAddressStyleICMPv6) {
+                        if (self.addressStyle != LFSimplePingAddressStyleICMPv6) {
                             self.hostAddress = address;
                             resolved = true;
                         }
@@ -690,7 +690,7 @@ static void STSocketReadCallback(CFSocketRef s, CFSocketCallBackType type, CFDat
                         s = malloc(INET6_ADDRSTRLEN);
                         inet_ntop(AF_INET6, &(addr_in6->sin6_addr), s, INET6_ADDRSTRLEN);
                         self.IPAddress = [NSString stringWithFormat:@"%s", s];
-                        if (self.addressStyle != STSimplePingAddressStyleICMPv4) {
+                        if (self.addressStyle != LFSimplePingAddressStyleICMPv4) {
                             self.hostAddress = address;
                             resolved = true;
                         }
@@ -729,10 +729,10 @@ static void STSocketReadCallback(CFSocketRef s, CFSocketCallBackType type, CFDat
 static void STHostResolveCallback(CFHostRef theHost, CFHostInfoType typeInfo, const CFStreamError *error, void *info) {
     // This C routine is called by CFHost when the host resolution is complete. 
     // It just redirects the call to the appropriate Objective-C method.
-    STSimplePing *    obj;
+    LFSimplePing *    obj;
 
-    obj = (__bridge STSimplePing *) info;
-    assert([obj isKindOfClass:[STSimplePing class]]);
+    obj = (__bridge LFSimplePing *) info;
+    assert([obj isKindOfClass:[LFSimplePing class]]);
     
     #pragma unused(theHost)
     assert(theHost == obj.host);

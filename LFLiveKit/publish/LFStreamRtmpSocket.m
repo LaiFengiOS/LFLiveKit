@@ -7,7 +7,7 @@
 //
 
 #import "LFStreamRTMPSocket.h"
-#import "RKStreamLog.h"
+#import "LFStreamLog.h"
 
 #if __has_include(<pili-librtmp/rtmp.h>)
 #import <pili-librtmp/rtmp.h>
@@ -232,7 +232,7 @@ SAVC(mp4a);
                 int speed = (int)_self.debugInfo.bandwidthForSpeed/20;
                 if(_self.debugInfo.elapsedMilliForSpeed <100*1000){
                     //非第一次统计.才记录.
-                    [[RKStreamLog logger] logWithDict:@{@"lt": @"pspd",
+                    [[LFStreamLog logger] logWithDict:@{@"lt": @"pspd",
                                                         @"spd": @(speed)}];
                 }
                 _self.debugInfo.lastSpeed = _self.debugInfo.bandwidthForSpeed;
@@ -289,18 +289,18 @@ SAVC(mp4a);
     }
     
     // logging
-    [RKStreamLog logger].host = [NSString stringWithUTF8String:_rtmp->ipstr];
-    [[RKStreamLog logger] fetchHostStatus];
+    [LFStreamLog logger].host = [NSString stringWithUTF8String:_rtmp->ipstr];
+    [[LFStreamLog logger] fetchHostStatus];
 
     //连接流
     if (PILI_RTMP_ConnectStream(_rtmp, 0, &_error) == FALSE) {
         goto Failed;
     }
-    int64_t initInterval = ([NSDate date].timeIntervalSince1970 - [RKStreamLog logger].initStartTime) * 1000;
-    [[RKStreamLog logger] logWithDict:@{@"lt": @"pinit",
+    int64_t initInterval = ([NSDate date].timeIntervalSince1970 - [LFStreamLog logger].initStartTime) * 1000;
+    [[LFStreamLog logger] logWithDict:@{@"lt": @"pinit",
                                         @"interval": @(initInterval)}];
     //reconnect times
-    [[RKStreamLog logger] logWithDict:@{@"lt": @"retryTimes",@"retryTimes": @(self.retryTimes4netWorkBreaken),
+    [[LFStreamLog logger] logWithDict:@{@"lt": @"retryTimes",@"retryTimes": @(self.retryTimes4netWorkBreaken),
                                         @"maxTryTimes": @(self.reconnectCount)}];
 
     if (self.delegate && [self.delegate respondsToSelector:@selector(socketStatus:status:)]) {

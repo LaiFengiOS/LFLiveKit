@@ -1,5 +1,5 @@
 //
-//  RKStreamLog.h
+//  LFStreamLog.h
 //  LFLiveKit
 //
 //  Created by Ken Sun on 2017/9/21.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface RKStreamLog : NSObject
+@interface LFStreamLog : NSObject
 
 // user id
 @property (copy, nonatomic) NSString *uid;

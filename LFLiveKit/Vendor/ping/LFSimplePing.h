@@ -12,15 +12,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol STSimplePingDelegate;
+@protocol LFSimplePingDelegate;
 
 /*! Controls the IP address version used by SimplePing instances.
  */
 
-typedef NS_ENUM(NSInteger, STSimplePingAddressStyle) {
-    STSimplePingAddressStyleAny,          ///< Use the first IPv4 or IPv6 address found; the default.
-    STSimplePingAddressStyleICMPv4,       ///< Use the first IPv4 address found.
-    STSimplePingAddressStyleICMPv6        ///< Use the first IPv6 address found.
+typedef NS_ENUM(NSInteger, LFSimplePingAddressStyle) {
+    LFSimplePingAddressStyleAny,          ///< Use the first IPv4 or IPv6 address found; the default.
+    LFSimplePingAddressStyleICMPv4,       ///< Use the first IPv4 address found.
+    LFSimplePingAddressStyleICMPv6        ///< Use the first IPv6 address found.
 };
 
 /*! An object wrapper around the low-level BSD Sockets ping function.
@@ -35,7 +35,7 @@ typedef NS_ENUM(NSInteger, STSimplePingAddressStyle) {
  *      confined to a specific thread and that thread must run its run loop.
  */
 
-@interface STSimplePing : NSObject
+@interface LFSimplePing : NSObject
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -57,13 +57,13 @@ typedef NS_ENUM(NSInteger, STSimplePingAddressStyle) {
  *      thread that calls `-start`.
  */
 
-@property (nonatomic, weak, readwrite, nullable) id<STSimplePingDelegate> delegate;
+@property (nonatomic, weak, readwrite, nullable) id<LFSimplePingDelegate> delegate;
 
 /*! Controls the IP address version used by the object.
  *  \details You should set this value before starting the object.
  */
 
-@property (nonatomic, assign, readwrite) STSimplePingAddressStyle addressStyle;
+@property (nonatomic, assign, readwrite) LFSimplePingAddressStyle addressStyle;
 
 /*! The address being pinged.
  *  \details The contents of the NSData is a (struct sockaddr) of some form.  The 
@@ -141,7 +141,7 @@ typedef NS_ENUM(NSInteger, STSimplePingAddressStyle) {
 /*! A delegate protocol for the SimplePing class.
  */
 
-@protocol STSimplePingDelegate <NSObject>
+@protocol LFSimplePingDelegate <NSObject>
 
 @optional
 
@@ -156,7 +156,7 @@ typedef NS_ENUM(NSInteger, STSimplePingAddressStyle) {
  *      is made, this will have the same value as the `hostAddress` property.
  */
 
-- (void)st_simplePing:(STSimplePing *)pinger didStartWithAddress:(NSData *)address;
+- (void)st_simplePing:(LFSimplePing *)pinger didStartWithAddress:(NSData *)address;
 
 /*! A SimplePing delegate callback, called if the object fails to start up.
  *  \details This is called shortly after you start the object to tell you that the 
@@ -169,7 +169,7 @@ typedef NS_ENUM(NSInteger, STSimplePingAddressStyle) {
  *  \param error Describes the failure.
  */
     
-- (void)st_simplePing:(STSimplePing *)pinger didFailWithError:(NSError *)error;
+- (void)st_simplePing:(LFSimplePing *)pinger didFailWithError:(NSError *)error;
 
 /*! A SimplePing delegate callback, called when the object has successfully sent a ping packet. 
  *  \details Each call to `-sendPingWithData:` will result in either a 
@@ -184,7 +184,7 @@ typedef NS_ENUM(NSInteger, STSimplePingAddressStyle) {
  *  \param sequenceNumber The ICMP sequence number of that packet.
  */
 
-- (void)st_simplePing:(STSimplePing *)pinger didSendPacket:(NSData *)packet sequenceNumber:(uint16_t)sequenceNumber;
+- (void)st_simplePing:(LFSimplePing *)pinger didSendPacket:(NSData *)packet sequenceNumber:(uint16_t)sequenceNumber;
 
 /*! A SimplePing delegate callback, called when the object fails to send a ping packet. 
  *  \details Each call to `-sendPingWithData:` will result in either a 
@@ -200,7 +200,7 @@ typedef NS_ENUM(NSInteger, STSimplePingAddressStyle) {
  *  \param error Describes the failure.
  */
 
-- (void)st_simplePing:(STSimplePing *)pinger didFailToSendPacket:(NSData *)packet sequenceNumber:(uint16_t)sequenceNumber error:(NSError *)error;
+- (void)st_simplePing:(LFSimplePing *)pinger didFailToSendPacket:(NSData *)packet sequenceNumber:(uint16_t)sequenceNumber error:(NSError *)error;
 
 /*! A SimplePing delegate callback, called when the object receives a ping response.
  *  \details If the object receives an ping response that matches a ping request that it 
@@ -212,7 +212,7 @@ typedef NS_ENUM(NSInteger, STSimplePingAddressStyle) {
  *  \param sequenceNumber The ICMP sequence number of that packet.
  */
 
-- (void)st_simplePing:(STSimplePing *)pinger didReceivePingResponsePacket:(NSData *)packet timeToLive:(NSInteger)timeToLive sequenceNumber:(uint16_t)sequenceNumber timeElapsed:(NSTimeInterval)timeElapsed;
+- (void)st_simplePing:(LFSimplePing *)pinger didReceivePingResponsePacket:(NSData *)packet timeToLive:(NSInteger)timeToLive sequenceNumber:(uint16_t)sequenceNumber timeElapsed:(NSTimeInterval)timeElapsed;
 
 /*! A SimplePing delegate callback, called when the object receives an unmatched ICMP message.
  *  \details If the object receives an ICMP message that does not match a ping request that it 
@@ -232,7 +232,7 @@ typedef NS_ENUM(NSInteger, STSimplePingAddressStyle) {
  *      follows that in the ICMP message but does not include any IP-level headers.
  */
 
-- (void)st_simplePing:(STSimplePing *)pinger didReceiveUnexpectedPacket:(NSData *)packet;
+- (void)st_simplePing:(LFSimplePing *)pinger didReceiveUnexpectedPacket:(NSData *)packet;
 
 @end
 

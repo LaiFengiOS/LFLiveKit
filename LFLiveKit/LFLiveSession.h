@@ -93,7 +93,7 @@ typedef NS_ENUM(NSUInteger, LFAudioMixVolume) {
 /** The beautyFace control capture shader filter empty or beautiy */
 @property (nonatomic, assign) BOOL beautyFace;
 
-/** The torch control camera zoom scale default 1.0, between 1.0 ~ 3.0 */
+/** The zoomScale control camera zoom scale, default 1.0 */
 @property (nonatomic, assign) CGFloat zoomScale;
 
 /** The torch control capture flash is on or off */

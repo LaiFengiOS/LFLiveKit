@@ -17,6 +17,7 @@
     BOOL _capturePaused;
 }
 @synthesize frameRate = _frameRate;
+@synthesize zoomFactor = _zoomFactor;
 
 - (instancetype)initWithSessionPreset:(NSString *)sessionPreset cameraPosition:(AVCaptureDevicePosition)cameraPosition {
     if (self = [super init]) {
@@ -46,6 +47,10 @@
             [_captureSession addOutput:_videoDataOutput];
         }
         [_captureSession commitConfiguration];
+        
+        _frameRate = 1 / CMTimeGetSeconds(_captureDevice.activeVideoMaxFrameDuration);
+        _zoomFactor = _captureDevice.videoZoomFactor;
+        NSLog(@"RKVideoCamera init - frame rate = %d, zoom scale = %f", _frameRate, _zoomFactor);
     }
     return self;
 }
@@ -71,7 +76,6 @@
 }
 
 - (void)rotateCamera {
-    NSError *error;
     AVCaptureDevicePosition position = _captureDevice.position == AVCaptureDevicePositionBack ? AVCaptureDevicePositionFront : AVCaptureDevicePositionBack;
     
     AVCaptureDevice *newCaptureDevice = nil;
@@ -115,6 +119,27 @@
 
 - (int32_t)frameRate {
     return _frameRate;
+}
+
+- (void)setZoomFactor:(CGFloat)zoomFactor {
+    CGFloat maxZoom = MIN(_captureDevice.activeFormat.videoMaxZoomFactor, 3.0);
+    if (zoomFactor > maxZoom) {
+        zoomFactor = maxZoom;
+    } else if (zoomFactor < 1) {
+        zoomFactor = 1;
+    }
+    if (_zoomFactor == zoomFactor) {
+        return;
+    }
+    if ([_captureDevice lockForConfiguration:nil]) {
+        _captureDevice.videoZoomFactor = zoomFactor;
+        [_captureDevice unlockForConfiguration];
+        _zoomFactor = zoomFactor;
+    }
+}
+
+- (CGFloat)zoomFactor {
+    return _zoomFactor;
 }
 
 #pragma mark - AVCaptureVideoDataOutputSampleBuffer Delegate

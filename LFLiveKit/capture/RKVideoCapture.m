@@ -27,7 +27,6 @@
 @synthesize running = _running;
 @synthesize torch = _torch;
 @synthesize mirror = _mirror;
-@synthesize zoomScale = _zoomScale;
 @synthesize warterMarkView = _warterMarkView;
 @synthesize saveLocalVideo = _saveLocalVideo;
 @synthesize saveLocalVideoPath = _saveLocalVideoPath;
@@ -201,18 +200,11 @@
 }
 
 - (void)setZoomScale:(CGFloat)zoomScale {
-    if (self.videoCamera && self.videoCamera.videoDeviceInput) {
-        AVCaptureDevice *device = self.videoCamera.captureDevice;
-        if ([device lockForConfiguration:nil]) {
-            device.videoZoomFactor = zoomScale;
-            [device unlockForConfiguration];
-            _zoomScale = zoomScale;
-        }
-    }
+    self.videoCamera.zoomFactor = zoomScale;
 }
 
 - (CGFloat)zoomScale {
-    return _zoomScale;
+    return self.videoCamera.zoomFactor;
 }
 
 - (UIImage *)currentImage {

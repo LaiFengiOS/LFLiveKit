@@ -29,6 +29,8 @@
  */
 @property (readwrite) int32_t frameRate;
 
+@property (readwrite) CGFloat zoomFactor;
+
 - (instancetype)initWithSessionPreset:(NSString *)sessionPreset cameraPosition:(AVCaptureDevicePosition)cameraPosition;
 
 - (void)startCapture;

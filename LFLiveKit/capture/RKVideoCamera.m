@@ -17,7 +17,6 @@
     BOOL _capturePaused;
 }
 @synthesize frameRate = _frameRate;
-@synthesize zoomFactor = _zoomFactor;
 
 - (instancetype)initWithSessionPreset:(NSString *)sessionPreset cameraPosition:(AVCaptureDevicePosition)cameraPosition {
     if (self = [super init]) {
@@ -49,8 +48,6 @@
         [_captureSession commitConfiguration];
         
         _frameRate = 1 / CMTimeGetSeconds(_captureDevice.activeVideoMaxFrameDuration);
-        _zoomFactor = _captureDevice.videoZoomFactor;
-        NSLog(@"RKVideoCamera init - frame rate = %d, zoom scale = %f", _frameRate, _zoomFactor);
     }
     return self;
 }
@@ -128,18 +125,17 @@
     } else if (zoomFactor < 1) {
         zoomFactor = 1;
     }
-    if (_zoomFactor == zoomFactor) {
+    if (_captureDevice.videoZoomFactor == zoomFactor) {
         return;
     }
     if ([_captureDevice lockForConfiguration:nil]) {
         _captureDevice.videoZoomFactor = zoomFactor;
         [_captureDevice unlockForConfiguration];
-        _zoomFactor = zoomFactor;
     }
 }
 
 - (CGFloat)zoomFactor {
-    return _zoomFactor;
+    return _captureDevice.videoZoomFactor;
 }
 
 #pragma mark - AVCaptureVideoDataOutputSampleBuffer Delegate

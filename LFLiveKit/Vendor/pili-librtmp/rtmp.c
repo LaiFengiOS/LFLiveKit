@@ -963,6 +963,9 @@ int PILI_RTMP_Connect(PILI_RTMP *r, PILI_RTMPPacket *cp, RTMPError *error) {
     }
     r->ip = 0; //useless for ipv6
     cur_ai = ai;
+    
+    // parse ip address
+    inet_ntop(AF_INET, &(((struct sockaddr_in *)(cur_ai->ai_addr))->sin_addr), r->ipstr, 16);
 
     int t1 = PILI_RTMP_GetTime();
     if (!PILI_RTMP_Connect0(r, cur_ai, port, error)) {

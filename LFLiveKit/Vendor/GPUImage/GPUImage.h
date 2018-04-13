@@ -167,4 +167,6 @@
 #import "GPUImageColorConversion.h"
 #import "GPUImageColourFASTFeatureDetector.h"
 #import "GPUImageColourFASTSamplingOperation.h"
+#import "LFGPUImageEmptyFilter.h"
+#import "LFGPUImageBeautyFilter.h"
 

@@ -16,9 +16,10 @@
 #import "LFLiveStreamInfo.h"
 #import "LFGPUImageBeautyFilter.h"
 #import "LFH264VideoEncoder.h"
+#import "LFStreamLog.h"
+#import "RKVideoCapture.h"
 
-
-@interface LFLiveSession ()<LFAudioCaptureDelegate, LFVideoCaptureDelegate, LFAudioEncodingDelegate, LFVideoEncodingDelegate, LFStreamSocketDelegate>
+@interface LFLiveSession ()<LFAudioCaptureDelegate, LFVideoCaptureInterfaceDelegate, LFAudioEncodingDelegate, LFVideoEncodingDelegate, LFStreamSocketDelegate>
 
 /// 音频配置
 @property (nonatomic, strong) LFLiveAudioConfiguration *audioConfiguration;
@@ -27,7 +28,7 @@
 /// 声音采集
 @property (nonatomic, strong) LFAudioCapture *audioCaptureSource;
 /// 视频采集
-@property (nonatomic, strong) LFVideoCapture *videoCaptureSource;
+@property (nonatomic, strong) id<LFVideoCaptureInterface> videoCaptureSource;
 /// 音频编码
 @property (nonatomic, strong) id<LFAudioEncoding> audioEncoder;
 /// 视频编码
@@ -68,23 +69,43 @@
 /// 当前是否采集到了关键帧
 @property (nonatomic, assign) BOOL hasKeyFrameVideo;
 
+@property (strong, nonatomic) NSURL *bgSoundURL;
+@property (assign, nonatomic) LFAudioMixVolume bgSoundVolume;
+
 @end
 
 @implementation LFLiveSession
 
 #pragma mark -- LifeCycle
-- (instancetype)initWithAudioConfiguration:(nullable LFLiveAudioConfiguration *)audioConfiguration videoConfiguration:(nullable LFLiveVideoConfiguration *)videoConfiguration {
-    return [self initWithAudioConfiguration:audioConfiguration videoConfiguration:videoConfiguration captureType:LFLiveCaptureDefaultMask];
+- (instancetype)initWithAudioConfiguration:(nullable LFLiveAudioConfiguration *)audioConfiguration
+                        videoConfiguration:(nullable LFLiveVideoConfiguration *)videoConfiguration {
+    return [self initWithAudioConfiguration:audioConfiguration
+                         videoConfiguration:videoConfiguration captureType:LFLiveCaptureDefaultMask];
 }
 
-- (nullable instancetype)initWithAudioConfiguration:(nullable LFLiveAudioConfiguration *)audioConfiguration videoConfiguration:(nullable LFLiveVideoConfiguration *)videoConfiguration captureType:(LFLiveCaptureTypeMask)captureType{
-    if((captureType & LFLiveCaptureMaskAudio || captureType & LFLiveInputMaskAudio) && !audioConfiguration) @throw [NSException exceptionWithName:@"LFLiveSession init error" reason:@"audioConfiguration is nil " userInfo:nil];
-    if((captureType & LFLiveCaptureMaskVideo || captureType & LFLiveInputMaskVideo) && !videoConfiguration) @throw [NSException exceptionWithName:@"LFLiveSession init error" reason:@"videoConfiguration is nil " userInfo:nil];
+- (nullable instancetype)initWithAudioConfiguration:(nullable LFLiveAudioConfiguration *)audioConfiguration
+                                 videoConfiguration:(nullable LFLiveVideoConfiguration *)videoConfiguration
+                                        captureType:(LFLiveCaptureTypeMask)captureType {
+    return [self initWithAudioConfiguration:audioConfiguration
+                         videoConfiguration:videoConfiguration
+                                captureType:captureType
+                                eaglContext:nil];
+}
+
+- (nullable instancetype)initWithAudioConfiguration:(nullable LFLiveAudioConfiguration *)audioConfiguration
+                                 videoConfiguration:(nullable LFLiveVideoConfiguration *)videoConfiguration
+                                        captureType:(LFLiveCaptureTypeMask)captureType
+                                        eaglContext:(EAGLContext *)glContext {
+    if ((captureType & LFLiveCaptureMaskAudio || captureType & LFLiveInputMaskAudio) && !audioConfiguration)
+        @throw [NSException exceptionWithName:@"LFLiveSession init error" reason:@"audioConfiguration is nil " userInfo:nil];
+    if ((captureType & LFLiveCaptureMaskVideo || captureType & LFLiveInputMaskVideo) && !videoConfiguration)
+        @throw [NSException exceptionWithName:@"LFLiveSession init error" reason:@"videoConfiguration is nil " userInfo:nil];
     if (self = [super init]) {
         _audioConfiguration = audioConfiguration;
         _videoConfiguration = videoConfiguration;
         _adaptiveBitrate = NO;
         _captureType = captureType;
+        _glContext = glContext;
     }
     return self;
 }
@@ -100,6 +121,19 @@
     _streamInfo = streamInfo;
     _streamInfo.videoConfiguration = _videoConfiguration;
     _streamInfo.audioConfiguration = _audioConfiguration;
+    
+    [LFStreamLog logger].initStartTime = [NSDate date].timeIntervalSince1970;
+    [[LFStreamLog logger] fetchInfo];
+    __weak typeof(self) wSelf = self;
+    [LFStreamLog logger].logCallback = ^(NSDictionary *dic) {
+        if ([wSelf.delegate respondsToSelector:@selector(liveSession:log:)]) {
+            [wSelf.delegate liveSession:wSelf log:dic];
+        }
+    };
+    NSUInteger videoBitRate = [self.videoEncoder videoBitRate];
+    [[LFStreamLog logger] logWithDict:@{@"lt" : @"pbrt",
+                                        @"vbr": @(videoBitRate)}];
+    
     [self.socket start];
 }
 
@@ -118,7 +152,86 @@
 - (void)pushAudio:(nullable NSData*)audioData{
     if(self.captureType & LFLiveInputMaskAudio){
         if (self.uploading) [self.audioEncoder encodeAudioData:audioData timeStamp:NOW];
+        
+    } else if(self.captureType & LFLiveMixMaskAudioInputVideo) {
+        if (audioData) {
+            [self.audioCaptureSource mixSideData:audioData weight:LFAudioMixVolumeVeryHigh / 10.0];
+        }
     }
+}
+
+- (BOOL)sendSeiJson:(nonnull id)jsonObj {
+    if (self.uploading) {
+        NSData *data = [NSJSONSerialization dataWithJSONObject:jsonObj options:0 error:nil];
+        if (data) {
+            [self.socket sendSeiWithJson:data];
+            return YES;
+        }
+    }
+    return NO;
+}
+
+- (void)previousColorFilter {
+    [self.videoCaptureSource previousColorFilter];
+}
+
+- (void)nextColorFilter {
+    [self.videoCaptureSource nextColorFilter];
+}
+
+- (void)playSound:(nonnull NSURL *)soundUrl {
+    [self playSound:soundUrl volume:LFAudioMixVolumeHigh];
+}
+
+- (void)playSound:(nonnull NSURL *)soundUrl volume:(LFAudioMixVolume)volume {
+    [self.audioCaptureSource mixSound:soundUrl weight:volume / 10.0];
+}
+
+- (void)playSoundSequences:(nonnull NSArray<NSURL *> *)urls {
+    [self playSoundSequences:urls volume:LFAudioMixVolumeHigh];
+}
+
+- (void)playSoundSequences:(nonnull NSArray<NSURL *> *)urls volume:(LFAudioMixVolume)volume {
+    [self.audioCaptureSource mixSoundSequences:urls weight:volume / 10.0];
+}
+
+- (void)playSoundSequences:(nonnull NSArray<NSURL *> *)urls interval:(NSTimeInterval)interval {
+    [self playSoundSequences:urls];
+}
+
+- (void)playParallelSounds:(nonnull NSSet<NSURL *> *)urls {
+    [self playParallelSounds:urls.allObjects volumes:nil];
+}
+
+- (void)playParallelSounds:(nonnull NSArray<NSURL *> *)urls volumes:(NSArray<NSNumber *> *)volumes {
+    NSMutableArray<NSNumber *> *weights = [NSMutableArray new];
+    for (int i = 0; i < urls.count; i++) {
+        [weights addObject:i < volumes.count ? @(volumes[i].unsignedIntegerValue / 10.0) : @(LFAudioMixVolumeNormal / 10.0)];
+    }
+    [self.audioCaptureSource mixSounds:urls weights:weights];
+}
+
+- (void)startBackgroundSound:(nonnull NSURL *)soundUrl {
+    [self startBackgroundSound:soundUrl volume:LFAudioMixVolumeVeryLow];
+}
+
+- (void)startBackgroundSound:(nonnull NSURL *)soundUrl volume:(LFAudioMixVolume)volume {
+    self.bgSoundURL = soundUrl;
+    self.bgSoundVolume = volume;
+    [self.audioCaptureSource mixSound:soundUrl weight:volume / 10.0 repeated:YES];
+}
+
+- (void)stopBackgroundSound {
+    [self.audioCaptureSource stopMixSound:self.bgSoundURL];
+}
+
+- (void)restartBackgroundSound {
+    [self stopBackgroundSound];
+    [self startBackgroundSound:self.bgSoundURL volume:self.bgSoundVolume];
+}
+
+- (void)stopAllSounds {
+    [self.audioCaptureSource stopMixAllSounds];
 }
 
 #pragma mark -- PrivateMethod
@@ -130,13 +243,29 @@
     [self.socket sendFrame:frame];
 }
 
-#pragma mark -- CaptureDelegate
-- (void)captureOutput:(nullable LFAudioCapture *)capture audioData:(nullable NSData*)audioData {
-    if (self.uploading) [self.audioEncoder encodeAudioData:audioData timeStamp:NOW];
+#pragma mark -- Audio Capture Delegate
+
+- (void)captureOutput:(nullable LFAudioCapture *)capture audioBeforeSideMixing:(nullable NSData *)data {
+    if ([self.delegate respondsToSelector:@selector(liveSession:audioDataBeforeMixing:)]) {
+        [self.delegate liveSession:self audioDataBeforeMixing:data];
+    }
 }
 
-- (void)captureOutput:(nullable LFVideoCapture *)capture pixelBuffer:(nullable CVPixelBufferRef)pixelBuffer {
-    if (self.uploading) [self.videoEncoder encodeVideoData:pixelBuffer timeStamp:NOW];
+- (void)captureOutput:(nullable LFAudioCapture *)capture didFinishAudioProcessing:(nullable NSData *)data {
+    if (self.uploading) {
+        [self.audioEncoder encodeAudioData:data timeStamp:NOW];
+    }
+}
+
+#pragma mark - Video Capture Delegate
+
+- (void)captureOutput:(nullable id<LFVideoCaptureInterface>)capture pixelBuffer:(nullable CVPixelBufferRef)pixelBuffer atTime:(CMTime)time {
+    if ([self.delegate respondsToSelector:@selector(liveSession:willOutputVideoFrame:atTime:)]) {
+        pixelBuffer = [self.delegate liveSession:self willOutputVideoFrame:pixelBuffer atTime:time];
+    }
+    if (self.uploading) {
+        [self.videoEncoder encodeVideoData:pixelBuffer timeStamp:NOW];
+    }
 }
 
 #pragma mark -- EncoderDelegate
@@ -183,6 +312,9 @@
             [self.delegate liveSession:self errorCode:errorCode];
         }
     });
+    [[LFStreamLog logger] logWithDict:@{@"lt": @"pfld",
+                                        @"er": @(errorCode)
+                                        }];
 }
 
 - (void)socketDebug:(nullable id<LFStreamSocket>)socket debugInfo:(nullable LFLiveDebug *)debugInfo {
@@ -199,23 +331,67 @@
 - (void)socketBufferStatus:(nullable id<LFStreamSocket>)socket status:(LFLiveBuffferState)status {
     if((self.captureType & LFLiveCaptureMaskVideo || self.captureType & LFLiveInputMaskVideo) && self.adaptiveBitrate){
         NSUInteger videoBitRate = [self.videoEncoder videoBitRate];
+        NSUInteger targetBitrate = videoBitRate;
         if (status == LFLiveBuffferDecline) {
             if (videoBitRate < _videoConfiguration.videoMaxBitRate) {
-                videoBitRate = videoBitRate + 50 * 1000;
-                [self.videoEncoder setVideoBitRate:videoBitRate];
-                NSLog(@"Increase bitrate %@", @(videoBitRate));
+                targetBitrate = videoBitRate + 50 * 1000;
+                [self.videoEncoder setVideoBitRate:targetBitrate];
+                NSLog(@"Increase bitrate %@", @(targetBitrate));
             }
         } else {
             if (videoBitRate > self.videoConfiguration.videoMinBitRate) {
-                videoBitRate = videoBitRate - 100 * 1000;
-                [self.videoEncoder setVideoBitRate:videoBitRate];
-                NSLog(@"Decline bitrate %@", @(videoBitRate));
+                targetBitrate = videoBitRate - 100 * 1000;
+                [self.videoEncoder setVideoBitRate:targetBitrate];
+                NSLog(@"Decline bitrate %@", @(targetBitrate));
             }
+        }
+        if (targetBitrate != videoBitRate) {
+            [[LFStreamLog logger] logWithDict:@{@"lt": @"pbrt",
+                                                @"vbr": @(targetBitrate)
+                                                }];
         }
     }
 }
 
 #pragma mark -- Getter Setter
+
+// 17 media
+- (void)setProvider:(NSString *)provider {
+    [LFStreamLog logger].pd = provider;
+}
+
+- (void)setLiveId:(NSString *)liveId {
+    [LFStreamLog logger].sid = liveId;
+}
+
+- (void)setUserId:(NSString *)userId {
+    [LFStreamLog logger].uid = userId;
+}
+
+- (void)setLongitude:(double)longitude {
+    [LFStreamLog logger].lnt = longitude;
+}
+
+- (void)setLatitude:(double)latitude {
+    [LFStreamLog logger].ltt = latitude;
+}
+
+- (void)setRegion:(NSString *)region {
+    [LFStreamLog logger].rg = region;
+}
+
+- (void)setAppVersion:(NSString *)appVersion {
+    [LFStreamLog logger].av17 = appVersion;
+}
+
+- (NSDictionary *)logInfo {
+    return [LFStreamLog logger].basicInfo;
+}
+
+- (NSString *)currentColorFilterName {
+    return self.videoCaptureSource.currentColorFilterName;
+}
+
 - (void)setRunning:(BOOL)running {
     if (_running == running) return;
     [self willChangeValueForKey:@"running"];
@@ -272,26 +448,6 @@
     return self.videoCaptureSource.beautyFace;
 }
 
-- (void)setBeautyLevel:(CGFloat)beautyLevel {
-    [self willChangeValueForKey:@"beautyLevel"];
-    [self.videoCaptureSource setBeautyLevel:beautyLevel];
-    [self didChangeValueForKey:@"beautyLevel"];
-}
-
-- (CGFloat)beautyLevel {
-    return self.videoCaptureSource.beautyLevel;
-}
-
-- (void)setBrightLevel:(CGFloat)brightLevel {
-    [self willChangeValueForKey:@"brightLevel"];
-    [self.videoCaptureSource setBrightLevel:brightLevel];
-    [self didChangeValueForKey:@"brightLevel"];
-}
-
-- (CGFloat)brightLevel {
-    return self.videoCaptureSource.brightLevel;
-}
-
 - (void)setZoomScale:(CGFloat)zoomScale {
     [self willChangeValueForKey:@"zoomScale"];
     [self.videoCaptureSource setZoomScale:zoomScale];
@@ -320,6 +476,16 @@
 
 - (BOOL)mirror {
     return self.videoCaptureSource.mirror;
+}
+
+- (void)setMirrorOutput:(BOOL)mirrorOutput {
+    [self willChangeValueForKey:@"mirrorOutput"];
+    [self.videoCaptureSource setMirrorOutput:mirrorOutput];
+    [self didChangeValueForKey:@"mirrorOutput"];
+}
+
+- (BOOL)mirrorOutput {
+    return self.videoCaptureSource.mirrorOutput;
 }
 
 - (void)setMuted:(BOOL)muted {
@@ -354,10 +520,15 @@
     return _audioCaptureSource;
 }
 
-- (LFVideoCapture *)videoCaptureSource {
+- (id<LFVideoCaptureInterface>)videoCaptureSource {
     if (!_videoCaptureSource) {
         if(self.captureType & LFLiveCaptureMaskVideo){
-            _videoCaptureSource = [[LFVideoCapture alloc] initWithVideoConfiguration:_videoConfiguration];
+            if (_gpuimageOn) {
+                _videoCaptureSource = [[LFVideoCapture alloc] initWithVideoConfiguration:_videoConfiguration];
+                ((LFVideoCapture*)_videoCaptureSource).useAdvanceBeauty = _gpuimageAdvanceBeautyEnabled;
+            } else {
+                _videoCaptureSource = [[RKVideoCapture alloc] initWithVideoConfiguration:_videoConfiguration eaglContext:_glContext];
+            }
             _videoCaptureSource.delegate = self;
         }
     }

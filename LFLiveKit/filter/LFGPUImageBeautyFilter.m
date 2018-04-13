@@ -193,6 +193,7 @@ NSString *const kLFGPUImageBeautyFragmentShaderString = SHADER_STRING
     mediump float highPass = centralColor.g - sampleColor + 0.5;
 
     for (int i = 0; i < 5; i++) {
+        // 強光
         highPass = hardLight(highPass);
     }
     mediump float luminance = dot(centralColor, W);
@@ -205,14 +206,18 @@ NSString *const kLFGPUImageBeautyFragmentShaderString = SHADER_STRING
     smoothColor.g = clamp(pow(smoothColor.g, params.g), 0.0, 1.0);
     smoothColor.b = clamp(pow(smoothColor.b, params.g), 0.0, 1.0);
 
+    // 濾色 Screen
     mediump vec3 lvse = vec3(1.0)-(vec3(1.0)-smoothColor)*(vec3(1.0)-centralColor);
+    // 變亮 Lighten
     mediump vec3 bianliang = max(smoothColor, centralColor);
+    // 柔光 SoftLight
     mediump vec3 rouguang = 2.0*centralColor*smoothColor + centralColor*centralColor - 2.0*centralColor*centralColor*smoothColor;
 
     gl_FragColor = vec4(mix(centralColor, lvse, alpha), 1.0);
     gl_FragColor.rgb = mix(gl_FragColor.rgb, bianliang, alpha);
     gl_FragColor.rgb = mix(gl_FragColor.rgb, rouguang, params.b);
-
+    
+    // 調節飽和度
     mediump vec3 satcolor = gl_FragColor.rgb * saturateMatrix;
     gl_FragColor.rgb = mix(gl_FragColor.rgb, satcolor, params.a);
     gl_FragColor.rgb = vec3(gl_FragColor.rgb + vec3(brightness));
@@ -231,7 +236,7 @@ NSString *const kLFGPUImageBeautyFragmentShaderString = SHADER_STRING
 
     _toneLevel = 0.5;
     _beautyLevel = 0.5;
-    _brightLevel = 0.5;
+    _brightLevel = 0.0;
     [self setParams:_beautyLevel tone:_toneLevel];
     [self setBrightLevel:_brightLevel];
     return self;
@@ -252,7 +257,7 @@ NSString *const kLFGPUImageBeautyFragmentShaderString = SHADER_STRING
 
 - (void)setBrightLevel:(CGFloat)brightLevel {
     _brightLevel = brightLevel;
-    [self setFloat:0.6 * (-0.5 + brightLevel) forUniformName:@"brightness"];
+    [self setFloat:brightLevel forUniformName:@"brightness"];
 }
 
 - (void)setParams:(CGFloat)beauty tone:(CGFloat)tone {

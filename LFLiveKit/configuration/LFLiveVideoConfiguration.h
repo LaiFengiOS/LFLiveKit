@@ -16,7 +16,9 @@ typedef NS_ENUM (NSUInteger, LFLiveVideoSessionPreset){
     /// 中分辨率
     LFCaptureSessionPreset540x960 = 1,
     /// 高分辨率
-    LFCaptureSessionPreset720x1280 = 2
+    LFCaptureSessionPreset720x1280 = 2,
+    
+    LFCaptureSessionPreset1080x1920 = 3
 };
 
 /// 视频质量

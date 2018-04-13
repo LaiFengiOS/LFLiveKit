@@ -9,6 +9,7 @@
 
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
+#import <OpenGLES/EAGL.h>
 #import "LFLiveStreamInfo.h"
 #import "LFAudioFrame.h"
 #import "LFVideoFrame.h"
@@ -23,6 +24,7 @@ typedef NS_ENUM(NSInteger,LFLiveCaptureType) {
     LFLiveCaptureVideo,         //< capture onlt video
     LFLiveInputAudio,           //< only audio (External input audio)
     LFLiveInputVideo,           //< only video (External input video)
+    LFLiveMixAudio,             //< mix input audio
 };
 
 
@@ -32,11 +34,21 @@ typedef NS_ENUM(NSInteger,LFLiveCaptureTypeMask) {
     LFLiveCaptureMaskVideo = (1 << LFLiveCaptureVideo),                                 ///< only inner capture video (no audio)
     LFLiveInputMaskAudio = (1 << LFLiveInputAudio),                                     ///< only outer input audio (no video)
     LFLiveInputMaskVideo = (1 << LFLiveInputVideo),                                     ///< only outer input video (no audio)
+    LFLiveMixMaskAudio = (1 << LFLiveMixAudio | LFLiveCaptureMaskAudio),                ///< mix inner capture audio
     LFLiveCaptureMaskAll = (LFLiveCaptureMaskAudio | LFLiveCaptureMaskVideo),           ///< inner capture audio and video
     LFLiveInputMaskAll = (LFLiveInputMaskAudio | LFLiveInputMaskVideo),                 ///< outer input audio and video(method see pushVideo and pushAudio)
     LFLiveCaptureMaskAudioInputVideo = (LFLiveCaptureMaskAudio | LFLiveInputMaskVideo), ///< inner capture audio and outer input video(method pushVideo and setRunning)
     LFLiveCaptureMaskVideoInputAudio = (LFLiveCaptureMaskVideo | LFLiveInputMaskAudio), ///< inner capture video and outer input audio(method pushAudio and setRunning)
+    LFLiveMixMaskAudioInputVideo = (LFLiveMixMaskAudio | LFLiveInputMaskVideo),         ///< mix inner capture audio and outer input video(method pushVideo and setRunning)
     LFLiveCaptureDefaultMask = LFLiveCaptureMaskAll                                     ///< default is inner capture audio and video
+};
+
+typedef NS_ENUM(NSUInteger, LFAudioMixVolume) {
+    LFAudioMixVolumeVeryLow = 1,
+    LFAudioMixVolumeLow = 3,
+    LFAudioMixVolumeNormal = 5,
+    LFAudioMixVolumeHigh = 7,
+    LFAudioMixVolumeVeryHigh = 10
 };
 
 @class LFLiveSession;
@@ -47,8 +59,15 @@ typedef NS_ENUM(NSInteger,LFLiveCaptureTypeMask) {
 - (void)liveSession:(nullable LFLiveSession *)session liveStateDidChange:(LFLiveState)state;
 /** live debug info callback */
 - (void)liveSession:(nullable LFLiveSession *)session debugInfo:(nullable LFLiveDebug *)debugInfo;
+/** live stream log callback */
+- (void)liveSession:(nullable LFLiveSession *)session log:(nullable NSDictionary *)dict;
 /** callback socket errorcode */
 - (void)liveSession:(nullable LFLiveSession *)session errorCode:(LFLiveSocketErrorCode)errorCode;
+/** callback inner audio data */
+- (void)liveSession:(nullable LFLiveSession *)session audioDataBeforeMixing:(nullable NSData *)audioData;
+
+- (nullable CVPixelBufferRef)liveSession:(nullable LFLiveSession *)session willOutputVideoFrame:(nonnull CVPixelBufferRef)pixelBuffer atTime:(CMTime)time;
+
 @end
 
 @class LFLiveStreamInfo;
@@ -74,13 +93,7 @@ typedef NS_ENUM(NSInteger,LFLiveCaptureTypeMask) {
 /** The beautyFace control capture shader filter empty or beautiy */
 @property (nonatomic, assign) BOOL beautyFace;
 
-/** The beautyLevel control beautyFace Level. Default is 0.5, between 0.0 ~ 1.0 */
-@property (nonatomic, assign) CGFloat beautyLevel;
-
-/** The brightLevel control brightness Level, Default is 0.5, between 0.0 ~ 1.0 */
-@property (nonatomic, assign) CGFloat brightLevel;
-
-/** The torch control camera zoom scale default 1.0, between 1.0 ~ 3.0 */
+/** The zoomScale control camera zoom scale, default 1.0 */
 @property (nonatomic, assign) CGFloat zoomScale;
 
 /** The torch control capture flash is on or off */
@@ -119,13 +132,35 @@ typedef NS_ENUM(NSInteger,LFLiveCaptureTypeMask) {
 @property (nonatomic, strong, nullable) UIView *warterMarkView;
 
 /* The currentImage is videoCapture shot */
-@property (nonatomic, strong,readonly ,nullable) UIImage *currentImage;
+@property (nonatomic, strong, readonly, nullable) UIImage *currentImage;
 
 /* The saveLocalVideo is save the local video */
 @property (nonatomic, assign) BOOL saveLocalVideo;
 
 /* The saveLocalVideoPath is save the local video  path */
 @property (nonatomic, strong, nullable) NSURL *saveLocalVideoPath;
+
+/* The currentColorFilterName is localized name of current color filter */
+@property (nonatomic, copy, readonly, nullable) NSString *currentColorFilterName;
+
+/** The mirrorOuput control mirror of output is on or off */
+@property (nonatomic, assign) BOOL mirrorOutput;
+
+@property (nonatomic, assign) BOOL gpuimageOn;
+
+@property (nonatomic, assign) BOOL gpuimageAdvanceBeautyEnabled;
+
+// 17 log
+@property (nonatomic, nullable) NSString *liveId;
+@property (nonatomic, nullable) NSString *provider;
+@property (nonatomic, nullable) NSString *userId;
+@property (nonatomic, nullable) NSString *region;
+@property (nonatomic, nullable) NSString *appVersion;
+@property (nonatomic) double longitude;
+@property (nonatomic) double latitude;
+@property (nonatomic, readonly, nonnull) NSDictionary *logInfo;
+
+@property (strong, nonatomic, readonly) EAGLContext *glContext;
 
 #pragma mark - Initializer
 ///=============================================================================
@@ -138,13 +173,20 @@ typedef NS_ENUM(NSInteger,LFLiveCaptureTypeMask) {
    The designated initializer. Multiple instances with the same configuration will make the
    capture unstable.
  */
-- (nullable instancetype)initWithAudioConfiguration:(nullable LFLiveAudioConfiguration *)audioConfiguration videoConfiguration:(nullable LFLiveVideoConfiguration *)videoConfiguration;
+- (nullable instancetype)initWithAudioConfiguration:(nullable LFLiveAudioConfiguration *)audioConfiguration
+                                 videoConfiguration:(nullable LFLiveVideoConfiguration *)videoConfiguration;
 
+- (nullable instancetype)initWithAudioConfiguration:(nullable LFLiveAudioConfiguration *)audioConfiguration
+                                 videoConfiguration:(nullable LFLiveVideoConfiguration *)videoConfiguration
+                                        captureType:(LFLiveCaptureTypeMask)captureType;
 /**
  The designated initializer. Multiple instances with the same configuration will make the
  capture unstable.
  */
-- (nullable instancetype)initWithAudioConfiguration:(nullable LFLiveAudioConfiguration *)audioConfiguration videoConfiguration:(nullable LFLiveVideoConfiguration *)videoConfiguration captureType:(LFLiveCaptureTypeMask)captureType NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithAudioConfiguration:(nullable LFLiveAudioConfiguration *)audioConfiguration
+                                 videoConfiguration:(nullable LFLiveVideoConfiguration *)videoConfiguration
+                                        captureType:(LFLiveCaptureTypeMask)captureType
+                                        eaglContext:(EAGLContext *)glContext NS_DESIGNATED_INITIALIZER;
 
 /** The start stream .*/
 - (void)startLive:(nonnull LFLiveStreamInfo *)streamInfo;
@@ -157,6 +199,40 @@ typedef NS_ENUM(NSInteger,LFLiveCaptureTypeMask) {
 
 /** support outer input pcm audio(set LFLiveCaptureTypeMask) .*/
 - (void)pushAudio:(nullable NSData*)audioData;
+
+- (BOOL)sendSeiJson:(nonnull id)jsonObj;
+
+/** Switch to previous color filter. */
+- (void)previousColorFilter;
+
+/** Switch to next color filter. */
+- (void)nextColorFilter;
+
+// volume is LFAudioMixVolumeNormal
+- (void)playSound:(nonnull NSURL *)soundUrl;
+
+- (void)playSound:(nonnull NSURL *)soundUrl volume:(LFAudioMixVolume)volume;
+
+- (void)playSoundSequences:(nonnull NSArray<NSURL *> *)urls;
+
+- (void)playSoundSequences:(nonnull NSArray<NSURL *> *)urls volume:(LFAudioMixVolume)volume;
+
+/** Not supported yet. Behavior will be the same as [playSoundSequences:] for now. */
+- (void)playSoundSequences:(nonnull NSArray<NSURL *> *)urls interval:(NSTimeInterval)interval;
+
+- (void)playParallelSounds:(nonnull NSSet<NSURL *> *)urls;
+
+- (void)playParallelSounds:(nonnull NSArray<NSURL *> *)urls volumes:(NSArray<NSNumber *> *)volumes;
+
+- (void)startBackgroundSound:(nonnull NSURL *)soundUrl;
+
+- (void)startBackgroundSound:(nonnull NSURL *)soundUrl volume:(LFAudioMixVolume)volume;
+
+- (void)stopBackgroundSound;
+
+- (void)restartBackgroundSound;
+
+- (void)stopAllSounds;
 
 @end
 

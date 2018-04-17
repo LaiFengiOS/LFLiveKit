@@ -234,5 +234,7 @@ typedef NS_ENUM(NSUInteger, LFAudioMixVolume) {
 
 - (void)stopAllSounds;
 
-@end
+/** Update video bitrate with max min range */
+- (BOOL)updateVideoBitRateWithMaxBitRate:(NSUInteger)maxBitRate minBitRate:(NSUInteger)minBitRate;
 
+@end

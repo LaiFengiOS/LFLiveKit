@@ -234,7 +234,29 @@
     [self.audioCaptureSource stopMixAllSounds];
 }
 
+- (BOOL)updateVideoBitRateWithMaxBitRate:(NSUInteger)maxBitRate minBitRate:(NSUInteger)minBitRate {
+    if (!self.videoConfiguration || !self.videoEncoder ||
+        (self.videoConfiguration.videoMinBitRate == minBitRate && self.videoConfiguration.videoMaxBitRate == maxBitRate)) {
+        return NO;
+    }
+    
+    NSUInteger currentBitRate = [self.videoEncoder videoBitRate];
+    NSUInteger targetBitrate = currentBitRate;
+    if (currentBitRate < minBitRate || currentBitRate > maxBitRate) {
+        targetBitrate = (maxBitRate + minBitRate) / 2;
+        [self.videoEncoder setVideoBitRate:targetBitrate];
+        NSLog(@"Update bitrate %@", @(targetBitrate));
+    }
+    
+    self.videoConfiguration.videoBitRate = targetBitrate;
+    self.videoConfiguration.videoMinBitRate = minBitRate;
+    self.videoConfiguration.videoMaxBitRate = maxBitRate;
+    
+    return YES;
+}
+
 #pragma mark -- PrivateMethod
+
 - (void)pushSendBuffer:(LFFrame*)frame{
     if(self.relativeTimestamps == 0){
         self.relativeTimestamps = frame.timestamp;

@@ -6,8 +6,8 @@
 //  Copyright © 2018年 Qubi. All rights reserved.
 //
 
-#import "QBGLFilter.h"
+#import "QBGLYuvFilter.h"
 
-@interface QBGLBeautyFilter : QBGLFilter
+@interface QBGLBeautyFilter : QBGLYuvFilter
 
 @end

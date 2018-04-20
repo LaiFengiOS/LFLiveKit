@@ -7,7 +7,6 @@
 //
 
 #import "QBGLContext.h"
-#import "QBGLFilter.h"
 #import "QBGLFilterFactory.h"
 #import "QBGLProgram.h"
 #import "QBGLUtils.h"
@@ -16,15 +15,19 @@
 
 @interface QBGLContext ()
 
-@property (nonatomic, readonly) QBGLFilter *filter;
+@property (nonatomic, readonly) QBGLYuvFilter *filter;
 
-@property (strong, nonatomic) QBGLFilter *normalFilter;
+@property (nonatomic, readonly) QBGLYuvFilter *inputFilter;
+@property (nonatomic, readonly) QBGLFilter *outputFilter;
+
+@property (strong, nonatomic) QBGLYuvFilter *normalFilter;
 @property (strong, nonatomic) QBGLBeautyFilter *beautyFilter;
 @property (strong, nonatomic) QBGLColorMapFilter *colorFilter;
 @property (strong, nonatomic) QBGLBeautyColorMapFilter *beautyColorFilter;
 
-@property (nonatomic) GLuint outputFrameBuffer;
-@property (nonatomic) GLuint outputTextureId;
+@property (strong, nonatomic) QBGLFilter *magicFilter;
+
+@property (nonatomic) QBGLImageRotation inputRotation;
 
 @property (nonatomic) CVOpenGLESTextureCacheRef textureCacheRef;
 
@@ -49,15 +52,19 @@
 
 - (void)dealloc {
     [self becomeCurrentContext];
-    [self unloadOutputBuffer];
     CFRelease(_textureCacheRef);
     
     [EAGLContext setCurrentContext:nil];
 }
 
-- (QBGLFilter *)normalFilter {
+- (CVPixelBufferRef)outputPixelBuffer {
+    return self.outputFilter.outputPixelBuffer;
+}
+
+- (QBGLYuvFilter *)normalFilter {
     if (!_normalFilter) {
-        _normalFilter = [[QBGLFilter alloc] init];
+        _normalFilter = [[QBGLYuvFilter alloc] init];
+        _normalFilter.textureCacheRef = _textureCacheRef;
     }
     return _normalFilter;
 }
@@ -65,6 +72,7 @@
 - (QBGLBeautyFilter *)beautyFilter {
     if (!_beautyFilter) {
         _beautyFilter = [[QBGLBeautyFilter alloc] init];
+        _beautyFilter.textureCacheRef = _textureCacheRef;
     }
     return _beautyFilter;
 }
@@ -72,6 +80,7 @@
 - (QBGLColorMapFilter *)colorFilter {
     if (!_colorFilter) {
         _colorFilter = [[QBGLColorMapFilter alloc] init];
+        _colorFilter.textureCacheRef = _textureCacheRef;
     }
     if (_colorFilter.type != _colorFilterType) {
         [QBGLFilterFactory refactorColorFilter:_colorFilter withType:_colorFilterType];
@@ -83,6 +92,7 @@
 - (QBGLBeautyColorMapFilter *)beautyColorFilter {
     if (!_beautyColorFilter) {
         _beautyColorFilter = [[QBGLBeautyColorMapFilter alloc] init];
+        _beautyColorFilter.textureCacheRef = _textureCacheRef;
     }
     if (_beautyColorFilter.type != _colorFilterType) {
         [QBGLFilterFactory refactorColorFilter:_beautyColorFilter withType:_colorFilterType];
@@ -91,7 +101,7 @@
     return _beautyColorFilter;
 }
 
-- (QBGLFilter *)filter {
+- (QBGLYuvFilter *)filter {
     if (_beautyEnabled && _colorFilterType != QBGLFilterTypeNone) {
         return self.beautyColorFilter;
     } else if (_beautyEnabled && _colorFilterType == QBGLFilterTypeNone) {
@@ -101,6 +111,15 @@
     } else {
         return self.normalFilter;
     }
+}
+
+- (QBGLYuvFilter *)inputFilter {
+    return self.filter;
+}
+
+- (QBGLFilter *)outputFilter {
+    //return self.magicFilter;
+    return self.filter;
 }
 
 - (void)setBeautyEnabled:(BOOL)beautyEnabled {
@@ -118,94 +137,59 @@
         return;
     _outputSize = outputSize;
     
-    [self unloadOutputBuffer];
-    [self loadOutputBuffer];
-}
-
-- (void)loadOutputBuffer {
-    NSDictionary* attrs = @{(__bridge NSString*) kCVPixelBufferIOSurfacePropertiesKey: @{}};
-    CVPixelBufferCreate(kCFAllocatorDefault, _outputSize.width, _outputSize.height, kCVPixelFormatType_32BGRA, (__bridge CFDictionaryRef) attrs, &_outputPixelBuffer);
-    
-    CVOpenGLESTextureRef outputTextureRef;
-    CVOpenGLESTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
-                                                 _textureCacheRef,
-                                                 _outputPixelBuffer,
-                                                 NULL,
-                                                 GL_TEXTURE_2D,
-                                                 GL_RGBA,
-                                                 _outputSize.width,
-                                                 _outputSize.height,
-                                                 GL_BGRA,
-                                                 GL_UNSIGNED_BYTE,
-                                                 0,
-                                                 &outputTextureRef);
-    _outputTextureId = CVOpenGLESTextureGetName(outputTextureRef);
-    [QBGLUtils bindTexture:_outputTextureId];
-    CFRelease(outputTextureRef);
-    
-    // create output frame buffer
-    glGenFramebuffers(1, &_outputFrameBuffer);
-    glBindFramebuffer(GL_FRAMEBUFFER, _outputFrameBuffer);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _outputTextureId, 0);
-}
-
-- (void)unloadOutputBuffer {
-    if (_outputTextureId) {
-        glDeleteTextures(1, &_outputTextureId);
-    }
-    if (_outputPixelBuffer) {
-        CFRelease(_outputPixelBuffer);
-        _outputPixelBuffer = NULL;
-    }
-    if (_outputFrameBuffer) {
-        glDeleteFramebuffers(1, &_outputFrameBuffer);
-    }
+    self.normalFilter.outputSize = outputSize;
+    self.beautyFilter.inputSize = self.beautyFilter.outputSize = outputSize;
+    self.colorFilter.inputSize = self.colorFilter.outputSize = outputSize;
+    self.beautyColorFilter.inputSize = self.beautyColorFilter.outputSize = outputSize;
 }
 
 - (void)loadYUVPixelBuffer:(CVPixelBufferRef)pixelBuffer {
     [self becomeCurrentContext];
-    self.filter.inputSize = CGSizeMake(CVPixelBufferGetWidth(pixelBuffer), CVPixelBufferGetHeight(pixelBuffer));
-    [self.filter loadYUV:pixelBuffer textureCache:_textureCacheRef];
+    self.inputFilter.inputSize = CGSizeMake(CVPixelBufferGetWidth(pixelBuffer), CVPixelBufferGetHeight(pixelBuffer));
+    [self.inputFilter loadYUV:pixelBuffer];
 }
 
 - (void)loadBGRAPixelBuffer:(CVPixelBufferRef)pixelBuffer {
     [self becomeCurrentContext];
-    self.filter.inputSize = CGSizeMake(CVPixelBufferGetWidth(pixelBuffer), CVPixelBufferGetHeight(pixelBuffer));
-    [self.filter loadBGRA:pixelBuffer textureCache:_textureCacheRef];
+    self.inputFilter.inputSize = CGSizeMake(CVPixelBufferGetWidth(pixelBuffer), CVPixelBufferGetHeight(pixelBuffer));
+    [self.inputFilter loadBGRA:pixelBuffer];
 }
 
 - (void)render {
     [self becomeCurrentContext];
-    [self.filter render];
-    [self draw];
+    
+    self.inputFilter.inputRotation = _inputRotation;
+    [self.inputFilter render];
+    
+    if (self.outputFilter != self.inputFilter) {
+        [self.inputFilter bindDrawable];
+        [self.inputFilter draw];
+        GLuint textureId = self.inputFilter.outputTextureId;
+        [self.outputFilter loadTexture:textureId];
+        [self.outputFilter render];
+    }
 }
 
 - (void)renderToOutput {
-    [self becomeCurrentContext];
-    glBindFramebuffer(GL_FRAMEBUFFER, _outputFrameBuffer);
-    [self.filter render];
-    [self draw];
+    [self render];
+    [self.outputFilter bindDrawable];
+    [self.outputFilter draw];
     glFlush();
 }
 
-- (void)draw {
-    glViewport(0, 0, _viewPortSize.width, _viewPortSize.height);
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-}
-
-- (void)setRotation:(float)degrees flipHorizontal:(BOOL)flip {
-    [self becomeCurrentContext];
-    
-    GLKMatrix4 matrix = GLKMatrix4MakeZRotation(GLKMathDegreesToRadians(degrees));
-    if (flip) {
-        matrix = GLKMatrix4Multiply(matrix, GLKMatrix4MakeScale(-1.0, 1.0, 1.0));
+- (void)setDisplayOrientation:(UIInterfaceOrientation)orientation cameraPosition:(AVCaptureDevicePosition)position {
+    if (position == AVCaptureDevicePositionBack) {
+        _inputRotation =
+        orientation == UIInterfaceOrientationPortrait           ? QBGLImageRotationRight :
+        orientation == UIInterfaceOrientationPortraitUpsideDown ? QBGLImageRotationLeft  :
+        orientation == UIInterfaceOrientationLandscapeLeft      ? QBGLImageRotation180   : QBGLImageRotationNone;
+    } else {
+        _inputRotation =
+        orientation == UIInterfaceOrientationPortrait           ? QBGLImageRotationRight :
+        orientation == UIInterfaceOrientationPortraitUpsideDown ? QBGLImageRotationLeft  :
+        orientation == UIInterfaceOrientationLandscapeLeft      ? QBGLImageRotationNone  :
+        orientation == UIInterfaceOrientationLandscapeRight     ? QBGLImageRotation180   : QBGLImageRotationNone;
     }
-    glUniformMatrix4fv([self.normalFilter.program uniformWithName:"transformMatrix"], 1, false, matrix.m);
-    glUniformMatrix4fv([self.beautyFilter.program uniformWithName:"transformMatrix"], 1, false, matrix.m);
-    glUniformMatrix4fv([self.colorFilter.program uniformWithName:"transformMatrix"], 1, false, matrix.m);
-    glUniformMatrix4fv([self.beautyColorFilter.program uniformWithName:"transformMatrix"], 1, false, matrix.m);
 }
 
 @end

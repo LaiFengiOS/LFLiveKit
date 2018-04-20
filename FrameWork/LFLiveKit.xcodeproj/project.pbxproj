@@ -663,6 +663,10 @@
 		84D8B5E81D768B6E00752B56 /* LFStreamSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 84D8B5B81D768B6E00752B56 /* LFStreamSocket.h */; };
 		84D8B5E91D768B6E00752B56 /* NSMutableArray+LFAdd.h in Headers */ = {isa = PBXBuildFile; fileRef = 84D8B5B91D768B6E00752B56 /* NSMutableArray+LFAdd.h */; };
 		84D8B5EA1D768B6E00752B56 /* NSMutableArray+LFAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D8B5BA1D768B6E00752B56 /* NSMutableArray+LFAdd.m */; };
+		BE2F236820899E5800516C0F /* QBGLYuvFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = BE2F236620899E5400516C0F /* QBGLYuvFilter.h */; };
+		BE2F236920899E5800516C0F /* QBGLYuvFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = BE2F236620899E5400516C0F /* QBGLYuvFilter.h */; };
+		BE2F236A20899E5800516C0F /* QBGLYuvFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = BE2F236720899E5700516C0F /* QBGLYuvFilter.m */; };
+		BE2F236B20899E5800516C0F /* QBGLYuvFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = BE2F236720899E5700516C0F /* QBGLYuvFilter.m */; };
 		BE35EB6D1F5D2F3500B615DF /* RKSoundMix.h in Headers */ = {isa = PBXBuildFile; fileRef = BE35EB6B1F5D2F3500B615DF /* RKSoundMix.h */; };
 		BE35EB6E1F5D2F3500B615DF /* RKSoundMix.m in Sources */ = {isa = PBXBuildFile; fileRef = BE35EB6C1F5D2F3500B615DF /* RKSoundMix.m */; };
 		BE35EB751F5D3EE600B615DF /* RKAudioMix.h in Headers */ = {isa = PBXBuildFile; fileRef = BE35EB731F5D3EE600B615DF /* RKAudioMix.h */; };
@@ -1585,6 +1589,8 @@
 		84D8B5B81D768B6E00752B56 /* LFStreamSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFStreamSocket.h; sourceTree = "<group>"; };
 		84D8B5B91D768B6E00752B56 /* NSMutableArray+LFAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+LFAdd.h"; sourceTree = "<group>"; };
 		84D8B5BA1D768B6E00752B56 /* NSMutableArray+LFAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+LFAdd.m"; sourceTree = "<group>"; };
+		BE2F236620899E5400516C0F /* QBGLYuvFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QBGLYuvFilter.h; sourceTree = "<group>"; };
+		BE2F236720899E5700516C0F /* QBGLYuvFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QBGLYuvFilter.m; sourceTree = "<group>"; };
 		BE35EB6B1F5D2F3500B615DF /* RKSoundMix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKSoundMix.h; sourceTree = "<group>"; };
 		BE35EB6C1F5D2F3500B615DF /* RKSoundMix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKSoundMix.m; sourceTree = "<group>"; };
 		BE35EB731F5D3EE600B615DF /* RKAudioMix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKAudioMix.h; sourceTree = "<group>"; };
@@ -2666,6 +2672,8 @@
 			children = (
 				BE4934A120076CA2003F5291 /* QBGLFilter.h */,
 				BE49349E20076CA2003F5291 /* QBGLFilter.m */,
+				BE2F236620899E5400516C0F /* QBGLYuvFilter.h */,
+				BE2F236720899E5700516C0F /* QBGLYuvFilter.m */,
 				BE4935E220086326003F5291 /* QBGLBeautyFilter.h */,
 				BE4935E120086326003F5291 /* QBGLBeautyFilter.m */,
 				BE4935E8200866A5003F5291 /* QBGLColorMapFilter.h */,
@@ -2979,6 +2987,7 @@
 				BE4934D720076CA3003F5291 /* QBGLHealthyFilter.h in Headers */,
 				8495F68B1DB8F1EE00542124 /* LFStreamSocket.h in Headers */,
 				BE49353920076CA3003F5291 /* QBGLAmaroFilter.h in Headers */,
+				BE2F236920899E5800516C0F /* QBGLYuvFilter.h in Headers */,
 				BE49353B20076CA3003F5291 /* QBGLInkwellFilter.h in Headers */,
 				BE49350F20076CA3003F5291 /* QBGLSutroFilter.h in Headers */,
 				8495F68C1DB8F1EE00542124 /* NSMutableArray+LFAdd.h in Headers */,
@@ -3177,6 +3186,7 @@
 				843591331DD1FEB600811FC7 /* GPUImageUnsharpMaskFilter.h in Headers */,
 				843591011DD1FEB600811FC7 /* GPUImageSoftEleganceFilter.h in Headers */,
 				843591251DD1FEB600811FC7 /* GPUImageToonFilter.h in Headers */,
+				BE2F236820899E5800516C0F /* QBGLYuvFilter.h in Headers */,
 				843590371DD1FEB600811FC7 /* GPUImageDarkenBlendFilter.h in Headers */,
 				84D8B5D31D768B6E00752B56 /* LFGPUImageBeautyFilter.h in Headers */,
 				BE49351C20076CA3003F5291 /* QBGLN1977Filter.h in Headers */,
@@ -3603,6 +3613,7 @@
 				843591821DD20A7E00811FC7 /* GPUImageColorDodgeBlendFilter.m in Sources */,
 				843591831DD20A7E00811FC7 /* GPUImageColorInvertFilter.m in Sources */,
 				C16E7D521E534AE60067DE28 /* RKGPUImagePureFilter.m in Sources */,
+				BE2F236B20899E5800516C0F /* QBGLYuvFilter.m in Sources */,
 				843591841DD20A7E00811FC7 /* GPUImageColorLocalBinaryPatternFilter.m in Sources */,
 				843591851DD20A7E00811FC7 /* GPUImageColorMatrixFilter.m in Sources */,
 				843591861DD20A7E00811FC7 /* GPUImageColorPackingFilter.m in Sources */,
@@ -3912,6 +3923,7 @@
 				843590AA1DD1FEB600811FC7 /* GPUImageMedianFilter.m in Sources */,
 				843591001DD1FEB600811FC7 /* GPUImageSobelEdgeDetectionFilter.m in Sources */,
 				843590DA1DD1FEB600811FC7 /* GPUImagePosterizeFilter.m in Sources */,
+				BE2F236A20899E5800516C0F /* QBGLYuvFilter.m in Sources */,
 				8435900A1DD1FEB600811FC7 /* GPUImageBoxBlurFilter.m in Sources */,
 				C16E7D511E534AE60067DE28 /* RKGPUImagePureFilter.m in Sources */,
 				843590541DD1FEB600811FC7 /* GPUImageFilterGroup.m in Sources */,

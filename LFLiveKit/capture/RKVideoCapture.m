@@ -31,6 +31,7 @@
 @synthesize saveLocalVideo = _saveLocalVideo;
 @synthesize saveLocalVideoPath = _saveLocalVideoPath;
 @synthesize mirrorOutput = _mirrorOutput;
+@synthesize displayOrientation = _displayOrientation;
 
 - (instancetype)initWithVideoConfiguration:(LFLiveVideoConfiguration *)configuration {
     return [self initWithVideoConfiguration:configuration eaglContext:nil];
@@ -100,7 +101,7 @@
     if (!_glContext) {
         _glContext = [[QBGLContext alloc] initWithContext:_eaglContext];
         _glContext.outputSize = _configuration.videoSize;
-        [_glContext setRotation:0 flipHorizontal:NO];
+        [_glContext setDisplayOrientation:self.displayOrientation cameraPosition:self.captureDevicePosition];
     }
     return _glContext;
 }
@@ -136,11 +137,21 @@
         return;
     [self.videoCamera rotateCamera];
     self.videoCamera.frameRate = (int32_t)_configuration.videoFrameRate;
+    [self.glContext setDisplayOrientation:self.displayOrientation cameraPosition:self.captureDevicePosition];
     [self reloadMirror];
 }
 
 - (AVCaptureDevicePosition)captureDevicePosition {
     return [self.videoCamera cameraPosition];
+}
+
+- (void)setDisplayOrientation:(UIInterfaceOrientation)displayOrientation {
+    _displayOrientation = displayOrientation;
+    [self.glContext setDisplayOrientation:displayOrientation cameraPosition:self.captureDevicePosition];
+}
+
+- (UIInterfaceOrientation)displayOrientation {
+    return _displayOrientation;
 }
 
 - (void)setVideoFrameRate:(NSInteger)videoFrameRate {
@@ -241,20 +252,15 @@
     CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
     [self.glContext loadYUVPixelBuffer:pixelBuffer];
     
-    BOOL isBackCamera = self.captureDevicePosition == AVCaptureDevicePositionBack;
-    UIInterfaceOrientation orientation = self.displayOrientation;
-    
     if (_glkView) {
-        self.glContext.viewPortSize = CGSizeMake(_glkView.drawableWidth, _glkView.drawableHeight);
-        [_glContext setRotation:orientation == UIInterfaceOrientationPortrait ? 180 : 0 flipHorizontal:isBackCamera || !_mirror];
-        [_glkView bindDrawable];
+        self.glContext.outputSize = CGSizeMake(_glkView.drawableWidth, _glkView.drawableHeight);
         [self.glContext render];
+        [_glkView bindDrawable];
         [_glkView display];
     }
     
     if ([self.delegate respondsToSelector:@selector(captureOutput:pixelBuffer:atTime:)]) {
-        self.glContext.viewPortSize = self.glContext.outputSize;
-        [_glContext setRotation:orientation == UIInterfaceOrientationPortrait ? 0 : 180 flipHorizontal:!isBackCamera && _mirrorOutput];
+        self.glContext.outputSize = _configuration.videoSize;
         [self.glContext renderToOutput];
         
         CMTime time = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);

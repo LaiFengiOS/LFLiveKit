@@ -11,6 +11,7 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import <CoreMedia/CoreMedia.h>
+#import <AVFoundation/AVFoundation.h>
 #import "QBGLFilterTypes.h"
 
 @interface QBGLContext : NSObject
@@ -18,7 +19,6 @@
 @property (strong, nonatomic, readonly) EAGLContext *glContext;
 @property (nonatomic, readonly) CVPixelBufferRef outputPixelBuffer;
 
-@property (nonatomic) CGSize viewPortSize;
 @property (nonatomic) CGSize outputSize;
 
 @property (nonatomic) QBGLFilterType colorFilterType;
@@ -34,6 +34,6 @@
 
 - (void)renderToOutput;
 
-- (void)setRotation:(float)degrees flipHorizontal:(BOOL)flip;
+- (void)setDisplayOrientation:(UIInterfaceOrientation)orientation cameraPosition:(AVCaptureDevicePosition)position;
 
 @end

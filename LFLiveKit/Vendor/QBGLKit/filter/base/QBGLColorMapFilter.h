@@ -6,10 +6,10 @@
 //  Copyright © 2016年 Qubi. All rights reserved.
 //
 
-#import "QBGLFilter.h"
+#import "QBGLYuvFilter.h"
 #import "QBGLFilterTypes.h"
 
-@interface QBGLColorMapFilter : QBGLFilter
+@interface QBGLColorMapFilter : QBGLYuvFilter
 
 @property (copy, nonatomic, nullable) NSString *colorMapName;
 @property (copy, nonatomic, nullable) NSString *overlayName1;

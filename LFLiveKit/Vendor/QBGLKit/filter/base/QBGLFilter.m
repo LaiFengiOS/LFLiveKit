@@ -20,8 +20,8 @@ char * const kQBNoFilterFragment;
 @property (nonatomic) int attrInputTextureCoordinate;
 
 @property (strong, nonatomic) QBGLDrawable *inputImageDrawable;
-@property (strong, nonatomic) QBGLDrawable *yDrawable;
-@property (strong, nonatomic) QBGLDrawable *uvDrawable;
+
+@property (nonatomic) GLuint outputFrameBuffer;
 
 @end
 
@@ -43,10 +43,60 @@ char * const kQBNoFilterFragment;
 
 - (void)dealloc {
     [self deleteTextures];
+    [self unloadOutputBuffer];
+}
+
+- (void)setOutputSize:(CGSize)outputSize {
+    if (CGSizeEqualToSize(outputSize, _outputSize))
+        return;
+    _outputSize = outputSize;
+    
+    [self unloadOutputBuffer];
+    [self loadOutputBuffer];
+}
+
+- (void)loadOutputBuffer {
+    NSDictionary* attrs = @{(__bridge NSString*) kCVPixelBufferIOSurfacePropertiesKey: @{}};
+    CVPixelBufferCreate(kCFAllocatorDefault, _outputSize.width, _outputSize.height, kCVPixelFormatType_32BGRA, (__bridge CFDictionaryRef) attrs, &_outputPixelBuffer);
+    
+    CVOpenGLESTextureRef outputTextureRef;
+    CVOpenGLESTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
+                                                 _textureCacheRef,
+                                                 _outputPixelBuffer,
+                                                 NULL,
+                                                 GL_TEXTURE_2D,
+                                                 GL_RGBA,
+                                                 _outputSize.width,
+                                                 _outputSize.height,
+                                                 GL_BGRA,
+                                                 GL_UNSIGNED_BYTE,
+                                                 0,
+                                                 &outputTextureRef);
+    _outputTextureId = CVOpenGLESTextureGetName(outputTextureRef);
+    [QBGLUtils bindTexture:_outputTextureId];
+    CFRelease(outputTextureRef);
+    
+    // create output frame buffer
+    glGenFramebuffers(1, &_outputFrameBuffer);
+    glBindFramebuffer(GL_FRAMEBUFFER, _outputFrameBuffer);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _outputTextureId, 0);
+}
+
+- (void)unloadOutputBuffer {
+    if (_outputTextureId) {
+        glDeleteTextures(1, &_outputTextureId);
+    }
+    if (_outputPixelBuffer) {
+        CFRelease(_outputPixelBuffer);
+        _outputPixelBuffer = NULL;
+    }
+    if (_outputFrameBuffer) {
+        glDeleteFramebuffers(1, &_outputFrameBuffer);
+    }
 }
 
 - (void)loadTextures {
-    
+    // do nothing
 }
 
 - (void)deleteTextures {
@@ -55,14 +105,14 @@ char * const kQBNoFilterFragment;
     }
 }
 
-- (void)loadBGRA:(CVPixelBufferRef)pixelBuffer textureCache:(CVOpenGLESTextureCacheRef)textureCacheRef {
+- (void)loadBGRA:(CVPixelBufferRef)pixelBuffer {
     int width = (int) CVPixelBufferGetWidth(pixelBuffer);
     int height = (int) CVPixelBufferGetHeight(pixelBuffer);
     
     CVPixelBufferLockBaseAddress(pixelBuffer, 0);
     CVOpenGLESTextureRef imageTextureRef;
     CVOpenGLESTextureCacheCreateTextureFromImage(kCFAllocatorDefault,
-                                                 textureCacheRef,
+                                                 _textureCacheRef,
                                                  pixelBuffer,
                                                  NULL,
                                                  GL_TEXTURE_2D,
@@ -78,28 +128,12 @@ char * const kQBNoFilterFragment;
     CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
 }
 
-- (void)loadYUV:(CVPixelBufferRef)pixelBuffer textureCache:(CVOpenGLESTextureCacheRef)textureCacheRef {
-    int width = (int) CVPixelBufferGetWidth(pixelBuffer);
-    int height = (int) CVPixelBufferGetHeight(pixelBuffer);
-    
-    CVPixelBufferLockBaseAddress(pixelBuffer, 0);
-    
-    CVOpenGLESTextureRef luminanceTextureRef, chrominanceTextureRef;
-    
-    // y texture
-    CVOpenGLESTextureCacheCreateTextureFromImage(kCFAllocatorDefault, textureCacheRef, pixelBuffer, NULL, GL_TEXTURE_2D, GL_LUMINANCE, width, height, GL_LUMINANCE, GL_UNSIGNED_BYTE, 0, &luminanceTextureRef);
-    
-    _yDrawable = [[QBGLDrawable alloc] initWithTextureRef:luminanceTextureRef identifier:@"yTexture"];
-    
-    // uv texture
-    CVOpenGLESTextureCacheCreateTextureFromImage(kCFAllocatorDefault, textureCacheRef, pixelBuffer, NULL, GL_TEXTURE_2D, GL_LUMINANCE_ALPHA, width/2, height/2, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, 1, &chrominanceTextureRef);
-    
-    _uvDrawable = [[QBGLDrawable alloc] initWithTextureRef:chrominanceTextureRef identifier:@"uvTexture"];
-    
-    CFRelease(luminanceTextureRef);
-    CFRelease(chrominanceTextureRef);
-    
-    CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
+- (void)loadTexture:(GLuint)textureId {
+    _inputImageDrawable = [[QBGLDrawable alloc] initWithTextureId:textureId identifier:@"inputImageTexture"];
+}
+
+- (NSArray<QBGLDrawable*> *)renderTextures {
+    return nil;
 }
 
 - (GLuint)render {
@@ -108,17 +142,11 @@ char * const kQBNoFilterFragment;
     [_program enableAttributeWithId:_attrInputTextureCoordinate];
     
     glVertexAttribPointer(_attrPosition, 2, GL_FLOAT, 0, 0, squareVertices);
-    glVertexAttribPointer(_attrInputTextureCoordinate, 2, GL_FLOAT, 0, 0, squareTextureCoordinates);
+    glVertexAttribPointer(_attrInputTextureCoordinate, 2, GL_FLOAT, 0, 0, [self.class textureCoordinatesForRotation:_inputRotation]);
     
     GLuint index = 0;
     if (_inputImageDrawable) {
         index = [_inputImageDrawable prepareToDrawAtTextureIndex:index program:_program];
-    }
-    if (_yDrawable) {
-        index = [_yDrawable prepareToDrawAtTextureIndex:index program:_program];
-    }
-    if (_uvDrawable) {
-        index = [_uvDrawable prepareToDrawAtTextureIndex:index program:_program];
     }
     for (QBGLDrawable *drawable in [self renderTextures]) {
         index = [drawable prepareToDrawAtTextureIndex:index program:_program];
@@ -126,8 +154,93 @@ char * const kQBNoFilterFragment;
     return index;
 }
 
-- (NSArray<QBGLDrawable*> *)renderTextures {
-    return nil;
+- (void)bindDrawable {
+    glBindFramebuffer(GL_FRAMEBUFFER, _outputFrameBuffer);
+}
+
+- (void)draw {
+    glViewport(0, 0, _outputSize.width, _outputSize.height);
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+}
+
++ (const GLfloat *)textureCoordinatesForRotation:(QBGLImageRotation)rotation {
+    
+    static const GLfloat noRotationTextureCoordinates[] = {
+        0.0f, 0.0f,
+        1.0f, 0.0f,
+        0.0f, 1.0f,
+        1.0f, 1.0f,
+    };
+    
+    static const GLfloat rotateLeftTextureCoordinates[] = {
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+        0.0f, 0.0f,
+        0.0f, 1.0f,
+    };
+    
+    static const GLfloat rotateRightTextureCoordinates[] = {
+        0.0f, 1.0f,
+        0.0f, 0.0f,
+        1.0f, 1.0f,
+        1.0f, 0.0f,
+    };
+    
+    static const GLfloat verticalFlipTextureCoordinates[] = {
+        0.0f, 1.0f,
+        1.0f, 1.0f,
+        0.0f, 0.0f,
+        1.0f, 0.0f,
+    };
+    
+    static const GLfloat horizontalFlipTextureCoordinates[] = {
+        1.0f, 0.0f,
+        0.0f, 0.0f,
+        1.0f, 1.0f,
+        0.0f, 1.0f,
+    };
+    
+    static const GLfloat rotateRightVerticalFlipTextureCoordinates[] = {
+        0.0f, 0.0f,
+        0.0f, 1.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+    };
+    
+    static const GLfloat rotateRightHorizontalFlipTextureCoordinates[] = {
+        1.0f, 1.0f,
+        1.0f, 0.0f,
+        0.0f, 1.0f,
+        0.0f, 0.0f,
+    };
+    
+    static const GLfloat rotate180TextureCoordinates[] = {
+        1.0f, 1.0f,
+        0.0f, 1.0f,
+        1.0f, 0.0f,
+        0.0f, 0.0f,
+    };
+    
+    switch(rotation) {
+        case QBGLImageRotationNone:
+            return noRotationTextureCoordinates;
+        case QBGLImageRotationLeft:
+            return rotateLeftTextureCoordinates;
+        case QBGLImageRotationRight:
+            return rotateRightTextureCoordinates;
+        case QBGLImageRotationFlipVertical:
+            return verticalFlipTextureCoordinates;
+        case QBGLImageRotationFlipHorizonal:
+            return horizontalFlipTextureCoordinates;
+        case QBGLImageRotationRightFlipVertical:
+            return rotateRightVerticalFlipTextureCoordinates;
+        case QBGLImageRotationRightFlipHorizontal:
+            return rotateRightHorizontalFlipTextureCoordinates;
+        case QBGLImageRotation180:
+            return rotate180TextureCoordinates;
+    }
 }
 
 @end
@@ -137,43 +250,23 @@ char * const kQBNoFilterVertex = STRING
  attribute vec4 position;
  attribute vec4 inputTextureCoordinate;
  
- uniform mat4 transformMatrix;
- 
  varying vec2 textureCoordinate;
  
  void main()
  {
-     gl_Position = position * transformMatrix;
+     gl_Position = position;
      textureCoordinate = inputTextureCoordinate.xy;
  }
-);
+ );
 
 char * const kQBNoFilterFragment = STRING
 (
- precision highp float;
- 
  varying highp vec2 textureCoordinate;
  uniform sampler2D inputImageTexture;
  
- uniform sampler2D yTexture;
- uniform sampler2D uvTexture;
- 
- const mat3 yuv2rgbMatrix = mat3(1.0, 1.0, 1.0,
-                                 0.0, -0.343, 1.765,
-                                 1.4, -0.711, 0.0);
- 
- vec3 rgbFromYuv(sampler2D yTexture, sampler2D uvTexture, vec2 textureCoordinate) {
-     float y = texture2D(yTexture, textureCoordinate).r;
-     float u = texture2D(uvTexture, textureCoordinate).r - 0.5;
-     float v = texture2D(uvTexture, textureCoordinate).a - 0.5;
-     return yuv2rgbMatrix * vec3(y, u, v);
- }
- 
  void main()
  {
-     vec3 centralColor = rgbFromYuv(yTexture, uvTexture, textureCoordinate).rgb;
-     gl_FragColor = vec4(centralColor, 1.0);
+     gl_FragColor = texture2D(inputImageTexture, textureCoordinate);
  }
-);
-
+ );
 

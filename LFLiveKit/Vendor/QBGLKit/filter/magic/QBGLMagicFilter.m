@@ -47,166 +47,167 @@
 #import "QBGLWarmFilter.h"
 #import "QBGLWhiteCatFilter.h"
 #import "QBGLXprollFilter.h"
+#import "QBGLMagicFilterBase.h"
 
 @implementation QBGLMagicFilter
 
-+ (QBGLFilter *)amaroFilter {
++ (QBGLMagicFilterBase *)amaroFilter {
     return [[QBGLAmaroFilter alloc] init];
 }
 
-+ (QBGLFilter *)antiqueFilter {
++ (QBGLMagicFilterBase *)antiqueFilter {
     return [[QBGLAntiqueFilter alloc] init];
 }
 
-+ (QBGLFilter *)blackCatFilter {
++ (QBGLMagicFilterBase *)blackCatFilter {
     return [[QBGLBlackCatFilter alloc] init];
 }
 
-+ (QBGLFilter *)brannanFilter {
++ (QBGLMagicFilterBase *)brannanFilter {
     return [[QBGLBrannanFilter alloc] init];
 }
 
-+ (QBGLFilter *)brooklynFilter {
++ (QBGLMagicFilterBase *)brooklynFilter {
     return [[QBGLBrooklynFilter alloc] init];
 }
 
-+ (QBGLFilter *)magicCalmFilter {
++ (QBGLMagicFilterBase *)magicCalmFilter {
     return [[QBGLCalmFilter alloc] init];
 }
 
-+ (QBGLFilter *)magicCoolFilter {
++ (QBGLMagicFilterBase *)magicCoolFilter {
     return [[QBGLCoolFilter alloc] init];
 }
 
-+ (QBGLFilter *)crayonFilter {
++ (QBGLMagicFilterBase *)crayonFilter {
     return [[QBGLCrayonFilter alloc] init];
 }
 
-+ (QBGLFilter *)earlyBirdFilter {
++ (QBGLMagicFilterBase *)earlyBirdFilter {
     return [[QBGLEarlyBirdFilter alloc] init];
 }
 
-+ (QBGLFilter *)emeraldFilter {
++ (QBGLMagicFilterBase *)emeraldFilter {
     return [[QBGLEmeraldFilter alloc] init];
 }
 
-+ (QBGLFilter *)evergreenFilter {
++ (QBGLMagicFilterBase *)evergreenFilter {
     return [[QBGLEvergreenFilter alloc] init];
 }
 
-+ (QBGLFilter *)fairytaleFilter {
++ (QBGLMagicFilterBase *)fairytaleFilter {
     return [[QBGLFairytaleFilter alloc] init];
 }
 
-+ (QBGLFilter *)freudFilter {
++ (QBGLMagicFilterBase *)freudFilter {
     return [[QBGLFreudFilter alloc] init];
 }
 
-+ (QBGLFilter *)healthyFilter {
++ (QBGLMagicFilterBase *)healthyFilter {
     return [[QBGLHealthyFilter alloc] init];
 }
 
-+ (QBGLFilter *)hudsonFilter {
++ (QBGLMagicFilterBase *)hudsonFilter {
     return [[QBGLHudsonFilter alloc] init];
 }
 
-+ (QBGLFilter *)inkwellFilter {
++ (QBGLMagicFilterBase *)inkwellFilter {
     return [[QBGLInkwellFilter alloc] init];
 }
 
-+ (QBGLFilter *)kevinFilter {
++ (QBGLMagicFilterBase *)kevinFilter {
     return [[QBGLKevinFilter alloc] init];
 }
 
-+ (QBGLFilter *)latteFilter {
++ (QBGLMagicFilterBase *)latteFilter {
     return [[QBGLLatteFilter alloc] init];
 }
 
-+ (QBGLFilter *)lomoFilter {
++ (QBGLMagicFilterBase *)lomoFilter {
     return [[QBGLLomoFilter alloc] init];
 }
 
-+ (QBGLFilter *)n1977Filter {
++ (QBGLMagicFilterBase *)n1977Filter {
     return [[QBGLN1977Filter alloc] init];
 }
 
-+ (QBGLFilter *)nashVillerFilter {
++ (QBGLMagicFilterBase *)nashVillerFilter {
     return [[QBGLNashVillerFilter alloc] init];
 }
 
-+ (QBGLFilter *)nostalgiaFilter {
++ (QBGLMagicFilterBase *)nostalgiaFilter {
     return [[QBGLNostalgiaFilter alloc] init];
 }
 
-+ (QBGLFilter *)pixarFilter {
++ (QBGLMagicFilterBase *)pixarFilter {
     return [[QBGLPixarFilter alloc] init];
 }
 
-+ (QBGLFilter *)riseFilter {
++ (QBGLMagicFilterBase *)riseFilter {
     return [[QBGLRiseFilter alloc] init];
 }
 
-+ (QBGLFilter *)romanceFilter {
++ (QBGLMagicFilterBase *)romanceFilter {
     return [[QBGLRomanceFilter alloc] init];
 }
 
-+ (QBGLFilter *)sakuraFilter {
++ (QBGLMagicFilterBase *)sakuraFilter {
     return [[QBGLSakuraFilter alloc] init];
 }
 
-+ (QBGLFilter *)sierraFilter {
++ (QBGLMagicFilterBase *)sierraFilter {
     return [[QBGLSierraFilter alloc] init];
 }
 
-+ (QBGLFilter *)sketchFilter {
++ (QBGLMagicFilterBase *)sketchFilter {
     return [[QBGLSketchFilter alloc] init];
 }
 
-+ (QBGLFilter *)skinWhiteFilter {
++ (QBGLMagicFilterBase *)skinWhiteFilter {
     return [[QBGLSkinWhiteFilter alloc] init];
 }
 
-+ (QBGLFilter *)sunriseFilter {
++ (QBGLMagicFilterBase *)sunriseFilter {
     return [[QBGLSunriseFilter alloc] init];
 }
 
-+ (QBGLFilter *)sunsetFilter {
++ (QBGLMagicFilterBase *)sunsetFilter {
     return [[QBGLSunsetFilter alloc] init];
 }
 
-+ (QBGLFilter *)sutroFilter {
++ (QBGLMagicFilterBase *)sutroFilter {
     return [[QBGLSutroFilter alloc] init];
 }
 
-+ (QBGLFilter *)sweetsFilter {
++ (QBGLMagicFilterBase *)sweetsFilter {
     return [[QBGLSweetsFilter alloc] init];
 }
 
-+ (QBGLFilter *)tenderFilter {
++ (QBGLMagicFilterBase *)tenderFilter {
     return [[QBGLTenderFilter alloc] init];
 }
 
-+ (QBGLFilter *)toasterFilter {
++ (QBGLMagicFilterBase *)toasterFilter {
     return [[QBGLToasterFilter alloc] init];
 }
 
-+ (QBGLFilter *)valenciaFilter {
++ (QBGLMagicFilterBase *)valenciaFilter {
     return [[QBGLValenciaFilter alloc] init];
 }
 
-+ (QBGLFilter *)waldenFilter {
++ (QBGLMagicFilterBase *)waldenFilter {
     return [[QBGLWaldenFilter alloc] init];
 }
 
-+ (QBGLFilter *)warmFilter {
++ (QBGLMagicFilterBase *)warmFilter {
     return [[QBGLWarmFilter alloc] init];
 }
 
-+ (QBGLFilter *)whiteCatFilter {
++ (QBGLMagicFilterBase *)whiteCatFilter {
     return [[QBGLWhiteCatFilter alloc] init];
 }
 
-+ (QBGLFilter *)xprollFilter {
++ (QBGLMagicFilterBase *)xprollFilter {
     return [[QBGLXprollFilter alloc] init];
 }
 

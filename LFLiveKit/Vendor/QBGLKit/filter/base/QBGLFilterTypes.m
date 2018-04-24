@@ -15,7 +15,7 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         names = @[NSLocalizedString(@"NORMAL_FILTER", nil),
-                  NSLocalizedString(@"RICH_FILTER", nil),
+//                  NSLocalizedString(@"RICH_FILTER", nil),
                   NSLocalizedString(@"WARM_FILTER", nil),
                   NSLocalizedString(@"SOFT_FILTER", nil),
                   NSLocalizedString(@"ROSE_FILTER", nil),
@@ -82,7 +82,7 @@
 //                  NSLocalizedString(@"MAGIC_TENDER", nil),
 //                  NSLocalizedString(@"MAGIC_TOASTER", nil),
 //                  NSLocalizedString(@"MAGIC_VALENCIA", nil),
-                  NSLocalizedString(@"MAGIC_WALDEN", nil),
+                  NSLocalizedString(@"MAGIC_WALDEN", nil)
 //                  NSLocalizedString(@"MAGIC_WARM", nil),
 //                  NSLocalizedString(@"MAGIC_WHITECAT", nil),
 //                  NSLocalizedString(@"MAGIC_XPROLL", nil)

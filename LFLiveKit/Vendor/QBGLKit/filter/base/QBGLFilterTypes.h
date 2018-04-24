@@ -79,7 +79,7 @@ typedef NS_ENUM(NSInteger, QBGLFilterType) {
 //    QBGLFilterTypeTender,
 //    QBGLFilterTypeToaster,
 //    QBGLFilterTypeValencia,
-    QBGLFilterTypeWalden,
+    QBGLFilterTypeWalden
 //    QBGLFilterTypeMagicWarm,
 //    QBGLFilterTypeWhiteCat,
 //    QBGLFilterTypeXproll

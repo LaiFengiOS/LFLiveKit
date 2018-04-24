@@ -165,8 +165,8 @@
     self.colorFilter.inputSize = self.colorFilter.outputSize = outputSize;
     self.beautyColorFilter.inputSize = self.beautyColorFilter.outputSize = outputSize;
     
-    if (self.magicFilter) {
-        self.magicFilter.inputSize = self.magicFilter.outputSize = outputSize;
+    if (_magicFilter) {
+        _magicFilter.inputSize = _magicFilter.outputSize = outputSize;
     }
 }
 

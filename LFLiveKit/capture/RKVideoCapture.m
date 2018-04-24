@@ -263,8 +263,10 @@
         self.glContext.outputSize = _configuration.videoSize;
         [self.glContext renderToOutput];
         
-        CMTime time = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);
-        [self.delegate captureOutput:self pixelBuffer:self.glContext.outputPixelBuffer atTime:time];
+        if (self.glContext.outputPixelBuffer) {
+            CMTime time = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);
+            [self.delegate captureOutput:self pixelBuffer:self.glContext.outputPixelBuffer atTime:time];
+        }
     }
 }
 

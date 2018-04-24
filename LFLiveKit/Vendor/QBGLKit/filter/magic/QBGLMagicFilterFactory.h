@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "QBGLFilterTypes.h"
+#import <CoreMedia/CoreMedia.h>
 
 @class QBGLMagicFilterBase;
 
@@ -21,5 +22,7 @@
 - (QBGLMagicFilterBase *)filterWithType:(QBGLFilterType)type;
 
 - (void)clearCache;
+- (void)preloadFiltersWithTextureCacheRef:(CVOpenGLESTextureCacheRef)textureCacheRef;
+- (void)updateInputOutputSizeForFilters:(CGSize)outputSize;
 
 @end

@@ -8,6 +8,7 @@
 
 #import "QBGLMagicFilterFactory.h"
 #import "QBGLMagicFilter.h"
+#import "QBGLMagicFilterBase.h"
 
 @interface QBGLMagicFilterFactory ()
 
@@ -39,6 +40,21 @@
 
 - (void)clearCache {
     [_filterCache removeAllObjects];
+}
+
+- (void)preloadFiltersWithTextureCacheRef:(CVOpenGLESTextureCacheRef)textureCacheRef {
+    for (NSInteger type = QBGLFilterTypeCrayon; type <= QBGLFilterTypeWalden; type++) {
+        QBGLMagicFilterBase *magicFilter = [self filterWithType:type];
+        magicFilter.type = type;
+        magicFilter.textureCacheRef = textureCacheRef;
+    }
+}
+
+- (void)updateInputOutputSizeForFilters:(CGSize)outputSize {
+    [_filterCache enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        QBGLMagicFilterBase *filter = obj;
+        filter.inputSize = filter.outputSize = outputSize;
+    }];
 }
 
 + (QBGLMagicFilterBase *)createFilterWithType:(QBGLFilterType)type {

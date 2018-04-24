@@ -49,6 +49,8 @@
         _glContext = context ?: [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];;
         [self becomeCurrentContext];
         CVOpenGLESTextureCacheCreate(kCFAllocatorDefault, NULL, _glContext, NULL, &_textureCacheRef);
+        // workaround: prevent screen flash when switching to magic filters
+        [self.magicFilterFactory preloadFiltersWithTextureCacheRef:_textureCacheRef];
     }
     return self;
 }
@@ -114,11 +116,8 @@
 }
 
 - (QBGLMagicFilterBase *)magicFilter {
-    if (!_magicFilter || _magicFilter.type != _colorFilterType) {
+    if (!_magicFilter || (_colorFilterType != QBGLFilterTypeNone && _magicFilter.type != _colorFilterType)) {
         _magicFilter = [self.magicFilterFactory filterWithType:_colorFilterType];
-        _magicFilter.textureCacheRef = _textureCacheRef;
-        _magicFilter.type = _colorFilterType;
-        _magicFilter.inputSize = _magicFilter.outputSize = _outputSize;
     }
     return _magicFilter;
 }
@@ -165,9 +164,7 @@
     self.colorFilter.inputSize = self.colorFilter.outputSize = outputSize;
     self.beautyColorFilter.inputSize = self.beautyColorFilter.outputSize = outputSize;
     
-    if (_magicFilter) {
-        _magicFilter.inputSize = _magicFilter.outputSize = outputSize;
-    }
+    [self.magicFilterFactory updateInputOutputSizeForFilters:outputSize];
 }
 
 - (void)loadYUVPixelBuffer:(CVPixelBufferRef)pixelBuffer {

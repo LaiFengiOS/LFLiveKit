@@ -13,6 +13,7 @@
 #import "QBGLBeautyFilter.h"
 #import "QBGLBeautyColorMapFilter.h"
 #import "QBGLMagicFilterBase.h"
+#import "QBGLMagicFilterFactory.h"
 
 @interface QBGLContext ()
 
@@ -26,7 +27,7 @@
 @property (strong, nonatomic) QBGLColorMapFilter *colorFilter;
 @property (strong, nonatomic) QBGLBeautyColorMapFilter *beautyColorFilter;
 
-@property (strong, nonatomic) QBGLFilterFactory *filterFactory;
+@property (strong, nonatomic) QBGLMagicFilterFactory *magicFilterFactory;
 @property (strong, nonatomic) QBGLMagicFilterBase *magicFilter;
 
 @property (nonatomic) QBGLImageRotation inputRotation;
@@ -58,18 +59,18 @@
     
     [EAGLContext setCurrentContext:nil];
     
-    [self.filterFactory clearCache];
+    [self.magicFilterFactory clearCache];
 }
 
 - (CVPixelBufferRef)outputPixelBuffer {
     return self.outputFilter.outputPixelBuffer;
 }
 
-- (QBGLFilterFactory *)filterFactory {
-    if (!_filterFactory) {
-        _filterFactory = [[QBGLFilterFactory alloc] init];
+- (QBGLMagicFilterFactory *)magicFilterFactory {
+    if (!_magicFilterFactory) {
+        _magicFilterFactory = [[QBGLMagicFilterFactory alloc] init];
     }
-    return _filterFactory;
+    return _magicFilterFactory;
 }
 
 - (QBGLYuvFilter *)normalFilter {
@@ -112,9 +113,9 @@
     return _beautyColorFilter;
 }
 
-- (QBGLFilter *)magicFilter {
+- (QBGLMagicFilterBase *)magicFilter {
     if (!_magicFilter || _magicFilter.type != _colorFilterType) {
-        _magicFilter = [self.filterFactory filterWithType:_colorFilterType];
+        _magicFilter = [self.magicFilterFactory filterWithType:_colorFilterType];
         _magicFilter.textureCacheRef = _textureCacheRef;
         _magicFilter.type = _colorFilterType;
         _magicFilter.inputSize = _magicFilter.outputSize = _outputSize;

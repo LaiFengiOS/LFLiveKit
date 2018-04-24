@@ -26,6 +26,10 @@
 		315FF540208EEEBD00225044 /* QBGLMagicFilterBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 315FF53D208EEEBD00225044 /* QBGLMagicFilterBase.h */; };
 		315FF541208EEEBD00225044 /* QBGLMagicFilterBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 315FF53E208EEEBD00225044 /* QBGLMagicFilterBase.m */; };
 		315FF542208EEEBD00225044 /* QBGLMagicFilterBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 315FF53E208EEEBD00225044 /* QBGLMagicFilterBase.m */; };
+		315FF545208F076100225044 /* QBGLMagicFilterFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 315FF543208F076100225044 /* QBGLMagicFilterFactory.h */; };
+		315FF546208F076100225044 /* QBGLMagicFilterFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 315FF543208F076100225044 /* QBGLMagicFilterFactory.h */; };
+		315FF547208F076100225044 /* QBGLMagicFilterFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 315FF544208F076100225044 /* QBGLMagicFilterFactory.m */; };
+		315FF548208F076100225044 /* QBGLMagicFilterFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 315FF544208F076100225044 /* QBGLMagicFilterFactory.m */; };
 		84358FF41DD1FEB600811FC7 /* GLProgram.h in Headers */ = {isa = PBXBuildFile; fileRef = 84358E871DD1FEB500811FC7 /* GLProgram.h */; };
 		84358FF51DD1FEB600811FC7 /* GLProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = 84358E881DD1FEB500811FC7 /* GLProgram.m */; };
 		84358FF61DD1FEB600811FC7 /* GPUImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 84358E891DD1FEB500811FC7 /* GPUImage.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1174,6 +1178,8 @@
 /* Begin PBXFileReference section */
 		315FF53D208EEEBD00225044 /* QBGLMagicFilterBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QBGLMagicFilterBase.h; sourceTree = "<group>"; };
 		315FF53E208EEEBD00225044 /* QBGLMagicFilterBase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QBGLMagicFilterBase.m; sourceTree = "<group>"; };
+		315FF543208F076100225044 /* QBGLMagicFilterFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QBGLMagicFilterFactory.h; sourceTree = "<group>"; };
+		315FF544208F076100225044 /* QBGLMagicFilterFactory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QBGLMagicFilterFactory.m; sourceTree = "<group>"; };
 		84358E871DD1FEB500811FC7 /* GLProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLProgram.h; sourceTree = "<group>"; };
 		84358E881DD1FEB500811FC7 /* GLProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLProgram.m; sourceTree = "<group>"; };
 		84358E891DD1FEB500811FC7 /* GPUImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUImage.h; sourceTree = "<group>"; };
@@ -2629,6 +2635,8 @@
 				BE49342620076CA2003F5291 /* QBGLMagicFilter.m */,
 				315FF53D208EEEBD00225044 /* QBGLMagicFilterBase.h */,
 				315FF53E208EEEBD00225044 /* QBGLMagicFilterBase.m */,
+				315FF543208F076100225044 /* QBGLMagicFilterFactory.h */,
+				315FF544208F076100225044 /* QBGLMagicFilterFactory.m */,
 				BE49340B20076CA2003F5291 /* QBGLN1977Filter.h */,
 				BE4933E520076CA2003F5291 /* QBGLN1977Filter.m */,
 				BE4933FF20076CA2003F5291 /* QBGLNashVillerFilter.h */,
@@ -2951,6 +2959,7 @@
 				BE49353F20076CA3003F5291 /* QBGLKevinFilter.h in Headers */,
 				BE49355B20076CA3003F5291 /* QBGLSakuraFilter.h in Headers */,
 				BE49350520076CA3003F5291 /* QBGLNashVillerFilter.h in Headers */,
+				315FF546208F076100225044 /* QBGLMagicFilterFactory.h in Headers */,
 				BE49351F20076CA3003F5291 /* QBGLBrannanFilter.h in Headers */,
 				BE4934A720076CA3003F5291 /* QBGLUtils.h in Headers */,
 				BE4934C920076CA3003F5291 /* QBGLWhiteCatFilter.h in Headers */,
@@ -3167,6 +3176,7 @@
 				843590F51DD1FEB600811FC7 /* GPUImageShiTomasiFeatureDetectionFilter.h in Headers */,
 				8435905D1DD1FEB600811FC7 /* GPUImageGammaFilter.h in Headers */,
 				843590851DD1FEB600811FC7 /* GPUImageiOSBlurFilter.h in Headers */,
+				315FF545208F076100225044 /* QBGLMagicFilterFactory.h in Headers */,
 				BE49353020076CA3003F5291 /* QBGLToasterFilter.h in Headers */,
 				843591481DD1FEB600811FC7 /* GPUImagePicture+TextureSubimage.h in Headers */,
 				8435906B1DD1FEB600811FC7 /* GPUImageHardLightBlendFilter.h in Headers */,
@@ -3784,6 +3794,7 @@
 				BE4934ED20076CA3003F5291 /* QBGLSierraFilter.m in Sources */,
 				843591EE1DD20A7F00811FC7 /* GPUImageSketchFilter.m in Sources */,
 				BE4934D520076CA3003F5291 /* QBGLSunsetFilter.m in Sources */,
+				315FF548208F076100225044 /* QBGLMagicFilterFactory.m in Sources */,
 				843591EF1DD20A7F00811FC7 /* GPUImageSkinToneFilter.m in Sources */,
 				843591F01DD20A7F00811FC7 /* GPUImageSmoothToonFilter.m in Sources */,
 				843591F11DD20A7F00811FC7 /* GPUImageSobelEdgeDetectionFilter.m in Sources */,
@@ -4095,6 +4106,7 @@
 				BE4934EC20076CA3003F5291 /* QBGLSierraFilter.m in Sources */,
 				843591161DD1FEB600811FC7 /* GPUImageTextureInput.m in Sources */,
 				BE4934D420076CA3003F5291 /* QBGLSunsetFilter.m in Sources */,
+				315FF547208F076100225044 /* QBGLMagicFilterFactory.m in Sources */,
 				843590E81DD1FEB600811FC7 /* GPUImageRGBFilter.m in Sources */,
 				8435902A1DD1FEB600811FC7 /* GPUImageColorPackingFilter.m in Sources */,
 				843590CA1DD1FEB600811FC7 /* GPUImageParallelCoordinateLineTransformFilter.m in Sources */,

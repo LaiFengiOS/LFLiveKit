@@ -12,6 +12,7 @@
 #import "QBGLUtils.h"
 #import "QBGLBeautyFilter.h"
 #import "QBGLBeautyColorMapFilter.h"
+#import "QBGLMagicFilterBase.h"
 
 @interface QBGLContext ()
 
@@ -25,7 +26,8 @@
 @property (strong, nonatomic) QBGLColorMapFilter *colorFilter;
 @property (strong, nonatomic) QBGLBeautyColorMapFilter *beautyColorFilter;
 
-@property (strong, nonatomic) QBGLFilter *magicFilter;
+@property (strong, nonatomic) QBGLFilterFactory *filterFactory;
+@property (strong, nonatomic) QBGLMagicFilterBase *magicFilter;
 
 @property (nonatomic) QBGLImageRotation inputRotation;
 
@@ -55,10 +57,19 @@
     CFRelease(_textureCacheRef);
     
     [EAGLContext setCurrentContext:nil];
+    
+    [self.filterFactory clearCache];
 }
 
 - (CVPixelBufferRef)outputPixelBuffer {
     return self.outputFilter.outputPixelBuffer;
+}
+
+- (QBGLFilterFactory *)filterFactory {
+    if (!_filterFactory) {
+        _filterFactory = [[QBGLFilterFactory alloc] init];
+    }
+    return _filterFactory;
 }
 
 - (QBGLYuvFilter *)normalFilter {
@@ -101,13 +112,24 @@
     return _beautyColorFilter;
 }
 
+- (QBGLFilter *)magicFilter {
+    if (!_magicFilter || _magicFilter.type != _colorFilterType) {
+        _magicFilter = [self.filterFactory filterWithType:_colorFilterType];
+        _magicFilter.textureCacheRef = _textureCacheRef;
+        _magicFilter.type = _colorFilterType;
+        _magicFilter.inputSize = _magicFilter.outputSize = _outputSize;
+    }
+    return _magicFilter;
+}
+
 - (QBGLYuvFilter *)filter {
+    BOOL colorFilterType17 = (_colorFilterType > QBGLFilterTypeNone && _colorFilterType < QBGLFilterTypeCrayon);
     if (_beautyEnabled && _colorFilterType != QBGLFilterTypeNone) {
-        return self.beautyColorFilter;
+        return (colorFilterType17 ? self.beautyColorFilter : self.beautyFilter);
     } else if (_beautyEnabled && _colorFilterType == QBGLFilterTypeNone) {
         return self.beautyFilter;
     } else if (!_beautyEnabled && _colorFilterType != QBGLFilterTypeNone) {
-        return self.colorFilter;
+        return (colorFilterType17 ? self.colorFilter : self.normalFilter);
     } else {
         return self.normalFilter;
     }
@@ -118,8 +140,8 @@
 }
 
 - (QBGLFilter *)outputFilter {
-    //return self.magicFilter;
-    return self.filter;
+    BOOL colorFilterTypeMagic = (_colorFilterType >= QBGLFilterTypeCrayon && _colorFilterType <= QBGLFilterTypeWalden);
+    return (colorFilterTypeMagic ? self.magicFilter : self.filter);
 }
 
 - (void)setBeautyEnabled:(BOOL)beautyEnabled {
@@ -141,6 +163,10 @@
     self.beautyFilter.inputSize = self.beautyFilter.outputSize = outputSize;
     self.colorFilter.inputSize = self.colorFilter.outputSize = outputSize;
     self.beautyColorFilter.inputSize = self.beautyColorFilter.outputSize = outputSize;
+    
+    if (self.magicFilter) {
+        self.magicFilter.inputSize = self.magicFilter.outputSize = outputSize;
+    }
 }
 
 - (void)loadYUVPixelBuffer:(CVPixelBufferRef)pixelBuffer {

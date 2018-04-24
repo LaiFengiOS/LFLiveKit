@@ -49,13 +49,11 @@ char * const kQBNashVillerFilterVertex = STRING
  attribute vec4 position;
  attribute vec4 inputTextureCoordinate;
  
- uniform mat4 transformMatrix;
- 
  varying vec2 textureCoordinate;
  
  void main()
  {
-     gl_Position = position * transformMatrix;
+     gl_Position = position;
      textureCoordinate = inputTextureCoordinate.xy;
  }
  );

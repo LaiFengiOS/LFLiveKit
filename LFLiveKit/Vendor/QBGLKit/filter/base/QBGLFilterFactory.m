@@ -121,48 +121,48 @@
 //            return [QBGLMagicFilter magicCalmFilter];
 //        case QBGLFilterTypeMagicCool:
 //            return [QBGLMagicFilter magicCoolFilter];
-//        case QBGLFilterTypeCrayon:
-//            return [QBGLMagicFilter crayonFilter];
+        case QBGLFilterTypeCrayon:
+            return [QBGLMagicFilter crayonFilter];
 //        case QBGLFilterTypeEarlybird:
 //            return [QBGLMagicFilter earlyBirdFilter];
 //        case QBGLFilterTypeEmerald:
 //            return [QBGLMagicFilter emeraldFilter];
 //        case QBGLFilterTypeEvergreen:
 //            return [QBGLMagicFilter evergreenFilter];
-//        case QBGLFilterTypeFairytale:
-//            return [QBGLMagicFilter fairytaleFilter];
+        case QBGLFilterTypeFairytale:
+            return [QBGLMagicFilter fairytaleFilter];
 //        case QBGLFilterTypeFreud:
 //            return [QBGLMagicFilter freudFilter];
 //        case QBGLFilterTypeHealthy:
 //            return [QBGLMagicFilter healthyFilter];
 //        case QBGLFilterTypeHudson:
 //            return [QBGLMagicFilter hudsonFilter];
-//        case QBGLFilterTypeInkwell:
-//            return [QBGLMagicFilter inkwellFilter];
+        case QBGLFilterTypeInkwell:
+            return [QBGLMagicFilter inkwellFilter];
 //        case QBGLFilterTypeKevin:
 //            return [QBGLMagicFilter kevinFilter];
 //        case QBGLFilterTypeLatte:
 //            return [QBGLMagicFilter latteFilter];
 //        case QBGLFilterTypeLomo:
 //            return [QBGLMagicFilter lomoFilter];
-//        case QBGLFilterTypeN1977:
-//            return [QBGLMagicFilter n1977Filter];
+        case QBGLFilterTypeN1977:
+            return [QBGLMagicFilter n1977Filter];
 //        case QBGLFilterTypeNashViller:
 //            return [QBGLMagicFilter nashVillerFilter];
 //        case QBGLFilterTypeNostalgia:
 //            return [QBGLMagicFilter nostalgiaFilter];
-//        case QBGLFilterTypePixar:
-//            return [QBGLMagicFilter pixarFilter];
+        case QBGLFilterTypePixar:
+            return [QBGLMagicFilter pixarFilter];
 //        case QBGLFilterTypeRise:
 //            return [QBGLMagicFilter riseFilter];
-//        case QBGLFilterTypeRomance:
-//            return [QBGLMagicFilter romanceFilter];
+        case QBGLFilterTypeRomance:
+            return [QBGLMagicFilter romanceFilter];
 //        case QBGLFilterTypeSakura:
 //            return [QBGLMagicFilter sakuraFilter];
 //        case QBGLFilterTypeSierra:
 //            return [QBGLMagicFilter sierraFilter];
-//        case QBGLFilterTypeSketch:
-//            return [QBGLMagicFilter sketchFilter];
+        case QBGLFilterTypeSketch:
+            return [QBGLMagicFilter sketchFilter];
 //        case QBGLFilterTypeSkinWhite:
 //            return [QBGLMagicFilter skinWhiteFilter];
 //        case QBGLFilterTypeSunrise:
@@ -179,8 +179,8 @@
 //            return [QBGLMagicFilter toasterFilter];
 //        case QBGLFilterTypeValencia:
 //            return [QBGLMagicFilter valenciaFilter];
-//        case QBGLFilterTypeWalden:
-//            return [QBGLMagicFilter waldenFilter];
+        case QBGLFilterTypeWalden:
+            return [QBGLMagicFilter waldenFilter];
 //        case QBGLFilterTypeMagicWarm:
 //            return [QBGLMagicFilter warmFilter];
 //        case QBGLFilterTypeWhiteCat:

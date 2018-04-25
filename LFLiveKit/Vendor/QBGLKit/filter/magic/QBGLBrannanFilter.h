@@ -6,8 +6,8 @@
 //  Copyright © 2016年 Qubi. All rights reserved.
 //
 
-#import "QBGLFilter.h"
+#import "QBGLMagicFilterBase.h"
 
-@interface QBGLBrannanFilter : QBGLFilter
+@interface QBGLBrannanFilter : QBGLMagicFilterBase
 
 @end

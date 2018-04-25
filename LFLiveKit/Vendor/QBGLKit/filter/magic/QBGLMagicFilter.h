@@ -8,49 +8,49 @@
 
 #import <Foundation/Foundation.h>
 
-@class QBGLFilter;
+@class QBGLMagicFilterBase;
 
 @interface QBGLMagicFilter : NSObject
 
-+ (QBGLFilter *)amaroFilter;
-+ (QBGLFilter *)antiqueFilter;
-+ (QBGLFilter *)blackCatFilter;
-+ (QBGLFilter *)brannanFilter;
-+ (QBGLFilter *)brooklynFilter;
-+ (QBGLFilter *)magicCalmFilter;
-+ (QBGLFilter *)magicCoolFilter;
-+ (QBGLFilter *)crayonFilter;
-+ (QBGLFilter *)earlyBirdFilter;
-+ (QBGLFilter *)emeraldFilter;
-+ (QBGLFilter *)evergreenFilter;
-+ (QBGLFilter *)fairytaleFilter;
-+ (QBGLFilter *)freudFilter;
-+ (QBGLFilter *)healthyFilter;
-+ (QBGLFilter *)hudsonFilter;
-+ (QBGLFilter *)inkwellFilter;
-+ (QBGLFilter *)kevinFilter;
-+ (QBGLFilter *)latteFilter;
-+ (QBGLFilter *)lomoFilter;
-+ (QBGLFilter *)n1977Filter;
-+ (QBGLFilter *)nashVillerFilter;
-+ (QBGLFilter *)nostalgiaFilter;
-+ (QBGLFilter *)pixarFilter;
-+ (QBGLFilter *)riseFilter;
-+ (QBGLFilter *)romanceFilter;
-+ (QBGLFilter *)sakuraFilter;
-+ (QBGLFilter *)sierraFilter;
-+ (QBGLFilter *)sketchFilter;
-+ (QBGLFilter *)skinWhiteFilter;
-+ (QBGLFilter *)sunriseFilter;
-+ (QBGLFilter *)sunsetFilter;
-+ (QBGLFilter *)sutroFilter;
-+ (QBGLFilter *)sweetsFilter;
-+ (QBGLFilter *)tenderFilter;
-+ (QBGLFilter *)toasterFilter;
-+ (QBGLFilter *)valenciaFilter;
-+ (QBGLFilter *)waldenFilter;
-+ (QBGLFilter *)warmFilter;
-+ (QBGLFilter *)whiteCatFilter;
-+ (QBGLFilter *)xprollFilter;
++ (QBGLMagicFilterBase *)amaroFilter;
++ (QBGLMagicFilterBase *)antiqueFilter;
++ (QBGLMagicFilterBase *)blackCatFilter;
++ (QBGLMagicFilterBase *)brannanFilter;
++ (QBGLMagicFilterBase *)brooklynFilter;
++ (QBGLMagicFilterBase *)magicCalmFilter;
++ (QBGLMagicFilterBase *)magicCoolFilter;
++ (QBGLMagicFilterBase *)crayonFilter;
++ (QBGLMagicFilterBase *)earlyBirdFilter;
++ (QBGLMagicFilterBase *)emeraldFilter;
++ (QBGLMagicFilterBase *)evergreenFilter;
++ (QBGLMagicFilterBase *)fairytaleFilter;
++ (QBGLMagicFilterBase *)freudFilter;
++ (QBGLMagicFilterBase *)healthyFilter;
++ (QBGLMagicFilterBase *)hudsonFilter;
++ (QBGLMagicFilterBase *)inkwellFilter;
++ (QBGLMagicFilterBase *)kevinFilter;
++ (QBGLMagicFilterBase *)latteFilter;
++ (QBGLMagicFilterBase *)lomoFilter;
++ (QBGLMagicFilterBase *)n1977Filter;
++ (QBGLMagicFilterBase *)nashVillerFilter;
++ (QBGLMagicFilterBase *)nostalgiaFilter;
++ (QBGLMagicFilterBase *)pixarFilter;
++ (QBGLMagicFilterBase *)riseFilter;
++ (QBGLMagicFilterBase *)romanceFilter;
++ (QBGLMagicFilterBase *)sakuraFilter;
++ (QBGLMagicFilterBase *)sierraFilter;
++ (QBGLMagicFilterBase *)sketchFilter;
++ (QBGLMagicFilterBase *)skinWhiteFilter;
++ (QBGLMagicFilterBase *)sunriseFilter;
++ (QBGLMagicFilterBase *)sunsetFilter;
++ (QBGLMagicFilterBase *)sutroFilter;
++ (QBGLMagicFilterBase *)sweetsFilter;
++ (QBGLMagicFilterBase *)tenderFilter;
++ (QBGLMagicFilterBase *)toasterFilter;
++ (QBGLMagicFilterBase *)valenciaFilter;
++ (QBGLMagicFilterBase *)waldenFilter;
++ (QBGLMagicFilterBase *)warmFilter;
++ (QBGLMagicFilterBase *)whiteCatFilter;
++ (QBGLMagicFilterBase *)xprollFilter;
 
 @end

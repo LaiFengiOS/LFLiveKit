@@ -39,7 +39,7 @@
 
 #pragma mark -- 内部标识
 /// 调试信息
-@property (nonatomic, strong) LFLiveDebug *debugInfo;
+@property (nonatomic, copy) LFLiveDebug *debugInfo;
 /// 流信息
 @property (nonatomic, strong) LFLiveStreamInfo *streamInfo;
 /// 是否开始上传
@@ -342,9 +342,10 @@
 - (void)socketDebug:(nullable id<LFStreamSocket>)socket debugInfo:(nullable LFLiveDebug *)debugInfo {
     self.debugInfo = debugInfo;
     if (self.showDebugInfo) {
+        __weak typeof(self) wSelf = self;
         dispatch_async(dispatch_get_main_queue(), ^{
-            if (self.delegate && [self.delegate respondsToSelector:@selector(liveSession:debugInfo:)]) {
-                [self.delegate liveSession:self debugInfo:debugInfo];
+            if ([wSelf.delegate respondsToSelector:@selector(liveSession:debugInfo:)]) {
+                [wSelf.delegate liveSession:wSelf debugInfo:wSelf.debugInfo];
             }
         });
     }

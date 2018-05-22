@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@interface LFLiveDebug : NSObject
+@interface LFLiveDebug : NSObject <NSCopying>
 
 @property (nonatomic, copy) NSString *streamId;                         ///< 流id
 @property (nonatomic, copy) NSString *uploadUrl;                        ///< 流地址

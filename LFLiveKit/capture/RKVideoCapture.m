@@ -100,7 +100,7 @@
 - (QBGLContext *)glContext {
     if (!_glContext) {
         _glContext = [[QBGLContext alloc] initWithContext:_eaglContext];
-        _glContext.outputSize = _configuration.videoSize;
+        _glContext.outputSize = _configuration.canvasSize;
         [_glContext setDisplayOrientation:self.displayOrientation cameraPosition:self.captureDevicePosition];
     }
     return _glContext;
@@ -260,7 +260,7 @@
     }
     
     if ([self.delegate respondsToSelector:@selector(captureOutput:pixelBuffer:atTime:)]) {
-        self.glContext.outputSize = _configuration.videoSize;
+        self.glContext.outputSize = _configuration.canvasSize;
         [self.glContext renderToOutput];
         
         if (self.glContext.outputPixelBuffer) {

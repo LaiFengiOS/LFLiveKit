@@ -138,7 +138,6 @@
     } else {
         configuration.videoSize = CGSizeMake(size.width, size.height);
     }
-    configuration.canvasSize = configuration.captureOutVideoSize;
     return configuration;
     
 }
@@ -204,7 +203,6 @@
 - (void)setSessionPreset:(LFLiveVideoSessionPreset)sessionPreset{
     _sessionPreset = sessionPreset;
     _sessionPreset = [self supportSessionPreset:sessionPreset];
-    _canvasSize = self.captureOutVideoSize;
 }
 
 #pragma mark -- Custom Method

@@ -95,6 +95,12 @@ typedef NS_ENUM(NSInteger, RKColorFilter) {
 /* The currentColorFilterName is localized name of current color filter */
 @property (nonatomic, copy, readonly, nullable) NSString *currentColorFilterName;
 
+/* The currentColorFilterIndex is index of current color filter */
+@property (nonatomic, assign, readonly) NSInteger currentColorFilterIndex;
+
+/* The colorFilterNames is name of all color filters */
+@property (nonatomic, copy, readonly, nullable) NSArray<NSString *> *colorFilterNames;
+
 /** The mirrorOuput control mirror of front camera output is on or off */
 @property (nonatomic, assign) BOOL mirrorOutput;
 
@@ -113,6 +119,9 @@ typedef NS_ENUM(NSInteger, RKColorFilter) {
 
 /** Switch to next color filter. */
 - (void)nextColorFilter;
+
+/** Switch to target color filter. */
+- (void)setTargetColorFilter:(NSInteger)targetIndex;
 
 @end
 

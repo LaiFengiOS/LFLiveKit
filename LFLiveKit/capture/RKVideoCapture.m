@@ -71,8 +71,23 @@
     self.glContext.colorFilterType = [QBGLFilterTypes nextFilterForType:self.glContext.colorFilterType];
 }
 
+- (void)setTargetColorFilter:(NSInteger)targetIndex {
+    if (![QBGLFilterTypes validFilterForType:targetIndex]) {
+        return;
+    }
+    self.glContext.colorFilterType = targetIndex;
+}
+
 - (NSString *)currentColorFilterName {
     return [QBGLFilterTypes filterNameForType:self.glContext.colorFilterType];
+}
+
+- (NSInteger)currentColorFilterIndex {
+    return self.glContext.colorFilterType;
+}
+
+- (NSArray<NSString *> *)colorFilterNames {
+    return [QBGLFilterTypes filterNames];
 }
 
 - (RKVideoCamera *)videoCamera {

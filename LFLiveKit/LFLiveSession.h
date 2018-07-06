@@ -143,6 +143,12 @@ typedef NS_ENUM(NSUInteger, LFAudioMixVolume) {
 /* The currentColorFilterName is localized name of current color filter */
 @property (nonatomic, copy, readonly, nullable) NSString *currentColorFilterName;
 
+/* The currentColorFilterIndex is index of current color filter */
+@property (nonatomic, assign, readonly) NSInteger currentColorFilterIndex;
+
+/* The colorFilterNames is name of all color filters */
+@property (nonatomic, copy, readonly, nullable) NSArray<NSString *> *colorFilterNames;
+
 /** The mirrorOuput control mirror of output is on or off */
 @property (nonatomic, assign) BOOL mirrorOutput;
 
@@ -207,6 +213,9 @@ typedef NS_ENUM(NSUInteger, LFAudioMixVolume) {
 
 /** Switch to next color filter. */
 - (void)nextColorFilter;
+
+/** Switch to target color filter. */
+- (void)setTargetColorFilter:(NSInteger)targetIndex;
 
 // volume is LFAudioMixVolumeNormal
 - (void)playSound:(nonnull NSURL *)soundUrl;

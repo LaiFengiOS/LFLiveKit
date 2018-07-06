@@ -179,6 +179,10 @@
     [self.videoCaptureSource nextColorFilter];
 }
 
+- (void)setTargetColorFilter:(NSInteger)targetIndex {
+    [self.videoCaptureSource setTargetColorFilter:targetIndex];
+}
+
 - (void)playSound:(nonnull NSURL *)soundUrl {
     [self playSound:soundUrl volume:LFAudioMixVolumeHigh];
 }
@@ -413,6 +417,14 @@
 
 - (NSString *)currentColorFilterName {
     return self.videoCaptureSource.currentColorFilterName;
+}
+
+- (NSInteger)currentColorFilterIndex {
+    return self.videoCaptureSource.currentColorFilterIndex;
+}
+
+- (NSArray<NSString *> *)colorFilterNames {
+    return self.videoCaptureSource.colorFilterNames;
 }
 
 - (void)setRunning:(BOOL)running {

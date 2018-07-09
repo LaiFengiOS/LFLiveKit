@@ -73,8 +73,6 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
 
 @property (nonatomic, strong) GPUImageMovieWriter *movieWriter;
 
-@property (nonatomic, assign) NSInteger currentColorFilterIndex;
-
 @property (nonatomic, copy, readonly) NSArray<RKGPUImageColorFilter *> *colorFilters;
 
 @property (nonatomic, strong) RKGPUImageColorFilter *colorFilter;
@@ -99,6 +97,7 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
 @synthesize saveLocalVideo = _saveLocalVideo;
 @synthesize saveLocalVideoPath = _saveLocalVideoPath;
 @synthesize mirrorOutput = _mirrorOutput;
+@synthesize currentColorFilterIndex = _currentColorFilterIndex;
 
 #pragma mark -- LifeCycle
 - (instancetype)initWithVideoConfiguration:(LFLiveVideoConfiguration *)configuration {
@@ -167,10 +166,27 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
     [self reloadFilter];
 }
 
+- (void)setTargetColorFilter:(NSInteger)targetIndex {
+    if (targetIndex < 0 || targetIndex > self.colorFilters.count - 1) {
+        return;
+    }
+    _currentColorFilterIndex = targetIndex;
+    [self reloadFilter];
+}
+
 #pragma mark -- Setter Getter
 
 - (NSString *)currentColorFilterName {
     return self.colorFilter.localizedName;
+}
+
+- (NSArray<NSString *> *)colorFilterNames {
+    NSMutableArray<NSString *> *filterNames = [NSMutableArray array];
+    for (RKGPUImageColorFilter *colorFilter in self.colorFilters) {
+        NSString *localizedName = colorFilter.localizedName;
+        [filterNames addObject:(localizedName ?: @"")];
+    }
+    return [filterNames copy];
 }
 
 - (void)setCurrentColorFilterIndex:(NSInteger)currentColorFilterIndex {

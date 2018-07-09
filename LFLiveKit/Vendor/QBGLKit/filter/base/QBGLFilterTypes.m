@@ -107,4 +107,8 @@
     return type - 1 >= 0 ? type - 1 : [self filterNames].count - 1;
 }
 
++ (BOOL)validFilterForType:(QBGLFilterType)type {
+    return type >= 0 && type <= [self filterNames].count - 1;
+}
+
 @end

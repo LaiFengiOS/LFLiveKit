@@ -97,4 +97,6 @@ typedef NS_ENUM(NSInteger, QBGLFilterType) {
 
 + (QBGLFilterType)previousFilterForType:(QBGLFilterType)type;
 
++ (BOOL)validFilterForType:(QBGLFilterType)type;
+
 @end

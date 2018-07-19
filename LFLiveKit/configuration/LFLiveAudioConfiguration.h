@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreMedia/CoreMedia.h>
 
 /// 音频码率 (默认96Kbps)
 typedef NS_ENUM (NSUInteger, LFLiveAudioBitRate) {
@@ -54,6 +55,10 @@ typedef NS_ENUM (NSUInteger, LFLiveAudioQuality){
 + (instancetype)defaultConfiguration;
 /// 音频配置
 + (instancetype)defaultConfigurationForQuality:(LFLiveAudioQuality)audioQuality;
+
++ (instancetype)defaultConfigurationFromSampleBuffer:(CMSampleBufferRef)sampleBuffer;
+
++ (instancetype)defaultConfigurationFromFormat:(AudioStreamBasicDescription)format;
 
 #pragma mark - Attribute
 ///=============================================================================

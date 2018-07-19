@@ -18,8 +18,10 @@
 #import "LFH264VideoEncoder.h"
 #import "LFStreamLog.h"
 #import "RKVideoCapture.h"
+#import "RKAudioMix.h"
+#import "RKReplayKitCapture.h"
 
-@interface LFLiveSession ()<LFAudioCaptureDelegate, LFVideoCaptureInterfaceDelegate, LFAudioEncodingDelegate, LFVideoEncodingDelegate, LFStreamSocketDelegate>
+@interface LFLiveSession ()<LFAudioCaptureDelegate, LFVideoCaptureInterfaceDelegate, LFAudioEncodingDelegate, LFVideoEncodingDelegate, LFStreamSocketDelegate, RKReplayKitCaptureDelegate>
 
 /// 音频配置
 @property (nonatomic, strong) LFLiveAudioConfiguration *audioConfiguration;
@@ -35,6 +37,9 @@
 @property (nonatomic, strong) id<LFVideoEncoding> videoEncoder;
 /// 上传
 @property (nonatomic, strong) id<LFStreamSocket> socket;
+
+@property (strong, nonatomic) RKReplayKitCapture *replayKitCapture;
+@property (strong, nonatomic) NSMutableArray<LFVideoFrame *> *videoFrameQueue;
 
 
 #pragma mark -- 内部标识
@@ -110,6 +115,14 @@
     return self;
 }
 
+- (nullable instancetype)initForReplayKitBroadcast {
+    if (self = [super init]) {
+        _captureType = LFLiveInputMaskAll;
+        _isReplayKitBroadcast = YES;
+    }
+    return self;
+}
+
 - (void)dealloc {
     _videoCaptureSource.running = NO;
     _audioCaptureSource.running = NO;
@@ -169,6 +182,20 @@
         }
     }
     return NO;
+}
+
+- (void)pushReplayKitSample:(nonnull CMSampleBufferRef)sampleBuffer type:(RKReplayKitSampleType)type {
+    switch (type) {
+        case RKReplayKitSampleTypeVideo:
+            [self.replayKitCapture pushVideoSample:sampleBuffer];
+            break;
+        case RKReplayKitSampleTypeAppAudio:
+            [self.replayKitCapture pushAppAudioSample:sampleBuffer];
+            break;
+        case RKReplayKitSampleTypeMicAudio:
+            [self.replayKitCapture pushMicAudioSample:sampleBuffer];
+            break;
+    }
 }
 
 - (void)previousColorFilter {
@@ -296,18 +323,46 @@
 
 #pragma mark -- EncoderDelegate
 - (void)audioEncoder:(nullable id<LFAudioEncoding>)encoder audioFrame:(nullable LFAudioFrame *)frame {
-    //<上传  时间戳对齐
-    if (self.uploading){
+    if (!self.uploading) {
+        return;
+    }
+    if (!self.hasCaptureAudio) {
         self.hasCaptureAudio = YES;
-        if(self.AVAlignment) [self pushSendBuffer:frame];
+    }
+    // replaykit broadcast should send audio frame without waiting AV alignment
+    if (self.isReplayKitBroadcast || self.AVAlignment) {
+        [self pushSendBuffer:frame];
     }
 }
 
 - (void)videoEncoder:(nullable id<LFVideoEncoding>)encoder videoFrame:(nullable LFVideoFrame *)frame {
-    //<上传 时间戳对齐
-    if (self.uploading){
-        if(frame.isKeyFrame && self.hasCaptureAudio) self.hasKeyFrameVideo = YES;
-        if(self.AVAlignment) [self pushSendBuffer:frame];
+    if (!self.uploading) {
+        return;
+    }
+    if (self.isReplayKitBroadcast) {
+        if (!_videoFrameQueue) {
+            _videoFrameQueue = [NSMutableArray new];
+        }
+        [_videoFrameQueue addObject:frame];
+        
+        if (!self.hasKeyFrameVideo && frame.isKeyFrame) {
+            self.hasKeyFrameVideo = YES;
+        }
+        // replaykit broadcast should wait audio available before sending queued video frame
+        if (self.hasCaptureAudio) {
+            // defer timestamp to match audio
+            LFVideoFrame *frame = _videoFrameQueue.firstObject;
+            frame.timestamp = _videoFrameQueue.lastObject.timestamp;
+            [_videoFrameQueue removeObjectAtIndex:0];
+            [self pushSendBuffer:frame];
+        }
+    } else {
+        if (!self.hasKeyFrameVideo && frame.isKeyFrame && self.hasCaptureAudio) {
+            self.hasKeyFrameVideo = YES;
+        }
+        if (self.AVAlignment) {
+            [self pushSendBuffer:frame];
+        }
     }
 }
 
@@ -378,6 +433,22 @@
                                                 }];
         }
     }
+}
+
+#pragma mark - ReplayKitCapture Delegate
+
+- (void)replayKitCapture:(RKReplayKitCapture *)capture didCaptureVideo:(CVPixelBufferRef)pixelBuffer {
+    if (!_streamInfo.videoConfiguration) {
+        _streamInfo.videoConfiguration = capture.videoConfiguration;
+    }
+    [self pushVideo:pixelBuffer];
+}
+
+- (void)replayKitCapture:(RKReplayKitCapture *)capture didCaptureAudio:(NSData *)data {
+    if (!_streamInfo.audioConfiguration) {
+        _streamInfo.audioConfiguration = capture.audioConfiguration;
+    }
+    [self pushAudio:data];
 }
 
 #pragma mark -- Getter Setter
@@ -570,9 +641,25 @@
     return _videoCaptureSource;
 }
 
+- (RKReplayKitCapture *)replayKitCapture {
+    if (!_replayKitCapture) {
+        if (_isReplayKitBroadcast) {
+            _replayKitCapture = [[RKReplayKitCapture alloc] init];
+            _replayKitCapture.delegate = self;
+        }
+    }
+    return _replayKitCapture;
+}
+
 - (id<LFAudioEncoding>)audioEncoder {
     if (!_audioEncoder) {
-        _audioEncoder = [[LFHardwareAudioEncoder alloc] initWithAudioStreamConfiguration:_audioConfiguration];
+        if (!_isReplayKitBroadcast) {
+            _audioEncoder = [[LFHardwareAudioEncoder alloc] initWithAudioStreamConfiguration:_audioConfiguration];
+        } else {
+            if (_replayKitCapture.audioConfiguration) {
+                _audioEncoder = [[LFHardwareAudioEncoder alloc] initWithAudioStreamConfiguration:_replayKitCapture.audioConfiguration];
+            }
+        }
         [_audioEncoder setDelegate:self];
     }
     return _audioEncoder;
@@ -580,10 +667,16 @@
 
 - (id<LFVideoEncoding>)videoEncoder {
     if (!_videoEncoder) {
-        if([[UIDevice currentDevice].systemVersion floatValue] < 8.0){
-            _videoEncoder = [[LFH264VideoEncoder alloc] initWithVideoStreamConfiguration:_videoConfiguration];
-        }else{
-            _videoEncoder = [[LFHardwareVideoEncoder alloc] initWithVideoStreamConfiguration:_videoConfiguration];
+        if (!_isReplayKitBroadcast) {
+            if ([[UIDevice currentDevice].systemVersion floatValue] < 8.0){
+                _videoEncoder = [[LFH264VideoEncoder alloc] initWithVideoStreamConfiguration:_videoConfiguration];
+            } else {
+                _videoEncoder = [[LFHardwareVideoEncoder alloc] initWithVideoStreamConfiguration:_videoConfiguration];
+            }
+        } else {
+            if (_replayKitCapture.videoConfiguration) {
+                _videoEncoder = [[LFHardwareVideoEncoder alloc] initWithVideoStreamConfiguration:_replayKitCapture.videoConfiguration];
+            }
         }
         [_videoEncoder setDelegate:self];
     }
@@ -617,7 +710,7 @@
     uint64_t currentts = 0;
     currentts = captureTimestamp - self.relativeTimestamps;
     dispatch_semaphore_signal(self.lock);
-    return currentts;
+    return MAX(currentts, 0);
 }
 
 - (BOOL)AVAlignment{

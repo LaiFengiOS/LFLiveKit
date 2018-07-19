@@ -128,6 +128,11 @@
     }
 }
 
+- (NSData *)popData {
+    _mixingDataIndex = 0;
+    return [_dataList popHead];
+}
+
 - (BOOL)isEmpty {
     return !_dataList.head;
 }
@@ -148,6 +153,36 @@
         _mixingDataIndex = 0;
     }
     return s;
+}
+
+- (SInt16)nextFrame {
+    if (!_dataList.head) {
+        return 0;
+    }
+    SInt16 s = *((SInt16*)_dataList.head.bytes);
+    _mixingDataIndex += 2;
+    if (_mixingDataIndex >= _dataList.head.length) {
+        [_dataList popHead];
+        _mixingDataIndex = 0;
+    }
+    return s;
+}
+
+- (void)readBytes:(void *)dst length:(NSUInteger)length {
+    NSUInteger readLength = 0;
+    while (readLength < length && !self.isEmpty) {
+        const void *src = _dataList.head.bytes;
+        src += _mixingDataIndex;
+        size_t size = MIN(_dataList.head.length - _mixingDataIndex, length - readLength);
+        memcpy(dst, src, size);
+        _mixingDataIndex += size;
+        if (_mixingDataIndex >= _dataList.head.length) {
+            [_dataList popHead];
+            _mixingDataIndex = 0;
+        }
+        readLength += size;
+        dst += size;
+    }
 }
 
 @end

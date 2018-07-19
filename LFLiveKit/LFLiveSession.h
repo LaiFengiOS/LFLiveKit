@@ -51,6 +51,12 @@ typedef NS_ENUM(NSUInteger, LFAudioMixVolume) {
     LFAudioMixVolumeVeryHigh = 10
 };
 
+typedef NS_ENUM(NSUInteger, RKReplayKitSampleType) {
+    RKReplayKitSampleTypeVideo,
+    RKReplayKitSampleTypeAppAudio,
+    RKReplayKitSampleTypeMicAudio
+};
+
 @class LFLiveSession;
 @protocol LFLiveSessionDelegate <NSObject>
 
@@ -156,6 +162,9 @@ typedef NS_ENUM(NSUInteger, LFAudioMixVolume) {
 
 @property (nonatomic, assign) BOOL gpuimageAdvanceBeautyEnabled;
 
+/** The instance is for broadcast extension usage */
+@property (nonatomic, readonly) BOOL isReplayKitBroadcast;
+
 // 17 log
 @property (nonatomic, nullable) NSString *liveId;
 @property (nonatomic, nullable) NSString *provider;
@@ -194,6 +203,9 @@ typedef NS_ENUM(NSUInteger, LFAudioMixVolume) {
                                         captureType:(LFLiveCaptureTypeMask)captureType
                                         eaglContext:(EAGLContext *)glContext NS_DESIGNATED_INITIALIZER;
 
+/** The initializer for broadcast extension. */
+- (nullable instancetype)initForReplayKitBroadcast;
+
 /** The start stream .*/
 - (void)startLive:(nonnull LFLiveStreamInfo *)streamInfo;
 
@@ -207,6 +219,9 @@ typedef NS_ENUM(NSUInteger, LFAudioMixVolume) {
 - (void)pushAudio:(nullable NSData*)audioData;
 
 - (BOOL)sendSeiJson:(nonnull id)jsonObj;
+
+/** support outer input video from broadcast extension .*/
+- (void)pushReplayKitSample:(nonnull CMSampleBufferRef)sampleBuffer type:(RKReplayKitSampleType)type;
 
 /** Switch to previous color filter. */
 - (void)previousColorFilter;

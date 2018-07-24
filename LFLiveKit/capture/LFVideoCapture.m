@@ -8,6 +8,7 @@
 
 #import "LFVideoCapture.h"
 #import "LFGPUImageEmptyFilter.h"
+#import "LFUtils.h"
 #import "RKGPUImageColorFilter.h"
 #import "RKGPUImageWarmFilter.h"
 #import "RKGPUImageSoftFilter.h"
@@ -145,7 +146,7 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
 }
 
 - (void)dealloc {
-    [UIApplication sharedApplication].idleTimerDisabled = NO;
+    [LFUtils sharedApplication].idleTimerDisabled = NO;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [_videoCamera stopCameraCapture];
     if(_gpuImageView){
@@ -216,11 +217,11 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
     _running = running;
     
     if (!_running) {
-        [UIApplication sharedApplication].idleTimerDisabled = NO;
+        [LFUtils sharedApplication].idleTimerDisabled = NO;
         [self.videoCamera stopCameraCapture];
         if(self.saveLocalVideo) [self.movieWriter finishRecording];
     } else {
-        [UIApplication sharedApplication].idleTimerDisabled = YES;
+        [LFUtils sharedApplication].idleTimerDisabled = YES;
         [self reloadFilter];
         [self.videoCamera startCameraCapture];
         if(self.saveLocalVideo) [self.movieWriter startRecording];
@@ -534,7 +535,7 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
 #pragma mark Notification
 
 - (void)willEnterBackground:(NSNotification *)notification {
-    [UIApplication sharedApplication].idleTimerDisabled = NO;
+    [LFUtils sharedApplication].idleTimerDisabled = NO;
     [self.videoCamera pauseCameraCapture];
     runSynchronouslyOnVideoProcessingQueue(^{
         glFinish();
@@ -543,12 +544,17 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
 
 - (void)willEnterForeground:(NSNotification *)notification {
     [self.videoCamera resumeCameraCapture];
-    [UIApplication sharedApplication].idleTimerDisabled = YES;
+    [LFUtils sharedApplication].idleTimerDisabled = YES;
 }
 
 - (void)statusBarChanged:(NSNotification *)notification {
+    UIApplication *app = [LFUtils sharedApplication];
+    if (!app) {
+        return;
+    }
+    
     NSLog(@"UIApplicationWillChangeStatusBarOrientationNotification. UserInfo: %@", notification.userInfo);
-    UIInterfaceOrientation statusBar = [[UIApplication sharedApplication] statusBarOrientation];
+    UIInterfaceOrientation statusBar = [app statusBarOrientation];
 
     if(self.configuration.autorotate){
         if (self.configuration.landscape) {

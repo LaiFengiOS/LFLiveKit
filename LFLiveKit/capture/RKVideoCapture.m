@@ -7,6 +7,7 @@
 //
 
 #import "RKVideoCapture.h"
+#import "LFUtils.h"
 #import "RKVideoCamera.h"
 #import "QBGLContext.h"
 #import "QBGLFilterTypes.h"
@@ -42,7 +43,7 @@
     if (self = [super init]) {
         _configuration = configuration;
         _eaglContext = glContext;
-        _displayOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+        _displayOrientation = [[LFUtils sharedApplication] statusBarOrientation];
         self.beautyFace = YES;
         self.zoomScale = 1.0;
         self.mirror = YES;
@@ -55,7 +56,7 @@
 }
 
 - (void)dealloc {
-    [UIApplication sharedApplication].idleTimerDisabled = NO;
+    [LFUtils sharedApplication].idleTimerDisabled = NO;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self.videoCamera stopCapture];
     
@@ -104,10 +105,10 @@
     _running = running;
     
     if (!_running) {
-        [UIApplication sharedApplication].idleTimerDisabled = NO;
+        [LFUtils sharedApplication].idleTimerDisabled = NO;
         [self.videoCamera stopCapture];
     } else {
-        [UIApplication sharedApplication].idleTimerDisabled = YES;
+        [LFUtils sharedApplication].idleTimerDisabled = YES;
         [self.videoCamera startCapture];
     }
 }
@@ -246,18 +247,18 @@
 #pragma mark - Notification
 
 - (void)willEnterBackground:(NSNotification *)notification {
-    [UIApplication sharedApplication].idleTimerDisabled = NO;
+    [LFUtils sharedApplication].idleTimerDisabled = NO;
     [self.videoCamera pauseCapture];
     glFinish();
 }
 
 - (void)willEnterForeground:(NSNotification *)notification {
     [self.videoCamera resumeCapture];
-    [UIApplication sharedApplication].idleTimerDisabled = YES;
+    [LFUtils sharedApplication].idleTimerDisabled = YES;
 }
 
 - (void)statusBarChanged:(NSNotification *)notification {
-    UIInterfaceOrientation statusBar = [[UIApplication sharedApplication] statusBarOrientation];
+    UIInterfaceOrientation statusBar = [[LFUtils sharedApplication] statusBarOrientation];
     self.displayOrientation = statusBar == UIInterfaceOrientationPortrait ? UIInterfaceOrientationPortraitUpsideDown : UIInterfaceOrientationPortrait;
 }
 

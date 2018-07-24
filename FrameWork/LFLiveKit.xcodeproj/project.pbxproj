@@ -50,6 +50,10 @@
 		31ACD0B321006451009075DF /* RKReplayKitGLContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 31ACD0B021006451009075DF /* RKReplayKitGLContext.h */; };
 		31ACD0B421006451009075DF /* RKReplayKitGLContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 31ACD0B121006451009075DF /* RKReplayKitGLContext.m */; };
 		31ACD0B521006451009075DF /* RKReplayKitGLContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 31ACD0B121006451009075DF /* RKReplayKitGLContext.m */; };
+		31ACD11A2106CF5E009075DF /* LFUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 31ACD1182106CF5E009075DF /* LFUtils.h */; };
+		31ACD11B2106CF5E009075DF /* LFUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 31ACD1182106CF5E009075DF /* LFUtils.h */; };
+		31ACD11C2106CF5E009075DF /* LFUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 31ACD1192106CF5E009075DF /* LFUtils.m */; };
+		31ACD11D2106CF5E009075DF /* LFUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 31ACD1192106CF5E009075DF /* LFUtils.m */; };
 		84358FF41DD1FEB600811FC7 /* GLProgram.h in Headers */ = {isa = PBXBuildFile; fileRef = 84358E871DD1FEB500811FC7 /* GLProgram.h */; };
 		84358FF51DD1FEB600811FC7 /* GLProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = 84358E881DD1FEB500811FC7 /* GLProgram.m */; };
 		84358FF61DD1FEB600811FC7 /* GPUImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 84358E891DD1FEB500811FC7 /* GPUImage.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1210,6 +1214,8 @@
 		31ACD0AB210063FB009075DF /* RKGLProgram.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RKGLProgram.m; sourceTree = "<group>"; };
 		31ACD0B021006451009075DF /* RKReplayKitGLContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RKReplayKitGLContext.h; sourceTree = "<group>"; };
 		31ACD0B121006451009075DF /* RKReplayKitGLContext.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RKReplayKitGLContext.m; sourceTree = "<group>"; };
+		31ACD1182106CF5E009075DF /* LFUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LFUtils.h; sourceTree = "<group>"; };
+		31ACD1192106CF5E009075DF /* LFUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LFUtils.m; sourceTree = "<group>"; };
 		84358E871DD1FEB500811FC7 /* GLProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLProgram.h; sourceTree = "<group>"; };
 		84358E881DD1FEB500811FC7 /* GLProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLProgram.m; sourceTree = "<group>"; };
 		84358E891DD1FEB500811FC7 /* GPUImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUImage.h; sourceTree = "<group>"; };
@@ -2535,6 +2541,8 @@
 				84D8B5B01D768B6E00752B56 /* LFLiveStreamInfo.m */,
 				BE35EB9B1F73853100B615DF /* LFStreamLog.h */,
 				BE35EB9C1F73853100B615DF /* LFStreamLog.m */,
+				31ACD1182106CF5E009075DF /* LFUtils.h */,
+				31ACD1192106CF5E009075DF /* LFUtils.m */,
 				84D8B5B11D768B6E00752B56 /* LFVideoFrame.h */,
 				84D8B5B21D768B6E00752B56 /* LFVideoFrame.m */,
 				BE35EB771F5D591400B615DF /* RKDataLinkedList.h */,
@@ -3032,6 +3040,7 @@
 				BE49353120076CA3003F5291 /* QBGLToasterFilter.h in Headers */,
 				31ACD0A621006369009075DF /* RKSampleBuffer.h in Headers */,
 				C16E7D801E53F5EF0067DE28 /* RKGPUImageGlowFilter.h in Headers */,
+				31ACD11B2106CF5E009075DF /* LFUtils.h in Headers */,
 				BE49350B20076CA3003F5291 /* QBGLPixarFilter.h in Headers */,
 				BE4935F0200866A6003F5291 /* QBGLColorMapFilter+Factory.h in Headers */,
 				BE49355720076CA3003F5291 /* QBGLSunriseFilter.h in Headers */,
@@ -3334,6 +3343,7 @@
 				8435915D1DD1FEB600811FC7 /* rtmp_sys.h in Headers */,
 				C16E7D791E53F5C50067DE28 /* RKGPUImageDeepFilter.h in Headers */,
 				843590C31DD1FEB600811FC7 /* GPUImageOpeningFilter.h in Headers */,
+				31ACD11A2106CF5E009075DF /* LFUtils.h in Headers */,
 				BE49353820076CA3003F5291 /* QBGLAmaroFilter.h in Headers */,
 				8435901B1DD1FEB600811FC7 /* GPUImageColorBlendFilter.h in Headers */,
 				843590F91DD1FEB600811FC7 /* GPUImageSketchFilter.h in Headers */,
@@ -3640,6 +3650,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE49350920076CA3003F5291 /* QBGLRiseFilter.m in Sources */,
+				31ACD11D2106CF5E009075DF /* LFUtils.m in Sources */,
 				BE388E8F1F833290000499F8 /* RKAudioMixSource.m in Sources */,
 				BE388E8E1F83328D000499F8 /* RKMultiAudioMix.m in Sources */,
 				BE49354520076CA3003F5291 /* QBGLHealthyFilter.m in Sources */,
@@ -3957,6 +3968,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE49350820076CA3003F5291 /* QBGLRiseFilter.m in Sources */,
+				31ACD11C2106CF5E009075DF /* LFUtils.m in Sources */,
 				BE35EB7D1F5EB4AD00B615DF /* RKDataLinkedList.m in Sources */,
 				C16E7D211E5348F80067DE28 /* RKGPUImageCoolFilter.m in Sources */,
 				BE49354420076CA3003F5291 /* QBGLHealthyFilter.m in Sources */,

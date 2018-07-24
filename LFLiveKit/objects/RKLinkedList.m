@@ -8,33 +8,34 @@
 
 #import "RKLinkedList.h"
 
-@interface RKLinkedNode : NSObject
+@interface RKLinkedListNode : NSObject
 
-@property (strong, nonatomic) RKLinkedNode *next;
-@property (strong, nonatomic) RKLinkedNode *prev;
+@property (strong, nonatomic) RKLinkedListNode *next;
+@property (strong, nonatomic) RKLinkedListNode *prev;
 @property (strong, nonatomic) id object;
 
 @end
 
-@implementation RKLinkedNode
 
+@implementation RKLinkedListNode
 @end
 
+
 @implementation RKLinkedList {
-    RKLinkedNode *_head, *_tail;
+    RKLinkedListNode *_head, *_tail;
 }
 
-- (id)head {
+- (nullable id)head {
     return _head.object;
 }
 
-- (id)tail {
+- (nullable id)tail {
     return _tail.object;
 }
 
-- (void)pushHead:(nonnull id)obj {
-    RKLinkedNode *node = [[RKLinkedNode alloc] init];
-    node.object = obj;
+- (void)pushHead:(nonnull id)object {
+    RKLinkedListNode *node = [[RKLinkedListNode alloc] init];
+    node.object = object;
     node.next = _head;
     _head.prev = node;
     _head = node;
@@ -48,16 +49,20 @@
     if (!_head) {
         return nil;
     }
-    _length--;
-    RKLinkedNode *node = _head;
+    RKLinkedListNode *node = _head;
+    id obj = node.object;
     _head = node.next;
     _head.prev = nil;
-    return node.object;
+    if (!_head) {
+        _tail = nil;
+    }
+    _length--;
+    return obj;
 }
 
-- (void)pushTail:(nonnull id)obj {
-    RKLinkedNode *node = [[RKLinkedNode alloc] init];
-    node.object = obj;
+- (void)pushTail:(nonnull id)object {
+    RKLinkedListNode *node = [[RKLinkedListNode alloc] init];
+    node.object = object;
     node.prev = _tail;
     _tail.next = node;
     _tail = node;
@@ -71,11 +76,15 @@
     if (!_tail) {
         return nil;
     }
-    _length--;
-    RKLinkedNode *node = _tail;
+    RKLinkedListNode *node = _tail;
+    id obj = node.object;
     _tail = node.prev;
     _tail.next = nil;
-    return node.object;
+    if (!_tail) {
+        _head = nil;
+    }
+    _length--;
+    return obj;
 }
 
 @end

@@ -8,18 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
-@interface RKLinkedList : NSObject
+@interface RKLinkedList<__covariant T> : NSObject
 
-@property (nonatomic, readonly) id _Nullable head;
-@property (nonatomic, readonly) id _Nullable tail;
+@property (nonatomic, readonly) T _Nullable head;
+@property (nonatomic, readonly) T _Nullable tail;
 @property (nonatomic, readonly) NSUInteger length;
 
-- (void)pushHead:(nonnull id)obj;
-
-- (nullable id)popHead;
-
-- (void)pushTail:(nonnull id)obj;
-
-- (nullable id)popTail;
+- (void)pushHead:(nonnull T)object;
+- (nullable T)popHead;
+- (void)pushTail:(nonnull T)object;
+- (nullable T)popTail;
 
 @end

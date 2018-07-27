@@ -21,9 +21,9 @@
 
 @property (strong, nonatomic) RKReplayKitGLContext *glContext;
 
-@property (nonatomic) CMTime lastVideoTime;
+@property (nonatomic) CFTimeInterval lastVideoTime;
 
-@property (nonatomic) CMTime lastAppAudioTime;
+@property (nonatomic) CFTimeInterval lastAppAudioTime;
 
 @property (strong, nonatomic) dispatch_queue_t slienceAudioQueue;
 
@@ -70,7 +70,7 @@
     
     [self processVideo:sample];
     
-    _lastVideoTime = CMSampleBufferGetPresentationTimeStamp(sample);
+    _lastVideoTime = CACurrentMediaTime();
     [self checkAudio];
 }
 
@@ -98,7 +98,7 @@
 }
 
 - (void)pushAppAudioSample:(CMSampleBufferRef)sample {
-    _lastAppAudioTime = CMSampleBufferGetPresentationTimeStamp(sample);
+    _lastAppAudioTime = CACurrentMediaTime();
     
     _appAudioFormat = *CMAudioFormatDescriptionGetStreamBasicDescription(CMSampleBufferGetFormatDescription(sample));
     
@@ -180,17 +180,17 @@
 }
 
 - (void)checkAudio {
-    if (CMTIME_IS_INVALID(_lastAppAudioTime)) {
+    if (_lastAppAudioTime == 0) {
         _lastAppAudioTime = _lastVideoTime;
         return;
     }
-    CMTime diff = CMTimeSubtract(_lastVideoTime, _lastAppAudioTime);
-    Float64 interval = CMTimeGetSeconds(diff);
     
-    if (interval >= 1) {
+    CFTimeInterval diffInterval = _lastVideoTime - _lastAppAudioTime;
+    if (diffInterval >= 1) {
         _lastAppAudioTime = _lastVideoTime;
+        __weak typeof(self) wSelf = self;
         dispatch_async(_slienceAudioQueue, ^{
-            [self sendSlience];
+            [wSelf sendSlience];
         });
     }
 }

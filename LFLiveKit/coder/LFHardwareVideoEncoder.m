@@ -8,6 +8,8 @@
 #import "LFHardwareVideoEncoder.h"
 #import <VideoToolbox/VideoToolbox.h>
 
+static int const kMaxAccVideoFrameBufferCount = 48;
+
 @interface LFHardwareVideoEncoder (){
     VTCompressionSessionRef compressionSession;
     NSInteger frameCount;
@@ -15,6 +17,8 @@
     NSData *pps;
     FILE *fp;
     BOOL enabledWriteVideoFile;
+    NSInteger accEncodedVideoFrameCount;
+    NSInteger accVideoFrameBufferCount;
 }
 
 @property (nonatomic, strong) LFLiveVideoConfiguration *configuration;
@@ -99,6 +103,7 @@
 - (void)encodeVideoData:(CVPixelBufferRef)pixelBuffer timeStamp:(uint64_t)timeStamp {
     if(_isBackGround) return;
     frameCount++;
+    accVideoFrameBufferCount++;
     CMTime presentationTimeStamp = CMTimeMake(frameCount, (int32_t)_configuration.videoFrameRate);
     VTEncodeInfoFlags flags;
     CMTime duration = CMTimeMake(1, (int32_t)_configuration.videoFrameRate);
@@ -108,6 +113,15 @@
         properties = @{(__bridge NSString *)kVTEncodeFrameOptionKey_ForceKeyFrame: @YES};
     }
     NSNumber *timeNumber = @(timeStamp);
+
+    if (accVideoFrameBufferCount >= kMaxAccVideoFrameBufferCount) {
+        accVideoFrameBufferCount = 0;
+        if (accEncodedVideoFrameCount == 0) {
+            NSLog(@"reset VTCompressionSession cuz not receive encoded video frame for a period");
+            [self resetCompressionSession];
+        }
+        accEncodedVideoFrameCount = 0;
+    }
 
     OSStatus status = VTCompressionSessionEncodeFrame(compressionSession, pixelBuffer, presentationTimeStamp, duration, (__bridge CFDictionaryRef)properties, (__bridge_retained void *)timeNumber, &flags);
     if(status != noErr){
@@ -148,6 +162,8 @@ static void VideoCompressonOutputCallback(void *VTref, void *VTFrameRef, OSStatu
     if (status != noErr) {
         return;
     }
+
+    videoEncoder->accEncodedVideoFrameCount++;
 
     if (keyframe && !videoEncoder->sps) {
         CMFormatDescriptionRef format = CMSampleBufferGetFormatDescription(sampleBuffer);

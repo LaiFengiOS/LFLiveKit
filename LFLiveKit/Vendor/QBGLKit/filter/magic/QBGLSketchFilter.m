@@ -34,10 +34,11 @@ char * const kQBSketchFilterFragment;
     [self.program setParameter:"strength" floatValue:1.0];
 }
 
-- (GLuint)render {
+- (void)setAdditionalUniformVarsForRender {
+    [super setAdditionalUniformVarsForRender];
+    
     const GLfloat offset[] = {1 / self.inputSize.width, 1 / self.inputSize.height};
     glUniform2fv([self.program uniformWithName:"singleStepOffset"], 1, offset);
-    return [super render];
 }
 
 @end

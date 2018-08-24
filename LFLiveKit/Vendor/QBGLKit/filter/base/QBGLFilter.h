@@ -56,6 +56,8 @@ typedef NS_ENUM(NSUInteger, QBGLImageRotation) {
 
 - (NSArray<QBGLDrawable*> *)renderTextures;
 
+- (void)setAdditionalUniformVarsForRender;
+
 /**
  * Prepare for drawing and return the next available active texture index.
  */

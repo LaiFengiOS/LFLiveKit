@@ -40,10 +40,11 @@ char * const kQBFreudFilterFragment;
     return @[_randDrawable];
 }
 
-- (GLuint)render {
+- (void)setAdditionalUniformVarsForRender {
+    [super setAdditionalUniformVarsForRender];
+    
     [self.program setParameter:"inputImageTextureWidth" floatValue:self.inputSize.width];
     [self.program setParameter:"inputImageTextureHeight" floatValue:self.inputSize.height];
-    return [super render];
 }
 
 @end

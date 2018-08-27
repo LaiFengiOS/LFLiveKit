@@ -54,10 +54,11 @@ char * const kQBHealthyFilterFragment;
     return @[_curveDrawable, _maskDrawable];
 }
 
-- (GLuint)render {
+- (void)setAdditionalUniformVarsForRender {
+    [super setAdditionalUniformVarsForRender];
+    
     [self.program setParameter:"texelWidthOffset" floatValue:1 / self.inputSize.width];
     [self.program setParameter:"texelHeightOffset" floatValue:1 / self.inputSize.height];
-    return [super render];
 }
 
 @end

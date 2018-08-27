@@ -136,6 +136,10 @@ char * const kQBNoFilterFragment;
     return nil;
 }
 
+- (void)setAdditionalUniformVarsForRender {
+    // do nothing
+}
+
 - (GLuint)render {
     [_program use];
     [_program enableAttributeWithId:_attrPosition];
@@ -143,6 +147,8 @@ char * const kQBNoFilterFragment;
     
     glVertexAttribPointer(_attrPosition, 2, GL_FLOAT, 0, 0, squareVertices);
     glVertexAttribPointer(_attrInputTextureCoordinate, 2, GL_FLOAT, 0, 0, [self.class textureCoordinatesForRotation:_inputRotation]);
+    
+    [self setAdditionalUniformVarsForRender];
     
     GLuint index = 0;
     if (_inputImageDrawable) {

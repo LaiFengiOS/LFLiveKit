@@ -132,10 +132,10 @@ typedef NS_ENUM(NSUInteger, RKReplayKitSampleType) {
 /** The reconnectCount control reconnect count (重连次数) *.*/
 @property (nonatomic, assign) NSUInteger reconnectCount;
 
-/*** The warterMarkView control whether the watermark is displayed or not ,if set ni,will remove watermark,otherwise add. 
+/*** The watermarkView control whether the watermark is displayed or not ,if set ni,will remove watermark,otherwise add.
  set alpha represent mix.Position relative to outVideoSize.
  *.*/
-@property (nonatomic, strong, nullable) UIView *warterMarkView;
+@property (nonatomic, strong, nullable) UIView *watermarkView;
 
 /* The currentImage is videoCapture shot */
 @property (nonatomic, strong, readonly, nullable) UIImage *currentImage;

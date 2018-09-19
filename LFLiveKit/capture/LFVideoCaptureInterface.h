@@ -80,8 +80,8 @@ typedef NS_ENUM(NSInteger, RKColorFilter) {
 /** The videoFrameRate control videoCapture output data count */
 @property (nonatomic, assign) NSInteger videoFrameRate;
 
-/*** The warterMarkView control whether the watermark is displayed or not ,if set ni,will remove watermark,otherwise add *.*/
-@property (nonatomic, strong, nullable) UIView *warterMarkView;
+/*** The watermarkView control whether the watermark is displayed or not ,if set ni,will remove watermark,otherwise add *.*/
+@property (nonatomic, strong, nullable) UIView *watermarkView;
 
 /* The currentImage is videoCapture shot */
 @property (nonatomic, readonly, nullable) UIImage *currentImage;

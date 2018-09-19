@@ -34,6 +34,11 @@
 
 @property (nonatomic) CVOpenGLESTextureCacheRef textureCacheRef;
 
+// Watermark
+@property (assign, nonatomic) GLuint watermarkTextureId;
+@property (assign, nonatomic) CGRect watermarkRect;
+@property (assign, nonatomic) CGFloat watermarkAlpha;
+
 @end
 
 @implementation QBGLContext
@@ -183,6 +188,7 @@
     [self becomeCurrentContext];
     
     self.inputFilter.inputRotation = _inputRotation;
+    [self.inputFilter updateWatermarkWithTextureId:self.watermarkTextureId rect:self.watermarkRect alpha:self.watermarkAlpha];
     [self.inputFilter render];
     
     if (self.outputFilter != self.inputFilter) {
@@ -214,6 +220,17 @@
         orientation == UIInterfaceOrientationLandscapeLeft      ? QBGLImageRotationNone  :
         orientation == UIInterfaceOrientationLandscapeRight     ? QBGLImageRotation180   : QBGLImageRotationNone;
     }
+}
+
+- (void)updateWatermarkWithTextureId:(GLuint)textureId rect:(CGRect)rect alpha:(CGFloat)alpha {
+    self.watermarkTextureId = textureId;
+    self.watermarkRect = rect;
+    self.watermarkAlpha = alpha;
+}
+
+- (void)reloadWatermarkWithTextureId:(GLuint)textureId rect:(CGRect)rect alpha:(CGFloat)alpha {
+    [self updateWatermarkWithTextureId:textureId rect:rect alpha:alpha];
+    [self.inputFilter reloadWatermarkWithTextureId:textureId rect:rect alpha:alpha];
 }
 
 @end

@@ -51,7 +51,12 @@ char * const kQBGLYuvFilterFragment;
 }
 
 - (NSArray<QBGLDrawable*> *)renderTextures {
-    return _yDrawable && _uvDrawable ? @[_yDrawable, _uvDrawable] : nil;
+    NSMutableArray *array = [NSMutableArray arrayWithArray:[super renderTextures]];
+    if (_yDrawable && _uvDrawable ) {
+        [array addObject:_yDrawable];
+        [array addObject:_uvDrawable];
+    }
+    return array;
 }
 
 @end
@@ -78,6 +83,9 @@ char * const kQBGLYuvFilterFragment = STRING
  
  uniform sampler2D yTexture;
  uniform sampler2D uvTexture;
+ uniform sampler2D watermarkTexture;
+ uniform vec4 watermarkRect;
+ uniform float watermarkAlpha;
  
  const mat3 yuv2rgbMatrix = mat3(1.0, 1.0, 1.0,
                                  0.0, -0.343, 1.765,
@@ -93,6 +101,12 @@ char * const kQBGLYuvFilterFragment = STRING
  void main()
  {
      vec3 centralColor = rgbFromYuv(yTexture, uvTexture, textureCoordinate).rgb;
-     gl_FragColor = vec4(centralColor, 1.0);
+     if (textureCoordinate.x >= watermarkRect.r && textureCoordinate.x <= watermarkRect.b && textureCoordinate.y >= watermarkRect.g && textureCoordinate.y <= watermarkRect.a) {
+         vec2 watermarkTextureCoordinate = vec2((textureCoordinate.y - watermarkRect.g) / (watermarkRect.a - watermarkRect.g), (textureCoordinate.x - watermarkRect.r) / (watermarkRect.b - watermarkRect.r));
+         vec4 watermarkTextureColor = texture2D(watermarkTexture, watermarkTextureCoordinate);
+         gl_FragColor = vec4(mix(centralColor, watermarkTextureColor.rgb, watermarkTextureColor.a * watermarkAlpha), 1.0);
+     } else {
+         gl_FragColor = vec4(centralColor, 1.0);
+     }
  }
  );

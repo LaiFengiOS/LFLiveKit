@@ -70,7 +70,7 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
 
 @property (nonatomic, strong) GPUImageAlphaBlendFilter *blendFilter;
 @property (nonatomic, strong) GPUImageUIElement *uiElementInput;
-@property (nonatomic, strong) UIView *waterMarkContentView;
+@property (nonatomic, strong) UIView *watermarkContentView;
 
 @property (nonatomic, strong) GPUImageMovieWriter *movieWriter;
 
@@ -94,7 +94,7 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
 @synthesize torch = _torch;
 @synthesize mirror = _mirror;
 @synthesize zoomScale = _zoomScale;
-@synthesize warterMarkView = _warterMarkView;
+@synthesize watermarkView = _watermarkView;
 @synthesize saveLocalVideo = _saveLocalVideo;
 @synthesize saveLocalVideoPath = _saveLocalVideoPath;
 @synthesize mirrorOutput = _mirrorOutput;
@@ -318,20 +318,20 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
     return _zoomScale;
 }
 
-- (void)setWarterMarkView:(UIView *)warterMarkView{
-    if(_warterMarkView && _warterMarkView.superview){
-        [_warterMarkView removeFromSuperview];
-        _warterMarkView = nil;
+- (void)setWatermarkView:(UIView *)watermarkView{
+    if(_watermarkView && _watermarkView.superview){
+        [_watermarkView removeFromSuperview];
+        _watermarkView = nil;
     }
-    _warterMarkView = warterMarkView;
-    self.blendFilter.mix = warterMarkView.alpha;
-    [self.waterMarkContentView addSubview:_warterMarkView];
+    _watermarkView = watermarkView;
+    self.blendFilter.mix = watermarkView.alpha;
+    [self.watermarkContentView addSubview:_watermarkView];
     [self reloadFilter];
 }
 
 - (GPUImageUIElement *)uiElementInput{
     if(!_uiElementInput){
-        _uiElementInput = [[GPUImageUIElement alloc] initWithView:self.waterMarkContentView];
+        _uiElementInput = [[GPUImageUIElement alloc] initWithView:self.watermarkContentView];
     }
     return _uiElementInput;
 }
@@ -345,13 +345,13 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
     return _blendFilter;
 }
 
-- (UIView *)waterMarkContentView{
-    if(!_waterMarkContentView){
-        _waterMarkContentView = [UIView new];
-        _waterMarkContentView.frame = CGRectMake(0, 0, self.configuration.videoSize.width, self.configuration.videoSize.height);
-        _waterMarkContentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+- (UIView *)watermarkContentView{
+    if(!_watermarkContentView){
+        _watermarkContentView = [UIView new];
+        _watermarkContentView.frame = CGRectMake(0, 0, self.configuration.videoSize.width, self.configuration.videoSize.height);
+        _watermarkContentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     }
-    return _waterMarkContentView;
+    return _watermarkContentView;
 }
 
 - (GPUImageView *)gpuImageView{
@@ -429,31 +429,36 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
     [self reloadMirror];
     
     //< 480*640 比例为4:3  强制转换为16:9
-    if([self.configuration.avSessionPreset isEqualToString:AVCaptureSessionPreset640x480]){
+    if ([self.configuration.avSessionPreset isEqualToString:AVCaptureSessionPreset640x480]) {
         CGRect cropRect = self.configuration.landscape ? CGRectMake(0, 0.125, 1, 0.75) : CGRectMake(0.125, 0, 0.75, 1);
         self.cropfilter = [[GPUImageCropFilter alloc] initWithCropRegion:cropRect];
         [self.videoCamera addTarget:self.cropfilter];
         [self.cropfilter addTarget:self.filter];
-    }else{
+    } else {
         [self.videoCamera addTarget:self.filter];
     }
     
     //< 添加水印
-    if(self.warterMarkView){
+    if (self.watermarkView) {
         [self.filter addTarget:self.blendFilter];
         [self.uiElementInput addTarget:self.blendFilter];
         if (self.preView) {
             [self.blendFilter addTarget:self.gpuImageView];
         }
-        if(self.saveLocalVideo) [self.blendFilter addTarget:self.movieWriter];
+        if (self.saveLocalVideo) {
+            [self.blendFilter addTarget:self.movieWriter];
+        }
         [self.filter addTarget:self.output];
         [self.uiElementInput update];
-    }else{
+        
+    } else {
         [self.filter addTarget:self.output];
         if (self.preView) {
             [self.filter addTarget:self.gpuImageView];
         }
-        if(self.saveLocalVideo) [self.output addTarget:self.movieWriter];
+        if (self.saveLocalVideo) {
+            [self.output addTarget:self.movieWriter];
+        }
     }
     
     [self.filter forceProcessingAtSize:self.configuration.videoSize];
@@ -466,7 +471,6 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
     [self.output setFrameProcessingCompletionBlock:^(GPUImageOutput *output, CMTime time) {
         [_self processVideo:output atTime:time];
     }];
-    
 }
 
 - (void)processVideo:(GPUImageOutput *)output atTime:(CMTime)time {

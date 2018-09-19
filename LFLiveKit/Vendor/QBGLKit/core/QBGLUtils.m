@@ -10,10 +10,59 @@
 
 @implementation QBGLUtils
 
++ (GLuint)createTextureWithView:(UIView *)sourceView {
+    return [self createTextureWithView:sourceView horizontalFlip:NO verticalFlip:NO];
+}
+
++ (GLuint)createTextureWithView:(UIView *)sourceView horizontalFlip:(BOOL)horizontalFlip verticalFlip:(BOOL)verticalFlip {
+    if (!sourceView) return 0;
+    GLuint texture = [self generateTexture];
+    return [self bindTexture:texture withView:sourceView horizontalFlip:horizontalFlip verticalFlip:verticalFlip];
+}
+
 + (GLuint)createTextureWithImage:(UIImage *)image {
     if (!image) return 0;
     GLuint texture = [self generateTexture];
     return [self bindTexture:texture withImage:image];
+}
+
++ (GLuint)bindTexture:(GLuint)textureId withView:(UIView *)sourceView {
+    return [self bindTexture:textureId withView:sourceView horizontalFlip:NO verticalFlip:NO];
+}
+
++ (GLuint)bindTexture:(GLuint)textureId withView:(UIView *)sourceView horizontalFlip:(BOOL)horizontalFlip verticalFlip:(BOOL)verticalFlip {
+    CGSize pointSize = sourceView.layer.bounds.size;
+    CGSize layerPixelSize = CGSizeMake(sourceView.layer.contentsScale * pointSize.width, sourceView.layer.contentsScale * pointSize.height);
+    
+    GLubyte *imageData = (GLubyte *)calloc(1, (int)layerPixelSize.width * (int)layerPixelSize.height * 4);
+    
+    CGColorSpaceRef genericRGBColorspace = CGColorSpaceCreateDeviceRGB();
+    CGContextRef imageContext = CGBitmapContextCreate(imageData, (int)layerPixelSize.width, (int)layerPixelSize.height, 8, (int)layerPixelSize.width * 4, genericRGBColorspace, kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedFirst);
+    
+    if (horizontalFlip && verticalFlip) {
+        CGContextTranslateCTM(imageContext, layerPixelSize.width, 0.f);
+        CGContextScaleCTM(imageContext, -sourceView.layer.contentsScale, sourceView.layer.contentsScale);
+        
+    } else if (horizontalFlip && !verticalFlip) {
+        CGContextTranslateCTM(imageContext, layerPixelSize.width, layerPixelSize.height);
+        CGContextScaleCTM(imageContext, -sourceView.layer.contentsScale, -sourceView.layer.contentsScale);
+        
+    } else if (!horizontalFlip && !verticalFlip) {
+        CGContextTranslateCTM(imageContext, 0.f, layerPixelSize.height);
+        CGContextScaleCTM(imageContext, sourceView.layer.contentsScale, -sourceView.layer.contentsScale);
+    }
+    
+    [sourceView.layer renderInContext:imageContext];
+    
+    CGContextRelease(imageContext);
+    CGColorSpaceRelease(genericRGBColorspace);
+    
+    glBindTexture(GL_TEXTURE_2D, textureId);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (int)layerPixelSize.width, (int)layerPixelSize.height, 0, GL_BGRA, GL_UNSIGNED_BYTE, imageData);
+    
+    free(imageData);
+    
+    return textureId;
 }
 
 + (GLuint)bindTexture:(GLuint)textureId withImage:(UIImage *)image {

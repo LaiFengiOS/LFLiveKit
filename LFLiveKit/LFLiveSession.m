@@ -234,7 +234,7 @@
     [self playParallelSounds:urls.allObjects volumes:nil];
 }
 
-- (void)playParallelSounds:(nonnull NSArray<NSURL *> *)urls volumes:(NSArray<NSNumber *> *)volumes {
+- (void)playParallelSounds:(nonnull NSArray<NSURL *> *)urls volumes:(nullable NSArray<NSNumber *> *)volumes {
     NSMutableArray<NSNumber *> *weights = [NSMutableArray new];
     for (int i = 0; i < urls.count; i++) {
         [weights addObject:i < volumes.count ? @(volumes[i].unsignedIntegerValue / 10.0) : @(LFAudioMixVolumeNormal / 10.0)];

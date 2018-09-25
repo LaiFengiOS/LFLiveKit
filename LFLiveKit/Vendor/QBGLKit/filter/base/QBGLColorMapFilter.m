@@ -130,6 +130,10 @@ char * const kQBColorMapFilterFragment = STRING
  uniform int overlay1Enabled;
  uniform int overlay2Enabled;
  
+ uniform sampler2D watermarkTexture;
+ uniform vec4 watermarkRect;
+ uniform float watermarkAlpha;
+ 
  const mat3 yuv2rgbMatrix = mat3(1.0, 1.0, 1.0,
                                  0.0, -0.343, 1.765,
                                  1.4, -0.711, 0.0);
@@ -205,7 +209,13 @@ char * const kQBColorMapFilterFragment = STRING
      
      filter_result = mix(output_result, filter_result, filterMixPercentage);
      
-     gl_FragColor = vec4(filter_result, 1.);
+     if (textureCoordinate.x >= watermarkRect.r && textureCoordinate.x <= watermarkRect.b && textureCoordinate.y >= watermarkRect.g && textureCoordinate.y <= watermarkRect.a) {
+         vec2 watermarkTextureCoordinate = vec2((textureCoordinate.y - watermarkRect.g) / (watermarkRect.a - watermarkRect.g), (textureCoordinate.x - watermarkRect.r) / (watermarkRect.b - watermarkRect.r));
+         vec4 watermarkTextureColor = texture2D(watermarkTexture, watermarkTextureCoordinate);
+         gl_FragColor = vec4(mix(filter_result, watermarkTextureColor.rgb, watermarkTextureColor.a * watermarkAlpha), 1.0);
+     } else {
+         gl_FragColor = vec4(filter_result, 1.0);
+     }
  }
 );
 

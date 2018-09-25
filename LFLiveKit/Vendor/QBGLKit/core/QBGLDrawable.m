@@ -12,6 +12,15 @@
 
 @implementation QBGLDrawable
 
+- (instancetype)initWithView:(UIView *)sourceView identifier:(NSString *)identifier {
+    if (self = [super init]) {
+        NSAssert(sourceView, @"UIView can not be nil");
+        _identifier = identifier;
+        _textureId = [QBGLUtils createTextureWithView:sourceView];
+    }
+    return self;
+}
+
 - (instancetype)initWithImage:(UIImage *)image identifier:(NSString *)identifier {
     if (self = [super init]) {
         NSAssert(image, @"image can not be nil");

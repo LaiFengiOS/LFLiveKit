@@ -67,4 +67,10 @@ typedef NS_ENUM(NSUInteger, QBGLImageRotation) {
 
 - (void)draw;
 
+/**
+ * Watermark
+ */
+- (void)updateWatermarkWithTextureId:(GLuint)textureId rect:(CGRect)rect alpha:(CGFloat)alpha;
+- (void)reloadWatermarkWithTextureId:(GLuint)textureId rect:(CGRect)rect alpha:(CGFloat)alpha;
+
 @end

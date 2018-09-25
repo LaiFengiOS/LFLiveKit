@@ -234,7 +234,7 @@
     [self playParallelSounds:urls.allObjects volumes:nil];
 }
 
-- (void)playParallelSounds:(nonnull NSArray<NSURL *> *)urls volumes:(NSArray<NSNumber *> *)volumes {
+- (void)playParallelSounds:(nonnull NSArray<NSURL *> *)urls volumes:(nullable NSArray<NSNumber *> *)volumes {
     NSMutableArray<NSNumber *> *weights = [NSMutableArray new];
     for (int i = 0; i < urls.count; i++) {
         [weights addObject:i < volumes.count ? @(volumes[i].unsignedIntegerValue / 10.0) : @(LFAudioMixVolumeNormal / 10.0)];
@@ -604,12 +604,12 @@
     return self.audioCaptureSource.muted;
 }
 
-- (void)setWarterMarkView:(UIView *)warterMarkView{
-    [self.videoCaptureSource setWarterMarkView:warterMarkView];
+- (void)setWatermarkView:(UIView *)watermarkView{
+    [self.videoCaptureSource setWatermarkView:watermarkView];
 }
 
-- (nullable UIView*)warterMarkView{
-    return self.videoCaptureSource.warterMarkView;
+- (nullable UIView *)watermarkView{
+    return self.videoCaptureSource.watermarkView;
 }
 
 - (nullable UIImage *)currentImage{

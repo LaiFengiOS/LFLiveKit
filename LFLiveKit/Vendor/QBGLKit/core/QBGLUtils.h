@@ -14,7 +14,13 @@
 
 @interface QBGLUtils : NSObject
 
++ (GLuint)createTextureWithView:(UIView *)sourceView;
++ (GLuint)createTextureWithView:(UIView *)sourceView horizontalFlip:(BOOL)horizontalFlip verticalFlip:(BOOL)verticalFlip;
+
 + (GLuint)createTextureWithImage:(UIImage *)image;
+
++ (GLuint)bindTexture:(GLuint)textureId withView:(UIView *)sourceView;
++ (GLuint)bindTexture:(GLuint)textureId withView:(UIView *)sourceView horizontalFlip:(BOOL)horizontalFlip verticalFlip:(BOOL)verticalFlip;
 
 + (GLuint)bindTexture:(GLuint)textureId withImage:(UIImage *)image;
 

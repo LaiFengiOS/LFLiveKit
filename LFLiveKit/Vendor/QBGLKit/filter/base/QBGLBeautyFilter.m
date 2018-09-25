@@ -41,6 +41,10 @@ char * const kQBBeautyFilterFragment = STRING
  uniform sampler2D yTexture;
  uniform sampler2D uvTexture;
  
+ uniform sampler2D watermarkTexture;
+ uniform vec4 watermarkRect;
+ uniform float watermarkAlpha;
+ 
  const vec3 W = vec3(0.299, 0.587, 0.114);
  const mat3 saturateMatrix = mat3(1.1102, -0.0598, -0.061,
                                   -0.0774, 1.0826, -0.1186,
@@ -150,7 +154,13 @@ char * const kQBBeautyFilterFragment = STRING
      vec3 satcolor = beautyColor * saturateMatrix;
      beautyColor = mix(beautyColor, satcolor, params.a);
      
-     gl_FragColor = vec4(beautyColor, 1.0);
+     if (textureCoordinate.x >= watermarkRect.r && textureCoordinate.x <= watermarkRect.b && textureCoordinate.y >= watermarkRect.g && textureCoordinate.y <= watermarkRect.a) {
+         vec2 watermarkTextureCoordinate = vec2((textureCoordinate.y - watermarkRect.g) / (watermarkRect.a - watermarkRect.g), (textureCoordinate.x - watermarkRect.r) / (watermarkRect.b - watermarkRect.r));
+         vec4 watermarkTextureColor = texture2D(watermarkTexture, watermarkTextureCoordinate);
+         gl_FragColor = vec4(mix(beautyColor, watermarkTextureColor.rgb, watermarkTextureColor.a * watermarkAlpha), 1.0);
+     } else {
+         gl_FragColor = vec4(beautyColor, 1.0);
+     }
  }
  
 );

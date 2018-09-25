@@ -11,6 +11,7 @@
 #import "RKVideoCamera.h"
 #import "QBGLContext.h"
 #import "QBGLFilterTypes.h"
+#import "QBGLUtils.h"
 
 @interface RKVideoCapture () <RKVideoCameraDelegate>
 
@@ -28,7 +29,7 @@
 @synthesize running = _running;
 @synthesize torch = _torch;
 @synthesize mirror = _mirror;
-@synthesize warterMarkView = _warterMarkView;
+@synthesize watermarkView = _watermarkView;
 @synthesize saveLocalVideo = _saveLocalVideo;
 @synthesize saveLocalVideoPath = _saveLocalVideoPath;
 @synthesize mirrorOutput = _mirrorOutput;
@@ -234,6 +235,67 @@
     return self.videoCamera.zoomFactor;
 }
 
+- (void)setWatermarkView:(UIView *)watermarkView {
+    if (!_watermarkView && watermarkView) {
+        __weak typeof(self) wSelf = self;
+        void(^updateWatermark)(void) = ^{
+            __strong typeof(wSelf) sSelf = wSelf;
+            if (!sSelf) {
+                return;
+            }
+            _watermarkView = watermarkView;
+            GLuint watermarkTextureId = [QBGLUtils createTextureWithView:watermarkView horizontalFlip:!sSelf.mirrorOutput verticalFlip:NO];
+            CGRect watermarkRect = watermarkView.frame;
+            if (sSelf.mirrorOutput) {
+                watermarkRect.origin.x = sSelf.configuration.videoSize.width - CGRectGetMaxX(watermarkRect);
+            }
+            CGFloat watermarkAlpha = watermarkView.alpha;
+            [sSelf.glContext updateWatermarkWithTextureId:watermarkTextureId rect:watermarkRect alpha:watermarkAlpha];
+        };
+        
+        if ([NSThread isMainThread]) {
+            updateWatermark();
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                updateWatermark();
+            });
+        }
+        
+    } else if (_watermarkView && !watermarkView) {
+        _watermarkView = nil;
+        [self.glContext updateWatermarkWithTextureId:0 rect:CGRectZero alpha:0.0];
+    }
+}
+
+- (void)reloadWatermark {
+    if (!self.watermarkView) {
+        return;
+    }
+    
+    __weak typeof(self) wSelf = self;
+    void(^reloadWatermark)(void) = ^{
+        __strong typeof(wSelf) sSelf = wSelf;
+        if (!sSelf) {
+            return;
+        }
+        GLuint watermarkTextureId = [QBGLUtils createTextureWithView:sSelf.watermarkView horizontalFlip:!sSelf.mirrorOutput verticalFlip:NO];
+        CGRect watermarkRect = sSelf.watermarkView.frame;
+        if (sSelf.mirrorOutput) {
+            watermarkRect.origin.x = sSelf.configuration.videoSize.width - CGRectGetMaxX(watermarkRect);
+        }
+        CGFloat watermarkAlpha = sSelf.watermarkView.alpha;
+        [sSelf.glContext reloadWatermarkWithTextureId:watermarkTextureId rect:watermarkRect alpha:watermarkAlpha];
+    };
+    
+    if ([NSThread isMainThread]) {
+        reloadWatermark();
+    } else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            reloadWatermark();
+        });
+    }
+}
+
 - (UIImage *)currentImage {
     return nil;
 }
@@ -242,6 +304,9 @@
     // TODO: add mirror to QBGLContext
     
     // TODO: add mirror output to QBGLContext
+    
+    // Reload watermark for updating image content and position
+    [self reloadWatermark];
 }
 
 #pragma mark - Notification

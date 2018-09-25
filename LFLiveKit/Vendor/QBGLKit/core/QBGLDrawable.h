@@ -24,6 +24,7 @@
  */
 @property (readonly) GLuint textureId;
 
+- (instancetype)initWithView:(UIView *)sourceView identifier:(NSString *)identifier;
 
 - (instancetype)initWithImage:(UIImage *)image identifier:(NSString *)identifier;
 

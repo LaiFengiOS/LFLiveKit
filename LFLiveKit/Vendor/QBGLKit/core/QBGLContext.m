@@ -38,6 +38,7 @@
 @property (assign, nonatomic) GLuint watermarkTextureId;
 @property (assign, nonatomic) CGRect watermarkRect;
 @property (assign, nonatomic) CGFloat watermarkAlpha;
+@property (assign, nonatomic) BOOL reloadWatermark;
 
 @end
 
@@ -188,7 +189,11 @@
     [self becomeCurrentContext];
     
     self.inputFilter.inputRotation = _inputRotation;
-    [self.inputFilter updateWatermarkWithTextureId:self.watermarkTextureId rect:self.watermarkRect alpha:self.watermarkAlpha];
+    [self.inputFilter updateWatermarkWithTextureId:self.watermarkTextureId rect:self.watermarkRect alpha:self.watermarkAlpha reload:self.reloadWatermark];
+    if (self.reloadWatermark) {
+        self.reloadWatermark = NO;
+    }
+
     [self.inputFilter render];
     
     if (self.outputFilter != self.inputFilter) {
@@ -230,7 +235,7 @@
 
 - (void)reloadWatermarkWithTextureId:(GLuint)textureId rect:(CGRect)rect alpha:(CGFloat)alpha {
     [self updateWatermarkWithTextureId:textureId rect:rect alpha:alpha];
-    [self.inputFilter reloadWatermarkWithTextureId:textureId rect:rect alpha:alpha];
+    self.reloadWatermark = YES;
 }
 
 @end

@@ -278,14 +278,18 @@ char * const kQBNoFilterFragment;
     self.watermarkDrawable = nil;
 }
 
-- (void)updateWatermarkWithTextureId:(GLuint)textureId rect:(CGRect)rect alpha:(CGFloat)alpha {
-    if (textureId == 0 && self.watermarkDrawable) {
-        [self unloadWatermark];
-    } else if (textureId > 0) {
-        if (!self.watermarkDrawable) {
-            [self loadWatermarkWithTextureId:textureId rect:rect alpha:alpha];
-        } else if (self.watermarkDrawable && !CGRectEqualToRect(self.watermarkRect, rect)) {
-            [self reloadWatermarkWithTextureId:textureId rect:rect alpha:alpha];
+- (void)updateWatermarkWithTextureId:(GLuint)textureId rect:(CGRect)rect alpha:(CGFloat)alpha reload:(BOOL)reload {
+    if (reload) {
+        [self reloadWatermarkWithTextureId:textureId rect:rect alpha:alpha];
+    } else {
+        if (textureId == 0 && self.watermarkDrawable) {
+            [self unloadWatermark];
+        } else if (textureId > 0) {
+            if (!self.watermarkDrawable) {
+                [self loadWatermarkWithTextureId:textureId rect:rect alpha:alpha];
+            } else if (self.watermarkDrawable && !CGRectEqualToRect(self.watermarkRect, rect)) {
+                [self reloadWatermarkWithTextureId:textureId rect:rect alpha:alpha];
+            }
         }
     }
 }

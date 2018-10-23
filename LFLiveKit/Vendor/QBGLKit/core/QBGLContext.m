@@ -34,12 +34,6 @@
 
 @property (nonatomic) CVOpenGLESTextureCacheRef textureCacheRef;
 
-// Watermark
-@property (assign, nonatomic) GLuint watermarkTextureId;
-@property (assign, nonatomic) CGRect watermarkRect;
-@property (assign, nonatomic) CGFloat watermarkAlpha;
-@property (assign, nonatomic) BOOL reloadWatermark;
-
 @end
 
 @implementation QBGLContext
@@ -83,7 +77,7 @@
 
 - (QBGLYuvFilter *)normalFilter {
     if (!_normalFilter) {
-        _normalFilter = [[QBGLYuvFilter alloc] init];
+        _normalFilter = [[QBGLYuvFilter alloc] initWithWatermarkView:self.watermarkView];
         _normalFilter.textureCacheRef = _textureCacheRef;
     }
     return _normalFilter;
@@ -91,7 +85,7 @@
 
 - (QBGLBeautyFilter *)beautyFilter {
     if (!_beautyFilter) {
-        _beautyFilter = [[QBGLBeautyFilter alloc] init];
+        _beautyFilter = [[QBGLBeautyFilter alloc] initWithWatermarkView:self.watermarkView];
         _beautyFilter.textureCacheRef = _textureCacheRef;
     }
     return _beautyFilter;
@@ -99,7 +93,7 @@
 
 - (QBGLColorMapFilter *)colorFilter {
     if (!_colorFilter) {
-        _colorFilter = [[QBGLColorMapFilter alloc] init];
+        _colorFilter = [[QBGLColorMapFilter alloc] initWithWatermarkView:self.watermarkView];
         _colorFilter.textureCacheRef = _textureCacheRef;
     }
     if (_colorFilter.type != _colorFilterType) {
@@ -111,7 +105,7 @@
 
 - (QBGLBeautyColorMapFilter *)beautyColorFilter {
     if (!_beautyColorFilter) {
-        _beautyColorFilter = [[QBGLBeautyColorMapFilter alloc] init];
+        _beautyColorFilter = [[QBGLBeautyColorMapFilter alloc] initWithWatermarkView:self.watermarkView];
         _beautyColorFilter.textureCacheRef = _textureCacheRef;
     }
     if (_beautyColorFilter.type != _colorFilterType) {
@@ -189,11 +183,7 @@
     [self becomeCurrentContext];
     
     self.inputFilter.inputRotation = _inputRotation;
-    [self.inputFilter updateWatermarkWithTextureId:self.watermarkTextureId rect:self.watermarkRect alpha:self.watermarkAlpha reload:self.reloadWatermark];
-    if (self.reloadWatermark) {
-        self.reloadWatermark = NO;
-    }
-
+    self.inputFilter.mirrorWatermark = self.mirrorWatermark;
     [self.inputFilter render];
     
     if (self.outputFilter != self.inputFilter) {
@@ -225,17 +215,6 @@
         orientation == UIInterfaceOrientationLandscapeLeft      ? QBGLImageRotationNone  :
         orientation == UIInterfaceOrientationLandscapeRight     ? QBGLImageRotation180   : QBGLImageRotationNone;
     }
-}
-
-- (void)updateWatermarkWithTextureId:(GLuint)textureId rect:(CGRect)rect alpha:(CGFloat)alpha {
-    self.watermarkTextureId = textureId;
-    self.watermarkRect = rect;
-    self.watermarkAlpha = alpha;
-}
-
-- (void)reloadWatermarkWithTextureId:(GLuint)textureId rect:(CGRect)rect alpha:(CGFloat)alpha {
-    [self updateWatermarkWithTextureId:textureId rect:rect alpha:alpha];
-    self.reloadWatermark = YES;
 }
 
 @end

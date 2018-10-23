@@ -23,11 +23,6 @@ char * const kQBNoFilterFragment;
 
 @property (nonatomic) GLuint outputFrameBuffer;
 
-// Watermark
-@property (strong, nonatomic) QBGLDrawable *watermarkDrawable;
-@property (assign, nonatomic) CGRect watermarkRect;
-@property (assign, nonatomic) CGFloat watermarkAlpha;
-
 @end
 
 @implementation QBGLFilter
@@ -138,22 +133,11 @@ char * const kQBNoFilterFragment;
 }
 
 - (NSArray<QBGLDrawable*> *)renderTextures {
-    if (self.watermarkDrawable) {
-        return @[self.watermarkDrawable];
-    }
     return nil;
 }
 
 - (void)setAdditionalUniformVarsForRender {
-    CGFloat xStart = CGRectGetMinX(self.watermarkRect) / self.outputSize.width;
-    CGFloat yStart = CGRectGetMinY(self.watermarkRect) / self.outputSize.height;
-    CGFloat xEnd = xStart + CGRectGetWidth(self.watermarkRect) / self.outputSize.width;
-    CGFloat yEnd = yStart + CGRectGetHeight(self.watermarkRect) / self.outputSize.height;
-    const GLfloat rect[] = {yStart, xStart, yEnd, xEnd};
-    glUniform4fv([self.program uniformWithName:"watermarkRect"], 1, rect);
-    
-    const GLfloat alpha[] = {self.watermarkAlpha};
-    glUniform1fv([self.program uniformWithName:"watermarkAlpha"], 1, alpha);
+    // do nothing
 }
 
 - (GLuint)render {
@@ -263,43 +247,6 @@ char * const kQBNoFilterFragment;
         case QBGLImageRotation180:
             return rotate180TextureCoordinates;
     }
-}
-
-#pragma mark - Watermark
-
-- (void)loadWatermarkWithTextureId:(GLuint)textureId rect:(CGRect)rect alpha:(CGFloat)alpha {
-    self.watermarkDrawable = [[QBGLDrawable alloc] initWithTextureId:textureId identifier:@"watermarkTexture"];
-    self.watermarkRect = rect;
-    self.watermarkAlpha = alpha;
-}
-
-- (void)unloadWatermark {
-    [self.watermarkDrawable deleteTexture];
-    self.watermarkDrawable = nil;
-}
-
-- (void)updateWatermarkWithTextureId:(GLuint)textureId rect:(CGRect)rect alpha:(CGFloat)alpha reload:(BOOL)reload {
-    if (reload) {
-        [self reloadWatermarkWithTextureId:textureId rect:rect alpha:alpha];
-    } else {
-        if (textureId == 0 && self.watermarkDrawable) {
-            [self unloadWatermark];
-        } else if (textureId > 0) {
-            if (!self.watermarkDrawable) {
-                [self loadWatermarkWithTextureId:textureId rect:rect alpha:alpha];
-            } else if (self.watermarkDrawable && !CGRectEqualToRect(self.watermarkRect, rect)) {
-                [self reloadWatermarkWithTextureId:textureId rect:rect alpha:alpha];
-            }
-        }
-    }
-}
-
-- (void)reloadWatermarkWithTextureId:(GLuint)textureId rect:(CGRect)rect alpha:(CGFloat)alpha {
-    if (textureId == 0) {
-        return;
-    }
-    [self unloadWatermark];
-    [self loadWatermarkWithTextureId:textureId rect:rect alpha:alpha];
 }
 
 @end

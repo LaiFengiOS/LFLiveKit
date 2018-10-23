@@ -45,6 +45,7 @@
         _configuration = configuration;
         _eaglContext = glContext;
         _displayOrientation = [[LFUtils sharedApplication] statusBarOrientation];
+        self.watermarkView = configuration.watermarkView;
         self.beautyFace = YES;
         self.zoomScale = 1.0;
         self.mirror = YES;
@@ -117,6 +118,7 @@
 - (QBGLContext *)glContext {
     if (!_glContext) {
         _glContext = [[QBGLContext alloc] initWithContext:_eaglContext];
+        _glContext.watermarkView = self.watermarkView;
         _glContext.outputSize = _configuration.videoSize;
         [_glContext setDisplayOrientation:self.displayOrientation cameraPosition:self.captureDevicePosition];
     }
@@ -235,65 +237,8 @@
     return self.videoCamera.zoomFactor;
 }
 
-- (void)setWatermarkView:(UIView *)watermarkView {
-    if (!_watermarkView && watermarkView) {
-        __weak typeof(self) wSelf = self;
-        void(^updateWatermark)(void) = ^{
-            __strong typeof(wSelf) sSelf = wSelf;
-            if (!sSelf) {
-                return;
-            }
-            _watermarkView = watermarkView;
-            GLuint watermarkTextureId = [QBGLUtils createTextureWithView:watermarkView horizontalFlip:!sSelf.mirrorOutput verticalFlip:NO];
-            CGRect watermarkRect = watermarkView.frame;
-            if (sSelf.mirrorOutput) {
-                watermarkRect.origin.x = sSelf.configuration.videoSize.width - CGRectGetMaxX(watermarkRect);
-            }
-            CGFloat watermarkAlpha = watermarkView.alpha;
-            [sSelf.glContext updateWatermarkWithTextureId:watermarkTextureId rect:watermarkRect alpha:watermarkAlpha];
-        };
-        
-        if ([NSThread isMainThread]) {
-            updateWatermark();
-        } else {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                updateWatermark();
-            });
-        }
-        
-    } else if (_watermarkView && !watermarkView) {
-        _watermarkView = nil;
-        [self.glContext updateWatermarkWithTextureId:0 rect:CGRectZero alpha:0.0];
-    }
-}
-
 - (void)reloadWatermark {
-    if (!self.watermarkView) {
-        return;
-    }
-    
-    __weak typeof(self) wSelf = self;
-    void(^reloadWatermark)(void) = ^{
-        __strong typeof(wSelf) sSelf = wSelf;
-        if (!sSelf) {
-            return;
-        }
-        GLuint watermarkTextureId = [QBGLUtils createTextureWithView:sSelf.watermarkView horizontalFlip:!sSelf.mirrorOutput verticalFlip:NO];
-        CGRect watermarkRect = sSelf.watermarkView.frame;
-        if (sSelf.mirrorOutput) {
-            watermarkRect.origin.x = sSelf.configuration.videoSize.width - CGRectGetMaxX(watermarkRect);
-        }
-        CGFloat watermarkAlpha = sSelf.watermarkView.alpha;
-        [sSelf.glContext reloadWatermarkWithTextureId:watermarkTextureId rect:watermarkRect alpha:watermarkAlpha];
-    };
-    
-    if ([NSThread isMainThread]) {
-        reloadWatermark();
-    } else {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            reloadWatermark();
-        });
-    }
+    self.glContext.mirrorWatermark = !self.mirrorOutput;
 }
 
 - (UIImage *)currentImage {

@@ -24,7 +24,7 @@
  */
 @property (readonly) GLuint textureId;
 
-- (instancetype)initWithView:(UIView *)sourceView identifier:(NSString *)identifier;
+- (instancetype)initWithView:(UIView *)sourceView identifier:(NSString *)identifier horizontalFlip:(BOOL)horizontalFlip verticalFlip:(BOOL)verticalFlip;
 
 - (instancetype)initWithImage:(UIImage *)image identifier:(NSString *)identifier;
 

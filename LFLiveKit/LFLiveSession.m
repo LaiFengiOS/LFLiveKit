@@ -604,14 +604,6 @@
     return self.audioCaptureSource.muted;
 }
 
-- (void)setWatermarkView:(UIView *)watermarkView{
-    [self.videoCaptureSource setWatermarkView:watermarkView];
-}
-
-- (nullable UIView *)watermarkView{
-    return self.videoCaptureSource.watermarkView;
-}
-
 - (nullable UIImage *)currentImage{
     return self.videoCaptureSource.currentImage;
 }

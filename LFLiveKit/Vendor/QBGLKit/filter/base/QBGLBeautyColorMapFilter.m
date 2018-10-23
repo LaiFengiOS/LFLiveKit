@@ -51,8 +51,10 @@ char * const kQBBeautyColorMapFilterFragment = STRING
  uniform int overlay2Enabled;
  
  uniform sampler2D watermarkTexture;
+ uniform sampler2D mirrorWatermarkTexture;
  uniform vec4 watermarkRect;
  uniform float watermarkAlpha;
+ uniform int mirrorWatermark;
  
  const vec3 W = vec3(0.299, 0.587, 0.114);
  const mat3 saturateMatrix = mat3(1.1102, -0.0598, -0.061,
@@ -113,6 +115,10 @@ char * const kQBBeautyColorMapFilterFragment = STRING
          return 1.-2.*(1.-a)*(1.-b);
      
      return 0.;
+ }
+ 
+ bool validWatermarkRect() {
+     return (watermarkRect.b - watermarkRect.r) > 0.0 && (watermarkRect.a - watermarkRect.g) > 0.0;
  }
  
  void main(){
@@ -223,10 +229,16 @@ char * const kQBBeautyColorMapFilterFragment = STRING
      
      filter_result = mix(beautyColor, filter_result, filterMixPercentage);
      
-     if (textureCoordinate.x >= watermarkRect.r && textureCoordinate.x <= watermarkRect.b && textureCoordinate.y >= watermarkRect.g && textureCoordinate.y <= watermarkRect.a) {
+     if (validWatermarkRect() && textureCoordinate.x >= watermarkRect.r && textureCoordinate.x <= watermarkRect.b && textureCoordinate.y >= watermarkRect.g && textureCoordinate.y <= watermarkRect.a) {
          vec2 watermarkTextureCoordinate = vec2((textureCoordinate.y - watermarkRect.g) / (watermarkRect.a - watermarkRect.g), (textureCoordinate.x - watermarkRect.r) / (watermarkRect.b - watermarkRect.r));
-         vec4 watermarkTextureColor = texture2D(watermarkTexture, watermarkTextureCoordinate);
-         gl_FragColor = vec4(mix(filter_result, watermarkTextureColor.rgb, watermarkTextureColor.a * watermarkAlpha), 1.0);
+         if (mirrorWatermark == 1) {
+             vec4 watermarkTextureColor = texture2D(mirrorWatermarkTexture, watermarkTextureCoordinate);
+             gl_FragColor = vec4(mix(filter_result, watermarkTextureColor.rgb, watermarkTextureColor.a * watermarkAlpha), 1.0);
+         } else {
+             vec4 watermarkTextureColor = texture2D(watermarkTexture, watermarkTextureCoordinate);
+             gl_FragColor = vec4(mix(filter_result, watermarkTextureColor.rgb, watermarkTextureColor.a * watermarkAlpha), 1.0);
+         }
+
      } else {
          gl_FragColor = vec4(filter_result, 1.0);
      }

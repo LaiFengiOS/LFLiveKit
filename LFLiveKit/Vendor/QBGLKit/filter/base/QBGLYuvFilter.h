@@ -10,6 +10,9 @@
 
 @interface QBGLYuvFilter : QBGLFilter
 
+@property (assign, nonatomic) BOOL mirrorWatermark;
+
+- (instancetype)initWithWatermarkView:(UIView *)watermarkView;
 - (void)loadYUV:(CVPixelBufferRef)pixelBuffer;
 
 @end

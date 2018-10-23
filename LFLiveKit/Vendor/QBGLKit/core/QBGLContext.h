@@ -24,6 +24,10 @@
 @property (nonatomic) QBGLFilterType colorFilterType;
 @property (nonatomic) BOOL beautyEnabled;
 
+// watermark
+@property (strong, nonatomic) UIView *watermarkView;
+@property (assign, nonatomic) BOOL mirrorWatermark;
+
 - (instancetype)initWithContext:(EAGLContext *)context;
 
 - (void)loadYUVPixelBuffer:(CVPixelBufferRef)pixelBuffer;
@@ -35,8 +39,5 @@
 - (void)renderToOutput;
 
 - (void)setDisplayOrientation:(UIInterfaceOrientation)orientation cameraPosition:(AVCaptureDevicePosition)position;
-
-- (void)updateWatermarkWithTextureId:(GLuint)textureId rect:(CGRect)rect alpha:(CGFloat)alpha;
-- (void)reloadWatermarkWithTextureId:(GLuint)textureId rect:(CGRect)rect alpha:(CGFloat)alpha;
 
 @end

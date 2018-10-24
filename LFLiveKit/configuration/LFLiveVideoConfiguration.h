@@ -104,4 +104,7 @@ typedef NS_ENUM (NSUInteger, LFLiveVideoQuality){
 ///< 是否是横屏
 @property (nonatomic, assign, readonly) BOOL landscape;
 
+///< 浮水印來源view
+@property (nonatomic, strong) UIView *watermarkView;
+
 @end

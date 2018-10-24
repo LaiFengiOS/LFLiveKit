@@ -137,7 +137,8 @@ static NSString * const kColorFilterOverlayKey = @"overlay";
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterBackground:) name:UIApplicationWillResignActiveNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationDidBecomeActiveNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(statusBarChanged:) name:UIApplicationWillChangeStatusBarOrientationNotification object:nil];
-        
+
+        self.watermarkView = configuration.watermarkView;
         self.beautyFace = YES;
         self.zoomScale = 1.0;
         self.mirror = YES;

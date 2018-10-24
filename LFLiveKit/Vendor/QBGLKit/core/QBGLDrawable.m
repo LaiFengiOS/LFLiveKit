@@ -12,11 +12,11 @@
 
 @implementation QBGLDrawable
 
-- (instancetype)initWithView:(UIView *)sourceView identifier:(NSString *)identifier {
+- (instancetype)initWithView:(UIView *)sourceView identifier:(NSString *)identifier horizontalFlip:(BOOL)horizontalFlip verticalFlip:(BOOL)verticalFlip {
     if (self = [super init]) {
         NSAssert(sourceView, @"UIView can not be nil");
         _identifier = identifier;
-        _textureId = [QBGLUtils createTextureWithView:sourceView];
+        _textureId = [QBGLUtils createTextureWithView:sourceView horizontalFlip:horizontalFlip verticalFlip:verticalFlip];
     }
     return self;
 }

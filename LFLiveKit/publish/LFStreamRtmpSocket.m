@@ -167,7 +167,10 @@ SAVC(mp4a);
             _self.isSending = YES;
 
             if (!_self.isConnected || _self.isReconnecting || _self.isConnecting || !_rtmp){
-                _self.isSending = NO;
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                    //< 这里只为了不循环调用sendFrame方法 调用栈是保证先出栈再进栈
+                    _self.isSending = NO;
+                });
                 return;
             }
 

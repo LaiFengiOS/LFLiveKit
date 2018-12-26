@@ -170,7 +170,7 @@ typedef NS_ENUM(NSUInteger, RKReplayKitSampleType) {
 @property (nonatomic) double latitude;
 @property (nonatomic, readonly, nonnull) NSDictionary *logInfo;
 
-@property (strong, nonatomic, readonly) EAGLContext *glContext;
+@property (strong, nonatomic, readonly) EAGLContext * _Nullable glContext;
 
 #pragma mark - Initializer
 ///=============================================================================
@@ -197,7 +197,7 @@ typedef NS_ENUM(NSUInteger, RKReplayKitSampleType) {
 - (nullable instancetype)initWithAudioConfiguration:(nullable LFLiveAudioConfiguration *)audioConfiguration
                                  videoConfiguration:(nullable LFLiveVideoConfiguration *)videoConfiguration
                                         captureType:(LFLiveCaptureTypeMask)captureType
-                                        eaglContext:(EAGLContext *)glContext NS_DESIGNATED_INITIALIZER;
+                                        eaglContext:(EAGLContext *_Nullable)glContext NS_DESIGNATED_INITIALIZER;
 
 /** The initializer for broadcast extension. */
 - (nullable instancetype)initForReplayKitBroadcast;

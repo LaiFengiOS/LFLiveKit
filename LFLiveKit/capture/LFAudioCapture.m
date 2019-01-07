@@ -253,7 +253,9 @@ NSString *const LFAudioComponentFailedToCreateNotification = @"LFAudioComponentF
             memset(ab.mData, 0, ab.mDataByteSize);
         }
     }
-    [self.delegate captureOutput:self didFinishAudioProcessing:[NSData dataWithBytes:buffers.mBuffers[0].mData length:buffers.mBuffers[0].mDataByteSize]];
+    
+    // samples: 一個audio frame所涵蓋的sample數, 因為mBitsPerChannel=16, 1 byte=8 bits, 一個audio frame有32 bits(雙聲道的話), 換算起來就是總bytes / 2(一個聲道有16 bits) / 2(雙聲道)
+    [self.delegate captureOutput:self didFinishAudioProcessing:buffers samples:(buffers.mBuffers[0].mDataByteSize / (2 * _configuration.numberOfChannels))];
 }
 
 #pragma mark -- Setter

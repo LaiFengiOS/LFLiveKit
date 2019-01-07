@@ -73,6 +73,7 @@ typedef NS_ENUM(NSUInteger, RKReplayKitSampleType) {
 - (void)liveSession:(nullable LFLiveSession *)session audioDataBeforeMixing:(nullable NSData *)audioData;
 
 - (nullable CVPixelBufferRef)liveSession:(nullable LFLiveSession *)session willOutputVideoFrame:(nonnull CVPixelBufferRef)pixelBuffer atTime:(CMTime)time;
+- (void)liveSession:(nullable LFLiveSession *)session willOutputAudioFrame:(unsigned char *)data samples:(NSUInteger)samples;
 
 @end
 
@@ -171,6 +172,9 @@ typedef NS_ENUM(NSUInteger, RKReplayKitSampleType) {
 @property (nonatomic, readonly, nonnull) NSDictionary *logInfo;
 
 @property (strong, nonatomic, readonly) EAGLContext * _Nullable glContext;
+
+// 是否要停止將採集到的video/audio data做encode, 沒有encoded的data就不會推送到rtmp
+@property (assign, nonatomic) BOOL stopEncodingVideoAudioData;
 
 #pragma mark - Initializer
 ///=============================================================================

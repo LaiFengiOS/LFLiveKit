@@ -304,9 +304,16 @@
     }
 }
 
-- (void)captureOutput:(nullable LFAudioCapture *)capture didFinishAudioProcessing:(nullable NSData *)data {
+- (void)captureOutput:(nullable LFAudioCapture *)capture didFinishAudioProcessing:(AudioBufferList)buffers samples:(NSUInteger)samples {
     if (self.uploading) {
-        [self.audioEncoder encodeAudioData:data timeStamp:NOW];
+        if (self.stopEncodingVideoAudioData) {
+            if ([self.delegate respondsToSelector:@selector(liveSession:willOutputAudioFrame:samples:)]) {
+                [self.delegate liveSession:self willOutputAudioFrame:(unsigned char *)buffers.mBuffers[0].mData samples:samples];
+            }
+        } else {
+            NSData *data = [NSData dataWithBytes:buffers.mBuffers[0].mData length:buffers.mBuffers[0].mDataByteSize];
+            [self.audioEncoder encodeAudioData:data timeStamp:NOW];
+        }
     }
 }
 
@@ -316,7 +323,7 @@
     if ([self.delegate respondsToSelector:@selector(liveSession:willOutputVideoFrame:atTime:)]) {
         pixelBuffer = [self.delegate liveSession:self willOutputVideoFrame:pixelBuffer atTime:time];
     }
-    if (self.uploading) {
+    if (self.uploading && !self.stopEncodingVideoAudioData) {
         [self.videoEncoder encodeVideoData:pixelBuffer timeStamp:NOW];
     }
 }

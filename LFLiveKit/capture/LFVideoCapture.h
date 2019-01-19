@@ -10,7 +10,9 @@
 #import <AVFoundation/AVFoundation.h>
 #import "LFLiveVideoConfiguration.h"
 
+
 @class LFVideoCapture;
+@class GPUImageFilterGroup;
 /** LFVideoCapture callback videoData */
 @protocol LFVideoCaptureDelegate <NSObject>
 - (void)captureOutput:(nullable LFVideoCapture *)capture pixelBuffer:(nullable CVPixelBufferRef)pixelBuffer;
@@ -67,6 +69,8 @@
 
 /* The saveLocalVideoPath is save the local video  path */
 @property (nonatomic, strong, nullable) NSURL *saveLocalVideoPath;
+
+@property (nonatomic, nullable) GPUImageFilterGroup *customFilterGroup;
 
 #pragma mark - Initializer
 ///=============================================================================

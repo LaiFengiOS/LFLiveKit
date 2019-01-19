@@ -16,7 +16,7 @@
 #import "LFLiveVideoConfiguration.h"
 #import "LFLiveDebug.h"
 
-
+@class GPUImageFilterGroup;
 
 typedef NS_ENUM(NSInteger,LFLiveCaptureType) {
     LFLiveCaptureAudio,         //< capture only audio
@@ -127,6 +127,7 @@ typedef NS_ENUM(NSInteger,LFLiveCaptureTypeMask) {
 /* The saveLocalVideoPath is save the local video  path */
 @property (nonatomic, strong, nullable) NSURL *saveLocalVideoPath;
 
+@property (nonatomic, nullable) GPUImageFilterGroup *customFilterGroup;
 #pragma mark - Initializer
 ///=============================================================================
 /// @name Initializer

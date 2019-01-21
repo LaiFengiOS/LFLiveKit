@@ -30,6 +30,7 @@
 @protocol LFStreamSocket <NSObject>
 - (void)start;
 - (void)stop;
+- (void)switched;
 - (void)sendFrame:(nullable LFFrame *)frame;
 - (void)sendSeiWithJson:(nullable NSData *)data;
 - (void)setDelegate:(nullable id <LFStreamSocketDelegate>)delegate;

@@ -381,7 +381,7 @@
             self.relativeTimestamps = 0;
             self.uploading = YES;
         }
-    } else if(status == LFLiveStop || status == LFLiveError){
+    } else if(status == LFLiveStop || status == LFLiveError || status == LFLiveSwitched) {
         self.uploading = NO;
     }
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -718,6 +718,20 @@
         else  return NO;
     }else{
         return YES;
+    }
+}
+
+- (void)setStopEncodingVideoAudioData:(BOOL)stopEncodingVideoAudioData {
+    if (_stopEncodingVideoAudioData == stopEncodingVideoAudioData) {
+        return;
+    }
+    
+    _stopEncodingVideoAudioData = stopEncodingVideoAudioData;
+    if (stopEncodingVideoAudioData) {
+        [self.socket switched];
+        self.socket = nil;
+    } else {
+        [self.socket start];
     }
 }
 

@@ -129,14 +129,21 @@ SAVC(mp4a);
 
 - (void)stop {
     dispatch_async(self.rtmpSendQueue, ^{
-        [self _stop];
+        [self _stopWithStatus:LFLiveStop];
         [NSObject cancelPreviousPerformRequestsWithTarget:self];
     });
 }
 
-- (void)_stop {
+- (void)switched {
+    dispatch_async(self.rtmpSendQueue, ^{
+        [self _stopWithStatus:LFLiveSwitched];
+        [NSObject cancelPreviousPerformRequestsWithTarget:self];
+    });
+}
+
+- (void)_stopWithStatus:(LFLiveState)status {
     if (self.delegate && [self.delegate respondsToSelector:@selector(socketStatus:status:)]) {
-        [self.delegate socketStatus:self status:LFLiveStop];
+        [self.delegate socketStatus:self status:status];
     }
     if (_rtmp != NULL) {
         PILI_RTMP_Close(_rtmp, &_error);

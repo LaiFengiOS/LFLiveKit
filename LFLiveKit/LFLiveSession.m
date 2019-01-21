@@ -305,23 +305,21 @@
 }
 
 - (void)captureOutput:(nullable LFAudioCapture *)capture didFinishAudioProcessing:(AudioBufferList)buffers samples:(NSUInteger)samples {
-    if (self.uploading) {
-        if (self.stopEncodingVideoAudioData) {
-            if ([self.delegate respondsToSelector:@selector(liveSession:willOutputAudioFrame:samples:)]) {
-                [self.delegate liveSession:self willOutputAudioFrame:(unsigned char *)buffers.mBuffers[0].mData samples:samples];
-            }
-        } else {
-            NSData *data = [NSData dataWithBytes:buffers.mBuffers[0].mData length:buffers.mBuffers[0].mDataByteSize];
-            [self.audioEncoder encodeAudioData:data timeStamp:NOW];
-        }
+    if ([self.delegate respondsToSelector:@selector(liveSession:willOutputAudioFrame:samples:customTime:)]) {
+        [self.delegate liveSession:self willOutputAudioFrame:(unsigned char *)buffers.mBuffers[0].mData samples:samples customTime:NOW];
+    }
+    
+    if (self.uploading && !self.stopEncodingVideoAudioData) {
+        NSData *data = [NSData dataWithBytes:buffers.mBuffers[0].mData length:buffers.mBuffers[0].mDataByteSize];
+        [self.audioEncoder encodeAudioData:data timeStamp:NOW];
     }
 }
 
 #pragma mark - Video Capture Delegate
 
 - (void)captureOutput:(nullable id<LFVideoCaptureInterface>)capture pixelBuffer:(nullable CVPixelBufferRef)pixelBuffer atTime:(CMTime)time {
-    if ([self.delegate respondsToSelector:@selector(liveSession:willOutputVideoFrame:atTime:)]) {
-        pixelBuffer = [self.delegate liveSession:self willOutputVideoFrame:pixelBuffer atTime:time];
+    if ([self.delegate respondsToSelector:@selector(liveSession:willOutputVideoFrame:atTime:customTime:)]) {
+        pixelBuffer = [self.delegate liveSession:self willOutputVideoFrame:pixelBuffer atTime:time customTime:NOW];
     }
     if (self.uploading && !self.stopEncodingVideoAudioData) {
         [self.videoEncoder encodeVideoData:pixelBuffer timeStamp:NOW];

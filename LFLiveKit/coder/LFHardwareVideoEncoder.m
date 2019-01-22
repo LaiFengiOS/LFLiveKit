@@ -137,6 +137,11 @@ static int const kMaxAccVideoFrameBufferCount = 48;
     _h264Delegate = delegate;
 }
 
+- (void)resetFrameCount {
+    frameCount = -1;
+    [self resetCompressionSession];
+}
+
 #pragma mark -- Notification
 - (void)willEnterBackground:(NSNotification*)notification{
     _isBackGround = YES;

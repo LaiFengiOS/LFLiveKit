@@ -726,13 +726,17 @@
         return;
     }
     
-    _stopEncodingVideoAudioData = stopEncodingVideoAudioData;
     if (stopEncodingVideoAudioData) {
         [self.socket switched];
         self.socket = nil;
     } else {
+        if ([self.videoEncoder respondsToSelector:@selector(resetFrameCount)]) {
+            [self.videoEncoder resetFrameCount];
+        }
         [self.socket start];
     }
+    
+    _stopEncodingVideoAudioData = stopEncodingVideoAudioData;
 }
 
 @end

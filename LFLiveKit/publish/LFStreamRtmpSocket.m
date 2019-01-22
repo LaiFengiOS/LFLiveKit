@@ -71,6 +71,8 @@ SAVC(mp4a);
 @property (nonatomic, assign) BOOL sendAudioHead;
 
 @property (strong, nonatomic) NSData *seiData;
+@property (strong, nonatomic) NSData *spsData;
+@property (strong, nonatomic) NSData *ppsData;
 
 @end
 
@@ -175,7 +177,7 @@ SAVC(mp4a);
 
             if (!_self.isConnected || _self.isReconnecting || _self.isConnecting || !_rtmp){
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    //< 这里只为了不循环调用sendFrame方法 调用栈是保证先出栈再进栈
+                    // 这里只为了不循环调用sendFrame方法 调用栈是保证先出栈再进栈
                     _self.isSending = NO;
                 });
                 return;
@@ -252,7 +254,7 @@ SAVC(mp4a);
             
             //修改发送状态
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                //< 这里只为了不循环调用sendFrame方法 调用栈是保证先出栈再进栈
+                // 这里只为了不循环调用sendFrame方法 调用栈是保证先出栈再进栈
                 _self.isSending = NO;
             });
             
@@ -270,6 +272,8 @@ SAVC(mp4a);
     self.debugInfo = nil;
     [self.buffer removeAllObject];
     self.retryTimes4netWorkBreaken = 0;
+    _spsData = nil;
+    _ppsData = nil;
 }
 
 - (NSInteger)RTMP264_Connect:(char *)push_url {
@@ -430,6 +434,9 @@ Failed:
 
     [self sendPacket:RTMP_PACKET_TYPE_VIDEO data:body size:iIndex nTimestamp:0];
     free(body);
+    
+    if (!_spsData) _spsData = videoFrame.sps;
+    if (!_ppsData) _ppsData = videoFrame.pps;
 }
 
 - (void)sendVideo:(LFVideoFrame *)frame {
@@ -441,6 +448,11 @@ Failed:
     
     NSInteger i = 0;
     NSInteger rtmpLength = frame.data.length + 9;
+    if (frame.isKeyFrame && _spsData && _ppsData) {
+        NSInteger sps_len = _spsData.length;
+        NSInteger pps_len = _ppsData.length;
+        rtmpLength += 8 + sps_len + pps_len;
+    }
     unsigned char *body = (unsigned char *)malloc(rtmpLength);
     memset(body, 0, rtmpLength);
 
@@ -453,6 +465,27 @@ Failed:
     body[i++] = 0x00;
     body[i++] = 0x00;
     body[i++] = 0x00;
+    
+    if (frame.isKeyFrame && _spsData && _ppsData) {
+        /*sps*/
+        NSInteger sps_len = _spsData.length;
+        body[i++] = (sps_len >> 24) & 0xff;
+        body[i++] = (sps_len >> 16) & 0xff;
+        body[i++] = (sps_len >>  8) & 0xff;
+        body[i++] = (sps_len) & 0xff;
+        memcpy(&body[i], _spsData.bytes, sps_len);
+        i += sps_len;
+        
+        /*pps*/
+        NSInteger pps_len = _ppsData.length;
+        body[i++] = (pps_len >> 24) & 0xff;
+        body[i++] = (pps_len >> 16) & 0xff;
+        body[i++] = (pps_len >>  8) & 0xff;
+        body[i++] = (pps_len) & 0xff;
+        memcpy(&body[i], _ppsData.bytes, pps_len);
+        i += pps_len;
+    }
+    
     body[i++] = (frame.data.length >> 24) & 0xff;
     body[i++] = (frame.data.length >> 16) & 0xff;
     body[i++] = (frame.data.length >>  8) & 0xff;
@@ -656,6 +689,8 @@ print_bytes(void   *start,
     }
     _sendAudioHead = NO;
     _sendVideoHead = NO;
+    _spsData = nil;
+    _ppsData = nil;
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(socketStatus:status:)]) {
         [self.delegate socketStatus:self status:LFLiveRefresh];

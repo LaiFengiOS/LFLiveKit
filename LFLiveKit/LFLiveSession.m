@@ -268,6 +268,15 @@
     [self.videoCaptureSource setSaveLocalVideoPath:saveLocalVideoPath];
 }
 
+- (GPUImageFilterGroup * _Nullable)customFilterGroup {
+    return self.videoCaptureSource.customFilterGroup;
+}
+
+- (void)setCustomFilterGroup:(GPUImageFilterGroup * _Nullable)customFilterGroup {
+    [self.videoCaptureSource setCustomFilterGroup:customFilterGroup];
+}
+
+
 - (BOOL)beautyFace {
     return self.videoCaptureSource.beautyFace;
 }

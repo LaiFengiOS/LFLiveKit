@@ -267,6 +267,12 @@
     return _movieWriter;
 }
 
+- (void)setCustomFilterGroup:(GPUImageFilterGroup * _Nullable)customFilterGroup {
+    [_customFilterGroup removeAllTargets];
+    _customFilterGroup = customFilterGroup;
+    [self reloadFilter];
+}
+
 #pragma mark -- Custom Method
 - (void)processVideo:(GPUImageOutput *)output {
     __weak typeof(self) _self = self;
@@ -287,6 +293,7 @@
     [self.output removeAllTargets];
     [self.cropfilter removeAllTargets];
     
+    [self.customFilterGroup removeAllTargets];
     if (self.beautyFace) {
         self.output = [[LFGPUImageEmptyFilter alloc] init];
         self.filter = [[LFGPUImageBeautyFilter alloc] init];
@@ -309,21 +316,28 @@
     }else{
         [self.videoCamera addTarget:self.filter];
     }
-    
+
+    GPUImageOutput<GPUImageInput> * lastFilter = self.filter;
+    if (self.customFilterGroup) {
+        [self.filter addTarget:self.customFilterGroup];
+        lastFilter = self.customFilterGroup;
+    }
+
     //< 添加水印
     if(self.warterMarkView){
-        [self.filter addTarget:self.blendFilter];
+        [lastFilter addTarget:self.blendFilter];
         [self.uiElementInput addTarget:self.blendFilter];
         [self.blendFilter addTarget:self.gpuImageView];
         if(self.saveLocalVideo) [self.blendFilter addTarget:self.movieWriter];
-        [self.filter addTarget:self.output];
+        [lastFilter addTarget:self.output];
         [self.uiElementInput update];
     }else{
-        [self.filter addTarget:self.output];
+        [lastFilter addTarget:self.output];
         [self.output addTarget:self.gpuImageView];
         if(self.saveLocalVideo) [self.output addTarget:self.movieWriter];
     }
     
+    [self.customFilterGroup forceProcessingAtSize:self.configuration.videoSize];
     [self.filter forceProcessingAtSize:self.configuration.videoSize];
     [self.output forceProcessingAtSize:self.configuration.videoSize];
     [self.blendFilter forceProcessingAtSize:self.configuration.videoSize];

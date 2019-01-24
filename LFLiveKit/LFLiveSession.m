@@ -156,17 +156,20 @@
     self.socket = nil;
 }
 
-- (void)pushVideo:(nullable CVPixelBufferRef)pixelBuffer{
-    if(self.captureType & LFLiveInputMaskVideo){
-        if (self.uploading) [self.videoEncoder encodeVideoData:pixelBuffer timeStamp:NOW];
+- (void)pushVideo:(nullable CVPixelBufferRef)pixelBuffer {
+    if (self.captureType & LFLiveInputMaskVideo) {
+        if (self.uploading) {
+            [self checkResolutionChange:pixelBuffer];
+            [self.videoEncoder encodeVideoData:pixelBuffer timeStamp:NOW];
+        }
     }
 }
 
-- (void)pushAudio:(nullable NSData*)audioData{
-    if(self.captureType & LFLiveInputMaskAudio){
+- (void)pushAudio:(nullable NSData *)audioData {
+    if (self.captureType & LFLiveInputMaskAudio) {
         if (self.uploading) [self.audioEncoder encodeAudioData:audioData timeStamp:NOW];
         
-    } else if(self.captureType & LFLiveMixMaskAudioInputVideo) {
+    } else if (self.captureType & LFLiveMixMaskAudioInputVideo) {
         if (audioData) {
             [self.audioCaptureSource mixSideData:audioData weight:LFAudioMixVolumeVeryHigh / 10.0];
         }
@@ -294,6 +297,20 @@
     }
     frame.timestamp = [self uploadTimestamp:frame.timestamp];
     [self.socket sendFrame:frame];
+}
+
+- (void)checkResolutionChange:(nullable CVPixelBufferRef)pixelBuffer {
+    if (![self.videoEncoder respondsToSelector:@selector(reset)] || !pixelBuffer) {
+        return;
+    }
+    
+    CGSize videoSize = CGSizeMake(CVPixelBufferGetWidth(pixelBuffer), CVPixelBufferGetHeight(pixelBuffer));
+    if (!_streamInfo || CGSizeEqualToSize(_streamInfo.videoConfiguration.videoSize, videoSize)) {
+        return;
+    }
+    
+    _streamInfo.videoConfiguration.videoSize = videoSize;
+    [self.videoEncoder reset];
 }
 
 #pragma mark -- Audio Capture Delegate
@@ -730,8 +747,8 @@
         [self.socket switched];
         self.socket = nil;
     } else {
-        if ([self.videoEncoder respondsToSelector:@selector(resetFrameCount)]) {
-            [self.videoEncoder resetFrameCount];
+        if ([self.videoEncoder respondsToSelector:@selector(reset)]) {
+            [self.videoEncoder reset];
         }
         [self.socket start];
     }

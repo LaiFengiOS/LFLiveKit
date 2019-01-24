@@ -27,6 +27,8 @@
 
 @property (strong, nonatomic) dispatch_queue_t slienceAudioQueue;
 
+@property (assign, nonatomic, readonly) CGSize targetCanvasSize;
+
 @end
 
 @implementation RKReplayKitCapture
@@ -49,6 +51,7 @@
 
 - (instancetype)init {
     if (self = [super init]) {
+        _targetCanvasSize = CGSizeMake(720, 1280);
         _micDataSrc = [[RKAudioDataMixSrc alloc] init];
         _slienceAudioQueue = dispatch_queue_create("livekit.replaykitcapture.sliencequeue", DISPATCH_QUEUE_SERIAL);
     }
@@ -60,10 +63,9 @@
         _videoConfiguration = [LFLiveVideoConfiguration defaultConfigurationFromSampleBuffer:sample];
         
         if (@available(iOS 11.1, *)) {
-            CGSize targetSize = CGSizeMake(720, 1280);
             CFNumberRef orientationAttachment = CMGetAttachment(sample, (__bridge CFStringRef)RPVideoSampleOrientationKey, NULL);
             CGImagePropertyOrientation orientation = [(__bridge NSNumber*)orientationAttachment intValue];
-            _videoConfiguration.videoSize = orientation <= kCGImagePropertyOrientationDownMirrored ? targetSize : CGSizeMake(targetSize.height, targetSize.width);
+            _videoConfiguration.videoSize = orientation <= kCGImagePropertyOrientationDownMirrored ? self.targetCanvasSize : CGSizeMake(self.targetCanvasSize.height, self.targetCanvasSize.width);
         }
         _glContext = [[RKReplayKitGLContext alloc] initWithCanvasSize:_videoConfiguration.videoSize];
     }
@@ -85,6 +87,10 @@
     if (@available(iOS 11.1, *)) {
         CFNumberRef orientationAttachment = CMGetAttachment(sample, (__bridge CFStringRef)RPVideoSampleOrientationKey, NULL);
         CGImagePropertyOrientation orientation = [(__bridge NSNumber*)orientationAttachment intValue];
+        
+        CGSize canvasSize = orientation <= kCGImagePropertyOrientationDownMirrored ? self.targetCanvasSize : CGSizeMake(self.targetCanvasSize.height, self.targetCanvasSize.width);
+        _glContext.canvasSize = canvasSize;
+        
         if (orientation == kCGImagePropertyOrientationUp) {
             [_glContext setRotation:90];
         } else if (orientation == kCGImagePropertyOrientationDown) {

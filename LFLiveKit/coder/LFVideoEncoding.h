@@ -26,6 +26,6 @@
 - (nullable instancetype)initWithVideoStreamConfiguration:(nullable LFLiveVideoConfiguration *)configuration;
 - (void)setDelegate:(nullable id<LFVideoEncodingDelegate>)delegate;
 - (void)stopEncoder;
-- (void)resetFrameCount;
+- (void)reset;
 @end
 

@@ -150,6 +150,20 @@
     [self.socket start];
 }
 
+- (void)updateStreamURL:(NSString *)url {
+    if ([_streamInfo.url isEqualToString:url] || !_socket || ![_socket respondsToSelector:@selector(streamURLChanged:)]) {
+        return;
+    }
+    
+    _streamInfo.url = url;
+    
+    if ([self.videoEncoder respondsToSelector:@selector(reset)]) {
+        [self.videoEncoder reset];
+    }
+    
+    [_socket streamURLChanged:url];
+}
+
 - (void)stopLive {
     self.uploading = NO;
     [self.socket stop];

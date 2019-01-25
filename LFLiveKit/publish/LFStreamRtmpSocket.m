@@ -166,6 +166,14 @@ SAVC(mp4a);
     _delegate = delegate;
 }
 
+- (void)streamURLChanged:(NSString *)url {
+    dispatch_async(self.rtmpSendQueue, ^{
+        self.stream.url = url;
+        [self clean];
+        [self start];
+    });
+}
+
 #pragma mark -- CustomMethod
 - (void)sendFrame {
     __weak typeof(self) _self = self;

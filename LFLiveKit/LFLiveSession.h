@@ -209,6 +209,9 @@ typedef NS_ENUM(NSUInteger, RKReplayKitSampleType) {
 /** The start stream .*/
 - (void)startLive:(nonnull LFLiveStreamInfo *)streamInfo;
 
+/** Update stream url */
+- (void)updateStreamURL:(NSString *)url;
+
 /** The stop stream .*/
 - (void)stopLive;
 

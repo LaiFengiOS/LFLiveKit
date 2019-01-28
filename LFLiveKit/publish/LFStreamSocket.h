@@ -30,10 +30,12 @@
 @protocol LFStreamSocket <NSObject>
 - (void)start;
 - (void)stop;
+- (void)switched;
 - (void)sendFrame:(nullable LFFrame *)frame;
 - (void)sendSeiWithJson:(nullable NSData *)data;
 - (void)setDelegate:(nullable id <LFStreamSocketDelegate>)delegate;
 @optional
 - (nullable instancetype)initWithStream:(nullable LFLiveStreamInfo *)stream;
 - (nullable instancetype)initWithStream:(nullable LFLiveStreamInfo *)stream reconnectInterval:(NSInteger)reconnectInterval reconnectCount:(NSInteger)reconnectCount;
+- (void)streamURLChanged:(NSString *)url;
 @end

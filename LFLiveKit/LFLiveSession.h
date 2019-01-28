@@ -72,8 +72,8 @@ typedef NS_ENUM(NSUInteger, RKReplayKitSampleType) {
 /** callback inner audio data */
 - (void)liveSession:(nullable LFLiveSession *)session audioDataBeforeMixing:(nullable NSData *)audioData;
 
-- (nullable CVPixelBufferRef)liveSession:(nullable LFLiveSession *)session willOutputVideoFrame:(nonnull CVPixelBufferRef)pixelBuffer atTime:(CMTime)time;
-- (void)liveSession:(nullable LFLiveSession *)session willOutputAudioFrame:(unsigned char *)data samples:(NSUInteger)samples;
+- (nullable CVPixelBufferRef)liveSession:(nullable LFLiveSession *)session willOutputVideoFrame:(nonnull CVPixelBufferRef)pixelBuffer atTime:(CMTime)time customTime:(uint64_t)customTime;
+- (void)liveSession:(nullable LFLiveSession *)session willOutputAudioFrame:(unsigned char *)data samples:(NSUInteger)samples customTime:(uint64_t)customTime;
 
 @end
 
@@ -208,6 +208,9 @@ typedef NS_ENUM(NSUInteger, RKReplayKitSampleType) {
 
 /** The start stream .*/
 - (void)startLive:(nonnull LFLiveStreamInfo *)streamInfo;
+
+/** Update stream url */
+- (void)updateStreamURL:(NSString *)url;
 
 /** The stop stream .*/
 - (void)stopLive;

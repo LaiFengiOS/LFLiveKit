@@ -150,23 +150,40 @@
     [self.socket start];
 }
 
+- (void)updateStreamURL:(NSString *)url {
+    if ([_streamInfo.url isEqualToString:url] || !_socket || ![_socket respondsToSelector:@selector(streamURLChanged:)]) {
+        return;
+    }
+    
+    _streamInfo.url = url;
+    
+    if ([self.videoEncoder respondsToSelector:@selector(reset)]) {
+        [self.videoEncoder reset];
+    }
+    
+    [_socket streamURLChanged:url];
+}
+
 - (void)stopLive {
     self.uploading = NO;
     [self.socket stop];
     self.socket = nil;
 }
 
-- (void)pushVideo:(nullable CVPixelBufferRef)pixelBuffer{
-    if(self.captureType & LFLiveInputMaskVideo){
-        if (self.uploading) [self.videoEncoder encodeVideoData:pixelBuffer timeStamp:NOW];
+- (void)pushVideo:(nullable CVPixelBufferRef)pixelBuffer {
+    if (self.captureType & LFLiveInputMaskVideo) {
+        if (self.uploading) {
+            [self checkResolutionChange:pixelBuffer];
+            [self.videoEncoder encodeVideoData:pixelBuffer timeStamp:NOW];
+        }
     }
 }
 
-- (void)pushAudio:(nullable NSData*)audioData{
-    if(self.captureType & LFLiveInputMaskAudio){
+- (void)pushAudio:(nullable NSData *)audioData {
+    if (self.captureType & LFLiveInputMaskAudio) {
         if (self.uploading) [self.audioEncoder encodeAudioData:audioData timeStamp:NOW];
         
-    } else if(self.captureType & LFLiveMixMaskAudioInputVideo) {
+    } else if (self.captureType & LFLiveMixMaskAudioInputVideo) {
         if (audioData) {
             [self.audioCaptureSource mixSideData:audioData weight:LFAudioMixVolumeVeryHigh / 10.0];
         }
@@ -296,6 +313,20 @@
     [self.socket sendFrame:frame];
 }
 
+- (void)checkResolutionChange:(nullable CVPixelBufferRef)pixelBuffer {
+    if (![self.videoEncoder respondsToSelector:@selector(reset)] || !pixelBuffer) {
+        return;
+    }
+    
+    CGSize videoSize = CGSizeMake(CVPixelBufferGetWidth(pixelBuffer), CVPixelBufferGetHeight(pixelBuffer));
+    if (!_streamInfo || CGSizeEqualToSize(_streamInfo.videoConfiguration.videoSize, videoSize)) {
+        return;
+    }
+    
+    _streamInfo.videoConfiguration.videoSize = videoSize;
+    [self.videoEncoder reset];
+}
+
 #pragma mark -- Audio Capture Delegate
 
 - (void)captureOutput:(nullable LFAudioCapture *)capture audioBeforeSideMixing:(nullable NSData *)data {
@@ -305,23 +336,21 @@
 }
 
 - (void)captureOutput:(nullable LFAudioCapture *)capture didFinishAudioProcessing:(AudioBufferList)buffers samples:(NSUInteger)samples {
-    if (self.uploading) {
-        if (self.stopEncodingVideoAudioData) {
-            if ([self.delegate respondsToSelector:@selector(liveSession:willOutputAudioFrame:samples:)]) {
-                [self.delegate liveSession:self willOutputAudioFrame:(unsigned char *)buffers.mBuffers[0].mData samples:samples];
-            }
-        } else {
-            NSData *data = [NSData dataWithBytes:buffers.mBuffers[0].mData length:buffers.mBuffers[0].mDataByteSize];
-            [self.audioEncoder encodeAudioData:data timeStamp:NOW];
-        }
+    if ([self.delegate respondsToSelector:@selector(liveSession:willOutputAudioFrame:samples:customTime:)]) {
+        [self.delegate liveSession:self willOutputAudioFrame:(unsigned char *)buffers.mBuffers[0].mData samples:samples customTime:NOW];
+    }
+    
+    if (self.uploading && !self.stopEncodingVideoAudioData) {
+        NSData *data = [NSData dataWithBytes:buffers.mBuffers[0].mData length:buffers.mBuffers[0].mDataByteSize];
+        [self.audioEncoder encodeAudioData:data timeStamp:NOW];
     }
 }
 
 #pragma mark - Video Capture Delegate
 
 - (void)captureOutput:(nullable id<LFVideoCaptureInterface>)capture pixelBuffer:(nullable CVPixelBufferRef)pixelBuffer atTime:(CMTime)time {
-    if ([self.delegate respondsToSelector:@selector(liveSession:willOutputVideoFrame:atTime:)]) {
-        pixelBuffer = [self.delegate liveSession:self willOutputVideoFrame:pixelBuffer atTime:time];
+    if ([self.delegate respondsToSelector:@selector(liveSession:willOutputVideoFrame:atTime:customTime:)]) {
+        pixelBuffer = [self.delegate liveSession:self willOutputVideoFrame:pixelBuffer atTime:time customTime:NOW];
     }
     if (self.uploading && !self.stopEncodingVideoAudioData) {
         [self.videoEncoder encodeVideoData:pixelBuffer timeStamp:NOW];
@@ -383,7 +412,7 @@
             self.relativeTimestamps = 0;
             self.uploading = YES;
         }
-    } else if(status == LFLiveStop || status == LFLiveError){
+    } else if(status == LFLiveStop || status == LFLiveError || status == LFLiveSwitched) {
         self.uploading = NO;
     }
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -721,6 +750,24 @@
     }else{
         return YES;
     }
+}
+
+- (void)setStopEncodingVideoAudioData:(BOOL)stopEncodingVideoAudioData {
+    if (_stopEncodingVideoAudioData == stopEncodingVideoAudioData) {
+        return;
+    }
+    
+    if (stopEncodingVideoAudioData) {
+        [self.socket switched];
+        self.socket = nil;
+    } else {
+        if ([self.videoEncoder respondsToSelector:@selector(reset)]) {
+            [self.videoEncoder reset];
+        }
+        [self.socket start];
+    }
+    
+    _stopEncodingVideoAudioData = stopEncodingVideoAudioData;
 }
 
 @end

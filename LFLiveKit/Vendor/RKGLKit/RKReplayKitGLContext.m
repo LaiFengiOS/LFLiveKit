@@ -72,13 +72,26 @@ static char * const kUniTransformMat    = "transformMatrix";
     
     CVOpenGLESTextureCacheCreateTextureFromImage(kCFAllocatorDefault, _glTextureCacheRef, _outputPixelBufferRef, NULL, GL_TEXTURE_2D, GL_RGBA, _canvasSize.width, _canvasSize.height, GL_BGRA, GL_UNSIGNED_BYTE, 0, &_glOutputTextureRef);
     _outputTexture = CVOpenGLESTextureGetName(_glOutputTextureRef);
-    
     [self bindTexture:_outputTexture];
+    CFRelease(_glOutputTextureRef);
     
     // create output frame buffer
     glGenFramebuffers(1, &_outputFrameBuffer);
     glBindFramebuffer(GL_FRAMEBUFFER, _outputFrameBuffer);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _outputTexture, 0);
+}
+
+- (void)unloadOutputBuffer {
+    if (_outputTexture) {
+        glDeleteTextures(1, &_outputTexture);
+    }
+    if (_outputPixelBufferRef) {
+        CFRelease(_outputPixelBufferRef);
+        _outputPixelBufferRef = NULL;
+    }
+    if (_outputFrameBuffer) {
+        glDeleteFramebuffers(1, &_outputFrameBuffer);
+    }
 }
 
 - (void)loadProgram {
@@ -161,6 +174,16 @@ static char * const kUniTransformMat    = "transformMatrix";
     return _outputPixelBufferRef;
 }
 
+- (void)setCanvasSize:(CGSize)canvasSize {
+    if (CGSizeEqualToSize(canvasSize, _canvasSize)) {
+        return;
+    }
+    
+    _canvasSize = canvasSize;
+    
+    [self unloadOutputBuffer];
+    [self prepareOutputBuffer];
+}
 
 #pragma mark - Utils
 

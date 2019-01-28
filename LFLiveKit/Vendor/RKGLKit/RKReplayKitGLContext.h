@@ -13,7 +13,7 @@
 
 @property (nonatomic, readonly) CVPixelBufferRef outputPixelBuffer;
 
-@property (nonatomic, readonly) CGSize canvasSize;
+@property (nonatomic) CGSize canvasSize;
 
 - (instancetype)initWithCanvasSize:(CGSize)canvasSize;
 

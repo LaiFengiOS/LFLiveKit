@@ -25,6 +25,7 @@ static int const kMaxAccVideoFrameBufferCount = 48;
 @property (nonatomic, weak) id<LFVideoEncodingDelegate> h264Delegate;
 @property (nonatomic) NSInteger currentVideoBitRate;
 @property (nonatomic) BOOL isBackGround;
+@property (nonatomic) BOOL isResetting;
 
 @end
 
@@ -77,7 +78,7 @@ static int const kMaxAccVideoFrameBufferCount = 48;
 }
 
 - (void)setVideoBitRate:(NSInteger)videoBitRate {
-    if(_isBackGround) return;
+    if (_isBackGround || _isResetting) return;
     VTSessionSetProperty(compressionSession, kVTCompressionPropertyKey_AverageBitRate, (__bridge CFTypeRef)@(videoBitRate));
     NSArray *limit = @[@(videoBitRate * 1.5/8), @(1)];
     VTSessionSetProperty(compressionSession, kVTCompressionPropertyKey_DataRateLimits, (__bridge CFArrayRef)limit);
@@ -101,7 +102,7 @@ static int const kMaxAccVideoFrameBufferCount = 48;
 
 #pragma mark -- LFVideoEncoder
 - (void)encodeVideoData:(CVPixelBufferRef)pixelBuffer timeStamp:(uint64_t)timeStamp {
-    if(_isBackGround) return;
+    if (_isBackGround || _isResetting) return;
     frameCount++;
     accVideoFrameBufferCount++;
     CMTime presentationTimeStamp = CMTimeMake(frameCount, (int32_t)_configuration.videoFrameRate);
@@ -138,10 +139,14 @@ static int const kMaxAccVideoFrameBufferCount = 48;
 }
 
 - (void)reset {
+    _isResetting = YES;
+    
     sps = nil;
     pps = nil;
     frameCount = -1;
     [self resetCompressionSession];
+    
+    _isResetting = NO;
 }
 
 #pragma mark -- Notification

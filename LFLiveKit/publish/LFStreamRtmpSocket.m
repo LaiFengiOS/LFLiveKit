@@ -168,6 +168,12 @@ SAVC(mp4a);
 
 - (void)streamURLChanged:(NSString *)url {
     dispatch_async(self.rtmpSendQueue, ^{
+        if (_rtmp != NULL) {
+            PILI_RTMP_Close(_rtmp, &_error);
+            PILI_RTMP_Free(_rtmp);
+            _rtmp = NULL;
+        }
+
         self.stream.url = url;
         [self clean];
         [self start];

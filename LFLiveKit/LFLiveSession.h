@@ -73,7 +73,7 @@ typedef NS_ENUM(NSUInteger, RKReplayKitSampleType) {
 - (void)liveSession:(nullable LFLiveSession *)session audioDataBeforeMixing:(nullable NSData *)audioData;
 
 - (nullable CVPixelBufferRef)liveSession:(nullable LFLiveSession *)session willOutputVideoFrame:(nonnull CVPixelBufferRef)pixelBuffer atTime:(CMTime)time customTime:(uint64_t)customTime;
-- (void)liveSession:(nullable LFLiveSession *)session willOutputAudioFrame:(unsigned char *)data samples:(NSUInteger)samples customTime:(uint64_t)customTime;
+- (void)liveSession:(nullable LFLiveSession *)session willOutputAudioFrame:(unsigned char * _Nullable)data samples:(NSUInteger)samples customTime:(uint64_t)customTime;
 
 @end
 
@@ -174,7 +174,7 @@ typedef NS_ENUM(NSUInteger, RKReplayKitSampleType) {
 @property (strong, nonatomic, readonly) EAGLContext * _Nullable glContext;
 
 // 是否要停止將採集到的video/audio data做encode, 沒有encoded的data就不會推送到rtmp
-@property (assign, nonatomic) BOOL stopEncodingVideoAudioData;
+@property (assign, nonatomic, readonly) BOOL stopEncodingVideoAudioData;
 
 #pragma mark - Initializer
 ///=============================================================================
@@ -210,7 +210,13 @@ typedef NS_ENUM(NSUInteger, RKReplayKitSampleType) {
 - (void)startLive:(nonnull LFLiveStreamInfo *)streamInfo;
 
 /** Update stream url */
-- (void)updateStreamURL:(NSString *)url;
+- (void)updateStreamURL:(nonnull NSString *)url;
+
+/** 停止將採集到的video/audio data做encode, 沒有encoded的data就不會推送到rtmp */
+- (void)pauseLive;
+
+/** 恢復將採集到的video/audio data做encode, 並且使用新的push URL來推流 */
+- (void)resumeLive:(nonnull NSString *)pushURL;
 
 /** The stop stream .*/
 - (void)stopLive;

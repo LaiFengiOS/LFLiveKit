@@ -41,6 +41,8 @@
 @property (strong, nonatomic) RKReplayKitCapture *replayKitCapture;
 @property (strong, nonatomic) NSMutableArray<LFVideoFrame *> *videoFrameQueue;
 
+/// 是否要停止將採集到的video/audio data做encode, 沒有encoded的data就不會推送到rtmp
+@property (assign, nonatomic) BOOL stopEncodingVideoAudioData;
 
 #pragma mark -- 内部标识
 /// 调试信息
@@ -150,7 +152,7 @@
     [self.socket start];
 }
 
-- (void)updateStreamURL:(NSString *)url {
+- (void)updateStreamURL:(nonnull NSString *)url {
     if ([_streamInfo.url isEqualToString:url] || !_socket || ![_socket respondsToSelector:@selector(streamURLChanged:)]) {
         return;
     }
@@ -162,6 +164,31 @@
     }
     
     [_socket streamURLChanged:url];
+}
+
+- (void)pauseLive {
+    if (self.stopEncodingVideoAudioData == YES) {
+        return;
+    }
+    
+    [self.socket switched];
+    self.socket = nil;
+    
+    self.stopEncodingVideoAudioData = YES;
+}
+
+- (void)resumeLive:(nonnull NSString *)pushURL {
+    if (self.stopEncodingVideoAudioData == NO) {
+        return;
+    }
+    
+    _streamInfo.url = pushURL;
+    if ([self.videoEncoder respondsToSelector:@selector(reset)]) {
+        [self.videoEncoder reset];
+    }
+    [self.socket streamURLChanged:pushURL];
+    
+    self.stopEncodingVideoAudioData = NO;
 }
 
 - (void)stopLive {
@@ -750,24 +777,6 @@
     }else{
         return YES;
     }
-}
-
-- (void)setStopEncodingVideoAudioData:(BOOL)stopEncodingVideoAudioData {
-    if (_stopEncodingVideoAudioData == stopEncodingVideoAudioData) {
-        return;
-    }
-    
-    if (stopEncodingVideoAudioData) {
-        [self.socket switched];
-        self.socket = nil;
-    } else {
-        if ([self.videoEncoder respondsToSelector:@selector(reset)]) {
-            [self.videoEncoder reset];
-        }
-        [self.socket start];
-    }
-    
-    _stopEncodingVideoAudioData = stopEncodingVideoAudioData;
 }
 
 @end

@@ -32,8 +32,8 @@
         NSLog(@"USE LFHardwareVideoEncoder");
         _configuration = configuration;
         [self resetCompressionSession];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterBackground:) name:UIApplicationWillResignActiveNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationDidBecomeActiveNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterForeground:) name:UIApplicationDidBecomeActiveNotification object:nil];
 #ifdef DEBUG
         enabledWriteVideoFile = NO;
         [self initForFilePath];
@@ -124,11 +124,11 @@
 }
 
 #pragma mark -- Notification
-- (void)willEnterBackground:(NSNotification*)notification{
+- (void)didEnterBackground:(NSNotification*)notification{
     _isBackGround = YES;
 }
 
-- (void)willEnterForeground:(NSNotification*)notification{
+- (void)didEnterForeground:(NSNotification*)notification{
     [self resetCompressionSession];
     _isBackGround = NO;
 }

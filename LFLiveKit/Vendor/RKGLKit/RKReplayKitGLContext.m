@@ -65,9 +65,12 @@ static char * const kUniTransformMat    = "transformMatrix";
 }
 
 - (void)prepareOutputBuffer {
-    NSDictionary* attrs = @{(__bridge NSString*) kCVPixelBufferIOSurfacePropertiesKey: @{}};
-    
+    if (_glTextureCacheRef) {
+        CFRelease(_glTextureCacheRef);
+    }
     CVOpenGLESTextureCacheCreate(kCFAllocatorDefault, NULL, _glContext, NULL, &_glTextureCacheRef);
+    
+    NSDictionary* attrs = @{(__bridge NSString*) kCVPixelBufferIOSurfacePropertiesKey: @{}};
     CVPixelBufferCreate(kCFAllocatorDefault, _canvasSize.width, _canvasSize.height, kCVPixelFormatType_32BGRA, (__bridge CFDictionaryRef) attrs, &_outputPixelBufferRef);
     
     CVOpenGLESTextureCacheCreateTextureFromImage(kCFAllocatorDefault, _glTextureCacheRef, _outputPixelBufferRef, NULL, GL_TEXTURE_2D, GL_RGBA, _canvasSize.width, _canvasSize.height, GL_BGRA, GL_UNSIGNED_BYTE, 0, &_glOutputTextureRef);

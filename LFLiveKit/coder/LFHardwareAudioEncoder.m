@@ -18,6 +18,7 @@
 }
 @property (nonatomic, strong) LFLiveAudioConfiguration *configuration;
 @property (nonatomic, weak) id<LFAudioEncodingDelegate> aacDeleage;
+@property (nonatomic, assign) uint64_t encodeBufferTimeInterval;
 
 @end
 
@@ -60,10 +61,10 @@
         return;
     }
     
-    if(leftLength + audioData.length >= self.configuration.bufferLength){
+    if (leftLength + audioData.length >= self.configuration.bufferLength) {
         ///<  发送
         NSInteger totalSize = leftLength + audioData.length;
-        NSInteger encodeCount = totalSize/self.configuration.bufferLength;
+        NSInteger encodeCount = totalSize / self.configuration.bufferLength;
         char *totalBuf = malloc(totalSize);
         char *p = totalBuf;
         
@@ -71,26 +72,25 @@
         memcpy(totalBuf, leftBuf, leftLength);
         memcpy(totalBuf + leftLength, audioData.bytes, audioData.length);
         
-        for(NSInteger index = 0;index < encodeCount;index++){
-            [self encodeBuffer:p  timeStamp:timeStamp];
+        for (NSInteger index = 0; index < encodeCount; index++) {
+            [self encodeBuffer:p timeStamp:(timeStamp + self.encodeBufferTimeInterval * index)];
             p += self.configuration.bufferLength;
         }
         
-        leftLength = totalSize%self.configuration.bufferLength;
+        leftLength = totalSize % self.configuration.bufferLength;
         memset(leftBuf, 0, self.configuration.bufferLength);
-        memcpy(leftBuf, totalBuf + (totalSize -leftLength), leftLength);
+        memcpy(leftBuf, totalBuf + (totalSize - leftLength), leftLength);
         
         free(totalBuf);
         
-    }else{
+    } else {
         ///< 积累
-        memcpy(leftBuf+leftLength, audioData.bytes, audioData.length);
+        memcpy(leftBuf + leftLength, audioData.bytes, audioData.length);
         leftLength = leftLength + audioData.length;
     }
 }
 
-- (void)encodeBuffer:(char*)buf timeStamp:(uint64_t)timeStamp{
-    
+- (void)encodeBuffer:(char*)buf timeStamp:(uint64_t)timeStamp {
     AudioBuffer inBuffer;
     inBuffer.mNumberChannels = 1;
     inBuffer.mData = buf;
@@ -99,7 +99,6 @@
     AudioBufferList buffers;
     buffers.mNumberBuffers = 1;
     buffers.mBuffers[0] = inBuffer;
-    
     
     // 初始化一个输出缓冲列表
     AudioBufferList outBufferList;
@@ -129,7 +128,6 @@
         fwrite(adts.bytes, 1, adts.length, self->fp);
         fwrite(audioFrame.data.bytes, 1, audioFrame.data.length, self->fp);
     }
-    
 }
 
 - (void)stopEncoder {
@@ -173,20 +171,22 @@
         }
     };
     
-    OSStatus result = AudioConverterNewSpecific(&inputFormat, &outputFormat, 2, requestedCodecs, &m_converter);;
+    OSStatus result = AudioConverterNewSpecific(&inputFormat, &outputFormat, 2, requestedCodecs, &m_converter);
     UInt32 outputBitrate = _configuration.audioBitrate;
     UInt32 propSize = sizeof(outputBitrate);
     
-    
-    if(result == noErr) {
+    if (result == noErr) {
         result = AudioConverterSetProperty(m_converter, kAudioConverterEncodeBitRate, propSize, &outputBitrate);
     }
+    
+    double encodeBufferTimeInterval = ((double)(self.configuration.bufferLength)) / (_configuration.audioSampleRate * inputFormat.mBytesPerFrame);
+    self.encodeBufferTimeInterval = (u_int64_t)(encodeBufferTimeInterval * 1000);
     
     return YES;
 }
 
-
 #pragma mark -- AudioCallBack
+
 OSStatus inputDataProc(AudioConverterRef inConverter, UInt32 *ioNumberDataPackets, AudioBufferList *ioData, AudioStreamPacketDescription * *outDataPacketDescription, void *inUserData) { //<span style="font-family: Arial, Helvetica, sans-serif;">AudioConverterFillComplexBuffer 编码过程中，会要求这个函数来填充输入数据，也就是原始PCM数据</span>
     AudioBufferList bufferList = *(AudioBufferList *)inUserData;
     ioData->mBuffers[0].mNumberChannels = 1;

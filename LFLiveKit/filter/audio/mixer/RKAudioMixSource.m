@@ -7,7 +7,6 @@
 //
 
 #import "RKAudioMixSource.h"
-#import "RKDataLinkedList.h"
 #import <AVFoundation/AVFoundation.h>
 
 @implementation RKAudioURLMixSrc {
@@ -110,13 +109,13 @@
 
 
 @implementation RKAudioDataMixSrc {
-    RKDataLinkedList *_dataList;
+    NSMutableArray<NSData *> *_dataList;
     NSUInteger _mixingDataIndex;
 }
 
 - (instancetype)init {
     if (self = [super init]) {
-        _dataList = [[RKDataLinkedList alloc] init];
+        _dataList = [NSMutableArray array];
         _mixingDataIndex = 0;
     }
     return self;
@@ -124,17 +123,19 @@
 
 - (void)pushData:(NSData *)data {
     if (data.length >= 2) {
-        [_dataList pushTail:data];
+        [_dataList addObject:data];
     }
 }
 
 - (NSData *)popData {
     _mixingDataIndex = 0;
-    return [_dataList popHead];
+    NSData *returnedData = _dataList.firstObject;
+    [_dataList removeObjectAtIndex:0];
+    return returnedData;
 }
 
 - (BOOL)isEmpty {
-    return !_dataList.head;
+    return (_dataList.count == 0 || _dataList[0].length == 0);
 }
 
 - (BOOL)hasNext {
@@ -142,27 +143,27 @@
 }
 
 - (short)next {
-    if (!_dataList.head) {
+    if (_dataList.count == 0 || _dataList[0].length < 2) {
         return 0;
     }
-    const char *sideBytes = _dataList.head.bytes;
+    const char *sideBytes = _dataList[0].bytes;
     short s = (short)(((sideBytes[_mixingDataIndex + 1] & 0xFF) << 8) | (sideBytes[_mixingDataIndex] & 0xFF));
     _mixingDataIndex += 2;
-    if (_mixingDataIndex >= _dataList.head.length) {
-        [_dataList popHead];
+    if (_mixingDataIndex >= _dataList[0].length) {
+        [_dataList removeObjectAtIndex:0];
         _mixingDataIndex = 0;
     }
     return s;
 }
 
 - (SInt16)nextFrame {
-    if (!_dataList.head) {
+    if (_dataList.count == 0 || _dataList[0].length < 2) {
         return 0;
     }
-    SInt16 s = *((SInt16*)_dataList.head.bytes);
+    SInt16 s = *((SInt16*)_dataList[0].bytes);
     _mixingDataIndex += 2;
-    if (_mixingDataIndex >= _dataList.head.length) {
-        [_dataList popHead];
+    if (_mixingDataIndex >= _dataList[0].length) {
+        [_dataList removeObjectAtIndex:0];
         _mixingDataIndex = 0;
     }
     return s;
@@ -171,13 +172,13 @@
 - (void)readBytes:(void *)dst length:(NSUInteger)length {
     NSUInteger readLength = 0;
     while (readLength < length && !self.isEmpty) {
-        const void *src = _dataList.head.bytes;
+        const void *src = _dataList[0].bytes;
         src += _mixingDataIndex;
-        size_t size = MIN(_dataList.head.length - _mixingDataIndex, length - readLength);
+        size_t size = MIN(_dataList[0].length - _mixingDataIndex, length - readLength);
         memcpy(dst, src, size);
         _mixingDataIndex += size;
-        if (_mixingDataIndex >= _dataList.head.length) {
-            [_dataList popHead];
+        if (_mixingDataIndex >= _dataList[0].length) {
+            [_dataList removeObjectAtIndex:0];
             _mixingDataIndex = 0;
         }
         readLength += size;

@@ -703,11 +703,8 @@
 		BE35EB6E1F5D2F3500B615DF /* RKSoundMix.m in Sources */ = {isa = PBXBuildFile; fileRef = BE35EB6C1F5D2F3500B615DF /* RKSoundMix.m */; };
 		BE35EB751F5D3EE600B615DF /* RKAudioMix.h in Headers */ = {isa = PBXBuildFile; fileRef = BE35EB731F5D3EE600B615DF /* RKAudioMix.h */; };
 		BE35EB761F5D3EE600B615DF /* RKAudioMix.m in Sources */ = {isa = PBXBuildFile; fileRef = BE35EB741F5D3EE600B615DF /* RKAudioMix.m */; };
-		BE35EB791F5D591400B615DF /* RKDataLinkedList.h in Headers */ = {isa = PBXBuildFile; fileRef = BE35EB771F5D591400B615DF /* RKDataLinkedList.h */; };
-		BE35EB7A1F5D591400B615DF /* RKDataLinkedList.m in Sources */ = {isa = PBXBuildFile; fileRef = BE35EB781F5D591400B615DF /* RKDataLinkedList.m */; };
 		BE35EB7B1F5EB4A300B615DF /* RKSoundMix.m in Sources */ = {isa = PBXBuildFile; fileRef = BE35EB6C1F5D2F3500B615DF /* RKSoundMix.m */; };
 		BE35EB7C1F5EB4A500B615DF /* RKAudioMix.m in Sources */ = {isa = PBXBuildFile; fileRef = BE35EB741F5D3EE600B615DF /* RKAudioMix.m */; };
-		BE35EB7D1F5EB4AD00B615DF /* RKDataLinkedList.m in Sources */ = {isa = PBXBuildFile; fileRef = BE35EB781F5D591400B615DF /* RKDataLinkedList.m */; };
 		BE35EB8D1F72736600B615DF /* LFPingServices.h in Headers */ = {isa = PBXBuildFile; fileRef = BE35EB891F72736600B615DF /* LFPingServices.h */; };
 		BE35EB8E1F72736600B615DF /* LFPingServices.h in Headers */ = {isa = PBXBuildFile; fileRef = BE35EB891F72736600B615DF /* LFPingServices.h */; };
 		BE35EB8F1F72736600B615DF /* LFPingServices.m in Sources */ = {isa = PBXBuildFile; fileRef = BE35EB8A1F72736600B615DF /* LFPingServices.m */; };
@@ -1643,8 +1640,6 @@
 		BE35EB6C1F5D2F3500B615DF /* RKSoundMix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKSoundMix.m; sourceTree = "<group>"; };
 		BE35EB731F5D3EE600B615DF /* RKAudioMix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKAudioMix.h; sourceTree = "<group>"; };
 		BE35EB741F5D3EE600B615DF /* RKAudioMix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKAudioMix.m; sourceTree = "<group>"; };
-		BE35EB771F5D591400B615DF /* RKDataLinkedList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKDataLinkedList.h; sourceTree = "<group>"; };
-		BE35EB781F5D591400B615DF /* RKDataLinkedList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKDataLinkedList.m; sourceTree = "<group>"; };
 		BE35EB891F72736600B615DF /* LFPingServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFPingServices.h; sourceTree = "<group>"; };
 		BE35EB8A1F72736600B615DF /* LFPingServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFPingServices.m; sourceTree = "<group>"; };
 		BE35EB8B1F72736600B615DF /* LFSimplePing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFSimplePing.h; sourceTree = "<group>"; };
@@ -2545,8 +2540,6 @@
 				31ACD1192106CF5E009075DF /* LFUtils.m */,
 				84D8B5B11D768B6E00752B56 /* LFVideoFrame.h */,
 				84D8B5B21D768B6E00752B56 /* LFVideoFrame.m */,
-				BE35EB771F5D591400B615DF /* RKDataLinkedList.h */,
-				BE35EB781F5D591400B615DF /* RKDataLinkedList.m */,
 				31ACD09D21006316009075DF /* RKLinkedList.h */,
 				31ACD09E21006316009075DF /* RKLinkedList.m */,
 				31ACD0A321006369009075DF /* RKSampleBuffer.h */,
@@ -3029,7 +3022,6 @@
 				BE49350120076CA3003F5291 /* QBGLEvergreenFilter.h in Headers */,
 				BE4934E720076CA3003F5291 /* QBGLCrayonFilter.h in Headers */,
 				BE4934B720076CA3003F5291 /* QBGLCoolFilter.h in Headers */,
-				BE35EB791F5D591400B615DF /* RKDataLinkedList.h in Headers */,
 				C16E7CFC1E53479F0067DE28 /* RKGPUImageWarmFilter.h in Headers */,
 				C16E7D861E53F6200067DE28 /* RKGPUImageMemoirFilter.h in Headers */,
 				8495F67C1DB8F1EE00542124 /* LFHardwareVideoEncoder.h in Headers */,
@@ -3951,7 +3943,6 @@
 				8495F69A1DB8F27000542124 /* LFAudioFrame.m in Sources */,
 				BE49351B20076CA3003F5291 /* QBGLValenciaFilter.m in Sources */,
 				8495F69B1DB8F27000542124 /* LFFrame.m in Sources */,
-				BE35EB7A1F5D591400B615DF /* RKDataLinkedList.m in Sources */,
 				8495F69C1DB8F27000542124 /* LFLiveDebug.m in Sources */,
 				8495F69D1DB8F27000542124 /* LFLiveStreamInfo.m in Sources */,
 				BE49355920076CA3003F5291 /* QBGLNostalgiaFilter.m in Sources */,
@@ -3969,7 +3960,6 @@
 			files = (
 				BE49350820076CA3003F5291 /* QBGLRiseFilter.m in Sources */,
 				31ACD11C2106CF5E009075DF /* LFUtils.m in Sources */,
-				BE35EB7D1F5EB4AD00B615DF /* RKDataLinkedList.m in Sources */,
 				C16E7D211E5348F80067DE28 /* RKGPUImageCoolFilter.m in Sources */,
 				BE49354420076CA3003F5291 /* QBGLHealthyFilter.m in Sources */,
 				C16E7D451E534A420067DE28 /* RKGPUImageBleakFilter.m in Sources */,

@@ -20,7 +20,7 @@ char * const kQBCrayonFilterFragment;
 
 @implementation QBGLCrayonFilter
 
-- (instancetype) init {
+- (instancetype)init {
     self = [self initWithVertexShader:kQBCrayonFilterVertex fragmentShader:kQBCrayonFilterFragment];
     if (self) {
         [self loadTextures];
@@ -49,13 +49,16 @@ char * const kQBCrayonFilterVertex = STRING
 (
  attribute vec4 position;
  attribute vec4 inputTextureCoordinate;
- 
  varying vec2 textureCoordinate;
+ 
+ attribute vec4 inputAnimationCoordinate;
+ varying vec2 animationCoordinate;
  
  void main()
  {
      gl_Position = position;
      textureCoordinate = inputTextureCoordinate.xy;
+     animationCoordinate = inputAnimationCoordinate.xy;
  }
 );
 
@@ -67,6 +70,10 @@ char * const kQBCrayonFilterFragment = STRING
  uniform sampler2D inputImageTexture;
  uniform vec2 singleStepOffset;
  uniform float strength;
+ 
+ varying highp vec2 animationCoordinate;
+ uniform sampler2D animationTexture;
+ uniform int enableAnimationView;
  
  const highp vec3 W = vec3(0.299,0.587,0.114);
  
@@ -112,6 +119,11 @@ char * const kQBCrayonFilterFragment = STRING
     
     textureColor = yiqColor * yiq2rgbMatrix;
     
-    gl_FragColor = vec4(textureColor, oralColor.w);
+    vec4 animationColor = texture2D(animationTexture, animationCoordinate);
+    if (enableAnimationView == 1) {
+        gl_FragColor = vec4(mix(textureColor, animationColor.rgb, animationColor.a), oralColor.w);
+    } else {
+        gl_FragColor = vec4(textureColor, oralColor.w);
+    }
 }
 );

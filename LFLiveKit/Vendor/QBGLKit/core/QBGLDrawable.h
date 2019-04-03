@@ -35,6 +35,7 @@
 - (void)deleteTexture;
 
 - (void)reloadImage:(UIImage *)image;
+- (void)reloadView:(UIView *)sourceView;
 
 /**
  * Prepare drawing with active texture index. 

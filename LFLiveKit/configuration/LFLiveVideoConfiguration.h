@@ -107,4 +107,7 @@ typedef NS_ENUM (NSUInteger, LFLiveVideoQuality){
 ///< 浮水印來源view
 @property (nonatomic, strong) UIView *watermarkView;
 
+// Blend screenshot of animationView for each camera frame
+@property (nonatomic, strong) UIView *animationView;
+
 @end

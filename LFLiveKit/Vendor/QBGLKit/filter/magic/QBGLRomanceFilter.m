@@ -22,7 +22,7 @@ char * const kQBRomanceFilterFragment;
 
 @implementation QBGLRomanceFilter
 
-- (instancetype) init {
+- (instancetype)init {
     self = [self initWithVertexShader:kQBRomanceFilterVertex fragmentShader:kQBRomanceFilterFragment];
     if (self) {
         [self loadTextures];
@@ -49,7 +49,11 @@ char * const kQBRomanceFilterFragment;
 }
 
 - (NSArray<QBGLDrawable*> *)renderTextures {
-    return @[_curveDrawable];
+    NSMutableArray *array = [NSMutableArray arrayWithArray:[super renderTextures]];
+    if (self.curveDrawable) {
+        [array addObject:self.curveDrawable];
+    }
+    return [array copy];
 }
 
 @end
@@ -61,13 +65,16 @@ char * const kQBRomanceFilterVertex = STRING
 (
  attribute vec4 position;
  attribute vec4 inputTextureCoordinate;
- 
  varying vec2 textureCoordinate;
+ 
+ attribute vec4 inputAnimationCoordinate;
+ varying vec2 animationCoordinate;
  
  void main()
  {
      gl_Position = position;
      textureCoordinate = inputTextureCoordinate.xy;
+     animationCoordinate = inputAnimationCoordinate.xy;
  }
  );
 
@@ -78,6 +85,10 @@ char * const kQBRomanceFilterFragment = STRING
  
  uniform sampler2D inputImageTexture;
  uniform sampler2D curve;
+ 
+ varying highp vec2 animationCoordinate;
+ uniform sampler2D animationTexture;
+ uniform int enableAnimationView;
  
  void main()
 {
@@ -118,7 +129,13 @@ char * const kQBRomanceFilterFragment = STRING
     
     textureColor = vec4(redCurveValue, greenCurveValue, blueCurveValue, 1.0);
     
-    gl_FragColor = vec4(textureColor.r, textureColor.g, textureColor.b, 1.0); 
+    vec4 animationColor = texture2D(animationTexture, animationCoordinate);
+    if (enableAnimationView == 1) {
+        gl_FragColor = vec4(mix(textureColor.rgb, animationColor.rgb, animationColor.a), 1.0);
+    } else {
+        gl_FragColor = vec4(textureColor.r, textureColor.g, textureColor.b, 1.0);
+    }
+
 }
 );
 

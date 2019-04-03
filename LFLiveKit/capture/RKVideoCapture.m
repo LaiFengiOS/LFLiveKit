@@ -115,7 +115,7 @@
 
 - (QBGLContext *)glContext {
     if (!_glContext) {
-        _glContext = [[QBGLContext alloc] initWithContext:_eaglContext];
+        _glContext = [[QBGLContext alloc] initWithContext:_eaglContext animationView:self.configuration.animationView];
         _glContext.outputSize = _configuration.videoSize;
         [_glContext setDisplayOrientation:self.displayOrientation cameraPosition:self.captureDevicePosition];
     }

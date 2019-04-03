@@ -15,16 +15,18 @@ char *const kQBBeautyColorMapFilterVertex = STRING
 (
  attribute vec4 position;
  attribute vec4 inputTextureCoordinate;
+ varying vec2 textureCoordinate;
  
  uniform vec2 singleStepOffset;
  
- varying vec2 textureCoordinate;
- 
+ attribute vec4 inputAnimationCoordinate;
+ varying vec2 animationCoordinate;
  
  void main() {
      gl_Position = position;
      
      textureCoordinate = inputTextureCoordinate.xy;
+     animationCoordinate = inputAnimationCoordinate.xy;
  }
  );
 
@@ -49,6 +51,10 @@ char * const kQBBeautyColorMapFilterFragment = STRING
  uniform float filterMixPercentage;
  uniform int overlay1Enabled;
  uniform int overlay2Enabled;
+ 
+ varying highp vec2 animationCoordinate;
+ uniform sampler2D animationTexture;
+ uniform int enableAnimationView;
  
  const vec3 W = vec3(0.299, 0.587, 0.114);
  const mat3 saturateMatrix = mat3(1.1102, -0.0598, -0.061,
@@ -218,7 +224,12 @@ char * const kQBBeautyColorMapFilterFragment = STRING
      }
      
      filter_result = mix(beautyColor, filter_result, filterMixPercentage);
-     gl_FragColor = vec4(filter_result, 1.0);
+     vec4 animationColor = texture2D(animationTexture, animationCoordinate);
+     if (enableAnimationView == 1) {
+         gl_FragColor = vec4(mix(filter_result, animationColor.rgb, animationColor.a), 1.0);
+     } else {
+         gl_FragColor = vec4(filter_result, 1.0);
+     }
  }
  
  );

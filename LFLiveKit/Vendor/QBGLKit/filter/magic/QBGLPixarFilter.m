@@ -22,7 +22,7 @@ char * const kQBPixarFilterFragment;
 
 @implementation QBGLPixarFilter
 
-- (instancetype) init {
+- (instancetype)init {
     self = [self initWithVertexShader:kQBPixarFilterVertex fragmentShader:kQBPixarFilterFragment];
     if (self) {
         [self loadTextures];
@@ -37,7 +37,11 @@ char * const kQBPixarFilterFragment;
 }
 
 - (NSArray<QBGLDrawable*> *)renderTextures {
-    return @[_image1Drawable];
+    NSMutableArray *array = [NSMutableArray arrayWithArray:[super renderTextures]];
+    if (self.image1Drawable) {
+        [array addObject:self.image1Drawable];
+    }
+    return [array copy];
 }
 
 @end
@@ -49,13 +53,16 @@ char * const kQBPixarFilterVertex = STRING
 (
  attribute vec4 position;
  attribute vec4 inputTextureCoordinate;
- 
  varying vec2 textureCoordinate;
+ 
+ attribute vec4 inputAnimationCoordinate;
+ varying vec2 animationCoordinate;
  
  void main()
  {
      gl_Position = position;
      textureCoordinate = inputTextureCoordinate.xy;
+     animationCoordinate = inputAnimationCoordinate.xy;
  }
  );
 
@@ -66,8 +73,11 @@ char * const kQBPixarFilterFragment = STRING
  
  uniform sampler2D inputImageTexture;
  uniform sampler2D inputImageTexture2;
- 
  uniform float strength;
+ 
+ varying highp vec2 animationCoordinate;
+ uniform sampler2D animationTexture;
+ uniform int enableAnimationView;
  
  // gray
  float NCGray(vec4 color)
@@ -196,7 +206,12 @@ char * const kQBPixarFilterFragment = STRING
     
     color.rgb = mix(originColor.rgb, color.rgb, strength);
     
-    gl_FragColor = color;
+    vec4 animationColor = texture2D(animationTexture, animationCoordinate);
+    if (enableAnimationView == 1) {
+        gl_FragColor = vec4(mix(color.rgb, animationColor.rgb, animationColor.a), color.a);
+    } else {
+        gl_FragColor = color;
+    }
 }
 );
 

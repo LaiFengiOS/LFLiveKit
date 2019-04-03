@@ -27,10 +27,10 @@
     return self;
 }
 
-- (QBGLMagicFilterBase *)filterWithType:(QBGLFilterType)type {
+- (QBGLMagicFilterBase *)filterWithType:(QBGLFilterType)type animationView:(UIView *)animationView {
     QBGLMagicFilterBase *filter = _cacheEnabled ? _filterCache[@(type)] : nil;
     if (!filter) {
-        filter = [self.class createFilterWithType:type];
+        filter = [self.class createFilterWithType:type animationView:animationView];
     }
     if (_cacheEnabled) {
         _filterCache[@(type)] = filter;
@@ -42,9 +42,9 @@
     [_filterCache removeAllObjects];
 }
 
-- (void)preloadFiltersWithTextureCacheRef:(CVOpenGLESTextureCacheRef)textureCacheRef {
+- (void)preloadFiltersWithTextureCacheRef:(CVOpenGLESTextureCacheRef)textureCacheRef animationView:(UIView *)animationView {
     for (NSInteger type = QBGLFilterTypeCrayon; type <= QBGLFilterTypeWalden; type++) {
-        QBGLMagicFilterBase *magicFilter = [self filterWithType:type];
+        QBGLMagicFilterBase *magicFilter = [self filterWithType:type animationView:animationView];
         magicFilter.type = type;
         magicFilter.textureCacheRef = textureCacheRef;
     }
@@ -57,7 +57,7 @@
     }];
 }
 
-+ (QBGLMagicFilterBase *)createFilterWithType:(QBGLFilterType)type {
++ (QBGLMagicFilterBase *)createFilterWithType:(QBGLFilterType)type animationView:(UIView *)animationView {
     switch (type) {
 //        case QBGLFilterTypeAmaro:
 //            return [QBGLMagicFilter amaroFilter];
@@ -74,7 +74,7 @@
 //        case QBGLFilterTypeMagicCool:
 //            return [QBGLMagicFilter magicCoolFilter];
         case QBGLFilterTypeCrayon:
-            return [QBGLMagicFilter crayonFilter];
+            return [QBGLMagicFilter crayonFilterWithAnimationView:animationView];
 //        case QBGLFilterTypeEarlybird:
 //            return [QBGLMagicFilter earlyBirdFilter];
 //        case QBGLFilterTypeEmerald:
@@ -82,7 +82,7 @@
 //        case QBGLFilterTypeEvergreen:
 //            return [QBGLMagicFilter evergreenFilter];
         case QBGLFilterTypeFairytale:
-            return [QBGLMagicFilter fairytaleFilter];
+            return [QBGLMagicFilter fairytaleFilterWithAnimationView:animationView];
 //        case QBGLFilterTypeFreud:
 //            return [QBGLMagicFilter freudFilter];
 //        case QBGLFilterTypeHealthy:
@@ -90,7 +90,7 @@
 //        case QBGLFilterTypeHudson:
 //            return [QBGLMagicFilter hudsonFilter];
         case QBGLFilterTypeInkwell:
-            return [QBGLMagicFilter inkwellFilter];
+            return [QBGLMagicFilter inkwellFilterWithAnimationView:animationView];
 //        case QBGLFilterTypeKevin:
 //            return [QBGLMagicFilter kevinFilter];
 //        case QBGLFilterTypeLatte:
@@ -98,23 +98,23 @@
 //        case QBGLFilterTypeLomo:
 //            return [QBGLMagicFilter lomoFilter];
         case QBGLFilterTypeN1977:
-            return [QBGLMagicFilter n1977Filter];
+            return [QBGLMagicFilter n1977FilterWithAnimationView:animationView];
 //        case QBGLFilterTypeNashViller:
 //            return [QBGLMagicFilter nashVillerFilter];
 //        case QBGLFilterTypeNostalgia:
 //            return [QBGLMagicFilter nostalgiaFilter];
         case QBGLFilterTypePixar:
-            return [QBGLMagicFilter pixarFilter];
+            return [QBGLMagicFilter pixarFilterWithAnimationView:animationView];
 //        case QBGLFilterTypeRise:
 //            return [QBGLMagicFilter riseFilter];
         case QBGLFilterTypeRomance:
-            return [QBGLMagicFilter romanceFilter];
+            return [QBGLMagicFilter romanceFilterWithAnimationView:animationView];
 //        case QBGLFilterTypeSakura:
 //            return [QBGLMagicFilter sakuraFilter];
 //        case QBGLFilterTypeSierra:
 //            return [QBGLMagicFilter sierraFilter];
         case QBGLFilterTypeSketch:
-            return [QBGLMagicFilter sketchFilter];
+            return [QBGLMagicFilter sketchFilterWithAnimationView:animationView];
 //        case QBGLFilterTypeSkinWhite:
 //            return [QBGLMagicFilter skinWhiteFilter];
 //        case QBGLFilterTypeSunrise:
@@ -132,7 +132,7 @@
 //        case QBGLFilterTypeValencia:
 //            return [QBGLMagicFilter valenciaFilter];
         case QBGLFilterTypeWalden:
-            return [QBGLMagicFilter waldenFilter];
+            return [QBGLMagicFilter waldenFilterWithAnimationView:animationView];
 //        case QBGLFilterTypeMagicWarm:
 //            return [QBGLMagicFilter warmFilter];
 //        case QBGLFilterTypeWhiteCat:

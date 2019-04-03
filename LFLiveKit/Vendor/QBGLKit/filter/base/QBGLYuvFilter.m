@@ -52,11 +52,11 @@ char * const kQBGLYuvFilterFragment;
 
 - (NSArray<QBGLDrawable*> *)renderTextures {
     NSMutableArray *array = [NSMutableArray arrayWithArray:[super renderTextures]];
-    if (_yDrawable && _uvDrawable ) {
-        [array addObject:_yDrawable];
-        [array addObject:_uvDrawable];
+    if (self.yDrawable && self.uvDrawable ) {
+        [array addObject:self.yDrawable];
+        [array addObject:self.uvDrawable];
     }
-    return array;
+    return [array copy];
 }
 
 @end
@@ -66,13 +66,16 @@ char * const kQBGLYuvFilterVertex = STRING
 (
  attribute vec4 position;
  attribute vec4 inputTextureCoordinate;
- 
  varying vec2 textureCoordinate;
+ 
+ attribute vec4 inputAnimationCoordinate;
+ varying vec2 animationCoordinate;
  
  void main()
  {
      gl_Position = position;
      textureCoordinate = inputTextureCoordinate.xy;
+     animationCoordinate = inputAnimationCoordinate.xy;
  }
  );
 
@@ -84,6 +87,10 @@ char * const kQBGLYuvFilterFragment = STRING
  
  uniform sampler2D yTexture;
  uniform sampler2D uvTexture;
+ 
+ varying highp vec2 animationCoordinate;
+ uniform sampler2D animationTexture;
+ uniform int enableAnimationView;
  
  const mat3 yuv2rgbMatrix = mat3(1.0, 1.0, 1.0,
                                  0.0, -0.343, 1.765,
@@ -99,6 +106,11 @@ char * const kQBGLYuvFilterFragment = STRING
  void main()
  {
      vec3 centralColor = rgbFromYuv(yTexture, uvTexture, textureCoordinate).rgb;
-     gl_FragColor = vec4(centralColor, 1.0);
+     vec4 animationColor = texture2D(animationTexture, animationCoordinate);
+     if (enableAnimationView == 1) {
+         gl_FragColor = vec4(mix(centralColor, animationColor.rgb, animationColor.a), 1.0);
+     } else {
+         gl_FragColor = vec4(centralColor, 1.0);
+     }
  }
  );

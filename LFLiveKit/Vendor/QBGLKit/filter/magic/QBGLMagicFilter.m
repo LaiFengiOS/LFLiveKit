@@ -79,8 +79,8 @@
     return [[QBGLCoolFilter alloc] init];
 }
 
-+ (QBGLMagicFilterBase *)crayonFilter {
-    return [[QBGLCrayonFilter alloc] init];
++ (QBGLMagicFilterBase *)crayonFilterWithAnimationView:(UIView *)animationView {
+    return [[QBGLCrayonFilter alloc] initWithAnimationView:animationView];
 }
 
 + (QBGLMagicFilterBase *)earlyBirdFilter {
@@ -95,8 +95,8 @@
     return [[QBGLEvergreenFilter alloc] init];
 }
 
-+ (QBGLMagicFilterBase *)fairytaleFilter {
-    return [[QBGLFairytaleFilter alloc] init];
++ (QBGLMagicFilterBase *)fairytaleFilterWithAnimationView:(UIView *)animationView {
+    return [[QBGLFairytaleFilter alloc] initWithAnimationView:animationView];
 }
 
 + (QBGLMagicFilterBase *)freudFilter {
@@ -111,8 +111,8 @@
     return [[QBGLHudsonFilter alloc] init];
 }
 
-+ (QBGLMagicFilterBase *)inkwellFilter {
-    return [[QBGLInkwellFilter alloc] init];
++ (QBGLMagicFilterBase *)inkwellFilterWithAnimationView:(UIView *)animationView {
+    return [[QBGLInkwellFilter alloc] initWithAnimationView:animationView];
 }
 
 + (QBGLMagicFilterBase *)kevinFilter {
@@ -127,8 +127,8 @@
     return [[QBGLLomoFilter alloc] init];
 }
 
-+ (QBGLMagicFilterBase *)n1977Filter {
-    return [[QBGLN1977Filter alloc] init];
++ (QBGLMagicFilterBase *)n1977FilterWithAnimationView:(UIView *)animationView {
+    return [[QBGLN1977Filter alloc] initWithAnimationView:animationView];
 }
 
 + (QBGLMagicFilterBase *)nashVillerFilter {
@@ -139,16 +139,16 @@
     return [[QBGLNostalgiaFilter alloc] init];
 }
 
-+ (QBGLMagicFilterBase *)pixarFilter {
-    return [[QBGLPixarFilter alloc] init];
++ (QBGLMagicFilterBase *)pixarFilterWithAnimationView:(UIView *)animationView {
+    return [[QBGLPixarFilter alloc] initWithAnimationView:animationView];
 }
 
 + (QBGLMagicFilterBase *)riseFilter {
     return [[QBGLRiseFilter alloc] init];
 }
 
-+ (QBGLMagicFilterBase *)romanceFilter {
-    return [[QBGLRomanceFilter alloc] init];
++ (QBGLMagicFilterBase *)romanceFilterWithAnimationView:(UIView *)animationView {
+    return [[QBGLRomanceFilter alloc] initWithAnimationView:animationView];
 }
 
 + (QBGLMagicFilterBase *)sakuraFilter {
@@ -159,8 +159,8 @@
     return [[QBGLSierraFilter alloc] init];
 }
 
-+ (QBGLMagicFilterBase *)sketchFilter {
-    return [[QBGLSketchFilter alloc] init];
++ (QBGLMagicFilterBase *)sketchFilterWithAnimationView:(UIView *)animationView {
+    return [[QBGLSketchFilter alloc] initWithAnimationView:animationView];
 }
 
 + (QBGLMagicFilterBase *)skinWhiteFilter {
@@ -195,8 +195,8 @@
     return [[QBGLValenciaFilter alloc] init];
 }
 
-+ (QBGLMagicFilterBase *)waldenFilter {
-    return [[QBGLWaldenFilter alloc] init];
++ (QBGLMagicFilterBase *)waldenFilterWithAnimationView:(UIView *)animationView {
+    return [[QBGLWaldenFilter alloc] initWithAnimationView:animationView];
 }
 
 + (QBGLMagicFilterBase *)warmFilter {

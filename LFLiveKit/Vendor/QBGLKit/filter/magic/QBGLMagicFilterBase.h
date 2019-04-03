@@ -10,7 +10,6 @@
 #import "QBGLFilterTypes.h"
 
 @interface QBGLMagicFilterBase : QBGLFilter
-
-@property (nonatomic) QBGLFilterType type;
+@property (assign, nonatomic) QBGLFilterType type;
 
 @end

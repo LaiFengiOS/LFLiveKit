@@ -22,7 +22,7 @@ char * const kQBN1977FilterFragment;
 
 @implementation QBGLN1977Filter
 
-- (instancetype) init {
+- (instancetype)init {
     self = [self initWithVertexShader:kQBN1977FilterVertex fragmentShader:kQBN1977FilterFragment];
     if (self) {
         [self loadTextures];
@@ -36,7 +36,11 @@ char * const kQBN1977FilterFragment;
 }
 
 - (NSArray<QBGLDrawable*> *)renderTextures {
-    return @[_image1Drawable];
+    NSMutableArray *array = [NSMutableArray arrayWithArray:[super renderTextures]];
+    if (self.image1Drawable) {
+        [array addObject:self.image1Drawable];
+    }
+    return [array copy];
 }
 
 @end
@@ -48,13 +52,16 @@ char * const kQBN1977FilterVertex = STRING
 (
  attribute vec4 position;
  attribute vec4 inputTextureCoordinate;
- 
  varying vec2 textureCoordinate;
+ 
+ attribute vec4 inputAnimationCoordinate;
+ varying vec2 animationCoordinate;
  
  void main()
  {
      gl_Position = position;
      textureCoordinate = inputTextureCoordinate.xy;
+     animationCoordinate = inputAnimationCoordinate.xy;
  }
  );
 
@@ -67,6 +74,10 @@ char * const kQBN1977FilterFragment = STRING
  uniform sampler2D inputImageTexture;
  uniform sampler2D inputImageTexture2;
  
+ varying highp vec2 animationCoordinate;
+ uniform sampler2D animationTexture;
+ uniform int enableAnimationView;
+ 
  void main()
  {
      
@@ -77,7 +88,12 @@ char * const kQBN1977FilterFragment = STRING
                   texture2D(inputImageTexture2, vec2(texel.g, .5)).g,
                   texture2D(inputImageTexture2, vec2(texel.b, .83333)).b);
      
-     gl_FragColor = vec4(texel, 1.0);
+     vec4 animationColor = texture2D(animationTexture, animationCoordinate);
+     if (enableAnimationView == 1) {
+         gl_FragColor = vec4(mix(texel, animationColor.rgb, animationColor.a), 1.0);
+     } else {
+         gl_FragColor = vec4(texel, 1.0);
+     }
  }
 
 );

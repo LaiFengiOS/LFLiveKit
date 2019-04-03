@@ -77,7 +77,7 @@
 
 - (QBGLYuvFilter *)normalFilter {
     if (!_normalFilter) {
-        _normalFilter = [[QBGLYuvFilter alloc] initWithWatermarkView:self.watermarkView];
+        _normalFilter = [[QBGLYuvFilter alloc] init];
         _normalFilter.textureCacheRef = _textureCacheRef;
     }
     return _normalFilter;
@@ -85,7 +85,7 @@
 
 - (QBGLBeautyFilter *)beautyFilter {
     if (!_beautyFilter) {
-        _beautyFilter = [[QBGLBeautyFilter alloc] initWithWatermarkView:self.watermarkView];
+        _beautyFilter = [[QBGLBeautyFilter alloc] init];
         _beautyFilter.textureCacheRef = _textureCacheRef;
     }
     return _beautyFilter;
@@ -93,7 +93,7 @@
 
 - (QBGLColorMapFilter *)colorFilter {
     if (!_colorFilter) {
-        _colorFilter = [[QBGLColorMapFilter alloc] initWithWatermarkView:self.watermarkView];
+        _colorFilter = [[QBGLColorMapFilter alloc] init];
         _colorFilter.textureCacheRef = _textureCacheRef;
     }
     if (_colorFilter.type != _colorFilterType) {
@@ -105,7 +105,7 @@
 
 - (QBGLBeautyColorMapFilter *)beautyColorFilter {
     if (!_beautyColorFilter) {
-        _beautyColorFilter = [[QBGLBeautyColorMapFilter alloc] initWithWatermarkView:self.watermarkView];
+        _beautyColorFilter = [[QBGLBeautyColorMapFilter alloc] init];
         _beautyColorFilter.textureCacheRef = _textureCacheRef;
     }
     if (_beautyColorFilter.type != _colorFilterType) {
@@ -183,7 +183,6 @@
     [self becomeCurrentContext];
     
     self.inputFilter.inputRotation = _inputRotation;
-    self.inputFilter.mirrorWatermark = self.mirrorWatermark;
     [self.inputFilter render];
     
     if (self.outputFilter != self.inputFilter) {

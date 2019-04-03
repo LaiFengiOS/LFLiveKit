@@ -41,12 +41,6 @@ char * const kQBBeautyFilterFragment = STRING
  uniform sampler2D yTexture;
  uniform sampler2D uvTexture;
  
- uniform sampler2D watermarkTexture;
- uniform sampler2D mirrorWatermarkTexture;
- uniform vec4 watermarkRect;
- uniform float watermarkAlpha;
- uniform int mirrorWatermark;
- 
  const vec3 W = vec3(0.299, 0.587, 0.114);
  const mat3 saturateMatrix = mat3(1.1102, -0.0598, -0.061,
                                   -0.0774, 1.0826, -0.1186,
@@ -69,10 +63,6 @@ char * const kQBBeautyFilterFragment = STRING
      else
          color = 1.0 - ((1.0 - color)*(1.0 - color) * 2.0);
      return color;
- }
- 
- bool validWatermarkRect() {
-     return (watermarkRect.b - watermarkRect.r) > 0.0 && (watermarkRect.a - watermarkRect.g) > 0.0;
  }
  
  void main(){
@@ -159,20 +149,7 @@ char * const kQBBeautyFilterFragment = STRING
      // 調節飽和度
      vec3 satcolor = beautyColor * saturateMatrix;
      beautyColor = mix(beautyColor, satcolor, params.a);
-     
-     if (validWatermarkRect() && textureCoordinate.x >= watermarkRect.r && textureCoordinate.x <= watermarkRect.b && textureCoordinate.y >= watermarkRect.g && textureCoordinate.y <= watermarkRect.a) {
-         vec2 watermarkTextureCoordinate = vec2((textureCoordinate.y - watermarkRect.g) / (watermarkRect.a - watermarkRect.g), (textureCoordinate.x - watermarkRect.r) / (watermarkRect.b - watermarkRect.r));
-         if (mirrorWatermark == 1) {
-             vec4 watermarkTextureColor = texture2D(mirrorWatermarkTexture, watermarkTextureCoordinate);
-             gl_FragColor = vec4(mix(beautyColor, watermarkTextureColor.rgb, watermarkTextureColor.a * watermarkAlpha), 1.0);
-         } else {
-             vec4 watermarkTextureColor = texture2D(watermarkTexture, watermarkTextureCoordinate);
-             gl_FragColor = vec4(mix(beautyColor, watermarkTextureColor.rgb, watermarkTextureColor.a * watermarkAlpha), 1.0);
-         }
-
-     } else {
-         gl_FragColor = vec4(beautyColor, 1.0);
-     }
+     gl_FragColor = vec4(beautyColor, 1.0);
  }
  
 );

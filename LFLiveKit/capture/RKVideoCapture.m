@@ -276,6 +276,12 @@
 
 - (void)videoCamera:(RKVideoCamera *)camera didCaptureVideoSample:(CMSampleBufferRef)sampleBuffer {
     CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+    
+    if ([self.delegate respondsToSelector:@selector(captureRawCamera:pixelBuffer:atTime:)]) {
+        CMTime time = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);
+        [self.delegate captureRawCamera:self pixelBuffer:pixelBuffer atTime:time];
+    }
+    
     [self.glContext loadYUVPixelBuffer:pixelBuffer];
     
     if (_glkView) {

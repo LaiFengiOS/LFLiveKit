@@ -384,6 +384,12 @@
     }
 }
 
+- (void)captureRawCamera:(nullable id<LFVideoCaptureInterface>)capture pixelBuffer:(nullable CVPixelBufferRef)pixelBuffer atTime:(CMTime)time {
+    if ([self.delegate respondsToSelector:@selector(liveSession:rawCameraVideoFrame:atTime:)]) {
+        [self.delegate liveSession:self rawCameraVideoFrame:pixelBuffer atTime:time];
+    }
+}
+
 #pragma mark -- EncoderDelegate
 - (void)audioEncoder:(nullable id<LFAudioEncoding>)encoder audioFrame:(nullable LFAudioFrame *)frame {
     if (!self.uploading) {

@@ -15,15 +15,18 @@ char *const kQBBeautyFilterVertex = STRING
 (
  attribute vec4 position;
  attribute vec4 inputTextureCoordinate;
+ varying vec2 textureCoordinate;
  
  uniform vec2 singleStepOffset;
-
- varying vec2 textureCoordinate;
+ 
+ attribute vec4 inputAnimationCoordinate;
+ varying vec2 animationCoordinate;
  
  void main() {
      gl_Position = position;
      
      textureCoordinate = inputTextureCoordinate.xy;
+     animationCoordinate = inputAnimationCoordinate.xy;
  }
 );
 
@@ -41,11 +44,9 @@ char * const kQBBeautyFilterFragment = STRING
  uniform sampler2D yTexture;
  uniform sampler2D uvTexture;
  
- uniform sampler2D watermarkTexture;
- uniform sampler2D mirrorWatermarkTexture;
- uniform vec4 watermarkRect;
- uniform float watermarkAlpha;
- uniform int mirrorWatermark;
+ varying highp vec2 animationCoordinate;
+ uniform sampler2D animationTexture;
+ uniform int enableAnimationView;
  
  const vec3 W = vec3(0.299, 0.587, 0.114);
  const mat3 saturateMatrix = mat3(1.1102, -0.0598, -0.061,
@@ -69,10 +70,6 @@ char * const kQBBeautyFilterFragment = STRING
      else
          color = 1.0 - ((1.0 - color)*(1.0 - color) * 2.0);
      return color;
- }
- 
- bool validWatermarkRect() {
-     return (watermarkRect.b - watermarkRect.r) > 0.0 && (watermarkRect.a - watermarkRect.g) > 0.0;
  }
  
  void main(){
@@ -160,16 +157,9 @@ char * const kQBBeautyFilterFragment = STRING
      vec3 satcolor = beautyColor * saturateMatrix;
      beautyColor = mix(beautyColor, satcolor, params.a);
      
-     if (validWatermarkRect() && textureCoordinate.x >= watermarkRect.r && textureCoordinate.x <= watermarkRect.b && textureCoordinate.y >= watermarkRect.g && textureCoordinate.y <= watermarkRect.a) {
-         vec2 watermarkTextureCoordinate = vec2((textureCoordinate.y - watermarkRect.g) / (watermarkRect.a - watermarkRect.g), (textureCoordinate.x - watermarkRect.r) / (watermarkRect.b - watermarkRect.r));
-         if (mirrorWatermark == 1) {
-             vec4 watermarkTextureColor = texture2D(mirrorWatermarkTexture, watermarkTextureCoordinate);
-             gl_FragColor = vec4(mix(beautyColor, watermarkTextureColor.rgb, watermarkTextureColor.a * watermarkAlpha), 1.0);
-         } else {
-             vec4 watermarkTextureColor = texture2D(watermarkTexture, watermarkTextureCoordinate);
-             gl_FragColor = vec4(mix(beautyColor, watermarkTextureColor.rgb, watermarkTextureColor.a * watermarkAlpha), 1.0);
-         }
-
+     vec4 animationColor = texture2D(animationTexture, animationCoordinate);
+     if (enableAnimationView == 1) {
+         gl_FragColor = vec4(mix(beautyColor, animationColor.rgb, animationColor.a), 1.0);
      } else {
          gl_FragColor = vec4(beautyColor, 1.0);
      }

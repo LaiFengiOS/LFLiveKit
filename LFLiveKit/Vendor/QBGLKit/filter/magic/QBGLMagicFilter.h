@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @class QBGLMagicFilterBase;
 
@@ -19,27 +20,27 @@
 + (QBGLMagicFilterBase *)brooklynFilter;
 + (QBGLMagicFilterBase *)magicCalmFilter;
 + (QBGLMagicFilterBase *)magicCoolFilter;
-+ (QBGLMagicFilterBase *)crayonFilter;
++ (QBGLMagicFilterBase *)crayonFilterWithAnimationView:(UIView *)animationView;
 + (QBGLMagicFilterBase *)earlyBirdFilter;
 + (QBGLMagicFilterBase *)emeraldFilter;
 + (QBGLMagicFilterBase *)evergreenFilter;
-+ (QBGLMagicFilterBase *)fairytaleFilter;
++ (QBGLMagicFilterBase *)fairytaleFilterWithAnimationView:(UIView *)animationView;
 + (QBGLMagicFilterBase *)freudFilter;
 + (QBGLMagicFilterBase *)healthyFilter;
 + (QBGLMagicFilterBase *)hudsonFilter;
-+ (QBGLMagicFilterBase *)inkwellFilter;
++ (QBGLMagicFilterBase *)inkwellFilterWithAnimationView:(UIView *)animationView;
 + (QBGLMagicFilterBase *)kevinFilter;
 + (QBGLMagicFilterBase *)latteFilter;
 + (QBGLMagicFilterBase *)lomoFilter;
-+ (QBGLMagicFilterBase *)n1977Filter;
++ (QBGLMagicFilterBase *)n1977FilterWithAnimationView:(UIView *)animationView;
 + (QBGLMagicFilterBase *)nashVillerFilter;
 + (QBGLMagicFilterBase *)nostalgiaFilter;
-+ (QBGLMagicFilterBase *)pixarFilter;
++ (QBGLMagicFilterBase *)pixarFilterWithAnimationView:(UIView *)animationView;
 + (QBGLMagicFilterBase *)riseFilter;
-+ (QBGLMagicFilterBase *)romanceFilter;
++ (QBGLMagicFilterBase *)romanceFilterWithAnimationView:(UIView *)animationView;
 + (QBGLMagicFilterBase *)sakuraFilter;
 + (QBGLMagicFilterBase *)sierraFilter;
-+ (QBGLMagicFilterBase *)sketchFilter;
++ (QBGLMagicFilterBase *)sketchFilterWithAnimationView:(UIView *)animationView;
 + (QBGLMagicFilterBase *)skinWhiteFilter;
 + (QBGLMagicFilterBase *)sunriseFilter;
 + (QBGLMagicFilterBase *)sunsetFilter;
@@ -48,7 +49,7 @@
 + (QBGLMagicFilterBase *)tenderFilter;
 + (QBGLMagicFilterBase *)toasterFilter;
 + (QBGLMagicFilterBase *)valenciaFilter;
-+ (QBGLMagicFilterBase *)waldenFilter;
++ (QBGLMagicFilterBase *)waldenFilterWithAnimationView:(UIView *)animationView;
 + (QBGLMagicFilterBase *)warmFilter;
 + (QBGLMagicFilterBase *)whiteCatFilter;
 + (QBGLMagicFilterBase *)xprollFilter;

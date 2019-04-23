@@ -39,18 +39,19 @@
 @implementation QBGLContext
 
 - (instancetype)init {
-    return [self initWithContext:nil];
+    return [self initWithContext:nil animationView:nil];
 }
 
-- (instancetype)initWithContext:(EAGLContext *)context {
+- (instancetype)initWithContext:(EAGLContext *)context animationView:(UIView *)animationView {
     if (context.API == kEAGLRenderingAPIOpenGLES1)
         @throw [NSException exceptionWithName:@"QBGLContext init error" reason:@"GL context  can't be kEAGLRenderingAPIOpenGLES1" userInfo:nil];
     if (self = [super init]) {
         _glContext = context ?: [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];;
+        _animationView = animationView;
         [self becomeCurrentContext];
         CVOpenGLESTextureCacheCreate(kCFAllocatorDefault, NULL, _glContext, NULL, &_textureCacheRef);
         // workaround: prevent screen flash when switching to magic filters
-        [self.magicFilterFactory preloadFiltersWithTextureCacheRef:_textureCacheRef];
+        [self.magicFilterFactory preloadFiltersWithTextureCacheRef:_textureCacheRef animationView:animationView];
     }
     return self;
 }
@@ -77,7 +78,7 @@
 
 - (QBGLYuvFilter *)normalFilter {
     if (!_normalFilter) {
-        _normalFilter = [[QBGLYuvFilter alloc] initWithWatermarkView:self.watermarkView];
+        _normalFilter = [[QBGLYuvFilter alloc] initWithAnimationView:self.animationView];
         _normalFilter.textureCacheRef = _textureCacheRef;
     }
     return _normalFilter;
@@ -85,7 +86,7 @@
 
 - (QBGLBeautyFilter *)beautyFilter {
     if (!_beautyFilter) {
-        _beautyFilter = [[QBGLBeautyFilter alloc] initWithWatermarkView:self.watermarkView];
+        _beautyFilter = [[QBGLBeautyFilter alloc] initWithAnimationView:self.animationView];
         _beautyFilter.textureCacheRef = _textureCacheRef;
     }
     return _beautyFilter;
@@ -93,7 +94,7 @@
 
 - (QBGLColorMapFilter *)colorFilter {
     if (!_colorFilter) {
-        _colorFilter = [[QBGLColorMapFilter alloc] initWithWatermarkView:self.watermarkView];
+        _colorFilter = [[QBGLColorMapFilter alloc] initWithAnimationView:self.animationView];
         _colorFilter.textureCacheRef = _textureCacheRef;
     }
     if (_colorFilter.type != _colorFilterType) {
@@ -105,7 +106,7 @@
 
 - (QBGLBeautyColorMapFilter *)beautyColorFilter {
     if (!_beautyColorFilter) {
-        _beautyColorFilter = [[QBGLBeautyColorMapFilter alloc] initWithWatermarkView:self.watermarkView];
+        _beautyColorFilter = [[QBGLBeautyColorMapFilter alloc] initWithAnimationView:self.animationView];
         _beautyColorFilter.textureCacheRef = _textureCacheRef;
     }
     if (_beautyColorFilter.type != _colorFilterType) {
@@ -117,7 +118,7 @@
 
 - (QBGLMagicFilterBase *)magicFilter {
     if (!_magicFilter || (_colorFilterType != QBGLFilterTypeNone && _magicFilter.type != _colorFilterType)) {
-        _magicFilter = [self.magicFilterFactory filterWithType:_colorFilterType];
+        _magicFilter = [self.magicFilterFactory filterWithType:_colorFilterType animationView:self.animationView];
     }
     return _magicFilter;
 }
@@ -182,14 +183,17 @@
 - (void)render {
     [self becomeCurrentContext];
     
+    // Prefer magic filter to draw animation view texture than other filters because magic filter's z-order is upper than other filters
+    BOOL hasMagicFilter = (self.outputFilter == self.magicFilter);
+    self.inputFilter.enableAnimationView = (self.animationView != nil && !hasMagicFilter);
     self.inputFilter.inputRotation = _inputRotation;
-    self.inputFilter.mirrorWatermark = self.mirrorWatermark;
     [self.inputFilter render];
     
     if (self.outputFilter != self.inputFilter) {
         [self.inputFilter bindDrawable];
         [self.inputFilter draw];
         GLuint textureId = self.inputFilter.outputTextureId;
+        self.outputFilter.enableAnimationView = (self.animationView != nil && hasMagicFilter);
         [self.outputFilter loadTexture:textureId];
         [self.outputFilter render];
     }

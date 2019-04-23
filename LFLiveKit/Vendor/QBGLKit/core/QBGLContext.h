@@ -24,11 +24,9 @@
 @property (nonatomic) QBGLFilterType colorFilterType;
 @property (nonatomic) BOOL beautyEnabled;
 
-// watermark
-@property (strong, nonatomic) UIView *watermarkView;
-@property (assign, nonatomic) BOOL mirrorWatermark;
+@property (strong, nonatomic) UIView *animationView;
 
-- (instancetype)initWithContext:(EAGLContext *)context;
+- (instancetype)initWithContext:(EAGLContext *)context animationView:(UIView *)animationView;
 
 - (void)loadYUVPixelBuffer:(CVPixelBufferRef)pixelBuffer;
 

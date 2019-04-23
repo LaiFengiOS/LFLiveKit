@@ -29,7 +29,6 @@
 @synthesize running = _running;
 @synthesize torch = _torch;
 @synthesize mirror = _mirror;
-@synthesize watermarkView = _watermarkView;
 @synthesize saveLocalVideo = _saveLocalVideo;
 @synthesize saveLocalVideoPath = _saveLocalVideoPath;
 @synthesize mirrorOutput = _mirrorOutput;
@@ -45,7 +44,6 @@
         _configuration = configuration;
         _eaglContext = glContext;
         _displayOrientation = [[LFUtils sharedApplication] statusBarOrientation];
-        self.watermarkView = configuration.watermarkView;
         self.beautyFace = YES;
         self.zoomScale = 1.0;
         self.mirror = YES;
@@ -117,8 +115,7 @@
 
 - (QBGLContext *)glContext {
     if (!_glContext) {
-        _glContext = [[QBGLContext alloc] initWithContext:_eaglContext];
-        _glContext.watermarkView = self.watermarkView;
+        _glContext = [[QBGLContext alloc] initWithContext:_eaglContext animationView:self.configuration.animationView];
         _glContext.outputSize = _configuration.videoSize;
         [_glContext setDisplayOrientation:self.displayOrientation cameraPosition:self.captureDevicePosition];
     }
@@ -237,21 +234,13 @@
     return self.videoCamera.zoomFactor;
 }
 
-- (void)reloadWatermark {
-    self.glContext.mirrorWatermark = !self.mirrorOutput;
-}
-
 - (UIImage *)currentImage {
     return nil;
 }
 
 - (void)reloadMirror {
     // TODO: add mirror to QBGLContext
-    
     // TODO: add mirror output to QBGLContext
-    
-    // Reload watermark for updating image content and position
-    [self reloadWatermark];
 }
 
 #pragma mark - Notification
@@ -276,6 +265,12 @@
 
 - (void)videoCamera:(RKVideoCamera *)camera didCaptureVideoSample:(CMSampleBufferRef)sampleBuffer {
     CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+    
+    if ([self.delegate respondsToSelector:@selector(captureRawCamera:pixelBuffer:atTime:)]) {
+        CMTime time = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);
+        [self.delegate captureRawCamera:self pixelBuffer:pixelBuffer atTime:time];
+    }
+    
     [self.glContext loadYUVPixelBuffer:pixelBuffer];
     
     if (_glkView) {

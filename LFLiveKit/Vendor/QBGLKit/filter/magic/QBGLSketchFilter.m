@@ -14,14 +14,9 @@
 char * const kQBSketchFilterVertex;
 char * const kQBSketchFilterFragment;
 
-@interface QBGLSketchFilter ()
-
-
-@end
-
 @implementation QBGLSketchFilter
 
-- (instancetype) init {
+- (instancetype)init {
     self = [self initWithVertexShader:kQBSketchFilterVertex fragmentShader:kQBSketchFilterFragment];
     if (self) {
         [self loadTextures];
@@ -50,13 +45,16 @@ char * const kQBSketchFilterVertex = STRING
 (
  attribute vec4 position;
  attribute vec4 inputTextureCoordinate;
- 
  varying vec2 textureCoordinate;
+ 
+ attribute vec4 inputAnimationCoordinate;
+ varying vec2 animationCoordinate;
  
  void main()
  {
      gl_Position = position;
      textureCoordinate = inputTextureCoordinate.xy;
+     animationCoordinate = inputAnimationCoordinate.xy;
  }
  );
 
@@ -69,8 +67,11 @@ char * const kQBSketchFilterFragment = STRING
  uniform vec2 singleStepOffset;
  uniform float strength;
  
- const highp vec3 W = vec3(0.299,0.587,0.114);
+ varying highp vec2 animationCoordinate;
+ uniform sampler2D animationTexture;
+ uniform int enableAnimationView;
  
+ const highp vec3 W = vec3(0.299,0.587,0.114);
  
  void main()
 {
@@ -106,7 +107,12 @@ char * const kQBSketchFilterFragment = STRING
     
     float result = contour * alpha + (1.0-alpha)*gray1;
     
-    gl_FragColor = vec4(vec3(result,result,result), oralColor.w);
+    vec4 animationColor = texture2D(animationTexture, animationCoordinate);
+    if (enableAnimationView == 1) {
+        gl_FragColor = vec4(mix(vec3(result,result,result), animationColor.rgb, animationColor.a), oralColor.w);
+    } else {
+        gl_FragColor = vec4(vec3(result,result,result), oralColor.w);
+    }
 }
 );
 

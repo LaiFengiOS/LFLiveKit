@@ -56,6 +56,10 @@
     _textureId = [QBGLUtils bindTexture:_textureId withImage:image];
 }
 
+- (void)reloadView:(UIView *)sourceView {
+    _textureId = [QBGLUtils bindTexture:_textureId withView:sourceView horizontalFlip:NO verticalFlip:NO];
+}
+
 - (GLuint)prepareToDrawAtTextureIndex:(GLuint)index program:(QBGLProgram *)program {
     glActiveTexture([QBGLUtils activeTextureFromIndex:index]);
     glBindTexture(GL_TEXTURE_2D, _textureId);

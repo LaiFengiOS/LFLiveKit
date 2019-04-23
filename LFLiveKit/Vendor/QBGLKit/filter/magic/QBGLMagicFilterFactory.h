@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "QBGLFilterTypes.h"
 #import <CoreMedia/CoreMedia.h>
+#import <UIKit/UIKit.h>
 
 @class QBGLMagicFilterBase;
 
@@ -19,10 +20,10 @@
  */
 @property (nonatomic) BOOL cacheEnabled;
 
-- (QBGLMagicFilterBase *)filterWithType:(QBGLFilterType)type;
+- (QBGLMagicFilterBase *)filterWithType:(QBGLFilterType)type animationView:(UIView *)animationView;
 
 - (void)clearCache;
-- (void)preloadFiltersWithTextureCacheRef:(CVOpenGLESTextureCacheRef)textureCacheRef;
+- (void)preloadFiltersWithTextureCacheRef:(CVOpenGLESTextureCacheRef)textureCacheRef animationView:(UIView *)animationView;
 - (void)updateInputOutputSizeForFilters:(CGSize)outputSize;
 
 @end

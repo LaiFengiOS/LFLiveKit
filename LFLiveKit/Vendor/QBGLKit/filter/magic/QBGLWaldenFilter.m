@@ -23,7 +23,7 @@ char * const kQBWaldenFilterFragment;
 
 @implementation QBGLWaldenFilter
 
-- (instancetype) init {
+- (instancetype)init {
     self = [self initWithVertexShader:kQBWaldenFilterVertex fragmentShader:kQBWaldenFilterFragment];
     if (self) {
         [self loadTextures];
@@ -39,7 +39,12 @@ char * const kQBWaldenFilterFragment;
 }
 
 - (NSArray<QBGLDrawable*> *)renderTextures {
-    return @[_image1Drawable, _image2Drawable];
+    NSMutableArray *array = [NSMutableArray arrayWithArray:[super renderTextures]];
+    if (self.image1Drawable && self.image2Drawable) {
+        [array addObject:self.image1Drawable];
+        [array addObject:self.image2Drawable];
+    }
+    return [array copy];
 }
 
 @end
@@ -51,13 +56,16 @@ char * const kQBWaldenFilterVertex = STRING
 (
  attribute vec4 position;
  attribute vec4 inputTextureCoordinate;
- 
  varying vec2 textureCoordinate;
+ 
+ attribute vec4 inputAnimationCoordinate;
+ varying vec2 animationCoordinate;
  
  void main()
  {
      gl_Position = position;
      textureCoordinate = inputTextureCoordinate.xy;
+     animationCoordinate = inputAnimationCoordinate.xy;
  }
  );
 
@@ -70,8 +78,11 @@ char * const kQBWaldenFilterFragment = STRING
  uniform sampler2D inputImageTexture;
  uniform sampler2D inputImageTexture2; //map
  uniform sampler2D inputImageTexture3; //vigMap
- 
  uniform float strength;
+ 
+ varying highp vec2 animationCoordinate;
+ uniform sampler2D animationTexture;
+ uniform int enableAnimationView;
  
  void main()
 {
@@ -94,7 +105,12 @@ char * const kQBWaldenFilterFragment = STRING
     
     texel.rgb = mix(originColor.rgb, texel.rgb, strength);
     
-    gl_FragColor = vec4(texel, 1.0);
+    vec4 animationColor = texture2D(animationTexture, animationCoordinate);
+    if (enableAnimationView == 1) {
+        gl_FragColor = vec4(mix(texel, animationColor.rgb, animationColor.a), 1.0);
+    } else {
+        gl_FragColor = vec4(texel, 1.0);
+    }
 }
 );
 

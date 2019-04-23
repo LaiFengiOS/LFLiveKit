@@ -22,7 +22,7 @@ char * const kQBFairytaleFilterFragment;
 
 @implementation QBGLFairytaleFilter
 
-- (instancetype) init {
+- (instancetype)init {
     self = [self initWithVertexShader:kQBFairytaleFilterVertex fragmentShader:kQBFairytaleFilterFragment];
     if (self) {
         [self loadTextures];
@@ -36,7 +36,11 @@ char * const kQBFairytaleFilterFragment;
 }
 
 - (NSArray<QBGLDrawable*> *)renderTextures {
-    return @[_curveDrawable];
+    NSMutableArray *array = [NSMutableArray arrayWithArray:[super renderTextures]];
+    if (self.curveDrawable) {
+        [array addObject:self.curveDrawable];
+    }
+    return [array copy];
 }
 
 @end
@@ -48,13 +52,16 @@ char * const kQBFairytaleFilterVertex = STRING
 (
  attribute vec4 position;
  attribute vec4 inputTextureCoordinate;
- 
  varying vec2 textureCoordinate;
+ 
+ attribute vec4 inputAnimationCoordinate;
+ varying vec2 animationCoordinate;
  
  void main()
  {
      gl_Position = position;
      textureCoordinate = inputTextureCoordinate.xy;
+     animationCoordinate = inputAnimationCoordinate.xy;
  }
 );
 
@@ -64,6 +71,10 @@ char * const kQBFairytaleFilterFragment = STRING
  
  uniform sampler2D inputImageTexture;
  uniform sampler2D inputImageTexture2; // lookup texture
+ 
+ varying highp vec2 animationCoordinate;
+ uniform sampler2D animationTexture;
+ uniform int enableAnimationView;
  
  void main()
  {
@@ -91,6 +102,11 @@ char * const kQBFairytaleFilterFragment = STRING
      lowp vec4 newColor2 = texture2D(inputImageTexture2, texPos2);
      
      lowp vec4 newColor = mix(newColor1, newColor2, fract(blueColor));
-     gl_FragColor = vec4(newColor.rgb, textureColor.w);
+     lowp vec4 animationColor = texture2D(animationTexture, animationCoordinate);
+     if (enableAnimationView == 1) {
+         gl_FragColor = vec4(mix(newColor.rgb, animationColor.rgb, animationColor.a), textureColor.w);
+     } else {
+         gl_FragColor = vec4(newColor.rgb, textureColor.w);
+     }
  }
 );

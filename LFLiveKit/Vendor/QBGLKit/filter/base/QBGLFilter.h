@@ -26,7 +26,6 @@ typedef NS_ENUM(NSUInteger, QBGLImageRotation) {
 @class QBGLDrawable;
 
 @interface QBGLFilter : NSObject
-
 @property (strong, nonatomic, readonly) QBGLProgram *program;
 
 @property (nonatomic) QBGLImageRotation inputRotation;
@@ -37,8 +36,13 @@ typedef NS_ENUM(NSUInteger, QBGLImageRotation) {
 @property (nonatomic) GLuint outputTextureId;
 @property (nonatomic, readonly) CVPixelBufferRef outputPixelBuffer;
 
+@property (strong, nonatomic) UIView *animationView;
+@property (assign, nonatomic) BOOL enableAnimationView;
+
 - (instancetype)initWithVertexShader:(const char *)vertexShader
                       fragmentShader:(const char *)fragmentShader;
+
+- (instancetype)initWithAnimationView:(UIView *)animationView;
 
 /**
  * Subclass should call this method when ready to load.
@@ -50,13 +54,15 @@ typedef NS_ENUM(NSUInteger, QBGLImageRotation) {
  */
 - (void)deleteTextures;
 
-- (void)loadBGRA:(CVPixelBufferRef)pixelBuffer;
-
 - (void)loadTexture:(GLuint)textureId;
 
 - (NSArray<QBGLDrawable*> *)renderTextures;
 
+- (void)loadBGRA:(CVPixelBufferRef)pixelBuffer;
+
 - (void)setAdditionalUniformVarsForRender;
+
+- (void)updateDrawable;
 
 /**
  * Prepare for drawing and return the next available active texture index.

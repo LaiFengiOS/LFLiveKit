@@ -208,7 +208,10 @@ char * const kQBPixarFilterFragment = STRING
     
     vec4 animationColor = texture2D(animationTexture, animationCoordinate);
     if (enableAnimationView == 1) {
-        gl_FragColor = vec4(mix(color.rgb, animationColor.rgb, animationColor.a), color.a);
+        color.r = animationColor.r + color.r * (1.0 - animationColor.a);
+        color.g = animationColor.g + color.g * (1.0 - animationColor.a);
+        color.b = animationColor.b + color.b * (1.0 - animationColor.a);
+        gl_FragColor = color;
     } else {
         gl_FragColor = color;
     }

@@ -159,7 +159,10 @@ char * const kQBBeautyFilterFragment = STRING
      
      vec4 animationColor = texture2D(animationTexture, animationCoordinate);
      if (enableAnimationView == 1) {
-         gl_FragColor = vec4(mix(beautyColor, animationColor.rgb, animationColor.a), 1.0);
+         beautyColor.r = animationColor.r + beautyColor.r * (1.0 - animationColor.a);
+         beautyColor.g = animationColor.g + beautyColor.g * (1.0 - animationColor.a);
+         beautyColor.b = animationColor.b + beautyColor.b * (1.0 - animationColor.a);
+         gl_FragColor = vec4(beautyColor, 1.0);
      } else {
          gl_FragColor = vec4(beautyColor, 1.0);
      }

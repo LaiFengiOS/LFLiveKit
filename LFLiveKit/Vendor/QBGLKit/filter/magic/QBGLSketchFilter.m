@@ -109,7 +109,11 @@ char * const kQBSketchFilterFragment = STRING
     
     vec4 animationColor = texture2D(animationTexture, animationCoordinate);
     if (enableAnimationView == 1) {
-        gl_FragColor = vec4(mix(vec3(result,result,result), animationColor.rgb, animationColor.a), oralColor.w);
+        vec3 textureColor = vec3(result,result,result);
+        textureColor.r = animationColor.r + textureColor.r * (1.0 - animationColor.a);
+        textureColor.g = animationColor.g + textureColor.g * (1.0 - animationColor.a);
+        textureColor.b = animationColor.b + textureColor.b * (1.0 - animationColor.a);
+        gl_FragColor = vec4(textureColor, oralColor.w);
     } else {
         gl_FragColor = vec4(vec3(result,result,result), oralColor.w);
     }

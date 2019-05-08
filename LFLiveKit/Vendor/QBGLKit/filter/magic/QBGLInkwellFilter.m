@@ -85,7 +85,10 @@ char * const kQBInkwellFilterFragment = STRING
      texel = vec3(texture2D(inputImageTexture2, vec2(texel.r, .16666)).r);
      vec4 animationColor = texture2D(animationTexture, animationCoordinate);
      if (enableAnimationView == 1) {
-         gl_FragColor = vec4(mix(texel, animationColor.rgb, animationColor.a), 1.0);
+         texel.r = animationColor.r + texel.r * (1.0 - animationColor.a);
+         texel.g = animationColor.g + texel.g * (1.0 - animationColor.a);
+         texel.b = animationColor.b + texel.b * (1.0 - animationColor.a);
+         gl_FragColor = vec4(texel, 1.0);
      } else {
          gl_FragColor = vec4(texel, 1.0);
      }

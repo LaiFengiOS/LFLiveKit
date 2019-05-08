@@ -101,13 +101,16 @@ char * const kQBWaldenFilterFragment = STRING
     lookup.y = texel.g;
     texel.g = texture2D(inputImageTexture3, lookup).g;
     lookup.y = texel.b;
-    texel.b	= texture2D(inputImageTexture3, lookup).b;
+    texel.b    = texture2D(inputImageTexture3, lookup).b;
     
     texel.rgb = mix(originColor.rgb, texel.rgb, strength);
     
     vec4 animationColor = texture2D(animationTexture, animationCoordinate);
     if (enableAnimationView == 1) {
-        gl_FragColor = vec4(mix(texel, animationColor.rgb, animationColor.a), 1.0);
+        texel.r = animationColor.r + texel.r * (1.0 - animationColor.a);
+        texel.g = animationColor.g + texel.g * (1.0 - animationColor.a);
+        texel.b = animationColor.b + texel.b * (1.0 - animationColor.a);
+        gl_FragColor = vec4(texel, 1.0);
     } else {
         gl_FragColor = vec4(texel, 1.0);
     }

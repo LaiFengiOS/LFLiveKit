@@ -108,7 +108,10 @@ char * const kQBGLYuvFilterFragment = STRING
      vec3 centralColor = rgbFromYuv(yTexture, uvTexture, textureCoordinate).rgb;
      vec4 animationColor = texture2D(animationTexture, animationCoordinate);
      if (enableAnimationView == 1) {
-         gl_FragColor = vec4(mix(centralColor, animationColor.rgb, animationColor.a), 1.0);
+         centralColor.r = animationColor.r + centralColor.r * (1.0 - animationColor.a);
+         centralColor.g = animationColor.g + centralColor.g * (1.0 - animationColor.a);
+         centralColor.b = animationColor.b + centralColor.b * (1.0 - animationColor.a);
+         gl_FragColor = vec4(centralColor, 1.0);
      } else {
          gl_FragColor = vec4(centralColor, 1.0);
      }

@@ -121,7 +121,10 @@ char * const kQBCrayonFilterFragment = STRING
     
     vec4 animationColor = texture2D(animationTexture, animationCoordinate);
     if (enableAnimationView == 1) {
-        gl_FragColor = vec4(mix(textureColor, animationColor.rgb, animationColor.a), oralColor.w);
+        textureColor.r = animationColor.r + textureColor.r * (1.0 - animationColor.a);
+        textureColor.g = animationColor.g + textureColor.g * (1.0 - animationColor.a);
+        textureColor.b = animationColor.b + textureColor.b * (1.0 - animationColor.a);
+        gl_FragColor = vec4(textureColor, oralColor.w);
     } else {
         gl_FragColor = vec4(textureColor, oralColor.w);
     }

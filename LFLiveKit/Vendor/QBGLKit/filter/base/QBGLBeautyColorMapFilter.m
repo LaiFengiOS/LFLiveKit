@@ -226,7 +226,10 @@ char * const kQBBeautyColorMapFilterFragment = STRING
      filter_result = mix(beautyColor, filter_result, filterMixPercentage);
      vec4 animationColor = texture2D(animationTexture, animationCoordinate);
      if (enableAnimationView == 1) {
-         gl_FragColor = vec4(mix(filter_result, animationColor.rgb, animationColor.a), 1.0);
+         filter_result.r = animationColor.r + filter_result.r * (1.0 - animationColor.a);
+         filter_result.g = animationColor.g + filter_result.g * (1.0 - animationColor.a);
+         filter_result.b = animationColor.b + filter_result.b * (1.0 - animationColor.a);
+         gl_FragColor = vec4(filter_result, 1.0);
      } else {
          gl_FragColor = vec4(filter_result, 1.0);
      }

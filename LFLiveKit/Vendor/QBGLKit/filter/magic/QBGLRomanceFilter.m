@@ -131,7 +131,10 @@ char * const kQBRomanceFilterFragment = STRING
     
     vec4 animationColor = texture2D(animationTexture, animationCoordinate);
     if (enableAnimationView == 1) {
-        gl_FragColor = vec4(mix(textureColor.rgb, animationColor.rgb, animationColor.a), 1.0);
+        textureColor.r = animationColor.r + textureColor.r * (1.0 - animationColor.a);
+        textureColor.g = animationColor.g + textureColor.g * (1.0 - animationColor.a);
+        textureColor.b = animationColor.b + textureColor.b * (1.0 - animationColor.a);
+        gl_FragColor = textureColor;
     } else {
         gl_FragColor = vec4(textureColor.r, textureColor.g, textureColor.b, 1.0);
     }

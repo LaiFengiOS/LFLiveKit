@@ -64,18 +64,18 @@
             return [QBGLColorMapFilter coolFilter];
         case QBGLFilterTypeFreeze:
             return [QBGLColorMapFilter freezeFilter];
-        case QBGLFilterTypeOcean:
-            return [QBGLColorMapFilter oceanFilter];
+//        case QBGLFilterTypeOcean:
+//            return [QBGLColorMapFilter oceanFilter];
         case QBGLFilterTypeDream:
             return [QBGLColorMapFilter dreamFilter];
-        case QBGLFilterTypeViolet:
-            return [QBGLColorMapFilter violetFilter];
+//        case QBGLFilterTypeViolet:
+//            return [QBGLColorMapFilter violetFilter];
         case QBGLFilterTypeMellow:
             return [QBGLColorMapFilter mellowFilter];
 //        case QBGLFilterTypeBleak:
 //            return [QBGLColorMapFilter bleakFilter];
-        case QBGLFilterTypeMemory:
-            return [QBGLColorMapFilter memoryFilter];
+//        case QBGLFilterTypeMemory:
+//            return [QBGLColorMapFilter memoryFilter];
         case QBGLFilterTypePure:
             return [QBGLColorMapFilter pureFilter];
         case QBGLFilterTypeCalm:
@@ -165,36 +165,36 @@
             filter.overlayName2 = nil;
             filter.localizedName = NSLocalizedString(@"FREEZE_FILTER", nil);
             break;
-        case QBGLFilterTypeOcean:
-            filter.colorMapName = @"ocean_map";
-            filter.overlayName1 = @"overlay_softlight1";
-            filter.overlayName2 = nil;
-            filter.localizedName = NSLocalizedString(@"OCEAN_FILTER", nil);
-            break;
+//        case QBGLFilterTypeOcean:
+//            filter.colorMapName = @"ocean_map";
+//            filter.overlayName1 = @"overlay_softlight1";
+//            filter.overlayName2 = nil;
+//            filter.localizedName = NSLocalizedString(@"OCEAN_FILTER", nil);
+//            break;
         case QBGLFilterTypeDream:
             filter.colorMapName = @"dream_map";
             filter.overlayName1 = @"overlay_softlight3";
             filter.overlayName2 = nil;
             filter.localizedName = NSLocalizedString(@"DREAM_FILTER", nil);
             break;
-        case QBGLFilterTypeViolet:
-            filter.colorMapName = @"violet_map";
-            filter.overlayName1 = @"overlay_softlight1";
-            filter.overlayName2 = nil;
-            filter.localizedName = NSLocalizedString(@"VIOLET_FILTER", nil);
-            break;
+//        case QBGLFilterTypeViolet:
+//            filter.colorMapName = @"violet_map";
+//            filter.overlayName1 = @"overlay_softlight1";
+//            filter.overlayName2 = nil;
+//            filter.localizedName = NSLocalizedString(@"VIOLET_FILTER", nil);
+//            break;
         case QBGLFilterTypeMellow:
             filter.colorMapName = @"mellow_map";
             filter.overlayName1 = @"overlay_softlight6";
             filter.overlayName2 = nil;
             filter.localizedName = NSLocalizedString(@"MELLOW_FILTER", nil);
             break;
-        case QBGLFilterTypeMemory:
-            filter.colorMapName = @"memory_map";
-            filter.overlayName1 = @"overlay_softlight1";
-            filter.overlayName2 = @"overlay_softlight3";
-            filter.localizedName = NSLocalizedString(@"MEMORY_FILTER", nil);
-            break;
+//        case QBGLFilterTypeMemory:
+//            filter.colorMapName = @"memory_map";
+//            filter.overlayName1 = @"overlay_softlight1";
+//            filter.overlayName2 = @"overlay_softlight3";
+//            filter.localizedName = NSLocalizedString(@"MEMORY_FILTER", nil);
+//            break;
         case QBGLFilterTypePure:
             filter.colorMapName = @"pure_map";
             filter.overlayName1 = nil;

@@ -43,7 +43,7 @@
 }
 
 - (void)preloadFiltersWithTextureCacheRef:(CVOpenGLESTextureCacheRef)textureCacheRef animationView:(UIView *)animationView {
-    for (NSInteger type = QBGLFilterTypeCrayon; type <= QBGLFilterTypeWalden; type++) {
+    for (NSInteger type = QBGLFilterTypeFairytale; type <= QBGLFilterTypeWalden; type++) {
         QBGLMagicFilterBase *magicFilter = [self filterWithType:type animationView:animationView];
         magicFilter.type = type;
         magicFilter.textureCacheRef = textureCacheRef;
@@ -73,8 +73,8 @@
 //            return [QBGLMagicFilter magicCalmFilter];
 //        case QBGLFilterTypeMagicCool:
 //            return [QBGLMagicFilter magicCoolFilter];
-        case QBGLFilterTypeCrayon:
-            return [QBGLMagicFilter crayonFilterWithAnimationView:animationView];
+//        case QBGLFilterTypeCrayon:
+//            return [QBGLMagicFilter crayonFilterWithAnimationView:animationView];
 //        case QBGLFilterTypeEarlybird:
 //            return [QBGLMagicFilter earlyBirdFilter];
 //        case QBGLFilterTypeEmerald:
@@ -113,8 +113,8 @@
 //            return [QBGLMagicFilter sakuraFilter];
 //        case QBGLFilterTypeSierra:
 //            return [QBGLMagicFilter sierraFilter];
-        case QBGLFilterTypeSketch:
-            return [QBGLMagicFilter sketchFilterWithAnimationView:animationView];
+//        case QBGLFilterTypeSketch:
+//            return [QBGLMagicFilter sketchFilterWithAnimationView:animationView];
 //        case QBGLFilterTypeSkinWhite:
 //            return [QBGLMagicFilter skinWhiteFilter];
 //        case QBGLFilterTypeSunrise:

@@ -124,7 +124,7 @@
 }
 
 - (QBGLYuvFilter *)filter {
-    BOOL colorFilterType17 = (_colorFilterType > QBGLFilterTypeNone && _colorFilterType < QBGLFilterTypeCrayon);
+    BOOL colorFilterType17 = (_colorFilterType > QBGLFilterTypeNone && _colorFilterType < QBGLFilterTypeFairytale);
     if (_beautyEnabled && _colorFilterType != QBGLFilterTypeNone) {
         return (colorFilterType17 ? self.beautyColorFilter : self.beautyFilter);
     } else if (_beautyEnabled && _colorFilterType == QBGLFilterTypeNone) {
@@ -141,7 +141,7 @@
 }
 
 - (QBGLFilter *)outputFilter {
-    BOOL colorFilterTypeMagic = (_colorFilterType >= QBGLFilterTypeCrayon && _colorFilterType <= QBGLFilterTypeWalden);
+    BOOL colorFilterTypeMagic = (_colorFilterType >= QBGLFilterTypeFairytale && _colorFilterType <= QBGLFilterTypeWalden);
     return (colorFilterTypeMagic ? self.magicFilter : self.filter);
 }
 

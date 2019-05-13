@@ -168,19 +168,18 @@ SAVC(mp4a);
 
 - (void)streamURLChanged:(NSString *)url {
     dispatch_async(self.rtmpSendQueue, ^{
-        if (_rtmp != NULL) {
-            PILI_RTMP_Close(_rtmp, &_error);
-            PILI_RTMP_Free(_rtmp);
-            _rtmp = NULL;
-        }
-
         self.stream.url = url;
+        self.debugInfo.streamId = self.stream.streamId;
+        self.debugInfo.uploadUrl = self.stream.url;
+        self.debugInfo.isRtmp = YES;
+
         [self clean];
-        [self start];
+        [self reconnect];
     });
 }
 
 #pragma mark -- CustomMethod
+
 - (void)sendFrame {
     __weak typeof(self) _self = self;
     dispatch_async(self.rtmpSendQueue, ^{
@@ -686,10 +685,8 @@ print_bytes(void   *start,
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
     
     _isReconnecting = NO;
-    if(_isConnected) return;
-    
-    _isReconnecting = NO;
     if (_isConnected) return;
+    
     if (_rtmp != NULL) {
         PILI_RTMP_Close(_rtmp, &_error);
         PILI_RTMP_Free(_rtmp);

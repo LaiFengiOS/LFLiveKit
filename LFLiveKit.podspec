@@ -17,4 +17,6 @@ Pod::Spec.new do |s|
   s.libraries = "c++", "z"
 
   s.requires_arc = true
+  s.dependency 'OpenSSL-Universal'
+  s.static_framework = true
 end

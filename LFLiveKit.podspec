@@ -14,9 +14,10 @@ Pod::Spec.new do |s|
   s.public_header_files = ['LFLiveKit/*.h', 'LFLiveKit/objects/*.h', 'LFLiveKit/configuration/*.h']
 
   s.frameworks = "VideoToolbox", "AudioToolbox","AVFoundation","Foundation","UIKit"
-  s.libraries = "c++", "z"
+  s.libraries = "c++", "z", "li
 
   #s.xcconfig = { 'HEADER_SEARCH_PATHS' => '${PODS_ROOT}/Headers/Private/OpenSSL_Universal/** ${PODS_ROOT}/Headers/Public/OpenSSL_Universal/**', 'LIBRARY_SEARCH_PATHS' => '${PODS_ROOT}/OpenSSL-Universal/lib-ios' }
   s.dependency 'OpenSSL-Universal'
+  s.static_framework = true
   s.requires_arc = true
 end

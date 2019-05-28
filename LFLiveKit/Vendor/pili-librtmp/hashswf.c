@@ -71,7 +71,7 @@
 #define HMAC_close(ctx) HMAC_CTX_cleanup(&ctx)
 #endif
 
-extern void RTMP_TLS_Init();
+extern void PILI_RTMP_TLS_Init();
 extern TLS_CTX RTMP_TLS_ctx;
 
 #endif /* CRYPTO */
@@ -110,7 +110,7 @@ HTTPResult
         ssl = 1;
         port = 443;
         if (!RTMP_TLS_ctx)
-            RTMP_TLS_Init();
+            PILI_RTMP_TLS_Init();
 #else
         return HTTPRES_BAD_REQUEST;
 #endif

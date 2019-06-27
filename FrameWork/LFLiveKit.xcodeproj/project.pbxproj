@@ -1998,6 +1998,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 84D8B3861D7574D600752B56;
@@ -2643,6 +2644,8 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../samples/LFLiveKitDemo/Pods\"/**",
+					"${PODS_ROOT}/Headers/Private/OpenSSL_Universal/**",
+					"${PODS_ROOT}/Headers/Public/OpenSSL_Universal/**",
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -2667,6 +2670,8 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../samples/LFLiveKitDemo/Pods\"/**",
+					"${PODS_ROOT}/Headers/Private/OpenSSL_Universal/**",
+					"${PODS_ROOT}/Headers/Public/OpenSSL_Universal/**",
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";

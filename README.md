@@ -1,5 +1,11 @@
 LFLiveKit
 ==============
+## RTMPS 
+This fork added support to stream via RTMPS protocol
+If you are getting error "'openssl/rc4.h' file not found" please add OpenSSL to your project.
+The solution is implemented by author of this issue: https://github.com/LaiFengiOS/LFLiveKit/issues/237 @webdeutschland
+Also mych thanks to @pcKanso 
+
 ![icon~](https://raw.github.com/LaiFengiOS/LFLiveKit/master/samples/Icon.png)
 
 

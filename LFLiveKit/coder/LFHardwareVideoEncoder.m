@@ -9,6 +9,7 @@
 #import <VideoToolbox/VideoToolbox.h>
 
 static int const kMaxAccVideoFrameBufferCount = 48;
+static NSTimeInterval const kSessionLockDuration = 2.0f;
 
 @interface LFHardwareVideoEncoder (){
     VTCompressionSessionRef compressionSession;
@@ -26,7 +27,7 @@ static int const kMaxAccVideoFrameBufferCount = 48;
 @property (nonatomic) NSInteger currentVideoBitRate;
 @property (nonatomic) BOOL isBackGround;
 @property (nonatomic) BOOL isResetting;
-
+@property (strong, nonatomic) dispatch_semaphore_t sessionLock;
 @end
 
 @implementation LFHardwareVideoEncoder
@@ -35,6 +36,7 @@ static int const kMaxAccVideoFrameBufferCount = 48;
 - (instancetype)initWithVideoStreamConfiguration:(LFLiveVideoConfiguration *)configuration {
     if (self = [super init]) {
         NSLog(@"USE LFHardwareVideoEncoder");
+        _sessionLock = dispatch_semaphore_create(1);
         _configuration = configuration;
         [self resetCompressionSession];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterBackground:) name:UIApplicationWillResignActiveNotification object:nil];
@@ -49,9 +51,9 @@ static int const kMaxAccVideoFrameBufferCount = 48;
 }
 
 - (void)resetCompressionSession {
+    dispatch_semaphore_wait(self.sessionLock, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kSessionLockDuration * NSEC_PER_SEC)));
     if (compressionSession) {
         VTCompressionSessionCompleteFrames(compressionSession, kCMTimeInvalid);
-        
         VTCompressionSessionInvalidate(compressionSession);
         CFRelease(compressionSession);
         compressionSession = NULL;
@@ -59,6 +61,7 @@ static int const kMaxAccVideoFrameBufferCount = 48;
     
     OSStatus status = VTCompressionSessionCreate(NULL, _configuration.videoSize.width, _configuration.videoSize.height, kCMVideoCodecType_H264, NULL, NULL, NULL, VideoCompressonOutputCallback, (__bridge void *)self, &compressionSession);
     if (status != noErr) {
+        dispatch_semaphore_signal(self.sessionLock);
         return;
     }
     
@@ -75,6 +78,7 @@ static int const kMaxAccVideoFrameBufferCount = 48;
     VTSessionSetProperty(compressionSession, kVTCompressionPropertyKey_H264EntropyMode, kVTH264EntropyMode_CABAC);
     VTCompressionSessionPrepareToEncodeFrames(compressionSession);
     
+    dispatch_semaphore_signal(self.sessionLock);
 }
 
 - (void)setVideoBitRate:(NSInteger)videoBitRate {

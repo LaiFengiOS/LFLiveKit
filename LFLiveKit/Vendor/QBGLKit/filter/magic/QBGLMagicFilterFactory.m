@@ -57,6 +57,13 @@
     }];
 }
 
+- (void)updateViewPortSizeForFilters:(CGSize)viewPortSize {
+    [_filterCache enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        QBGLMagicFilterBase *filter = obj;
+        filter.viewPortSize = viewPortSize;
+    }];
+}
+
 + (QBGLMagicFilterBase *)createFilterWithType:(QBGLFilterType)type animationView:(UIView *)animationView {
     switch (type) {
 //        case QBGLFilterTypeAmaro:

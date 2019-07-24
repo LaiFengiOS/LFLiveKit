@@ -20,11 +20,15 @@
 @property (nonatomic, readonly) CVPixelBufferRef outputPixelBuffer;
 
 @property (nonatomic) CGSize outputSize;
+@property (nonatomic) CGSize viewPortSize;
 
 @property (nonatomic) QBGLFilterType colorFilterType;
 @property (nonatomic) BOOL beautyEnabled;
 
 @property (strong, nonatomic) UIView *animationView;
+
+@property (assign, nonatomic, readonly) BOOL hasMagicFilter;
+@property (assign, nonatomic, readonly) BOOL hasMultiFilters;
 
 - (instancetype)initWithContext:(EAGLContext *)context animationView:(UIView *)animationView;
 
@@ -36,6 +40,18 @@
 
 - (void)renderToOutput;
 
-- (void)setDisplayOrientation:(UIInterfaceOrientation)orientation cameraPosition:(AVCaptureDevicePosition)position;
+- (void)setDisplayOrientation:(UIInterfaceOrientation)orientation cameraPosition:(AVCaptureDevicePosition)position mirror:(BOOL)mirror;
+
+#pragma mark - Animation
+
+- (void)setPreviewAnimationOrientationWithCameraPosition:(AVCaptureDevicePosition)position mirror:(BOOL)mirror;
+
+#pragma mark - Preview
+
+- (void)setPreviewDisplayOrientation:(UIInterfaceOrientation)orientation cameraPosition:(AVCaptureDevicePosition)position;
+- (void)configInputFilterToPreview;
+- (void)renderInputFilterToPreview;
+- (void)renderInputFilterToOutputFilter;
+- (void)renderOutputFilterToPreview;
 
 @end

@@ -25,5 +25,6 @@
 - (void)clearCache;
 - (void)preloadFiltersWithTextureCacheRef:(CVOpenGLESTextureCacheRef)textureCacheRef animationView:(UIView *)animationView;
 - (void)updateInputOutputSizeForFilters:(CGSize)outputSize;
+- (void)updateViewPortSizeForFilters:(CGSize)viewPortSize;
 
 @end

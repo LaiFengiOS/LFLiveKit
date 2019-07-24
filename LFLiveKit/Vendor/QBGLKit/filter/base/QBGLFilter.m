@@ -69,18 +69,20 @@ char * const kQBNoFilterFragment;
         0.0f, 1.0f,
     };
     
+    // vertical flip first and then rotate right
     static const GLfloat rotateRightVerticalFlipTextureCoordinates[] = {
-        0.0f, 0.0f,
-        0.0f, 1.0f,
-        1.0f, 0.0f,
         1.0f, 1.0f,
+        1.0f, 0.0f,
+        0.0f, 1.0f,
+        0.0f, 0.0f,
     };
     
+    // horizontal flip first and then rotate right
     static const GLfloat rotateRightHorizontalFlipTextureCoordinates[] = {
-        1.0f, 1.0f,
-        1.0f, 0.0f,
-        0.0f, 1.0f,
         0.0f, 0.0f,
+        0.0f, 1.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
     };
     
     static const GLfloat rotate180TextureCoordinates[] = {
@@ -88,6 +90,38 @@ char * const kQBNoFilterFragment;
         0.0f, 1.0f,
         1.0f, 0.0f,
         0.0f, 0.0f,
+    };
+    
+    // vertical flip first and then rotate left
+    static const GLfloat rotateLeftVerticalFlipTextureCoordinates[] = {
+        0.0f, 0.0f,
+        0.0f, 1.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+    };
+    
+    // horizontal flip first and then rotate left
+    static const GLfloat rotateLeftHorizontalFlipTextureCoordinates[] = {
+        1.0f, 1.0f,
+        1.0f, 0.0f,
+        0.0f, 1.0f,
+        0.0f, 0.0f,
+    };
+    
+    // vertical flip first and then rotate 180
+    static const GLfloat rotate180VerticalFlipTextureCoordinates[] = {
+        1.0f, 0.0f,
+        0.0f, 0.0f,
+        1.0f, 1.0f,
+        0.0f, 1.0f,
+    };
+    
+    // horizontal flip first and then rotate 180
+    static const GLfloat rotate180HorizontalFlipTextureCoordinates[] = {
+        0.0f, 1.0f,
+        1.0f, 1.0f,
+        0.0f, 0.0f,
+        1.0f, 0.0f,
     };
     
     switch(rotation) {
@@ -107,6 +141,14 @@ char * const kQBNoFilterFragment;
             return rotateRightHorizontalFlipTextureCoordinates;
         case QBGLImageRotation180:
             return rotate180TextureCoordinates;
+        case QBGLImageRotationLeftFlipVertical:
+            return rotateLeftVerticalFlipTextureCoordinates;
+        case QBGLImageRotationLeftFlipHorizontal:
+            return rotateLeftHorizontalFlipTextureCoordinates;
+        case QBGLImageRotation180FlipVertical:
+            return rotate180VerticalFlipTextureCoordinates;
+        case QBGLImageRotation180FlipHorizontal:
+            return rotate180HorizontalFlipTextureCoordinates;
     }
 }
 
@@ -204,7 +246,7 @@ char * const kQBNoFilterFragment;
     [self.program setParameter:"enableAnimationView" intValue:(self.enableAnimationView ? 1 : 0)];
     if (self.animationView) {
         [self.program enableAttributeWithId:self.attrInputAnimationCoordinate];
-        glVertexAttribPointer(self.attrInputAnimationCoordinate, 2, GL_FLOAT, 0, 0, [QBGLFilter textureCoordinatesForRotation:QBGLImageRotationNone]);
+        glVertexAttribPointer(self.attrInputAnimationCoordinate, 2, GL_FLOAT, 0, 0, [self.class textureCoordinatesForRotation:_animationRotation]);
     }
 }
 
@@ -240,7 +282,7 @@ char * const kQBNoFilterFragment;
 }
 
 - (void)draw {
-    glViewport(0, 0, _outputSize.width, _outputSize.height);
+    glViewport(0, 0, _viewPortSize.width, _viewPortSize.height);
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);

@@ -21,6 +21,7 @@
 @property (strong, nonatomic) QBGLContext *glContext;
 @property (strong, nonatomic) GLKView *glkView;
 @property (nonatomic) UIInterfaceOrientation displayOrientation;
+@property (nonatomic) CGRect previewRect;
 
 @end
 
@@ -117,7 +118,9 @@
     if (!_glContext) {
         _glContext = [[QBGLContext alloc] initWithContext:_eaglContext animationView:self.configuration.animationView];
         _glContext.outputSize = _configuration.videoSize;
-        [_glContext setDisplayOrientation:self.displayOrientation cameraPosition:self.captureDevicePosition];
+        [_glContext setPreviewDisplayOrientation:self.displayOrientation cameraPosition:self.captureDevicePosition];
+        [_glContext setPreviewAnimationOrientationWithCameraPosition:self.captureDevicePosition mirror:self.mirrorOutput];
+        [_glContext setDisplayOrientation:self.displayOrientation cameraPosition:self.captureDevicePosition mirror:self.mirrorOutput];
     }
     return _glContext;
 }
@@ -132,6 +135,10 @@
         _glkView.layer.masksToBounds = YES;
         _glkView.enableSetNeedsDisplay = NO;
         _glkView.contentScaleFactor = 1.0;
+        _glkView.transform = CGAffineTransformMakeRotation(-M_PI); // TRICKY: dont know why glkview has wrong orientation
+        
+        [_glkView bindDrawable];
+        self.previewRect = [self ratio_16_9_fill_frame:CGRectMake(0, 0, _glkView.drawableWidth, _glkView.drawableHeight)];
     }
     return _glkView;
 }
@@ -141,7 +148,7 @@
         [self.glkView removeFromSuperview];
     }
     [preView insertSubview:self.glkView atIndex:0];
-    self.glkView.frame = CGRectMake(0, 0, preView.frame.size.width, preView.frame.size.height);
+    self.glkView.frame = self.previewRect;
 }
 
 - (UIView *)preView {
@@ -153,8 +160,9 @@
         return;
     [self.videoCamera rotateCamera];
     self.videoCamera.frameRate = (int32_t)_configuration.videoFrameRate;
-    [self.glContext setDisplayOrientation:self.displayOrientation cameraPosition:self.captureDevicePosition];
-    [self reloadMirror];
+    [self.glContext setPreviewDisplayOrientation:self.displayOrientation cameraPosition:self.captureDevicePosition];
+    [self.glContext setPreviewAnimationOrientationWithCameraPosition:self.captureDevicePosition mirror:self.mirrorOutput];
+    [self.glContext setDisplayOrientation:self.displayOrientation cameraPosition:self.captureDevicePosition mirror:self.mirrorOutput];
 }
 
 - (AVCaptureDevicePosition)captureDevicePosition {
@@ -163,7 +171,9 @@
 
 - (void)setDisplayOrientation:(UIInterfaceOrientation)displayOrientation {
     _displayOrientation = displayOrientation;
-    [self.glContext setDisplayOrientation:displayOrientation cameraPosition:self.captureDevicePosition];
+    [self.glContext setPreviewDisplayOrientation:displayOrientation cameraPosition:self.captureDevicePosition];
+    [self.glContext setPreviewAnimationOrientationWithCameraPosition:self.captureDevicePosition mirror:self.mirrorOutput];
+    [self.glContext setDisplayOrientation:displayOrientation cameraPosition:self.captureDevicePosition mirror:self.mirrorOutput];
 }
 
 - (UIInterfaceOrientation)displayOrientation {
@@ -210,12 +220,12 @@
 
 - (void)setMirror:(BOOL)mirror {
     _mirror = mirror;
-    [self reloadMirror];
 }
 
 - (void)setMirrorOutput:(BOOL)mirrorOutput {
     _mirrorOutput = mirrorOutput;
-    [self reloadMirror];
+    [self.glContext setPreviewAnimationOrientationWithCameraPosition:self.captureDevicePosition mirror:mirrorOutput];
+    [self.glContext setDisplayOrientation:self.displayOrientation cameraPosition:self.captureDevicePosition mirror:mirrorOutput];
 }
 
 - (void)setBeautyFace:(BOOL)beautyFace {
@@ -238,9 +248,23 @@
     return nil;
 }
 
-- (void)reloadMirror {
-    // TODO: add mirror to QBGLContext
-    // TODO: add mirror output to QBGLContext
+- (CGRect)ratio_16_9_fill_frame:(CGRect)inputFrame {
+    CGRect frame = inputFrame;
+    CGFloat widthDiff = 0.f;
+    CGFloat heightDiff = 0.f;
+    if (frame.size.width * 16.f < frame.size.height * 9.f) {
+        CGFloat newWidth = frame.size.height * 9.f / 16.f;
+        widthDiff = newWidth - frame.size.width;
+        frame.size.width = newWidth;
+        frame.origin.x = frame.origin.x - widthDiff / 2.f;
+        
+    } else if (frame.size.width * 16.f > frame.size.height * 9.f) {
+        CGFloat newHeight = frame.size.width * 16.f / 9.f;
+        heightDiff = newHeight - frame.size.height;
+        frame.size.height = newHeight;
+        frame.origin.y = frame.origin.y - heightDiff / 2.f;
+    }
+    return frame;
 }
 
 #pragma mark - Notification
@@ -274,13 +298,26 @@
     [self.glContext loadYUVPixelBuffer:pixelBuffer];
     
     if (_glkView) {
-        self.glContext.outputSize = CGSizeMake(_glkView.drawableWidth, _glkView.drawableHeight);
-        [self.glContext render];
-        [_glkView bindDrawable];
+        BOOL hasMultiFilters = self.glContext.hasMultiFilters;
+        self.glContext.viewPortSize = hasMultiFilters ? _configuration.videoSize : self.previewRect.size;
+        self.glContext.outputSize = _configuration.videoSize;
+        
+        [self.glContext configInputFilterToPreview];
+        if (hasMultiFilters) {
+            [self.glContext renderInputFilterToOutputFilter];
+            self.glContext.viewPortSize = self.previewRect.size;
+            [_glkView bindDrawable];
+            [self.glContext renderOutputFilterToPreview];
+        } else {
+            [_glkView bindDrawable];
+            [self.glContext renderInputFilterToPreview];
+        }
+        
         [_glkView display];
     }
     
     if ([self.delegate respondsToSelector:@selector(captureOutput:pixelBuffer:atTime:)]) {
+        self.glContext.viewPortSize = _configuration.videoSize;
         self.glContext.outputSize = _configuration.videoSize;
         [self.glContext renderToOutput];
         

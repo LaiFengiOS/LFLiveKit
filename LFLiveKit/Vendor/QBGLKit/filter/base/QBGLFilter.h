@@ -19,7 +19,11 @@ typedef NS_ENUM(NSUInteger, QBGLImageRotation) {
     QBGLImageRotationFlipHorizonal,
     QBGLImageRotationRightFlipVertical,
     QBGLImageRotationRightFlipHorizontal,
-    QBGLImageRotation180
+    QBGLImageRotation180,
+    QBGLImageRotationLeftFlipVertical,
+    QBGLImageRotationLeftFlipHorizontal,
+    QBGLImageRotation180FlipVertical,
+    QBGLImageRotation180FlipHorizontal
 };
 
 @class QBGLProgram;
@@ -29,8 +33,10 @@ typedef NS_ENUM(NSUInteger, QBGLImageRotation) {
 @property (strong, nonatomic, readonly) QBGLProgram *program;
 
 @property (nonatomic) QBGLImageRotation inputRotation;
+@property (nonatomic) QBGLImageRotation animationRotation;
 @property (nonatomic) CGSize inputSize;
 @property (nonatomic) CGSize outputSize;
+@property (nonatomic) CGSize viewPortSize;
 
 @property (nonatomic) CVOpenGLESTextureCacheRef textureCacheRef;
 @property (nonatomic) GLuint outputTextureId;

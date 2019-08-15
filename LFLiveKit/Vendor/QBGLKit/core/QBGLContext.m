@@ -99,9 +99,9 @@
         _colorFilter = [[QBGLColorMapFilter alloc] initWithAnimationView:self.animationView];
         _colorFilter.textureCacheRef = _textureCacheRef;
     }
-    if (_colorFilter.type != _colorFilterType) {
-        [QBGLFilterFactory refactorColorFilter:_colorFilter withType:_colorFilterType];
-        _colorFilter.type = _colorFilterType;
+    if (_colorFilter.type != _colorFilterTypeForRender) {
+        [QBGLFilterFactory refactorColorFilter:_colorFilter withType:_colorFilterTypeForRender];
+        _colorFilter.type = _colorFilterTypeForRender;
     }
     return _colorFilter;
 }
@@ -111,27 +111,27 @@
         _beautyColorFilter = [[QBGLBeautyColorMapFilter alloc] initWithAnimationView:self.animationView];
         _beautyColorFilter.textureCacheRef = _textureCacheRef;
     }
-    if (_beautyColorFilter.type != _colorFilterType) {
-        [QBGLFilterFactory refactorColorFilter:_beautyColorFilter withType:_colorFilterType];
-        _beautyColorFilter.type = _colorFilterType;
+    if (_beautyColorFilter.type != _colorFilterTypeForRender) {
+        [QBGLFilterFactory refactorColorFilter:_beautyColorFilter withType:_colorFilterTypeForRender];
+        _beautyColorFilter.type = _colorFilterTypeForRender;
     }
     return _beautyColorFilter;
 }
 
 - (QBGLMagicFilterBase *)magicFilter {
-    if (!_magicFilter || (_colorFilterType != QBGLFilterTypeNone && _magicFilter.type != _colorFilterType)) {
-        _magicFilter = [self.magicFilterFactory filterWithType:_colorFilterType animationView:self.animationView];
+    if (!_magicFilter || (_colorFilterTypeForRender != QBGLFilterTypeNone && _magicFilter.type != _colorFilterTypeForRender)) {
+        _magicFilter = [self.magicFilterFactory filterWithType:_colorFilterTypeForRender animationView:self.animationView];
     }
     return _magicFilter;
 }
 
 - (QBGLYuvFilter *)filter {
-    BOOL colorFilterType17 = (_colorFilterType > QBGLFilterTypeNone && _colorFilterType < QBGLFilterTypeFairytale);
-    if (_beautyEnabled && _colorFilterType != QBGLFilterTypeNone) {
+    BOOL colorFilterType17 = (_colorFilterTypeForRender > QBGLFilterTypeNone && _colorFilterTypeForRender < QBGLFilterTypeFairytale);
+    if (_beautyEnabled && _colorFilterTypeForRender != QBGLFilterTypeNone) {
         return (colorFilterType17 ? self.beautyColorFilter : self.beautyFilter);
-    } else if (_beautyEnabled && _colorFilterType == QBGLFilterTypeNone) {
+    } else if (_beautyEnabled && _colorFilterTypeForRender == QBGLFilterTypeNone) {
         return self.beautyFilter;
-    } else if (!_beautyEnabled && _colorFilterType != QBGLFilterTypeNone) {
+    } else if (!_beautyEnabled && _colorFilterTypeForRender != QBGLFilterTypeNone) {
         return (colorFilterType17 ? self.colorFilter : self.normalFilter);
     } else {
         return self.normalFilter;
@@ -143,7 +143,7 @@
 }
 
 - (QBGLFilter *)outputFilter {
-    BOOL colorFilterTypeMagic = (_colorFilterType >= QBGLFilterTypeFairytale && _colorFilterType <= QBGLFilterTypeWalden);
+    BOOL colorFilterTypeMagic = (_colorFilterTypeForRender >= QBGLFilterTypeFairytale && _colorFilterTypeForRender <= QBGLFilterTypeWalden);
     return (colorFilterTypeMagic ? self.magicFilter : self.filter);
 }
 

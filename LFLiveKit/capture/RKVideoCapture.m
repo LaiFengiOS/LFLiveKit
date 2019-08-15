@@ -294,6 +294,8 @@
         CMTime time = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);
         [self.delegate captureRawCamera:self pixelBuffer:pixelBuffer atTime:time];
     }
+    // 每個frame重取colorFilterType
+    self.glContext.colorFilterTypeForRender = self.glContext.colorFilterType;
     
     [self.glContext loadYUVPixelBuffer:pixelBuffer];
     

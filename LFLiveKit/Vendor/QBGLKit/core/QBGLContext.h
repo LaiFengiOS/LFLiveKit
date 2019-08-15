@@ -23,6 +23,8 @@
 @property (nonatomic) CGSize viewPortSize;
 
 @property (nonatomic) QBGLFilterType colorFilterType;
+@property (nonatomic) QBGLFilterType colorFilterTypeForRender;
+
 @property (nonatomic) BOOL beautyEnabled;
 
 @property (strong, nonatomic) UIView *animationView;

@@ -152,9 +152,9 @@
     [self.socket start];
 }
 
-- (void)updateStreamURL:(nonnull NSString *)url {
+- (BOOL)updateStreamURL:(nonnull NSString *)url {
     if ([_streamInfo.url isEqualToString:url] || !_socket || ![_socket respondsToSelector:@selector(streamURLChanged:)]) {
-        return;
+        return NO;
     }
     
     _streamInfo.url = url;
@@ -164,6 +164,8 @@
     }
     
     [_socket streamURLChanged:url];
+    
+    return YES;
 }
 
 - (void)pauseLive {

@@ -22,6 +22,7 @@
 @property (strong, nonatomic) GLKView *glkView;
 @property (nonatomic) UIInterfaceOrientation displayOrientation;
 @property (nonatomic) CGRect previewRect;
+@property (assign, nonatomic) BOOL didUpdateVideoConfiguration;
 
 @end
 
@@ -63,6 +64,13 @@
     
     [_glkView removeFromSuperview];
     _glkView = nil;
+}
+
+- (void)setDidUpdateVideoConfiguration:(BOOL)didUpdateVideoConfiguration {
+    if (_didUpdateVideoConfiguration == didUpdateVideoConfiguration) {
+        return;
+    }
+    _didUpdateVideoConfiguration = didUpdateVideoConfiguration;
 }
 
 - (void)previousColorFilter {
@@ -288,6 +296,18 @@
 #pragma mark - RKVideoCamera Delegate
 
 - (void)videoCamera:(RKVideoCamera *)camera didCaptureVideoSample:(CMSampleBufferRef)sampleBuffer {
+    if (self.nextVideoConfiguration) {
+        self.configuration.videoFrameRate = self.nextVideoConfiguration.videoFrameRate;
+        self.configuration.videoMaxFrameRate = self.nextVideoConfiguration.videoMaxFrameRate;
+        self.configuration.videoMinFrameRate = self.nextVideoConfiguration.videoMinFrameRate;
+        self.configuration.videoBitRate = self.nextVideoConfiguration.videoBitRate;
+        self.configuration.videoMaxBitRate = self.nextVideoConfiguration.videoMaxBitRate;
+        self.configuration.videoMinBitRate = self.nextVideoConfiguration.videoMinFrameRate;
+        self.configuration.videoSize = self.nextVideoConfiguration.videoSize;
+        self.nextVideoConfiguration = nil;
+        self.didUpdateVideoConfiguration = YES;
+    }
+
     CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
     
     if ([self.delegate respondsToSelector:@selector(captureRawCamera:pixelBuffer:atTime:)]) {
@@ -318,16 +338,18 @@
         [_glkView display];
     }
     
-    if ([self.delegate respondsToSelector:@selector(captureOutput:pixelBuffer:atTime:)]) {
+    if ([self.delegate respondsToSelector:@selector(captureOutput:pixelBuffer:atTime:didUpdateVideoConfiguration:)]) {
         self.glContext.viewPortSize = _configuration.videoSize;
         self.glContext.outputSize = _configuration.videoSize;
         [self.glContext renderToOutput];
         
         if (self.glContext.outputPixelBuffer) {
             CMTime time = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);
-            [self.delegate captureOutput:self pixelBuffer:self.glContext.outputPixelBuffer atTime:time];
+            [self.delegate captureOutput:self pixelBuffer:self.glContext.outputPixelBuffer atTime:time didUpdateVideoConfiguration:_didUpdateVideoConfiguration];
         }
     }
+    
+    self.didUpdateVideoConfiguration = NO;
 }
 
 @end

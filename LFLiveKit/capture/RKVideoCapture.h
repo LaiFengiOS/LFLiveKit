@@ -12,6 +12,7 @@
 @interface RKVideoCapture : NSObject <LFVideoCaptureInterface>
 
 @property (strong, nonatomic, readonly) EAGLContext *eaglContext;
+@property (strong, nonatomic) LFLiveVideoConfiguration *nextVideoConfiguration;
 
 - (nullable instancetype)init UNAVAILABLE_ATTRIBUTE;
 + (nullable instancetype)new UNAVAILABLE_ATTRIBUTE;

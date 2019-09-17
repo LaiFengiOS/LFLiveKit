@@ -23,7 +23,7 @@
 @property (nonatomic) UIInterfaceOrientation displayOrientation;
 @property (nonatomic) CGRect previewRect;
 @property (assign, nonatomic) BOOL didUpdateVideoConfiguration;
-
+@property (strong, nonatomic) NSOperationQueue *queue;
 @end
 
 @implementation RKVideoCapture
@@ -43,6 +43,10 @@
 - (nullable instancetype)initWithVideoConfiguration:(nullable LFLiveVideoConfiguration *)configuration
                                         eaglContext:(nullable EAGLContext *)glContext {
     if (self = [super init]) {
+        _queue = [[NSOperationQueue alloc] init];
+        _queue.maxConcurrentOperationCount = 1;
+        _queue.qualityOfService = NSQualityOfServiceUtility;
+
         _configuration = configuration;
         _eaglContext = glContext;
         _displayOrientation = [[LFUtils sharedApplication] statusBarOrientation];
@@ -58,19 +62,13 @@
 }
 
 - (void)dealloc {
+    [self.queue cancelAllOperations];
     [LFUtils sharedApplication].idleTimerDisabled = NO;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self.videoCamera stopCapture];
     
     [_glkView removeFromSuperview];
     _glkView = nil;
-}
-
-- (void)setDidUpdateVideoConfiguration:(BOOL)didUpdateVideoConfiguration {
-    if (_didUpdateVideoConfiguration == didUpdateVideoConfiguration) {
-        return;
-    }
-    _didUpdateVideoConfiguration = didUpdateVideoConfiguration;
 }
 
 - (void)previousColorFilter {
@@ -120,6 +118,12 @@
         [LFUtils sharedApplication].idleTimerDisabled = YES;
         [self.videoCamera startCapture];
     }
+}
+
+- (void)setNextVideoConfiguration:(LFLiveVideoConfiguration *)nextVideoConfiguration {
+    [self.queue addOperationWithBlock:^{
+        _nextVideoConfiguration = nextVideoConfiguration;
+    }];
 }
 
 - (QBGLContext *)glContext {
@@ -297,15 +301,21 @@
 
 - (void)videoCamera:(RKVideoCamera *)camera didCaptureVideoSample:(CMSampleBufferRef)sampleBuffer {
     if (self.nextVideoConfiguration) {
-        self.configuration.videoFrameRate = self.nextVideoConfiguration.videoFrameRate;
-        self.configuration.videoMaxFrameRate = self.nextVideoConfiguration.videoMaxFrameRate;
-        self.configuration.videoMinFrameRate = self.nextVideoConfiguration.videoMinFrameRate;
-        self.configuration.videoBitRate = self.nextVideoConfiguration.videoBitRate;
-        self.configuration.videoMaxBitRate = self.nextVideoConfiguration.videoMaxBitRate;
-        self.configuration.videoMinBitRate = self.nextVideoConfiguration.videoMinFrameRate;
-        self.configuration.videoSize = self.nextVideoConfiguration.videoSize;
-        self.nextVideoConfiguration = nil;
-        self.didUpdateVideoConfiguration = YES;
+        __weak typeof(self) weakSelf = self;
+        NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
+            weakSelf.configuration.videoFrameRate = weakSelf.nextVideoConfiguration.videoFrameRate;
+            weakSelf.configuration.videoMaxFrameRate = weakSelf.nextVideoConfiguration.videoMaxFrameRate;
+            weakSelf.configuration.videoMinFrameRate = weakSelf.nextVideoConfiguration.videoMinFrameRate;
+            weakSelf.configuration.videoBitRate = weakSelf.nextVideoConfiguration.videoBitRate;
+            weakSelf.configuration.videoMaxBitRate = weakSelf.nextVideoConfiguration.videoMaxBitRate;
+            weakSelf.configuration.videoMinBitRate = weakSelf.nextVideoConfiguration.videoMinFrameRate;
+            weakSelf.configuration.videoSize = weakSelf.nextVideoConfiguration.videoSize;
+            weakSelf.nextVideoConfiguration = nil;
+            weakSelf.didUpdateVideoConfiguration = YES;
+        }];
+        
+        [self.queue addOperation:operation];
+        [operation waitUntilFinished];
     }
 
     CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);

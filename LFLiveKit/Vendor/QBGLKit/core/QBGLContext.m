@@ -155,6 +155,8 @@
 }
 
 - (void)reloadTextureCache {
+    [self becomeCurrentContext];
+    
     if (_textureCacheRef) {
         CFRelease(_textureCacheRef);
     }

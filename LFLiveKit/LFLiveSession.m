@@ -313,11 +313,13 @@
 }
 
 - (void)updateVideoConfiguration:(LFLiveVideoConfiguration *)videoConfiguration {
-    if (!self.videoConfiguration || !self.videoEncoder) {
+    if (!_videoConfiguration || !_videoEncoder) {
         return;
     }
     
-    ((RKVideoCapture *)self.videoCaptureSource).nextVideoConfiguration = videoConfiguration;
+    if ([self.videoCaptureSource respondsToSelector:@selector(setNextVideoConfiguration:)]) {
+        ((RKVideoCapture *)self.videoCaptureSource).nextVideoConfiguration = videoConfiguration;
+    }
 }
 
 - (BOOL)updateVideoBitRateWithMaxBitRate:(NSUInteger)maxBitRate minBitRate:(NSUInteger)minBitRate {

@@ -51,9 +51,6 @@
         _glContext = context ?: [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];;
         _animationView = animationView;
         [self becomeCurrentContext];
-        CVOpenGLESTextureCacheCreate(kCFAllocatorDefault, NULL, _glContext, NULL, &_textureCacheRef);
-        // workaround: prevent screen flash when switching to magic filters
-        [self.magicFilterFactory preloadFiltersWithTextureCacheRef:_textureCacheRef animationView:animationView];
     }
     return self;
 }
@@ -157,10 +154,28 @@
     }
 }
 
+- (void)reloadTextureCache {
+    [self becomeCurrentContext];
+    
+    if (_textureCacheRef) {
+        CFRelease(_textureCacheRef);
+    }
+    
+    CVOpenGLESTextureCacheCreate(kCFAllocatorDefault, NULL, _glContext, NULL, &_textureCacheRef);
+    
+    self.normalFilter.textureCacheRef = _textureCacheRef;
+    self.beautyFilter.textureCacheRef = _textureCacheRef;
+    self.colorFilter.textureCacheRef = _textureCacheRef;
+    self.beautyColorFilter.textureCacheRef = _textureCacheRef;
+    [self.magicFilterFactory preloadFiltersWithTextureCacheRef:_textureCacheRef animationView:_animationView];
+}
+
 - (void)setOutputSize:(CGSize)outputSize {
     if (CGSizeEqualToSize(outputSize, _outputSize))
         return;
     _outputSize = outputSize;
+    
+    [self reloadTextureCache];
     
     self.normalFilter.outputSize = outputSize;
     self.beautyFilter.inputSize = self.beautyFilter.outputSize = outputSize;

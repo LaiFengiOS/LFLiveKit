@@ -42,6 +42,8 @@ typedef NS_ENUM (NSUInteger, LFLiveVideoQuality){
     LFLiveVideoQuality_High2 = 7,
     /// 分辨率： 720 *1280 帧数：30 码率：1200Kps
     LFLiveVideoQuality_High3 = 8,
+    /// 分辨率： 720 *1280 帧数：24 码率：1600Kps
+    LFLiveVideoQuality_High4 = 9,
     /// 默认配置
     LFLiveVideoQuality_Default = LFLiveVideoQuality_Low2
 };
@@ -57,6 +59,8 @@ typedef NS_ENUM (NSUInteger, LFLiveVideoQuality){
 + (instancetype)defaultConfigurationForQuality:(LFLiveVideoQuality)videoQuality outputImageOrientation:(UIInterfaceOrientation)outputImageOrientation;
 
 + (instancetype)defaultConfigurationFromSampleBuffer:(CMSampleBufferRef)sampleBuffer;
+
++ (LFLiveVideoConfiguration *)videoConfigurationForQuality:(LFLiveVideoQuality)videoQuality;
 
 #pragma mark - Attribute
 ///=============================================================================

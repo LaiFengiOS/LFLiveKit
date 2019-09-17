@@ -131,6 +131,7 @@
 }
 
 #pragma mark -- CustomMethod
+
 - (void)startLive:(LFLiveStreamInfo *)streamInfo {
     if (!streamInfo) return;
     _streamInfo = streamInfo;
@@ -311,6 +312,16 @@
     [self.audioCaptureSource stopMixAllSounds];
 }
 
+- (void)updateVideoConfiguration:(LFLiveVideoConfiguration *)videoConfiguration {
+    if (!_videoConfiguration || !_videoEncoder) {
+        return;
+    }
+    
+    if ([self.videoCaptureSource respondsToSelector:@selector(setNextVideoConfiguration:)]) {
+        ((RKVideoCapture *)self.videoCaptureSource).nextVideoConfiguration = videoConfiguration;
+    }
+}
+
 - (BOOL)updateVideoBitRateWithMaxBitRate:(NSUInteger)maxBitRate minBitRate:(NSUInteger)minBitRate {
     if (!self.videoConfiguration || !self.videoEncoder ||
         (self.videoConfiguration.videoMinBitRate == minBitRate && self.videoConfiguration.videoMaxBitRate == maxBitRate)) {
@@ -377,11 +388,16 @@
 
 #pragma mark - Video Capture Delegate
 
-- (void)captureOutput:(nullable id<LFVideoCaptureInterface>)capture pixelBuffer:(nullable CVPixelBufferRef)pixelBuffer atTime:(CMTime)time {
-    if ([self.delegate respondsToSelector:@selector(liveSession:willOutputVideoFrame:atTime:customTime:)]) {
-        pixelBuffer = [self.delegate liveSession:self willOutputVideoFrame:pixelBuffer atTime:time customTime:NOW];
+- (void)captureOutput:(nullable id<LFVideoCaptureInterface>)capture pixelBuffer:(nullable CVPixelBufferRef)pixelBuffer atTime:(CMTime)time didUpdateVideoConfiguration:(BOOL)didUpdateVideoConfiguration {
+    if (didUpdateVideoConfiguration && [self.videoEncoder respondsToSelector:@selector(reset)]) {
+        [self.videoEncoder reset];
     }
-    if (self.uploading && !self.stopEncodingVideoAudioData) {
+
+    if ([self.delegate respondsToSelector:@selector(liveSession:willOutputVideoFrame:atTime:customTime:didUpdateVideConfiguration:)]) {
+        pixelBuffer = [self.delegate liveSession:self willOutputVideoFrame:pixelBuffer atTime:time customTime:NOW didUpdateVideConfiguration:didUpdateVideoConfiguration];
+    }
+    
+    if (self.uploading && !self.stopEncodingVideoAudioData && !didUpdateVideoConfiguration) {
         [self.videoEncoder encodeVideoData:pixelBuffer timeStamp:NOW];
     }
 }

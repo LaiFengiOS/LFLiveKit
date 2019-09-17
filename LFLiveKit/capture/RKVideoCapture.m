@@ -22,7 +22,8 @@
 @property (strong, nonatomic) GLKView *glkView;
 @property (nonatomic) UIInterfaceOrientation displayOrientation;
 @property (nonatomic) CGRect previewRect;
-
+@property (assign, nonatomic) BOOL didUpdateVideoConfiguration;
+@property (strong, nonatomic) NSOperationQueue *queue;
 @end
 
 @implementation RKVideoCapture
@@ -42,6 +43,10 @@
 - (nullable instancetype)initWithVideoConfiguration:(nullable LFLiveVideoConfiguration *)configuration
                                         eaglContext:(nullable EAGLContext *)glContext {
     if (self = [super init]) {
+        _queue = [[NSOperationQueue alloc] init];
+        _queue.maxConcurrentOperationCount = 1;
+        _queue.qualityOfService = NSQualityOfServiceUtility;
+
         _configuration = configuration;
         _eaglContext = glContext;
         _displayOrientation = [[LFUtils sharedApplication] statusBarOrientation];
@@ -57,6 +62,7 @@
 }
 
 - (void)dealloc {
+    [self.queue cancelAllOperations];
     [LFUtils sharedApplication].idleTimerDisabled = NO;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self.videoCamera stopCapture];
@@ -112,6 +118,12 @@
         [LFUtils sharedApplication].idleTimerDisabled = YES;
         [self.videoCamera startCapture];
     }
+}
+
+- (void)setNextVideoConfiguration:(LFLiveVideoConfiguration *)nextVideoConfiguration {
+    [self.queue addOperationWithBlock:^{
+        _nextVideoConfiguration = nextVideoConfiguration;
+    }];
 }
 
 - (QBGLContext *)glContext {
@@ -288,6 +300,24 @@
 #pragma mark - RKVideoCamera Delegate
 
 - (void)videoCamera:(RKVideoCamera *)camera didCaptureVideoSample:(CMSampleBufferRef)sampleBuffer {
+    if (self.nextVideoConfiguration) {
+        __weak typeof(self) weakSelf = self;
+        NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
+            weakSelf.configuration.videoFrameRate = weakSelf.nextVideoConfiguration.videoFrameRate;
+            weakSelf.configuration.videoMaxFrameRate = weakSelf.nextVideoConfiguration.videoMaxFrameRate;
+            weakSelf.configuration.videoMinFrameRate = weakSelf.nextVideoConfiguration.videoMinFrameRate;
+            weakSelf.configuration.videoBitRate = weakSelf.nextVideoConfiguration.videoBitRate;
+            weakSelf.configuration.videoMaxBitRate = weakSelf.nextVideoConfiguration.videoMaxBitRate;
+            weakSelf.configuration.videoMinBitRate = weakSelf.nextVideoConfiguration.videoMinFrameRate;
+            weakSelf.configuration.videoSize = weakSelf.nextVideoConfiguration.videoSize;
+            weakSelf.nextVideoConfiguration = nil;
+            weakSelf.didUpdateVideoConfiguration = YES;
+        }];
+        
+        [self.queue addOperation:operation];
+        [operation waitUntilFinished];
+    }
+
     CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
     
     if ([self.delegate respondsToSelector:@selector(captureRawCamera:pixelBuffer:atTime:)]) {
@@ -318,16 +348,18 @@
         [_glkView display];
     }
     
-    if ([self.delegate respondsToSelector:@selector(captureOutput:pixelBuffer:atTime:)]) {
+    if ([self.delegate respondsToSelector:@selector(captureOutput:pixelBuffer:atTime:didUpdateVideoConfiguration:)]) {
         self.glContext.viewPortSize = _configuration.videoSize;
         self.glContext.outputSize = _configuration.videoSize;
         [self.glContext renderToOutput];
         
         if (self.glContext.outputPixelBuffer) {
             CMTime time = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);
-            [self.delegate captureOutput:self pixelBuffer:self.glContext.outputPixelBuffer atTime:time];
+            [self.delegate captureOutput:self pixelBuffer:self.glContext.outputPixelBuffer atTime:time didUpdateVideoConfiguration:_didUpdateVideoConfiguration];
         }
     }
+    
+    self.didUpdateVideoConfiguration = NO;
 }
 
 @end

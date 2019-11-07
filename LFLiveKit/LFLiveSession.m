@@ -22,6 +22,7 @@
 
 /// 音频配置
 @property (nonatomic, strong) LFLiveAudioConfiguration *audioConfiguration;
+
 /// 视频配置
 @property (nonatomic, strong) LFLiveVideoConfiguration *videoConfiguration;
 /// 声音采集

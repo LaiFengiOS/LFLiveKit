@@ -320,15 +320,17 @@ Failed:
     enc = AMF_EncodeNamedNumber(enc, pend, &av_duration, 0.0);
     enc = AMF_EncodeNamedNumber(enc, pend, &av_fileSize, 0.0);
 
-    // videosize
-    enc = AMF_EncodeNamedNumber(enc, pend, &av_width, _stream.videoConfiguration.videoSize.width);
-    enc = AMF_EncodeNamedNumber(enc, pend, &av_height, _stream.videoConfiguration.videoSize.height);
+    if (_stream.videoConfiguration) {
+        // videosize
+        enc = AMF_EncodeNamedNumber(enc, pend, &av_width, _stream.videoConfiguration.videoSize.width);
+        enc = AMF_EncodeNamedNumber(enc, pend, &av_height, _stream.videoConfiguration.videoSize.height);
 
-    // video
-    enc = AMF_EncodeNamedString(enc, pend, &av_videocodecid, &av_avc1);
+        // video
+        enc = AMF_EncodeNamedString(enc, pend, &av_videocodecid, &av_avc1);
 
-    enc = AMF_EncodeNamedNumber(enc, pend, &av_videodatarate, _stream.videoConfiguration.videoBitRate / 1000.f);
-    enc = AMF_EncodeNamedNumber(enc, pend, &av_framerate, _stream.videoConfiguration.videoFrameRate);
+        enc = AMF_EncodeNamedNumber(enc, pend, &av_videodatarate, _stream.videoConfiguration.videoBitRate / 1000.f);
+        enc = AMF_EncodeNamedNumber(enc, pend, &av_framerate, _stream.videoConfiguration.videoFrameRate);
+    }
 
     // audio
     enc = AMF_EncodeNamedString(enc, pend, &av_audiocodecid, &av_mp4a);

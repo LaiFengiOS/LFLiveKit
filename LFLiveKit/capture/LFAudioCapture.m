@@ -55,7 +55,10 @@ NSString *const LFAudioComponentFailedToCreateNotification = @"LFAudioComponentF
                                                  selector: @selector(handleInterruption:)
                                                      name: AVAudioSessionInterruptionNotification
                                                    object: session];
-        
+        [[NSNotificationCenter defaultCenter] addObserver: self
+                                                 selector: @selector(didBecomeActive:)
+                                                     name: UIApplicationDidBecomeActiveNotification
+                                                   object: nil];
         AudioComponentDescription acd;
         acd.componentType = kAudioUnitType_Output;
 //        acd.componentSubType = kAudioUnitSubType_VoiceProcessingIO;
@@ -286,6 +289,16 @@ NSString *const LFAudioComponentFailedToCreateNotification = @"LFAudioComponentF
 }
 
 #pragma mark -- NSNotification
+
+- (void)didBecomeActive:(NSNotification *)notification {
+    if (self.isRunning) {
+        dispatch_async(self.taskQueue, ^{
+            NSLog(@"didBecomeActive MicrophoneSource: startRunning");
+            AudioOutputUnitStart(self.componetInstance);
+        });
+    }
+}
+
 - (void)handleRouteChange:(NSNotification *)notification {
     AVAudioSession *session = [ AVAudioSession sharedInstance ];
     NSString *seccReason = @"";

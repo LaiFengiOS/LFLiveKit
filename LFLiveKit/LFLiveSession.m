@@ -58,6 +58,7 @@
 /// 时间戳锁
 @property (nonatomic, strong) dispatch_semaphore_t lock;
 
+@property (nonatomic, assign, readwrite) LFLiveInternetState internetSignal;
 
 @end
 
@@ -367,6 +368,18 @@
     [self.videoEncoder reset];
 }
 
+- (void)checkInternetConditionIfChanged {
+    //Using configuration's Video Bitrate. If need to use encoder's bitrate, just change to self.videoEncoder.
+    BOOL isLower = self.debugInfo.currentBandwidth < (self.videoConfiguration.videoBitRate * 0.75);
+    LFLiveInternetState newState = isLower ? LFLiveInternetStateLow : LFLiveInternetStateNormal;
+    if (self.internetSignal != newState) {
+        self.internetSignal = newState;
+        if ([self.delegate respondsToSelector:@selector(liveSession:signalChanged:)]) {
+            [self.delegate liveSession:self signalChanged:newState];
+        }
+    }
+}
+
 #pragma mark -- Audio Capture Delegate
 
 - (void)captureOutput:(nullable LFAudioCapture *)capture audioBeforeSideMixing:(nullable NSData *)data {
@@ -487,6 +500,7 @@
 
 - (void)socketDebug:(nullable id<LFStreamSocket>)socket debugInfo:(nullable LFLiveDebug *)debugInfo {
     self.debugInfo = debugInfo;
+    [self checkInternetConditionIfChanged];
     if (self.showDebugInfo) {
         __weak typeof(self) wSelf = self;
         dispatch_async(dispatch_get_main_queue(), ^{

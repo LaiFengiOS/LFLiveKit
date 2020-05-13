@@ -370,7 +370,8 @@
 
 - (void)checkInternetConditionIfChanged {
     //Using configuration's Video Bitrate. If need to use encoder's bitrate, just change to self.videoEncoder.
-    BOOL isLower = self.debugInfo.currentBandwidth < (self.videoConfiguration.videoBitRate * 0.75);
+    // * 0.125 is in order to convert bits to btyes. 0.75 is custom boundary for intenrnet edge.
+    BOOL isLower = self.debugInfo.currentBandwidth < (self.videoConfiguration.videoBitRate * 0.125 * 0.75);
     LFLiveInternetState newState = isLower ? LFLiveInternetStateLow : LFLiveInternetStateNormal;
     if (self.internetSignal != newState) {
         self.internetSignal = newState;

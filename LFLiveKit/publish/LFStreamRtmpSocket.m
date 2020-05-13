@@ -226,8 +226,8 @@ SAVC(mp4a);
             _self.buffer.lastDropFrames = 0;
             
             _self.debugInfo.dataFlow += frame.data.length;
-            _self.debugInfo.elapsedMilli = CACurrentMediaTime() * 1000 - _self.debugInfo.timeStamp;
-            if (_self.debugInfo.elapsedMilli < 1000) {
+            _self.debugInfo.elapsedMilli = CACurrentMediaTime() - _self.debugInfo.timeStamp;
+            if (_self.debugInfo.elapsedMilli < 1) {
                 _self.debugInfo.bandwidth += frame.data.length;
                 if ([frame isKindOfClass:[LFAudioFrame class]]) {
                     _self.debugInfo.capturedAudioCount++;
@@ -246,21 +246,21 @@ SAVC(mp4a);
                 _self.debugInfo.bandwidth = 0;
                 _self.debugInfo.capturedAudioCount = 0;
                 _self.debugInfo.capturedVideoCount = 0;
-                _self.debugInfo.timeStamp = CACurrentMediaTime() * 1000;
+                _self.debugInfo.timeStamp = CACurrentMediaTime();
             }
             
-            _self.debugInfo.elapsedMilliForSpeed = CACurrentMediaTime() * 1000 - _self.debugInfo.timeStampForSpeed;
+            _self.debugInfo.elapsedMilliForSpeed = CACurrentMediaTime() - _self.debugInfo.timeStampForSpeed;
             _self.debugInfo.bandwidthForSpeed += frame.data.length;
-            if(_self.debugInfo.elapsedMilliForSpeed >=20*1000 ){
+            if(_self.debugInfo.elapsedMilliForSpeed >= 20){
                 int speed = (int)_self.debugInfo.bandwidthForSpeed/20;
-                if(_self.debugInfo.elapsedMilliForSpeed <100*1000){
+                if(_self.debugInfo.elapsedMilliForSpeed < 100){
                     //非第一次统计.才记录.
                     [[LFStreamLog logger] logWithDict:@{@"lt": @"pspd",
                                                         @"spd": @(speed)}];
                 }
                 _self.debugInfo.lastSpeed = _self.debugInfo.bandwidthForSpeed;
                 _self.debugInfo.bandwidthForSpeed = 0;
-                _self.debugInfo.timeStampForSpeed = CACurrentMediaTime() * 1000;
+                _self.debugInfo.timeStampForSpeed = CACurrentMediaTime();
             }
             
             //修改发送状态

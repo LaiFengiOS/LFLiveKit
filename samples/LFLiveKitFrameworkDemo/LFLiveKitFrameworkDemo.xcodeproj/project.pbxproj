@@ -36,6 +36,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		832CDD2F246BF1F9009BDB5B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8495F6C81DB8F37E00542124 /* LFLiveKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C1FF50A11E46520D0029A4D4;
+			remoteInfo = LFLiveKitBundle;
+		};
 		843591641DD201CC00811FC7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8495F6C81DB8F37E00542124 /* LFLiveKit.xcodeproj */;
@@ -172,6 +179,7 @@
 			children = (
 				8495F6CE1DB8F37E00542124 /* LFLiveKit.framework */,
 				8495F6D01DB8F37E00542124 /* LFLiveKit.framework */,
+				832CDD30246BF1F9009BDB5B /* LFLiveKitBundle.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -253,7 +261,7 @@
 				TargetAttributes = {
 					8495F6AA1DB8F37300542124 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = G497YX6CBT;
+						DevelopmentTeam = 576D3H8PJ8;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -263,6 +271,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -283,6 +292,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		832CDD30246BF1F9009BDB5B /* LFLiveKitBundle.bundle */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = LFLiveKitBundle.bundle;
+			remoteRef = 832CDD2F246BF1F9009BDB5B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		8495F6CE1DB8F37E00542124 /* LFLiveKit.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -458,7 +474,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = G497YX6CBT;
+				DEVELOPMENT_TEAM = 576D3H8PJ8;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = LFLiveKitFrameworkDemo/Info.plist;
@@ -477,7 +493,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = G497YX6CBT;
+				DEVELOPMENT_TEAM = 576D3H8PJ8;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = LFLiveKitFrameworkDemo/Info.plist;

@@ -17,7 +17,14 @@
 #import "LFLiveVideoConfiguration.h"
 #import "LFLiveDebug.h"
 
-
+/// LFLiveInternetState, There are only two state,
+/// 1. Normal
+/// 2. Low
+/// Fomula of InternetState = Stream data / sec < (0.8 * encoder bitrate)
+typedef NS_ENUM(NSInteger, LFLiveInternetState) {
+    LFLiveInternetStateNormal,
+    LFLiveInternetStateLow
+};
 
 typedef NS_ENUM(NSInteger,LFLiveCaptureType) {
     LFLiveCaptureAudio,         //< capture only audio
@@ -71,6 +78,8 @@ typedef NS_ENUM(NSUInteger, RKReplayKitSampleType) {
 - (void)liveSession:(nullable LFLiveSession *)session errorCode:(LFLiveSocketErrorCode)errorCode;
 /** callback inner audio data */
 - (void)liveSession:(nullable LFLiveSession *)session audioDataBeforeMixing:(nullable NSData *)audioData;
+/** callback internet state changed. */
+- (void)liveSession:(nullable LFLiveSession *)session signalChanged:(LFLiveInternetState)state;
 
 - (nullable CVPixelBufferRef)liveSession:(nullable LFLiveSession *)session willOutputVideoFrame:(nonnull CVPixelBufferRef)pixelBuffer atTime:(CMTime)time customTime:(uint64_t)customTime didUpdateVideConfiguration:(BOOL)didUpdateVideConfiguration;
 - (void)liveSession:(nullable LFLiveSession *)session rawCameraVideoFrame:(nonnull CVPixelBufferRef)pixelBuffer atTime:(CMTime)time;
@@ -171,6 +180,9 @@ typedef NS_ENUM(NSUInteger, RKReplayKitSampleType) {
 @property (nonatomic) double longitude;
 @property (nonatomic) double latitude;
 @property (nonatomic, readonly, nonnull) NSDictionary *logInfo;
+
+// SWAG
+@property (nonatomic, assign, readonly) LFLiveInternetState internetSignal;
 
 @property (strong, nonatomic, readonly) EAGLContext * _Nullable glContext;
 

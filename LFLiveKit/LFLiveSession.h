@@ -16,7 +16,6 @@
 #import "LFLiveAudioConfiguration.h"
 #import "LFLiveVideoConfiguration.h"
 #import "LFLiveDebug.h"
-#import "error.h"
 
 /// LFLiveInternetState, There are only two state,
 /// 1. Normal
@@ -65,6 +64,7 @@ typedef NS_ENUM(NSUInteger, RKReplayKitSampleType) {
     RKReplayKitSampleTypeMicAudio
 };
 
+
 @class LFLiveSession;
 @protocol LFLiveSessionDelegate <NSObject>
 
@@ -85,7 +85,7 @@ typedef NS_ENUM(NSUInteger, RKReplayKitSampleType) {
 - (nullable CVPixelBufferRef)liveSession:(nullable LFLiveSession *)session willOutputVideoFrame:(nonnull CVPixelBufferRef)pixelBuffer atTime:(CMTime)time customTime:(uint64_t)customTime didUpdateVideConfiguration:(BOOL)didUpdateVideConfiguration;
 - (void)liveSession:(nullable LFLiveSession *)session rawCameraVideoFrame:(nonnull CVPixelBufferRef)pixelBuffer atTime:(CMTime)time;
 - (void)liveSession:(nullable LFLiveSession *)session willOutputAudioFrame:(unsigned char * _Nullable)data samples:(NSUInteger)samples customTime:(uint64_t)customTime;
-- (void)liveSession:(nullable LFLiveSession *)session error:(RTMPError *_Nullable)error;
+- (void)liveSession:(nullable LFLiveSession *)session error:(SocketRTMPError *_Nullable)error;
 
 @end
 

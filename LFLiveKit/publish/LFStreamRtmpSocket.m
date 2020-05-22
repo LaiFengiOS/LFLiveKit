@@ -706,12 +706,11 @@ print_bytes(void   *start,
     [self RTMP264_Connect:(char *)[_stream.url cStringUsingEncoding:NSASCIIStringEncoding]];
 }
 
-- (void)forwardRTMPError:(RTMPError *)error {
-    SocketRTMPError *rtmpError = [[SocketRTMPError alloc] init];
-    rtmpError.code = error->code;
-    rtmpError.message = [NSString stringWithUTF8String:error->message];
-    if (self.delegate && [self.delegate respondsToSelector:@selector(socketRTMPError:error:)]) {
-        [self.delegate socketRTMPError:self error:rtmpError];
+- (void)forwardRTMPError {
+    NSInteger code = _error.code;
+    NSString *message = [NSString stringWithUTF8String:_error.message];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(socketRTMPError:errorCode:message:)]) {
+        [self.delegate socketRTMPError:self errorCode:code message:message];
      }
 }
 
@@ -719,9 +718,9 @@ print_bytes(void   *start,
 void RTMPErrorCallback(RTMPError *error, void *userData) {
     LFStreamRTMPSocket *socket = (__bridge LFStreamRTMPSocket *)userData;
     if (error->code < 0) {
+        [socket forwardRTMPError];
         [socket reconnect];
     }
-    [socket forwardRTMPError:error];
 }
 
 void ConnectionTimeCallback(PILI_CONNECTION_TIME *conn_time, void *userData) {

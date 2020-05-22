@@ -706,12 +706,19 @@ print_bytes(void   *start,
     [self RTMP264_Connect:(char *)[_stream.url cStringUsingEncoding:NSASCIIStringEncoding]];
 }
 
+- (void)forwardRTMPError:(RTMPError *)error {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(socketRTMPError:error:)]) {
+        [self.delegate socketRTMPError:self error:error];
+     }
+}
+
 #pragma mark -- CallBack
 void RTMPErrorCallback(RTMPError *error, void *userData) {
     LFStreamRTMPSocket *socket = (__bridge LFStreamRTMPSocket *)userData;
     if (error->code < 0) {
         [socket reconnect];
     }
+    [socket forwardRTMPError:error];
 }
 
 void ConnectionTimeCallback(PILI_CONNECTION_TIME *conn_time, void *userData) {

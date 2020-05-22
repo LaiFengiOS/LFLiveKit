@@ -10,7 +10,7 @@
 #import "LFLiveStreamInfo.h"
 #import "LFStreamingBuffer.h"
 #import "LFLiveDebug.h"
-
+#import "error.h"
 
 
 @protocol LFStreamSocket;
@@ -25,6 +25,8 @@
 @optional
 /** callback debugInfo */
 - (void)socketDebug:(nullable id <LFStreamSocket>)socket debugInfo:(nullable LFLiveDebug *)debugInfo;
+- (void)socketRTMPError:(nullable id <LFStreamSocket>)socket error:(RTMPError *)error;
+
 @end
 
 @protocol LFStreamSocket <NSObject>

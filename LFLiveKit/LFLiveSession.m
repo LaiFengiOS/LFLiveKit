@@ -537,15 +537,6 @@
     }
 }
 
-- (void)socketRTMPError:(id<LFStreamSocket>)socket error:(RTMPError *)error {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (self.delegate && [self.delegate respondsToSelector:@selector(liveSession:error:)]) {
-            [self.delegate liveSession:self error:error];
-        }
-    });
-}
-
-
 #pragma mark - ReplayKitCapture Delegate
 
 - (void)replayKitCapture:(RKReplayKitCapture *)capture didCaptureVideo:(CVPixelBufferRef)pixelBuffer {

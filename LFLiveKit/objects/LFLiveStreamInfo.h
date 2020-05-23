@@ -53,8 +53,3 @@ typedef NS_ENUM (NSUInteger, LFLiveSocketErrorCode) {
 @property (nonatomic, strong) LFLiveVideoConfiguration *videoConfiguration;
 
 @end
-
-@interface SocketRTMPError : NSObject
-@property (nonatomic, assign) NSInteger code;
-@property (nonatomic, nonatomic, strong) NSString * _Nullable message;
-@end

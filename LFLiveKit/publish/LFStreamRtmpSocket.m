@@ -707,11 +707,8 @@ print_bytes(void   *start,
 }
 
 - (void)forwardRTMPError:(RTMPError *)error {
-    SocketRTMPError *rtmpError = [[SocketRTMPError alloc] init];
-    rtmpError.code = error->code;
-    rtmpError.message = [NSString stringWithUTF8String:error->message];
     if (self.delegate && [self.delegate respondsToSelector:@selector(socketRTMPError:error:)]) {
-        [self.delegate socketRTMPError:self error:rtmpError];
+        [self.delegate socketRTMPError:self error:error];
      }
 }
 

@@ -23,7 +23,7 @@
 @optional
 /** callback debugInfo */
 - (void)socketDebug:(nullable id <LFStreamSocket>)socket debugInfo:(nullable LFLiveDebug *)debugInfo;
-- (void)socketRTMPError:(nullable id <LFStreamSocket>)socket errorCode:(NSInteger)errorCode message:(nullable NSString *)message;
+- (void)socketRTMPError:(nullable id <LFStreamSocket>)socket errorCode:(NSInteger)errorCode message:(NSString * _Nullable )message;
 
 @end
 

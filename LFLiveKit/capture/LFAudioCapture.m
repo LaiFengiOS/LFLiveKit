@@ -57,7 +57,7 @@ NSString *const LFAudioComponentFailedToCreateNotification = @"LFAudioComponentF
                                                    object: session];
         [[NSNotificationCenter defaultCenter] addObserver: self
                                                  selector: @selector(didBecomeActive:)
-                                                     name: UIApplicationDidBecomeActiveNotification
+                                                     name: NSExtensionHostDidBecomeActiveNotification
                                                    object: nil];
         AudioComponentDescription acd;
         acd.componentType = kAudioUnitType_Output;

@@ -537,15 +537,6 @@
     }
 }
 
-- (void)socketRTMPError:(id<LFStreamSocket>)socket errorCode:(NSInteger)errorCode messsage:(NSString *)message {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (self.delegate && [self.delegate respondsToSelector:@selector(liveSession:errorCode:message:)]) {
-            [self.delegate liveSession:self errorCode:errorCode message:message];
-        }
-    });
-}
-
-
 #pragma mark - ReplayKitCapture Delegate
 
 - (void)replayKitCapture:(RKReplayKitCapture *)capture didCaptureVideo:(CVPixelBufferRef)pixelBuffer {

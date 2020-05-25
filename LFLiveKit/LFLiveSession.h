@@ -64,7 +64,6 @@ typedef NS_ENUM(NSUInteger, RKReplayKitSampleType) {
     RKReplayKitSampleTypeMicAudio
 };
 
-
 @class LFLiveSession;
 @protocol LFLiveSessionDelegate <NSObject>
 
@@ -85,7 +84,6 @@ typedef NS_ENUM(NSUInteger, RKReplayKitSampleType) {
 - (nullable CVPixelBufferRef)liveSession:(nullable LFLiveSession *)session willOutputVideoFrame:(nonnull CVPixelBufferRef)pixelBuffer atTime:(CMTime)time customTime:(uint64_t)customTime didUpdateVideConfiguration:(BOOL)didUpdateVideConfiguration;
 - (void)liveSession:(nullable LFLiveSession *)session rawCameraVideoFrame:(nonnull CVPixelBufferRef)pixelBuffer atTime:(CMTime)time;
 - (void)liveSession:(nullable LFLiveSession *)session willOutputAudioFrame:(unsigned char * _Nullable)data samples:(NSUInteger)samples customTime:(uint64_t)customTime;
-- (void)liveSession:(nullable LFLiveSession *)session errorCode:(NSInteger)errorCode message:(nullable NSString *)message;
 
 @end
 

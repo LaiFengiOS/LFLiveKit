@@ -317,6 +317,7 @@ void PILI_RTMP_SetupStream(PILI_RTMP *r,
                            AVal *subscribepath,
                            int dStart,
                            int dStop, int bLiveStream, long int timeout) {
+    
     RTMP_Log(RTMP_LOGDEBUG, "Protocol : %s", PILI_RTMPProtocolStrings[protocol & 7]);
     RTMP_Log(RTMP_LOGDEBUG, "Hostname : %.*s", host->av_len, host->av_val);
     RTMP_Log(RTMP_LOGDEBUG, "Port     : %d", port);

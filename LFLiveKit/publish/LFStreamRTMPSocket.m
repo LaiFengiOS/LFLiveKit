@@ -13,6 +13,7 @@
 #import <pili-librtmp/rtmp.h>
 #else
 #import "rtmp.h"
+#import "log.h"
 #endif
 
 static const NSInteger RetryTimesBreaken = 5;  ///<  重连1分钟  3秒一次 一共20次
@@ -76,6 +77,13 @@ SAVC(mp4a);
 
 @implementation LFStreamRTMPSocket
 
+static inline void set_rtmp_str(AVal *val, const char *str)
+{
+    bool valid  = (str && *str);
+    val->av_val = valid ? (char*)str       : NULL;
+    val->av_len = valid ? (int)strlen(str) : 0;
+}
+
 #pragma mark -- LFStreamSocket
 - (nullable instancetype)initWithStream:(nullable LFLiveStreamInfo *)stream{
     return [self initWithStream:stream reconnectInterval:0 reconnectCount:0];
@@ -92,6 +100,10 @@ SAVC(mp4a);
         else _reconnectCount = RetryTimesBreaken;
         
         [self addObserver:self forKeyPath:@"isSending" options:NSKeyValueObservingOptionNew context:nil];//这里改成observer主要考虑一直到发送出错情况下，可以继续发送
+
+#if DEBUG
+        RTMP_LogSetLevel(RTMP_LOGDEBUG);
+#endif
     }
     return self;
 }
@@ -124,7 +136,7 @@ SAVC(mp4a);
         PILI_RTMP_Close(_rtmp, &_error);
         PILI_RTMP_Free(_rtmp);
     }
-    [self RTMP264_Connect:(char *)[_stream.url cStringUsingEncoding:NSASCIIStringEncoding] tcUrl:(char *)[_stream.tcUrl cStringUsingEncoding:NSASCIIStringEncoding]];
+    [self RTMP264_Connect:_stream.url tcUrl:_stream.tcUrl];
 }
 
 - (void)stop {
@@ -285,20 +297,21 @@ SAVC(mp4a);
     self.retryTimes4netWorkBreaken = 0;
 }
 
-- (NSInteger)RTMP264_Connect:(char *)push_url tcUrl:(char *)tcUrl{
+- (NSInteger)RTMP264_Connect:(NSString *)url tcUrl:(NSString *)tcUrl {
     //由于摄像头的timestamp是一直在累加，需要每次得到相对时间戳
     //分配与初始化
     _rtmp = PILI_RTMP_Alloc();
     PILI_RTMP_Init(_rtmp);
     
     //设置URL
+    const char * push_url = [url cStringUsingEncoding:NSASCIIStringEncoding];
     if (PILI_RTMP_SetupURL(_rtmp, push_url, &_error) == FALSE) {
         //log(LOG_ERR, "RTMP_SetupURL() failed!");
         goto Failed;
     }
     if (tcUrl != NULL) {
-        _rtmp->Link.tcUrl.av_val = tcUrl;
-        _rtmp->Link.tcUrl.av_len = strlen(tcUrl);
+        const char * tc_url = [tcUrl cStringUsingEncoding:NSASCIIStringEncoding];
+        set_rtmp_str(&_rtmp->Link.tcUrl, tc_url);
     }
     _rtmp->m_errorCallback = RTMPErrorCallback;
     _rtmp->m_connCallback = ConnectionTimeCallback;
@@ -602,7 +615,7 @@ print_bytes(void   *start,
     free(body);
 }
 
-- (NSInteger)sendPacket:(unsigned int)nPacketType data:(unsigned char *)data size:(NSInteger)size nTimestamp:(uint64_t)nTimestamp {
+- (BOOL)sendPacket:(unsigned int)nPacketType data:(unsigned char *)data size:(NSInteger)size nTimestamp:(uint64_t)nTimestamp {
     NSInteger rtmpLength = size;
     PILI_RTMPPacket rtmp_pack;
     PILI_RTMPPacket_Reset(&rtmp_pack);
@@ -619,19 +632,18 @@ print_bytes(void   *start,
         rtmp_pack.m_headerType = RTMP_PACKET_SIZE_MEDIUM;
     }
     rtmp_pack.m_nTimeStamp = (uint32_t)nTimestamp;
-    
-    NSInteger nRet = [self RtmpPacketSend:&rtmp_pack];
-    
+
+    BOOL nRet = [self RtmpPacketSend:&rtmp_pack];
     PILI_RTMPPacket_Free(&rtmp_pack);
     return nRet;
 }
 
-- (NSInteger)RtmpPacketSend:(PILI_RTMPPacket *)packet {
+- (BOOL)RtmpPacketSend:(PILI_RTMPPacket *)packet {
     if (_rtmp && PILI_RTMP_IsConnected(_rtmp)) {
-        int success = PILI_RTMP_SendPacket(_rtmp, packet, 0, &_error);
-        return success;
+        bool success = PILI_RTMP_SendPacket(_rtmp, packet, 0, &_error);
+        return (success == TRUE);
     }
-    return -1;
+    return NO;
 }
 
 - (void)sendAudioHeader:(LFAudioFrame *)audioFrame {
@@ -670,7 +682,7 @@ print_bytes(void   *start,
             self.isConnecting = NO;
             self.isReconnecting = YES;
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self performSelector:@selector(_reconnect) withObject:nil afterDelay:self.reconnectInterval];
+                 [self performSelector:@selector(_delayedReconnect) withObject:nil afterDelay:self.reconnectInterval];
             });
             
         } else if (self.retryTimes4netWorkBreaken >= self.reconnectCount) {
@@ -680,13 +692,21 @@ print_bytes(void   *start,
             if (self.delegate && [self.delegate respondsToSelector:@selector(socketDidError:errorCode:)]) {
                 [self.delegate socketDidError:self errorCode:LFLiveSocketError_ReConnectTimeOut];
             }
+            [self forwardRTMPErrorIfNeeded];
         }
     });
 }
 
-- (void)_reconnect{
+- (void)_delayedReconnect {
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
-    
+
+    dispatch_async(self.rtmpSendQueue, ^{
+	    [self _reconnect];
+    });
+}
+
+- (void)_reconnect {
+
     _isReconnecting = NO;
     if (_isConnected) return;
     
@@ -706,7 +726,17 @@ print_bytes(void   *start,
         PILI_RTMP_Close(_rtmp, &_error);
         PILI_RTMP_Free(_rtmp);
     }
-    [self RTMP264_Connect:(char *)[_stream.url cStringUsingEncoding:NSASCIIStringEncoding] tcUrl:(char *)[_stream.tcUrl cStringUsingEncoding:NSASCIIStringEncoding]];
+    [self RTMP264_Connect:_stream.url tcUrl:_stream.tcUrl];
+}
+
+- (void)forwardRTMPErrorIfNeeded {
+    if (_error.code < 0) {
+        NSInteger code = _error.code;
+        NSString *message = [NSString stringWithUTF8String:_error.message];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(socketRTMPError:errorCode:message:)]) {
+            [self.delegate socketRTMPError:self errorCode:code message:message];
+        }
+    }
 }
 
 #pragma mark -- CallBack

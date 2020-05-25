@@ -40,17 +40,18 @@ typedef NS_ENUM (NSUInteger, LFLiveSocketErrorCode) {
 
 @interface LFLiveStreamInfo : NSObject
 
-@property (nonatomic, copy) NSString *streamId;
+@property (nonatomic, copy, nullable) NSString *streamId;
 
 #pragma mark -- FLV
-@property (nonatomic, copy) NSString *host;
+@property (nonatomic, copy, nonnull) NSString *host;
 @property (nonatomic, assign) NSInteger port;
 #pragma mark -- RTMP
-@property (nonatomic, copy) NSString *url;          ///< 上传地址 (RTMP用就好了)
-@property (nonatomic, copy) NSString *tcUrl;
+
+@property (nonatomic, copy, nonnull) NSString *url;          ///< 上传地址 (RTMP用就好了)
+@property (nonatomic, copy, nonnull) NSString *tcUrl;
 ///音频配置
-@property (nonatomic, strong) LFLiveAudioConfiguration *audioConfiguration;
+@property (nonatomic, strong, nonnull) LFLiveAudioConfiguration *audioConfiguration;
 ///视频配置
-@property (nonatomic, strong) LFLiveVideoConfiguration *videoConfiguration;
+@property (nonatomic, strong, nonnull) LFLiveVideoConfiguration *videoConfiguration;
 
 @end

@@ -147,7 +147,7 @@
 + (instancetype)defaultConfigurationForQuality:(LFLiveVideoQuality)videoQuality outputImageOrientation:(UIInterfaceOrientation)outputImageOrientation {
     LFLiveVideoConfiguration *configuration = [LFLiveVideoConfiguration videoConfigurationForQuality:videoQuality];
     configuration.sessionPreset = [self sessionPresetWithVideoQuality:videoQuality];
-    configuration.videoMaxKeyframeInterval = configuration.videoFrameRate*2;
+    configuration.videoMaxKeyframeInterval = configuration.videoFrameRate;
     configuration.outputImageOrientation = outputImageOrientation;
     
     CGSize size = configuration.videoSize;
@@ -172,7 +172,7 @@
     configuration.videoMinBitRate = 500 * 1000;
     configuration.videoSize = size;
     configuration.sessionPreset = LFCaptureSessionPreset720x1280;
-    configuration.videoMaxKeyframeInterval = configuration.videoFrameRate * 2;
+    configuration.videoMaxKeyframeInterval = configuration.videoFrameRate;
     
     return configuration;
 }

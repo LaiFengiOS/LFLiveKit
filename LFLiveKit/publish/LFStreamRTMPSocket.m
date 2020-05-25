@@ -728,10 +728,19 @@ print_bytes(void   *start,
     [self RTMP264_Connect:_stream.url tcUrl:_stream.tcUrl];
 }
 
+- (void)forwardRTMPError {
+    NSInteger code = _error.code;
+    NSString *message = [NSString stringWithUTF8String:_error.message];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(socketRTMPError:errorCode:message:)]) {
+        [self.delegate socketRTMPError:self errorCode:code message:message];
+    }
+}
+
 #pragma mark -- CallBack
 void RTMPErrorCallback(RTMPError *error, void *userData) {
     LFStreamRTMPSocket *socket = (__bridge LFStreamRTMPSocket *)userData;
     if (error->code < 0) {
+        [socket forwardRTMPError];
         [socket reconnect];
     }
 }

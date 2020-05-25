@@ -95,7 +95,7 @@ SAVC(mp4a);
         [self addObserver:self forKeyPath:@"isSending" options:NSKeyValueObservingOptionNew context:nil];//这里改成observer主要考虑一直到发送出错情况下，可以继续发送
 
 #if DEBUG
-        RTMP_LogSetLevel(RTMP_LOGDEBUG);
+        RTMP_LogSetLevel(RTMP_LOGDEBUG2);
 #endif
     }
     return self;

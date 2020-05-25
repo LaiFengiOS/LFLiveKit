@@ -7,7 +7,6 @@
 //
 
 #import "LFStreamSocket.h"
-
 @interface LFStreamRTMPSocket : NSObject<LFStreamSocket>
 
 #pragma mark - Initializer

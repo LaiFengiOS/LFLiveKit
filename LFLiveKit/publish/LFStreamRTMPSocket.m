@@ -739,11 +739,21 @@ print_bytes(void   *start,
     }
 }
 
+- (void)forwardRTMPError:(RTMPError *)error {
+    NSInteger code = error->code;
+    NSString *message = [NSString stringWithUTF8String:error->message];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(socketRTMPError:errorCode:message:)]) {
+        [self.delegate socketRTMPError:self errorCode:code message:message];
+    }
+}
+
+
 #pragma mark -- CallBack
 void RTMPErrorCallback(RTMPError *error, void *userData) {
     LFStreamRTMPSocket *socket = (__bridge LFStreamRTMPSocket *)userData;
     if (error->code < 0) {
         [socket reconnect];
+        [socket forwardRTMPError:error];
     }
 }
 

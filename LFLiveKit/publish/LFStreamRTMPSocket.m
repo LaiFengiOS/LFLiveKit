@@ -129,7 +129,7 @@ SAVC(mp4a);
         PILI_RTMP_Close(_rtmp, &_error);
         PILI_RTMP_Free(_rtmp);
     }
-    [self RTMP264_Connect:(char *)[_stream.url cStringUsingEncoding:NSASCIIStringEncoding] tcUrl:(char *)[_stream.tcUrl cStringUsingEncoding:NSASCIIStringEncoding]];
+    [self RTMP264_Connect:_stream.url tcUrl:_stream.tcUrl];
 }
 
 - (void)stop {
@@ -290,20 +290,23 @@ SAVC(mp4a);
     self.retryTimes4netWorkBreaken = 0;
 }
 
-- (NSInteger)RTMP264_Connect:(char *)push_url tcUrl:(char *)tcUrl{
+- (NSInteger)RTMP264_Connect:(NSString *)url tcUrl:(NSString *)tcUrl {
     //由于摄像头的timestamp是一直在累加，需要每次得到相对时间戳
     //分配与初始化
     _rtmp = PILI_RTMP_Alloc();
     PILI_RTMP_Init(_rtmp);
     
     //设置URL
+    const char * push_url = [url cStringUsingEncoding:NSASCIIStringEncoding];
     if (PILI_RTMP_SetupURL(_rtmp, push_url, &_error) == FALSE) {
         //log(LOG_ERR, "RTMP_SetupURL() failed!");
         goto Failed;
     }
     if (tcUrl != NULL) {
-        _rtmp->Link.tcUrl.av_val = tcUrl;
-        _rtmp->Link.tcUrl.av_len = strlen(tcUrl);
+        const char * tc_url = [tcUrl cStringUsingEncoding:NSASCIIStringEncoding];
+
+        _rtmp->Link.tcUrl.av_val = tc_url;
+        _rtmp->Link.tcUrl.av_len = strlen(tc_url);
     }
     _rtmp->m_errorCallback = RTMPErrorCallback;
     _rtmp->m_connCallback = ConnectionTimeCallback;
@@ -607,7 +610,7 @@ print_bytes(void   *start,
     free(body);
 }
 
-- (NSInteger)sendPacket:(unsigned int)nPacketType data:(unsigned char *)data size:(NSInteger)size nTimestamp:(uint64_t)nTimestamp {
+- (BOOL)sendPacket:(unsigned int)nPacketType data:(unsigned char *)data size:(NSInteger)size nTimestamp:(uint64_t)nTimestamp {
     NSInteger rtmpLength = size;
     PILI_RTMPPacket rtmp_pack;
     PILI_RTMPPacket_Reset(&rtmp_pack);
@@ -624,19 +627,18 @@ print_bytes(void   *start,
         rtmp_pack.m_headerType = RTMP_PACKET_SIZE_MEDIUM;
     }
     rtmp_pack.m_nTimeStamp = (uint32_t)nTimestamp;
-    
-    NSInteger nRet = [self RtmpPacketSend:&rtmp_pack];
-    
+
+    BOOL nRet = [self RtmpPacketSend:&rtmp_pack];
     PILI_RTMPPacket_Free(&rtmp_pack);
     return nRet;
 }
 
-- (NSInteger)RtmpPacketSend:(PILI_RTMPPacket *)packet {
+- (BOOL)RtmpPacketSend:(PILI_RTMPPacket *)packet {
     if (_rtmp && PILI_RTMP_IsConnected(_rtmp)) {
-        int success = PILI_RTMP_SendPacket(_rtmp, packet, 0, &_error);
-        return success;
+        bool success = PILI_RTMP_SendPacket(_rtmp, packet, 0, &_error);
+        return (success == TRUE);
     }
-    return -1;
+    return NO;
 }
 
 - (void)sendAudioHeader:(LFAudioFrame *)audioFrame {
@@ -718,7 +720,7 @@ print_bytes(void   *start,
         PILI_RTMP_Close(_rtmp, &_error);
         PILI_RTMP_Free(_rtmp);
     }
-    [self RTMP264_Connect:(char *)[_stream.url cStringUsingEncoding:NSASCIIStringEncoding] tcUrl:(char *)[_stream.tcUrl cStringUsingEncoding:NSASCIIStringEncoding]];
+    [self RTMP264_Connect:_stream.url tcUrl:_stream.tcUrl];
 }
 
 #pragma mark -- CallBack

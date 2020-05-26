@@ -1337,7 +1337,20 @@ static int
             if (avail == 0) {
                 if (PILI_RTMPSockBuf_Fill(&r->m_sb) < 1) {
                     if (!r->m_sb.sb_timedout) {
-                        PILI_RTMP_Close(r, NULL);
+                        
+                        RTMPError error = {0};
+
+                        char msg[100];
+                        memset(msg, 0, 100);
+                        strcat(msg, "PILI_RTMP Unknow error");
+                        RTMPError_Alloc(&error, strlen(msg));
+                        error.code = RTMPErrorUnknow;
+                        strcpy(error.message, msg);
+
+                        PILI_RTMP_Close(r, &error);
+
+                        RTMPError_Free(&error);
+                        
                     } else {
                         RTMPError error = {0};
 

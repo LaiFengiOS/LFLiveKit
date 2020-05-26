@@ -788,7 +788,7 @@ int PILI_RTMP_Connect0(PILI_RTMP *r, struct addrinfo *ai, unsigned short port, R
             RTMP_Log(RTMP_LOGERROR, "%s, failed to connect socket. %d (%s)",
                      __FUNCTION__, err, strerror(err));
 
-            PILI_RTMP_Close(r, NULL);
+            PILI_RTMP_Close(r, error);
             return FALSE;
         }
 
@@ -803,9 +803,8 @@ int PILI_RTMP_Connect0(PILI_RTMP *r, struct addrinfo *ai, unsigned short port, R
                     error->code = RTMPErrorSocksNegotiationFailed;
                     strcpy(error->message, msg);
                 }
-
                 RTMP_Log(RTMP_LOGERROR, "%s, SOCKS negotiation failed.", __FUNCTION__);
-                PILI_RTMP_Close(r, NULL);
+                PILI_RTMP_Close(r, error);
                 return FALSE;
             }
         }
@@ -893,7 +892,7 @@ int PILI_RTMP_Connect1(PILI_RTMP *r, PILI_RTMPPacket *cp, RTMPError *error) {
         }
 
         RTMP_Log(RTMP_LOGERROR, "%s, no SSL/TLS support", __FUNCTION__);
-        PILI_RTMP_Close(r, NULL);
+        PILI_RTMP_Close(r, error);
         return FALSE;
 
 #endif
@@ -918,7 +917,7 @@ int PILI_RTMP_Connect1(PILI_RTMP *r, PILI_RTMPPacket *cp, RTMPError *error) {
         }
 
         RTMP_Log(RTMP_LOGERROR, "%s, handshake failed.", __FUNCTION__);
-        PILI_RTMP_Close(r, NULL);
+        PILI_RTMP_Close(r, error);
         return FALSE;
     }
     RTMP_Log(RTMP_LOGDEBUG, "%s, handshaked", __FUNCTION__);
@@ -933,7 +932,7 @@ int PILI_RTMP_Connect1(PILI_RTMP *r, PILI_RTMPPacket *cp, RTMPError *error) {
             strcpy(error->message, msg);
         }
         RTMP_Log(RTMP_LOGERROR, "%s, PILI_RTMP connect failed.", __FUNCTION__);
-        PILI_RTMP_Close(r, NULL);
+        PILI_RTMP_Close(r, error);
         return FALSE;
     }
     return TRUE;
@@ -1338,7 +1337,20 @@ static int
             if (avail == 0) {
                 if (PILI_RTMPSockBuf_Fill(&r->m_sb) < 1) {
                     if (!r->m_sb.sb_timedout) {
-                        PILI_RTMP_Close(r, NULL);
+                        
+                        RTMPError error = {0};
+
+                        char msg[100];
+                        memset(msg, 0, 100);
+                        strcat(msg, "PILI_RTMP Unknow error");
+                        RTMPError_Alloc(&error, strlen(msg));
+                        error.code = RTMPErrorUnknow;
+                        strcpy(error.message, msg);
+
+                        PILI_RTMP_Close(r, &error);
+
+                        RTMPError_Free(&error);
+                        
                     } else {
                         RTMPError error = {0};
 

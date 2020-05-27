@@ -1370,6 +1370,7 @@ static int
                         error.code = RTMPErrorSocketTimeout;
                         strcpy(error.message, msg);
 
+                        PILI_RTMP_Error(r, &error);
                         PILI_RTMP_Close(r, &error);
 
                         RTMPError_Free(&error);
@@ -1407,6 +1408,7 @@ static int
             error.code = RTMPErrorSocketClosedByPeer;
             strcpy(error.message, msg);
 
+            PILI_RTMP_Error(r, &error);
             PILI_RTMP_Close(r, &error);
 
             RTMPError_Free(&error);
@@ -1473,6 +1475,7 @@ static int
                 strcpy(error->message, msg);
             }
 
+            PILI_RTMP_Error(r, error);
             PILI_RTMP_Close(r, error);
 
             RTMPError_Free(error);
@@ -2439,6 +2442,7 @@ static int
         error.code = RTMPErrorServerRequestedClose;
         strcpy(error.message, msg);
 
+        PILI_RTMP_Error(r, &error);
         PILI_RTMP_Close(r, &error);
 
         RTMPError_Free(&error);
@@ -2478,6 +2482,7 @@ static int
             error.code = err_code;
             strcpy(error.message, msg);
 
+            PILI_RTMP_Error(r, &error);
             PILI_RTMP_Close(r, &error);
 
             RTMPError_Free(&error);

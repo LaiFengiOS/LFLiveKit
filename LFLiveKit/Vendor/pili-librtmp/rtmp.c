@@ -217,6 +217,7 @@ PILI_RTMP *
 
 void PILI_RTMP_Free(PILI_RTMP *r) {
     r->m_errorCallback = NULL;
+    r->m_errorForwardCallback = NULL;
     r->m_userData = NULL;
     RTMPError_Free(r->m_error);
     r->m_error = NULL;
@@ -245,6 +246,7 @@ void PILI_RTMP_Init(PILI_RTMP *r) {
     r->Link.swfAge = 30;
 
     r->m_errorCallback = NULL;
+    r->m_errorForwardCallback = NULL;
     r->m_error = NULL;
     r->m_userData = NULL;
     r->m_is_closing = 0;
@@ -787,8 +789,9 @@ int PILI_RTMP_Connect0(PILI_RTMP *r, struct addrinfo *ai, unsigned short port, R
 
             RTMP_Log(RTMP_LOGERROR, "%s, failed to connect socket. %d (%s)",
                      __FUNCTION__, err, strerror(err));
-
-            PILI_RTMP_Close(r, error);
+            PILI_RTMP_Error(r, error);
+            PILI_RTMP_Close(r, NULL);
+            RTMPError_Free(error);
             return FALSE;
         }
 
@@ -804,7 +807,9 @@ int PILI_RTMP_Connect0(PILI_RTMP *r, struct addrinfo *ai, unsigned short port, R
                     strcpy(error->message, msg);
                 }
                 RTMP_Log(RTMP_LOGERROR, "%s, SOCKS negotiation failed.", __FUNCTION__);
-                PILI_RTMP_Close(r, error);
+                PILI_RTMP_Error(r, error);
+                PILI_RTMP_Close(r, NULL);
+                RTMPError_Free(error);
                 return FALSE;
             }
         }
@@ -892,7 +897,9 @@ int PILI_RTMP_Connect1(PILI_RTMP *r, PILI_RTMPPacket *cp, RTMPError *error) {
         }
 
         RTMP_Log(RTMP_LOGERROR, "%s, no SSL/TLS support", __FUNCTION__);
-        PILI_RTMP_Close(r, error);
+        PILI_RTMP_Error(r, error);
+        PILI_RTMP_Close(r, NULL);
+        RTMPError_Free(error);
         return FALSE;
 
 #endif
@@ -917,7 +924,9 @@ int PILI_RTMP_Connect1(PILI_RTMP *r, PILI_RTMPPacket *cp, RTMPError *error) {
         }
 
         RTMP_Log(RTMP_LOGERROR, "%s, handshake failed.", __FUNCTION__);
-        PILI_RTMP_Close(r, error);
+        PILI_RTMP_Error(r, error);
+        PILI_RTMP_Close(r, NULL);
+        RTMPError_Free(error);
         return FALSE;
     }
     RTMP_Log(RTMP_LOGDEBUG, "%s, handshaked", __FUNCTION__);
@@ -932,6 +941,7 @@ int PILI_RTMP_Connect1(PILI_RTMP *r, PILI_RTMPPacket *cp, RTMPError *error) {
             strcpy(error->message, msg);
         }
         RTMP_Log(RTMP_LOGERROR, "%s, PILI_RTMP connect failed.", __FUNCTION__);
+        
         PILI_RTMP_Close(r, error);
         return FALSE;
     }
@@ -3308,7 +3318,11 @@ int PILI_RTMP_SendPacket(PILI_RTMP *r, PILI_RTMPPacket *packet, int queue, RTMPE
 int PILI_RTMP_Serve(PILI_RTMP *r, RTMPError *error) {
     return SHandShake(r, error);
 }
-
+void PILI_RTMP_Error(PILI_RTMP *r, RTMPError *error) {
+    if (error && r->m_errorForwardCallback) {
+        r->m_errorForwardCallback(error, r->m_userData);
+    }
+}
 void PILI_RTMP_Close(PILI_RTMP *r, RTMPError *error) {
     if (r->m_is_closing) {
         return;

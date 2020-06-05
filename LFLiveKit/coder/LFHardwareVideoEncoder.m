@@ -41,6 +41,7 @@ static NSTimeInterval const kSessionLockDuration = 2.0f;
         [self resetCompressionSession];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterBackground:) name:UIApplicationWillResignActiveNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationDidBecomeActiveNotification object:nil];
+        frameCount = -1;
 #ifdef DEBUG
         enabledWriteVideoFile = NO;
         [self initForFilePath];

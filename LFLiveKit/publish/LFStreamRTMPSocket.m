@@ -399,7 +399,7 @@ Failed:
     
     // audio
     enc = AMF_EncodeNamedString(enc, pend, &av_audiocodecid, &av_mp4a);
-    enc = AMF_EncodeNamedNumber(enc, pend, &av_audiodatarate, _stream.audioConfiguration.audioBitrate);
+    enc = AMF_EncodeNamedNumber(enc, pend, &av_audiodatarate, _stream.audioConfiguration.audioBitrate / 1000.f);
     
     enc = AMF_EncodeNamedNumber(enc, pend, &av_audiosamplerate, _stream.audioConfiguration.audioSampleRate);
     enc = AMF_EncodeNamedNumber(enc, pend, &av_audiosamplesize, 16.0);

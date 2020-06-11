@@ -742,7 +742,7 @@ print_bytes(void   *start,
 
 - (void)forwardRTMPError:(RTMPError *)error {
     NSInteger code = error->code;
-    NSString *message = [NSString stringWithUTF8String:error->message];
+    NSString *message = (error->message != nil) ? [NSString stringWithUTF8String:error->message] : @"empty message.";
     if (self.delegate && [self.delegate respondsToSelector:@selector(socketRTMPError:errorCode:message:)]) {
         [self.delegate socketRTMPError:self errorCode:code message:message];
     }

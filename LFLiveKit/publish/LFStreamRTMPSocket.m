@@ -178,9 +178,10 @@ static inline void set_rtmp_str(AVal *val, const char *str)
     _delegate = delegate;
 }
 
-- (void)streamURLChanged:(NSString *)url {
+- (void)streamURLChanged:(NSString *)url tcurl:(NSString *)tcurl {
     dispatch_async(self.rtmpSendQueue, ^{
         self.stream.url = url;
+        self.stream.tcUrl = tcurl;
         self.debugInfo.streamId = self.stream.streamId;
         self.debugInfo.uploadUrl = self.stream.url;
         self.debugInfo.isRtmp = YES;

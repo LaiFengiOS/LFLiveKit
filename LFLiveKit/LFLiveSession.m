@@ -154,18 +154,18 @@
     [self.socket start];
 }
 
-- (BOOL)updateStreamURL:(nonnull NSString *)url {
-    if ([_streamInfo.url isEqualToString:url] || !_socket || ![_socket respondsToSelector:@selector(streamURLChanged:)]) {
+- (BOOL)updateStreamURL:(nonnull NSString *)url tcURL:(nonnull NSString *)tcurl {
+    if ([_streamInfo.url isEqualToString:url] || !_socket || ![_socket respondsToSelector:@selector(streamURLChanged:tcurl:)]) {
         return NO;
     }
     
     _streamInfo.url = url;
-    
+    _streamInfo.tcUrl = tcurl;
     if ([self.videoEncoder respondsToSelector:@selector(reset)]) {
         [self.videoEncoder reset];
     }
     
-    [_socket streamURLChanged:url];
+    [_socket streamURLChanged:url tcurl:tcurl];
     
     return YES;
 }
@@ -190,7 +190,7 @@
     if ([self.videoEncoder respondsToSelector:@selector(reset)]) {
         [self.videoEncoder reset];
     }
-    [self.socket streamURLChanged:pushURL];
+    [self.socket streamURLChanged:pushURL tcurl:_streamInfo.tcUrl];
     
     self.stopEncodingVideoAudioData = NO;
 }

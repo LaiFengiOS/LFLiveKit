@@ -712,7 +712,7 @@ print_bytes(void   *start,
     if (_isConnected) return;
     
     if (_rtmp != NULL) {
-        PILI_RTMP_Close(_rtmp, &_error);
+//        PILI_RTMP_Close(_rtmp, &_error);
         PILI_RTMP_Free(_rtmp);
         _rtmp = NULL;
     }
@@ -724,7 +724,7 @@ print_bytes(void   *start,
     }
     
     if (_rtmp != NULL) {
-        PILI_RTMP_Close(_rtmp, &_error);
+//        PILI_RTMP_Close(_rtmp, &_error);
         PILI_RTMP_Free(_rtmp);
     }
     [self RTMP264_Connect:_stream.url tcUrl:_stream.tcUrl];

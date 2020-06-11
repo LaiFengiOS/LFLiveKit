@@ -155,7 +155,7 @@
 }
 
 - (BOOL)updateStreamURL:(nonnull NSString *)url tcURL:(nonnull NSString *)tcurl {
-    if ([_streamInfo.url isEqualToString:url] || !_socket || ![_socket respondsToSelector:@selector(streamURLChanged:tcurl:)]) {
+    if (([_streamInfo.url isEqualToString:url] && [_streamInfo.tcUrl isEqualToString:tcurl]) || !_socket || ![_socket respondsToSelector:@selector(streamURLChanged:tcurl:)]) {
         return NO;
     }
     

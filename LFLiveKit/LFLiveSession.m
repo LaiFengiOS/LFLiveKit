@@ -155,7 +155,9 @@
 }
 
 - (BOOL)updateStreamURL:(nonnull NSString *)url tcURL:(nonnull NSString *)tcurl {
-    if (([_streamInfo.url isEqualToString:url] && [_streamInfo.tcUrl isEqualToString:tcurl]) || !_socket || ![_socket respondsToSelector:@selector(streamURLChanged:tcurl:)]) {
+    //([_streamInfo.url isEqualToString:url] && [_streamInfo.tcUrl isEqualToString:tcurl]) ||
+    // remove checking url part, to force reconnnect when update stream url
+    if (!_socket || ![_socket respondsToSelector:@selector(streamURLChanged:tcurl:)]) {
         return NO;
     }
     

@@ -224,7 +224,7 @@ typedef NS_ENUM(NSUInteger, RKReplayKitSampleType) {
 - (void)startLive:(nonnull LFLiveStreamInfo *)streamInfo;
 
 /** Update stream url */
-- (BOOL)updateStreamURL:(nonnull NSString *)url;
+- (BOOL)updateStreamURL:(nonnull NSString *)url tcURL:(nonnull NSString *)tcurl;
 
 /** 停止將採集到的video/audio data做encode, 沒有encoded的data就不會推送到rtmp */
 - (void)pauseLive;

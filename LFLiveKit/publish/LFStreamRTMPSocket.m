@@ -178,9 +178,10 @@ static inline void set_rtmp_str(AVal *val, const char *str)
     _delegate = delegate;
 }
 
-- (void)streamURLChanged:(NSString *)url {
+- (void)streamURLChanged:(NSString *)url tcurl:(NSString *)tcurl {
     dispatch_async(self.rtmpSendQueue, ^{
         self.stream.url = url;
+        self.stream.tcUrl = tcurl;
         self.debugInfo.streamId = self.stream.streamId;
         self.debugInfo.uploadUrl = self.stream.url;
         self.debugInfo.isRtmp = YES;
@@ -711,7 +712,7 @@ print_bytes(void   *start,
     if (_isConnected) return;
     
     if (_rtmp != NULL) {
-        PILI_RTMP_Close(_rtmp, &_error);
+//        PILI_RTMP_Close(_rtmp, &_error);
         PILI_RTMP_Free(_rtmp);
         _rtmp = NULL;
     }
@@ -723,7 +724,7 @@ print_bytes(void   *start,
     }
     
     if (_rtmp != NULL) {
-        PILI_RTMP_Close(_rtmp, &_error);
+//        PILI_RTMP_Close(_rtmp, &_error);
         PILI_RTMP_Free(_rtmp);
     }
     [self RTMP264_Connect:_stream.url tcUrl:_stream.tcUrl];
@@ -741,7 +742,7 @@ print_bytes(void   *start,
 
 - (void)forwardRTMPError:(RTMPError *)error {
     NSInteger code = error->code;
-    NSString *message = [NSString stringWithUTF8String:error->message];
+    NSString *message = (error->message != nil) ? [NSString stringWithUTF8String:error->message] : @"empty message.";
     if (self.delegate && [self.delegate respondsToSelector:@selector(socketRTMPError:errorCode:message:)]) {
         [self.delegate socketRTMPError:self errorCode:code message:message];
     }

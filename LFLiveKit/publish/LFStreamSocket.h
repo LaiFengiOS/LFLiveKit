@@ -39,5 +39,5 @@
 @optional
 - (nullable instancetype)initWithStream:(nullable LFLiveStreamInfo *)stream;
 - (nullable instancetype)initWithStream:(nullable LFLiveStreamInfo *)stream reconnectInterval:(NSInteger)reconnectInterval reconnectCount:(NSInteger)reconnectCount;
-- (void)streamURLChanged:(NSString *)url;
+- (void)streamURLChanged:(nonnull NSString *)url tcurl:(nonnull NSString *)tcurl;
 @end

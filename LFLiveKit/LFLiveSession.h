@@ -81,6 +81,8 @@ typedef NS_ENUM(NSUInteger, RKReplayKitSampleType) {
 /** callback internet state changed. */
 - (void)liveSession:(nullable LFLiveSession *)session signalChanged:(LFLiveInternetState)state;
 
+- (void)liveSessionDidSucceedRTMP:(nonnull LFLiveSession *)session;
+
 - (nullable CVPixelBufferRef)liveSession:(nullable LFLiveSession *)session willOutputVideoFrame:(nonnull CVPixelBufferRef)pixelBuffer atTime:(CMTime)time customTime:(uint64_t)customTime didUpdateVideConfiguration:(BOOL)didUpdateVideConfiguration;
 - (void)liveSession:(nullable LFLiveSession *)session rawCameraVideoFrame:(nonnull CVPixelBufferRef)pixelBuffer atTime:(CMTime)time;
 - (void)liveSession:(nullable LFLiveSession *)session willOutputAudioFrame:(unsigned char * _Nullable)data samples:(NSUInteger)samples customTime:(uint64_t)customTime;

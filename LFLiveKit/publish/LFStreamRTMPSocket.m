@@ -336,6 +336,12 @@ static inline void set_rtmp_str(AVal *val, const char *str)
     if (PILI_RTMP_ConnectStream(_rtmp, 0, &_error) == FALSE) {
         goto Failed;
     }
+    
+    // `PILI_RTMP_ConnectStream` method includes the publishing step. So if there is no error in that action, we can consider it as rtmp connection succeeded.
+    if ([self.delegate respondsToSelector:@selector(socketDidPublishSucceed:)]) {
+        [self.delegate socketDidPublishSucceed:self];
+    }
+    
     int64_t initInterval = ([NSDate date].timeIntervalSince1970 - [LFStreamLog logger].initStartTime) * 1000;
     [[LFStreamLog logger] logWithDict:@{@"lt": @"pinit",
                                         @"interval": @(initInterval)}];

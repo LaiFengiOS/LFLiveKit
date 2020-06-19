@@ -22,6 +22,7 @@
 - (void)socketStatus:(nullable id <LFStreamSocket>)socket status:(LFLiveState)status;
 /** callback socket errorcode */
 - (void)socketDidError:(nullable id <LFStreamSocket>)socket errorCode:(LFLiveSocketErrorCode)errorCode;
+- (void)socketDidPublishSucceed:(nullable id <LFStreamSocket>)socket;
 @optional
 /** callback debugInfo */
 - (void)socketDebug:(nullable id <LFStreamSocket>)socket debugInfo:(nullable LFLiveDebug *)debugInfo;

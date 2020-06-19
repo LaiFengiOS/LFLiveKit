@@ -474,6 +474,12 @@
 }
 
 #pragma mark -- LFStreamTcpSocketDelegate
+- (void)socketDidPublishSucceed:(id<LFStreamSocket>)socket {
+    if ([self.delegate respondsToSelector:@selector(liveSessionDidSucceedRTMP:)]) {
+        [self.delegate liveSessionDidSucceedRTMP:self];
+    }
+}
+
 - (void)socketStatus:(nullable id<LFStreamSocket>)socket status:(LFLiveState)status {
     if (status == LFLiveStart) {
         if (!self.uploading) {

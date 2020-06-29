@@ -57,6 +57,7 @@ SAVC(mp4a);
 @property (nonatomic, strong) LFStreamingBuffer *buffer;
 @property (nonatomic, strong) LFLiveDebug *debugInfo;
 @property (nonatomic, strong) dispatch_queue_t rtmpSendQueue;
+@property (nonatomic, strong) dispatch_queue_t sendingQueue;
 //错误信息
 @property (nonatomic, assign) RTMPError error;
 @property (nonatomic, assign) NSInteger retryTimes4netWorkBreaken;
@@ -199,8 +200,8 @@ static inline void set_rtmp_str(AVal *val, const char *str)
         if (!_self.isSending && _self.buffer.list.count > 0) {
             _self.isSending = YES;
             
-            if (!_self.isConnected || _self.isReconnecting || _self.isConnecting || !_rtmp){
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            if (!_self.isConnected || _self.isReconnecting || _self.isConnecting || !self->_rtmp){
+                dispatch_async(_self.sendingQueue, ^{
                     // 这里只为了不循环调用sendFrame方法 调用栈是保证先出栈再进栈
                     _self.isSending = NO;
                 });
@@ -277,7 +278,7 @@ static inline void set_rtmp_str(AVal *val, const char *str)
             }
             
             //修改发送状态
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            dispatch_async(_self.sendingQueue, ^{
                 // 这里只为了不循环调用sendFrame方法 调用栈是保证先出栈再进栈
                 _self.isSending = NO;
             });
@@ -806,6 +807,13 @@ void ConnectionTimeCallback(PILI_CONNECTION_TIME *conn_time, void *userData) {
         _rtmpSendQueue = dispatch_queue_create("com.youku.LaiFeng.RtmpSendQueue", NULL);
     }
     return _rtmpSendQueue;
+}
+
+- (dispatch_queue_t)sendingQueue {
+    if (!_sendingQueue) {
+        _sendingQueue = dispatch_queue_create("com.swag.SendingQueue", DISPATCH_QUEUE_SERIAL);
+    }
+    return _sendingQueue;
 }
 
 @end

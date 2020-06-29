@@ -349,9 +349,6 @@
 #pragma mark -- PrivateMethod
 
 - (void)pushSendBuffer:(LFFrame*)frame{
-    if(self.relativeTimestamps == 0){
-        self.relativeTimestamps = frame.timestamp;
-    }
     frame.timestamp = [self uploadTimestamp:frame.timestamp];
     [self.socket sendFrame:frame];
 }
@@ -818,6 +815,9 @@
 
 - (uint64_t)uploadTimestamp:(uint64_t)captureTimestamp{
     dispatch_semaphore_wait(self.lock, DISPATCH_TIME_FOREVER);
+    if (self.relativeTimestamps == 0) {
+        self.relativeTimestamps = captureTimestamp;
+    }
     uint64_t currentts = 0;
     currentts = captureTimestamp - self.relativeTimestamps;
     dispatch_semaphore_signal(self.lock);

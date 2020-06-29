@@ -20,6 +20,7 @@
 #import "RKVideoCapture.h"
 #import "RKAudioMix.h"
 #import "RKReplayKitCapture.h"
+#import "BitrateHandler.h"
 
 @interface LFLiveSession ()<LFAudioCaptureDelegate, LFVideoCaptureInterfaceDelegate, LFAudioEncodingDelegate, LFVideoEncodingDelegate, LFStreamSocketDelegate, RKReplayKitCaptureDelegate>
 
@@ -59,6 +60,7 @@
 @property (nonatomic, strong) dispatch_semaphore_t lock;
 
 @property (nonatomic, assign, readwrite) LFLiveInternetState internetSignal;
+@property (nonatomic, strong) BitrateHandler *bitrateHandler;
 
 @end
 
@@ -114,6 +116,12 @@
         _adaptiveBitrate = NO;
         _captureType = captureType;
         _glContext = glContext;
+        if (videoConfiguration) {
+            _bitrateHandler = [[BitrateHandler alloc] initWithAvg:videoConfiguration.videoBitRate
+                                                              max:videoConfiguration.videoMaxBitRate
+                                                              min:videoConfiguration.videoMinBitRate
+                                                            count:5];
+        }
     }
     return self;
 }
@@ -384,6 +392,22 @@
     }
 }
 
+- (void)adaptVideoBitrate:(NSUInteger)expected {
+    if((self.captureType & LFLiveCaptureMaskVideo || self.captureType & LFLiveInputMaskVideo) && self.adaptiveBitrate){
+        NSUInteger videoBitRate = [self.videoEncoder videoBitRate];
+        NSUInteger currentBitrate = videoBitRate;
+        if (expected == currentBitrate) {
+            return;
+        }
+        [self.videoEncoder setVideoBitRate:expected];
+          
+        [[LFStreamLog logger] logWithDict:@{
+            @"lt": @"pbrt",
+            @"vbr": @(expected)
+        }];
+    }
+}
+
 #pragma mark -- Audio Capture Delegate
 
 - (void)captureOutput:(nullable LFAudioCapture *)capture audioBeforeSideMixing:(nullable NSData *)data {
@@ -519,31 +543,11 @@
             }
         });
     }
+    [self.bitrateHandler sendBufferSize:(NSUInteger)debugInfo.bandwidth];
 }
 
 - (void)socketBufferStatus:(nullable id<LFStreamSocket>)socket status:(LFLiveBuffferState)status {
-    if((self.captureType & LFLiveCaptureMaskVideo || self.captureType & LFLiveInputMaskVideo) && self.adaptiveBitrate){
-        NSUInteger videoBitRate = [self.videoEncoder videoBitRate];
-        NSUInteger targetBitrate = videoBitRate;
-        if (status == LFLiveBuffferDecline) {
-            if (videoBitRate < _videoConfiguration.videoMaxBitRate) {
-                targetBitrate = videoBitRate + 50 * 1000;
-                [self.videoEncoder setVideoBitRate:targetBitrate];
-                NSLog(@"Increase bitrate %@", @(targetBitrate));
-            }
-        } else {
-            if (videoBitRate > self.videoConfiguration.videoMinBitRate) {
-                targetBitrate = videoBitRate - 100 * 1000;
-                [self.videoEncoder setVideoBitRate:targetBitrate];
-                NSLog(@"Decline bitrate %@", @(targetBitrate));
-            }
-        }
-        if (targetBitrate != videoBitRate) {
-            [[LFStreamLog logger] logWithDict:@{@"lt": @"pbrt",
-                                                @"vbr": @(targetBitrate)
-                                                }];
-        }
-    }
+    // remove original buffer changed code.
 }
 
 - (void)socketRTMPError:(id<LFStreamSocket>)socket errorCode:(NSInteger)errorCode message:(NSString *)message {

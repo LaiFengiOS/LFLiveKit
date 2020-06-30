@@ -137,6 +137,7 @@
 - (void)dealloc {
     _videoCaptureSource.running = NO;
     _audioCaptureSource.running = NO;
+    _bitrateHandler.bitrateShouldChangeBlock = nil;
 }
 
 #pragma mark -- CustomMethod
@@ -399,6 +400,10 @@
         if (expected == currentBitrate) {
             return;
         }
+        
+#if DEBUG
+        NSLog(@"change bitrate !!!! %@", @(expected));
+#endif
         [self.videoEncoder setVideoBitRate:expected];
           
         [[LFStreamLog logger] logWithDict:@{
@@ -406,6 +411,13 @@
             @"vbr": @(expected)
         }];
     }
+}
+
+- (void)setupBitrateHandleCallback {
+    __weak typeof(self) weakSelf = self;
+    self.bitrateHandler.bitrateShouldChangeBlock = ^(NSUInteger bitrate){
+        [weakSelf adaptVideoBitrate:bitrate];
+    };
 }
 
 #pragma mark -- Audio Capture Delegate
@@ -572,6 +584,13 @@
 }
 
 #pragma mark -- Getter Setter
+
+- (void)setAdaptiveBitrate:(BOOL)adaptiveBitrate {
+    _adaptiveBitrate = adaptiveBitrate;
+    if (adaptiveBitrate) {
+        [self setupBitrateHandleCallback];
+    }
+}
 
 // 17 media
 - (void)setProvider:(NSString *)provider {

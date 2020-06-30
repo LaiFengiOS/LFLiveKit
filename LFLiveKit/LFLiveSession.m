@@ -555,7 +555,7 @@
             }
         });
     }
-    [self.bitrateHandler sendBufferSize:(NSUInteger)debugInfo.bandwidth];
+    [self.bitrateHandler sendBufferSize:(NSUInteger)(debugInfo.currentBandwidth * 8)];
 }
 
 - (void)socketBufferStatus:(nullable id<LFStreamSocket>)socket status:(LFLiveBuffferState)status {

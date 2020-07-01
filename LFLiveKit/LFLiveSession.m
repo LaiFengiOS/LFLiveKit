@@ -20,6 +20,7 @@
 #import "RKVideoCapture.h"
 #import "RKAudioMix.h"
 #import "RKReplayKitCapture.h"
+#import "BitrateHandler.h"
 
 @interface LFLiveSession ()<LFAudioCaptureDelegate, LFVideoCaptureInterfaceDelegate, LFAudioEncodingDelegate, LFVideoEncodingDelegate, LFStreamSocketDelegate, RKReplayKitCaptureDelegate>
 
@@ -59,6 +60,7 @@
 @property (nonatomic, strong) dispatch_semaphore_t lock;
 
 @property (nonatomic, assign, readwrite) LFLiveInternetState internetSignal;
+@property (nonatomic, strong) BitrateHandler *bitrateHandler;
 
 @end
 
@@ -114,6 +116,12 @@
         _adaptiveBitrate = NO;
         _captureType = captureType;
         _glContext = glContext;
+        if (videoConfiguration) {
+            _bitrateHandler = [[BitrateHandler alloc] initWithAvg:videoConfiguration.videoBitRate
+                                                              max:videoConfiguration.videoMaxBitRate
+                                                              min:videoConfiguration.videoMinBitRate
+                                                            count:5];
+        }
     }
     return self;
 }
@@ -129,6 +137,7 @@
 - (void)dealloc {
     _videoCaptureSource.running = NO;
     _audioCaptureSource.running = NO;
+    _bitrateHandler.bitrateShouldChangeBlock = nil;
 }
 
 #pragma mark -- CustomMethod
@@ -384,6 +393,33 @@
     }
 }
 
+- (void)adaptVideoBitrate:(NSUInteger)expected {
+    if((self.captureType & LFLiveCaptureMaskVideo || self.captureType & LFLiveInputMaskVideo) && self.adaptiveBitrate){
+        NSUInteger videoBitRate = [self.videoEncoder videoBitRate];
+        NSUInteger currentBitrate = videoBitRate;
+        if (expected == currentBitrate) {
+            return;
+        }
+        
+#if DEBUG
+        NSLog(@"change bitrate !!!! %@", @(expected));
+#endif
+        [self.videoEncoder setVideoBitRate:expected];
+          
+        [[LFStreamLog logger] logWithDict:@{
+            @"lt": @"pbrt",
+            @"vbr": @(expected)
+        }];
+    }
+}
+
+- (void)setupBitrateHandleCallback {
+    __weak typeof(self) weakSelf = self;
+    self.bitrateHandler.bitrateShouldChangeBlock = ^(NSUInteger bitrate){
+        [weakSelf adaptVideoBitrate:bitrate];
+    };
+}
+
 #pragma mark -- Audio Capture Delegate
 
 - (void)captureOutput:(nullable LFAudioCapture *)capture audioBeforeSideMixing:(nullable NSData *)data {
@@ -519,31 +555,11 @@
             }
         });
     }
+    [self.bitrateHandler sendBufferSize:(NSUInteger)(debugInfo.currentBandwidth * 8)];
 }
 
 - (void)socketBufferStatus:(nullable id<LFStreamSocket>)socket status:(LFLiveBuffferState)status {
-    if((self.captureType & LFLiveCaptureMaskVideo || self.captureType & LFLiveInputMaskVideo) && self.adaptiveBitrate){
-        NSUInteger videoBitRate = [self.videoEncoder videoBitRate];
-        NSUInteger targetBitrate = videoBitRate;
-        if (status == LFLiveBuffferDecline) {
-            if (videoBitRate < _videoConfiguration.videoMaxBitRate) {
-                targetBitrate = videoBitRate + 50 * 1000;
-                [self.videoEncoder setVideoBitRate:targetBitrate];
-                NSLog(@"Increase bitrate %@", @(targetBitrate));
-            }
-        } else {
-            if (videoBitRate > self.videoConfiguration.videoMinBitRate) {
-                targetBitrate = videoBitRate - 100 * 1000;
-                [self.videoEncoder setVideoBitRate:targetBitrate];
-                NSLog(@"Decline bitrate %@", @(targetBitrate));
-            }
-        }
-        if (targetBitrate != videoBitRate) {
-            [[LFStreamLog logger] logWithDict:@{@"lt": @"pbrt",
-                                                @"vbr": @(targetBitrate)
-                                                }];
-        }
-    }
+    // remove original buffer changed code.
 }
 
 - (void)socketRTMPError:(id<LFStreamSocket>)socket errorCode:(NSInteger)errorCode message:(NSString *)message {
@@ -568,6 +584,13 @@
 }
 
 #pragma mark -- Getter Setter
+
+- (void)setAdaptiveBitrate:(BOOL)adaptiveBitrate {
+    _adaptiveBitrate = adaptiveBitrate;
+    if (adaptiveBitrate) {
+        [self setupBitrateHandleCallback];
+    }
+}
 
 // 17 media
 - (void)setProvider:(NSString *)provider {

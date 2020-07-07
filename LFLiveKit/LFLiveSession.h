@@ -288,4 +288,6 @@ typedef NS_ENUM(NSUInteger, RKReplayKitSampleType) {
 /** Update videoConfiguration */
 - (void)updateVideoConfiguration:(LFLiveVideoConfiguration *)videoConfiguration;
 
+- (void)setUpBackgroundPlaceholder:(UIImage *)image;
+
 @end

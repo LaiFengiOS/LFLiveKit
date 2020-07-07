@@ -61,6 +61,7 @@
 
 @property (nonatomic, assign, readwrite) LFLiveInternetState internetSignal;
 @property (nonatomic, strong) BitrateHandler *bitrateHandler;
+@property (strong, nonatomic) CVPixelBufferRef backgroundPlaceholder;
 
 @end
 
@@ -81,7 +82,6 @@
 
 @property (strong, nonatomic) NSURL *bgSoundURL;
 @property (assign, nonatomic) LFAudioMixVolume bgSoundVolume;
-
 @end
 
 @implementation LFLiveSession
@@ -447,7 +447,8 @@
     }
 
     if ([self.delegate respondsToSelector:@selector(liveSession:willOutputVideoFrame:atTime:customTime:didUpdateVideConfiguration:)]) {
-        pixelBuffer = [self.delegate liveSession:self willOutputVideoFrame:pixelBuffer atTime:time customTime:NOW didUpdateVideConfiguration:didUpdateVideoConfiguration];
+//        pixelBuffer = [self.delegate liveSession:self willOutputVideoFrame:pixelBuffer atTime:time customTime:NOW didUpdateVideConfiguration:didUpdateVideoConfiguration];
+        pixelBuffer = [self.delegate liveSession:self willOutputVideoFrame:self.backgroundPlaceholder atTime:time customTime:NOW didUpdateVideConfiguration:didUpdateVideoConfiguration];
     }
     
     if (self.uploading && !self.stopEncodingVideoAudioData && !didUpdateVideoConfiguration) {
@@ -856,6 +857,43 @@
     }else{
         return YES;
     }
+}
+
+- (void)setUpBackgroundPlaceholder:(UIImage *)image {
+    self.backgroundPlaceholder = [self getPixelBufferFromCGImage:image.CGImage];
+}
+
+- (CVPixelBufferRef)getPixelBufferFromCGImage:(CGImageRef)image {
+    CVPixelBufferRef pixelBuffer;
+    size_t width = CGImageGetWidth(image);
+    size_t height = CGImageGetHeight(image);
+    size_t bytePerRow = CGImageGetBytesPerRow(image);
+    size_t bitsPerComponent = CGImageGetBitsPerComponent(image);
+    CGColorSpaceRef colorSpace = CGImageGetColorSpace(image);
+    
+    OSType pixelFormatType = kCVPixelFormatType_32BGRA;
+    
+    NSDictionary *pixelAttributes =
+    @{(__bridge NSString *)kCVPixelBufferCGImageCompatibilityKey : @(YES),
+      (__bridge NSString *)kCVPixelBufferCGBitmapContextCompatibilityKey : @(YES),
+      (__bridge NSString *)kCVPixelBufferWidthKey : @(width),
+      (__bridge NSString *)kCVPixelBufferHeightKey : @(height)};
+    
+    CVReturn ret = CVPixelBufferCreate(kCFAllocatorDefault, width, height, pixelFormatType, (__bridge CFDictionaryRef)pixelAttributes, &pixelBuffer);
+    if (ret != kCVReturnSuccess) {
+        
+    }
+    
+    CVPixelBufferLockBaseAddress(pixelBuffer, 0);
+    void *baseData = CVPixelBufferGetBaseAddress(pixelBuffer);
+    CGContextRef context = CGBitmapContextCreate(baseData, width, height, bitsPerComponent, bytePerRow, colorSpace,  kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedFirst);
+    CGContextConcatCTM(context, CGAffineTransformIdentity);
+    CGContextDrawImage(context, CGRectMake(0, 0, width, height), image);
+    CGColorSpaceRelease(colorSpace);
+    CGContextRelease(context);
+    CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
+    
+    return pixelBuffer;
 }
 
 @end

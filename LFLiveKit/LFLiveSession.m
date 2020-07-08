@@ -22,6 +22,20 @@
 #import "RKReplayKitCapture.h"
 #import "BitrateHandler.h"
 
+@implementation UIImage (Resize)
+- (UIImage *)scaledToSize:(CGSize)newSize {
+    //UIGraphicsBeginImageContext(newSize);
+    // In next line, pass 0.0 to use the current device's pixel scaling factor (and thus account for Retina resolution).
+    // Pass 1.0 to force exact pixel size.
+    UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
+    [self drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
+}
+@end
+
+
 @interface LFLiveSession ()<LFAudioCaptureDelegate, LFVideoCaptureInterfaceDelegate, LFAudioEncodingDelegate, LFVideoEncodingDelegate, LFStreamSocketDelegate, RKReplayKitCaptureDelegate>
 
 /// 音频配置
@@ -61,8 +75,9 @@
 
 @property (nonatomic, assign, readwrite) LFLiveInternetState internetSignal;
 @property (nonatomic, strong) BitrateHandler *bitrateHandler;
-@property (strong, nonatomic) CVPixelBufferRef backgroundPlaceholder;
 
+@property (nonatomic) CVPixelBufferRef backgroundPlaceholder;
+@property (nonatomic, strong) dispatch_source_t timer;
 @end
 
 /**  时间戳 */
@@ -122,6 +137,9 @@
                                                               min:videoConfiguration.videoMinBitRate
                                                             count:5];
         }
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterBackground:) name:UIApplicationWillResignActiveNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationDidBecomeActiveNotification object:nil];
+
     }
     return self;
 }
@@ -135,9 +153,34 @@
 }
 
 - (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+
     _videoCaptureSource.running = NO;
     _audioCaptureSource.running = NO;
     _bitrateHandler.bitrateShouldChangeBlock = nil;
+}
+#pragma mark - Notification
+
+- (void)willEnterBackground:(NSNotification *)notification {
+    CGFloat frameTime = 1 / _videoConfiguration.videoFrameRate;
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    self.timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+    dispatch_source_set_timer(self.timer, dispatch_walltime(NULL, 0), frameTime * NSEC_PER_SEC, 0);
+    dispatch_source_set_event_handler(self.timer, ^{
+        [self sendVideoPlaceholder];
+    });
+    dispatch_resume(self.timer);
+}
+
+- (void)willEnterForeground:(NSNotification *)notification {
+    dispatch_cancel(self.timer);
+    self.timer = nil;
+}
+
+- (void)sendVideoPlaceholder {
+    if ((self.uploading) && (self.backgroundPlaceholder)) {
+        [self.videoEncoder encodeVideoData:self.backgroundPlaceholder timeStamp:NOW];
+    }
 }
 
 #pragma mark -- CustomMethod
@@ -447,8 +490,7 @@
     }
 
     if ([self.delegate respondsToSelector:@selector(liveSession:willOutputVideoFrame:atTime:customTime:didUpdateVideConfiguration:)]) {
-//        pixelBuffer = [self.delegate liveSession:self willOutputVideoFrame:pixelBuffer atTime:time customTime:NOW didUpdateVideConfiguration:didUpdateVideoConfiguration];
-        pixelBuffer = [self.delegate liveSession:self willOutputVideoFrame:self.backgroundPlaceholder atTime:time customTime:NOW didUpdateVideConfiguration:didUpdateVideoConfiguration];
+        pixelBuffer = [self.delegate liveSession:self willOutputVideoFrame:pixelBuffer atTime:time customTime:NOW didUpdateVideConfiguration:didUpdateVideoConfiguration];
     }
     
     if (self.uploading && !self.stopEncodingVideoAudioData && !didUpdateVideoConfiguration) {
@@ -859,8 +901,10 @@
     }
 }
 
-- (void)setUpBackgroundPlaceholder:(UIImage *)image {
-    self.backgroundPlaceholder = [self getPixelBufferFromCGImage:image.CGImage];
+- (void)setVideoPlaceholder:(UIImage *)image {
+    CGSize videoSize = _videoConfiguration.videoSize;
+    UIImage *resizeImage = [image scaledToSize:videoSize];
+    _backgroundPlaceholder = [self getPixelBufferFromCGImage:resizeImage.CGImage];
 }
 
 - (CVPixelBufferRef)getPixelBufferFromCGImage:(CGImageRef)image {

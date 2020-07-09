@@ -775,6 +775,7 @@ int PILI_RTMP_Connect0(PILI_RTMP *r, struct addrinfo *ai, unsigned short port, R
         struct sockaddr_in6 *in6 = (struct sockaddr_in6 *)ai->ai_addr;
         in6->sin6_port = htons(port);
     }
+    PILI_RTMP_Log(r, "start connecting socket.");
     if (r->m_sb.sb_socket != -1) {
         if (connect(r->m_sb.sb_socket, ai->ai_addr, ai->ai_addrlen) < 0) {
             int err = GetSockError();
@@ -863,7 +864,7 @@ int PILI_RTMP_Connect0(PILI_RTMP *r, struct addrinfo *ai, unsigned short port, R
         int on = 1;
         setsockopt(r->m_sb.sb_socket, IPPROTO_TCP, TCP_NODELAY, (char *)&on, sizeof(on));
     }
-
+    PILI_RTMP_Log(r, "connected to socket.");
     return TRUE;
 }
 
@@ -912,6 +913,7 @@ int PILI_RTMP_Connect1(PILI_RTMP *r, PILI_RTMPPacket *cp, RTMPError *error) {
         HTTP_read(r, 1);
         r->m_msgCounter = 0;
     }
+    PILI_RTMP_Log(r, "RTMP ... connected, handshaking");
     RTMP_Log(RTMP_LOGDEBUG, "%s, ... connected, handshaking", __FUNCTION__);
     if (!HandShake(r, TRUE, error)) {
         if (error) {
@@ -928,8 +930,10 @@ int PILI_RTMP_Connect1(PILI_RTMP *r, PILI_RTMPPacket *cp, RTMPError *error) {
         PILI_RTMP_Close(r, NULL);
         return FALSE;
     }
+    PILI_RTMP_Log(r, "RTMP handshaked.");
     RTMP_Log(RTMP_LOGDEBUG, "%s, handshaked", __FUNCTION__);
-
+    
+    PILI_RTMP_Log(r, "RTMP SendConnectPacket.");
     if (!SendConnectPacket(r, cp, error)) {
         if (error) {
             char msg[100];
@@ -1036,9 +1040,10 @@ static int
 int PILI_RTMP_ConnectStream(PILI_RTMP *r, int seekTime, RTMPError *error) {
     PILI_RTMPPacket packet = {0};
 
+    PILI_RTMP_Log(r, "start PILI_RTMP_ConnectStream.");
     /* seekTime was already set by SetupStream / SetupURL.
-   * This is only needed by ReconnectStream.
-   */
+     * This is only needed by ReconnectStream.
+     */
     if (seekTime > 0)
         r->Link.seekTime = seekTime;
 
@@ -2384,13 +2389,20 @@ static int
                 }
             }
             if (r->Link.protocol & RTMP_FEATURE_WRITE) {
+                PILI_RTMP_Log(r, "invoked ReleaseStream.");
                 SendReleaseStream(r, &error);
+                PILI_RTMP_Log(r, "ReleaseStream completed.");
+                
+                PILI_RTMP_Log(r, "invoked SendFCPublish.");
                 SendFCPublish(r, &error);
+                PILI_RTMP_Log(r, "SendFCPublish completed.");
             } else {
                 PILI_RTMP_SendServerBW(r, &error);
                 PILI_RTMP_SendCtrl(r, 3, 0, 300, &error);
             }
+            PILI_RTMP_Log(r, "invoked CreateStream.");
             PILI_RTMP_SendCreateStream(r, &error);
+            PILI_RTMP_Log(r, "CreateStream completed.");
 
             if (!(r->Link.protocol & RTMP_FEATURE_WRITE)) {
                 /* Send the FCSubscribe if live stream or if subscribepath is set */
@@ -2403,7 +2415,9 @@ static int
             r->m_stream_id = (int)AMFProp_GetNumber(AMF_GetProp(&obj, NULL, 3));
 
             if (r->Link.protocol & RTMP_FEATURE_WRITE) {
+                PILI_RTMP_Log(r, "invoked SendPublish.");
                 SendPublish(r, &error);
+                PILI_RTMP_Log(r, "SendPublish completed.");
             } else {
                 if (r->Link.lFlags & RTMP_LF_PLST)
                     SendPlaylist(r, &error);
@@ -3341,6 +3355,7 @@ void PILI_RTMP_Close(PILI_RTMP *r, RTMPError *error) {
     if (r->m_is_closing) {
         return;
     }
+    PILI_RTMP_Log(r, "Invoke socket close.");
     r->m_is_closing = 1;
     int i;
     if (PILI_RTMP_IsConnected(r)) {

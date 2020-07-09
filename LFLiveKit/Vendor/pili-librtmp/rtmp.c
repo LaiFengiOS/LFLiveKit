@@ -218,6 +218,7 @@ PILI_RTMP *
 void PILI_RTMP_Free(PILI_RTMP *r) {
     r->m_errorCallback = NULL;
     r->m_errorForwardCallback = NULL;
+    r->m_logCallback = NULL;
     r->m_userData = NULL;
     RTMPError_Free(r->m_error);
     r->m_error = NULL;
@@ -247,6 +248,7 @@ void PILI_RTMP_Init(PILI_RTMP *r) {
 
     r->m_errorCallback = NULL;
     r->m_errorForwardCallback = NULL;
+    r->m_logCallback = NULL;
     r->m_error = NULL;
     r->m_userData = NULL;
     r->m_is_closing = 0;
@@ -3322,11 +3324,19 @@ int PILI_RTMP_SendPacket(PILI_RTMP *r, PILI_RTMPPacket *packet, int queue, RTMPE
 int PILI_RTMP_Serve(PILI_RTMP *r, RTMPError *error) {
     return SHandShake(r, error);
 }
+
 void PILI_RTMP_Error(PILI_RTMP *r, RTMPError *error) {
     if (error && r->m_errorForwardCallback) {
         r->m_errorForwardCallback(error, r->m_userData);
     }
 }
+
+void PILI_RTMP_Log(PILI_RTMP *r, char *message) {
+    if (message && r->m_logCallback) {
+        r->m_logCallback(message, r->m_userData);
+    }
+}
+
 void PILI_RTMP_Close(PILI_RTMP *r, RTMPError *error) {
     if (r->m_is_closing) {
         return;

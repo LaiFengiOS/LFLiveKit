@@ -316,6 +316,7 @@ static inline void set_rtmp_str(AVal *val, const char *str)
     }
     _rtmp->m_errorCallback = RTMPErrorCallback;
     _rtmp->m_errorForwardCallback = RTMPErrorForwardCallback;
+    _rtmp->m_logCallback = RTMPLogCallback;
     _rtmp->m_connCallback = ConnectionTimeCallback;
     _rtmp->m_userData = (__bridge void *)self;
     _rtmp->m_msgCounter = 1;
@@ -769,6 +770,12 @@ void RTMPErrorForwardCallback(RTMPError *error, void *userData) {
     if (error->code < 0) {
         [socket forwardRTMPError:error];
     }
+}
+
+void RTMPLogCallback(char *message, void *userData) {
+    LFStreamRTMPSocket *socket = (__bridge LFStreamRTMPSocket *)userData;
+    
+    NSLog(@"debug log test = %s", message);
 }
 
 void ConnectionTimeCallback(PILI_CONNECTION_TIME *conn_time, void *userData) {

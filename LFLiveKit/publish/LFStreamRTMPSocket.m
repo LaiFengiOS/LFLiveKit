@@ -756,6 +756,11 @@ print_bytes(void   *start,
     }
 }
 
+- (void)rtmpCommandLog:(NSString *)log {
+    if ([self.delegate respondsToSelector:@selector(socket:rtmpCommandLog:)]) {
+        [self.delegate socket:self rtmpCommandLog:log];
+    }
+}
 
 #pragma mark -- CallBack
 void RTMPErrorCallback(RTMPError *error, void *userData) {
@@ -774,8 +779,9 @@ void RTMPErrorForwardCallback(RTMPError *error, void *userData) {
 
 void RTMPLogCallback(char *message, void *userData) {
     LFStreamRTMPSocket *socket = (__bridge LFStreamRTMPSocket *)userData;
-    
-    NSLog(@"debug log test = %s", message);
+    if (message) {
+        [socket rtmpCommandLog:[NSString stringWithUTF8String:message]];
+    }
 }
 
 void ConnectionTimeCallback(PILI_CONNECTION_TIME *conn_time, void *userData) {

@@ -614,6 +614,7 @@ int RTMP_SetOpt(PILI_RTMP *r, const AVal *opt, AVal *arg, RTMPError *error) {
             RTMPError_Alloc(error, strlen(msg));
             error->code = RTMPErrorUnknowOption;
             strcpy(error->message, msg);
+            PILI_RTMP_Log(r, msg);
         }
 
         RTMP_Log(RTMP_LOGERROR, "Unknown option %s", opt->av_val);
@@ -755,6 +756,8 @@ static int add_addr_info(PILI_RTMP *r, struct addrinfo *hints, struct addrinfo *
         RTMPError_Alloc(error, strlen(msg));
         error->code = RTMPErrorAccessDNSFailed;
         strcpy(error->message, msg);
+        PILI_RTMP_Log(r, msg);
+
         RTMP_Log(RTMP_LOGERROR, "Problem accessing the DNS. (addr: %s)", hostname);
         ret = FALSE;
     }
@@ -789,7 +792,6 @@ int PILI_RTMP_Connect0(PILI_RTMP *r, struct addrinfo *ai, unsigned short port, R
                 error->code = RTMPErrorFailedToConnectSocket;
                 strcpy(error->message, msg);
             }
-
             RTMP_Log(RTMP_LOGERROR, "%s, failed to connect socket. %d (%s)",
                      __FUNCTION__, err, strerror(err));
             PILI_RTMP_Error(r, error);
@@ -3340,6 +3342,8 @@ int PILI_RTMP_Serve(PILI_RTMP *r, RTMPError *error) {
 }
 
 void PILI_RTMP_Error(PILI_RTMP *r, RTMPError *error) {
+    if (error && error->message)
+        PILI_RTMP_Log(r, error->message);
     if (error && r->m_errorForwardCallback) {
         r->m_errorForwardCallback(error, r->m_userData);
     }

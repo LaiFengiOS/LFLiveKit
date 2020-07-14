@@ -217,6 +217,8 @@ PILI_RTMP *
 
 void PILI_RTMP_Free(PILI_RTMP *r) {
     r->m_errorCallback = NULL;
+    r->m_errorForwardCallback = NULL;
+    r->m_logCallback = NULL;
     r->m_userData = NULL;
     RTMPError_Free(r->m_error);
     r->m_error = NULL;
@@ -245,6 +247,8 @@ void PILI_RTMP_Init(PILI_RTMP *r) {
     r->Link.swfAge = 30;
 
     r->m_errorCallback = NULL;
+    r->m_errorForwardCallback = NULL;
+    r->m_logCallback = NULL;
     r->m_error = NULL;
     r->m_userData = NULL;
     r->m_is_closing = 0;
@@ -610,6 +614,7 @@ int RTMP_SetOpt(PILI_RTMP *r, const AVal *opt, AVal *arg, RTMPError *error) {
             RTMPError_Alloc(error, strlen(msg));
             error->code = RTMPErrorUnknowOption;
             strcpy(error->message, msg);
+            PILI_RTMP_Log(r, msg);
         }
 
         RTMP_Log(RTMP_LOGERROR, "Unknown option %s", opt->av_val);
@@ -751,6 +756,8 @@ static int add_addr_info(PILI_RTMP *r, struct addrinfo *hints, struct addrinfo *
         RTMPError_Alloc(error, strlen(msg));
         error->code = RTMPErrorAccessDNSFailed;
         strcpy(error->message, msg);
+        PILI_RTMP_Log(r, msg);
+
         RTMP_Log(RTMP_LOGERROR, "Problem accessing the DNS. (addr: %s)", hostname);
         ret = FALSE;
     }
@@ -771,6 +778,7 @@ int PILI_RTMP_Connect0(PILI_RTMP *r, struct addrinfo *ai, unsigned short port, R
         struct sockaddr_in6 *in6 = (struct sockaddr_in6 *)ai->ai_addr;
         in6->sin6_port = htons(port);
     }
+    PILI_RTMP_Log(r, "start connecting socket.");
     if (r->m_sb.sb_socket != -1) {
         if (connect(r->m_sb.sb_socket, ai->ai_addr, ai->ai_addrlen) < 0) {
             int err = GetSockError();
@@ -784,11 +792,10 @@ int PILI_RTMP_Connect0(PILI_RTMP *r, struct addrinfo *ai, unsigned short port, R
                 error->code = RTMPErrorFailedToConnectSocket;
                 strcpy(error->message, msg);
             }
-
             RTMP_Log(RTMP_LOGERROR, "%s, failed to connect socket. %d (%s)",
                      __FUNCTION__, err, strerror(err));
-
-            PILI_RTMP_Close(r, error);
+            PILI_RTMP_Error(r, error);
+            PILI_RTMP_Close(r, NULL);
             return FALSE;
         }
 
@@ -804,7 +811,8 @@ int PILI_RTMP_Connect0(PILI_RTMP *r, struct addrinfo *ai, unsigned short port, R
                     strcpy(error->message, msg);
                 }
                 RTMP_Log(RTMP_LOGERROR, "%s, SOCKS negotiation failed.", __FUNCTION__);
-                PILI_RTMP_Close(r, error);
+                PILI_RTMP_Error(r, error);
+                PILI_RTMP_Close(r, NULL);
                 return FALSE;
             }
         }
@@ -822,7 +830,7 @@ int PILI_RTMP_Connect0(PILI_RTMP *r, struct addrinfo *ai, unsigned short port, R
         }
 
         RTMP_Log(RTMP_LOGERROR, "%s, failed to create socket. Error: %d (%s)", __FUNCTION__, err, strerror(err));
-
+        PILI_RTMP_Error(r, error);
         return FALSE;
     }
 
@@ -858,7 +866,7 @@ int PILI_RTMP_Connect0(PILI_RTMP *r, struct addrinfo *ai, unsigned short port, R
         int on = 1;
         setsockopt(r->m_sb.sb_socket, IPPROTO_TCP, TCP_NODELAY, (char *)&on, sizeof(on));
     }
-
+    PILI_RTMP_Log(r, "connected to socket.");
     return TRUE;
 }
 
@@ -878,6 +886,7 @@ int PILI_RTMP_Connect1(PILI_RTMP *r, PILI_RTMPPacket *cp, RTMPError *error) {
             }
 
             RTMP_Log(RTMP_LOGERROR, "%s, TLS_Connect failed", __FUNCTION__);
+            PILI_RTMP_Error(r, error);
             RTMP_Close(r, NULL);
             return FALSE;
         }
@@ -892,7 +901,8 @@ int PILI_RTMP_Connect1(PILI_RTMP *r, PILI_RTMPPacket *cp, RTMPError *error) {
         }
 
         RTMP_Log(RTMP_LOGERROR, "%s, no SSL/TLS support", __FUNCTION__);
-        PILI_RTMP_Close(r, error);
+        PILI_RTMP_Error(r, error);
+        PILI_RTMP_Close(r, NULL);
         return FALSE;
 
 #endif
@@ -905,6 +915,7 @@ int PILI_RTMP_Connect1(PILI_RTMP *r, PILI_RTMPPacket *cp, RTMPError *error) {
         HTTP_read(r, 1);
         r->m_msgCounter = 0;
     }
+    PILI_RTMP_Log(r, "RTMP ... connected, handshaking");
     RTMP_Log(RTMP_LOGDEBUG, "%s, ... connected, handshaking", __FUNCTION__);
     if (!HandShake(r, TRUE, error)) {
         if (error) {
@@ -917,11 +928,14 @@ int PILI_RTMP_Connect1(PILI_RTMP *r, PILI_RTMPPacket *cp, RTMPError *error) {
         }
 
         RTMP_Log(RTMP_LOGERROR, "%s, handshake failed.", __FUNCTION__);
-        PILI_RTMP_Close(r, error);
+        PILI_RTMP_Error(r, error);
+        PILI_RTMP_Close(r, NULL);
         return FALSE;
     }
+    PILI_RTMP_Log(r, "RTMP handshaked.");
     RTMP_Log(RTMP_LOGDEBUG, "%s, handshaked", __FUNCTION__);
-
+    
+    PILI_RTMP_Log(r, "RTMP SendConnectPacket.");
     if (!SendConnectPacket(r, cp, error)) {
         if (error) {
             char msg[100];
@@ -932,7 +946,8 @@ int PILI_RTMP_Connect1(PILI_RTMP *r, PILI_RTMPPacket *cp, RTMPError *error) {
             strcpy(error->message, msg);
         }
         RTMP_Log(RTMP_LOGERROR, "%s, PILI_RTMP connect failed.", __FUNCTION__);
-        PILI_RTMP_Close(r, error);
+        PILI_RTMP_Error(r, error);
+        PILI_RTMP_Close(r, NULL);
         return FALSE;
     }
     return TRUE;
@@ -1027,9 +1042,10 @@ static int
 int PILI_RTMP_ConnectStream(PILI_RTMP *r, int seekTime, RTMPError *error) {
     PILI_RTMPPacket packet = {0};
 
+    PILI_RTMP_Log(r, "start PILI_RTMP_ConnectStream.");
     /* seekTime was already set by SetupStream / SetupURL.
-   * This is only needed by ReconnectStream.
-   */
+     * This is only needed by ReconnectStream.
+     */
     if (seekTime > 0)
         r->Link.seekTime = seekTime;
 
@@ -1057,6 +1073,7 @@ int PILI_RTMP_ConnectStream(PILI_RTMP *r, int seekTime, RTMPError *error) {
         RTMPError_Alloc(error, strlen(msg));
         error->code = RTMPErrorRTMPConnectStreamFailed;
         strcpy(error->message, msg);
+        PILI_RTMP_Error(r, error);
     }
 
     return r->m_bPlaying;
@@ -1347,7 +1364,8 @@ static int
                         error.code = RTMPErrorUnknow;
                         strcpy(error.message, msg);
 
-                        PILI_RTMP_Close(r, &error);
+                        PILI_RTMP_Error(r, &error);
+                        PILI_RTMP_Close(r, NULL);
 
                         RTMPError_Free(&error);
                         
@@ -1361,6 +1379,7 @@ static int
                         error.code = RTMPErrorSocketTimeout;
                         strcpy(error.message, msg);
 
+                        PILI_RTMP_Error(r, &error);
                         PILI_RTMP_Close(r, &error);
 
                         RTMPError_Free(&error);
@@ -1398,6 +1417,7 @@ static int
             error.code = RTMPErrorSocketClosedByPeer;
             strcpy(error.message, msg);
 
+            PILI_RTMP_Error(r, &error);
             PILI_RTMP_Close(r, &error);
 
             RTMPError_Free(&error);
@@ -1464,6 +1484,7 @@ static int
                 strcpy(error->message, msg);
             }
 
+            PILI_RTMP_Error(r, error);
             PILI_RTMP_Close(r, error);
 
             RTMPError_Free(error);
@@ -2370,13 +2391,20 @@ static int
                 }
             }
             if (r->Link.protocol & RTMP_FEATURE_WRITE) {
+                PILI_RTMP_Log(r, "invoked ReleaseStream.");
                 SendReleaseStream(r, &error);
+                PILI_RTMP_Log(r, "ReleaseStream completed.");
+                
+                PILI_RTMP_Log(r, "invoked SendFCPublish.");
                 SendFCPublish(r, &error);
+                PILI_RTMP_Log(r, "SendFCPublish completed.");
             } else {
                 PILI_RTMP_SendServerBW(r, &error);
                 PILI_RTMP_SendCtrl(r, 3, 0, 300, &error);
             }
+            PILI_RTMP_Log(r, "invoked CreateStream.");
             PILI_RTMP_SendCreateStream(r, &error);
+            PILI_RTMP_Log(r, "CreateStream completed.");
 
             if (!(r->Link.protocol & RTMP_FEATURE_WRITE)) {
                 /* Send the FCSubscribe if live stream or if subscribepath is set */
@@ -2389,7 +2417,9 @@ static int
             r->m_stream_id = (int)AMFProp_GetNumber(AMF_GetProp(&obj, NULL, 3));
 
             if (r->Link.protocol & RTMP_FEATURE_WRITE) {
+                PILI_RTMP_Log(r, "invoked SendPublish.");
                 SendPublish(r, &error);
+                PILI_RTMP_Log(r, "SendPublish completed.");
             } else {
                 if (r->Link.lFlags & RTMP_LF_PLST)
                     SendPlaylist(r, &error);
@@ -2430,6 +2460,7 @@ static int
         error.code = RTMPErrorServerRequestedClose;
         strcpy(error.message, msg);
 
+        PILI_RTMP_Error(r, &error);
         PILI_RTMP_Close(r, &error);
 
         RTMPError_Free(&error);
@@ -2469,6 +2500,7 @@ static int
             error.code = err_code;
             strcpy(error.message, msg);
 
+            PILI_RTMP_Error(r, &error);
             PILI_RTMP_Close(r, &error);
 
             RTMPError_Free(&error);
@@ -3309,10 +3341,25 @@ int PILI_RTMP_Serve(PILI_RTMP *r, RTMPError *error) {
     return SHandShake(r, error);
 }
 
+void PILI_RTMP_Error(PILI_RTMP *r, RTMPError *error) {
+    if (error && error->message)
+        PILI_RTMP_Log(r, error->message);
+    if (error && r->m_errorForwardCallback) {
+        r->m_errorForwardCallback(error, r->m_userData);
+    }
+}
+
+void PILI_RTMP_Log(PILI_RTMP *r, char *message) {
+    if (message && r->m_logCallback) {
+        r->m_logCallback(message, r->m_userData);
+    }
+}
+
 void PILI_RTMP_Close(PILI_RTMP *r, RTMPError *error) {
     if (r->m_is_closing) {
         return;
     }
+    PILI_RTMP_Log(r, "Invoke socket close.");
     r->m_is_closing = 1;
     int i;
     if (PILI_RTMP_IsConnected(r)) {

@@ -315,6 +315,8 @@ static inline void set_rtmp_str(AVal *val, const char *str)
         set_rtmp_str(&_rtmp->Link.tcUrl, tc_url);
     }
     _rtmp->m_errorCallback = RTMPErrorCallback;
+    _rtmp->m_errorForwardCallback = RTMPErrorForwardCallback;
+    _rtmp->m_logCallback = RTMPLogCallback;
     _rtmp->m_connCallback = ConnectionTimeCallback;
     _rtmp->m_userData = (__bridge void *)self;
     _rtmp->m_msgCounter = 1;
@@ -754,13 +756,31 @@ print_bytes(void   *start,
     }
 }
 
+- (void)rtmpCommandLog:(NSString *)log {
+    if ([self.delegate respondsToSelector:@selector(socket:rtmpCommandLog:)]) {
+        [self.delegate socket:self rtmpCommandLog:log];
+    }
+}
 
 #pragma mark -- CallBack
 void RTMPErrorCallback(RTMPError *error, void *userData) {
     LFStreamRTMPSocket *socket = (__bridge LFStreamRTMPSocket *)userData;
     if (error->code < 0) {
 //        [socket reconnect];
+    }
+}
+
+void RTMPErrorForwardCallback(RTMPError *error, void *userData) {
+    LFStreamRTMPSocket *socket = (__bridge LFStreamRTMPSocket *)userData;
+    if (error->code < 0) {
         [socket forwardRTMPError:error];
+    }
+}
+
+void RTMPLogCallback(char *message, void *userData) {
+    LFStreamRTMPSocket *socket = (__bridge LFStreamRTMPSocket *)userData;
+    if (message) {
+        [socket rtmpCommandLog:[NSString stringWithUTF8String:message]];
     }
 }
 

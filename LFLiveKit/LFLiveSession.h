@@ -88,6 +88,7 @@ typedef NS_ENUM(NSUInteger, RKReplayKitSampleType) {
 - (void)liveSession:(nullable LFLiveSession *)session willOutputAudioFrame:(unsigned char * _Nullable)data samples:(NSUInteger)samples customTime:(uint64_t)customTime;
 - (void)liveSession:(nullable LFLiveSession *)session errorCode:(NSInteger)errorCode message:(nullable NSString *)message;
 
+- (void)liveSession:(nullable LFLiveSession *)session message:(nullable NSString *)message;
 @end
 
 @class LFLiveStreamInfo;

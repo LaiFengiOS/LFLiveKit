@@ -207,6 +207,8 @@ typedef struct PILI_RTMP_METHOD {
 } PILI_RTMP_METHOD;
 
 typedef void (*PILI_RTMPErrorCallback)(RTMPError *error, void *userData);
+typedef void (*PILI_RTMPErrorForwardCallback)(RTMPError *error, void *userData);
+typedef void (*PILI_RTMPLogCallback)(char *message, void *userData);
 
 typedef struct PILI_CONNECTION_TIME {
     uint32_t connect_time;
@@ -261,6 +263,8 @@ typedef struct PILI_RTMP {
     PILI_RTMP_LNK Link;
 
     PILI_RTMPErrorCallback m_errorCallback;
+    PILI_RTMPErrorForwardCallback m_errorForwardCallback;
+    PILI_RTMPLogCallback m_logCallback;
     PILI_RTMP_ConnectionTimeCallback m_connCallback;
     RTMPError *m_error;
     void *m_userData;
@@ -319,6 +323,8 @@ void PILI_RTMP_Close(PILI_RTMP *r, RTMPError *error);
 PILI_RTMP *PILI_RTMP_Alloc(void);
 void PILI_RTMP_Free(PILI_RTMP *r);
 void PILI_RTMP_EnableWrite(PILI_RTMP *r);
+void PILI_RTMP_Error(PILI_RTMP *r, RTMPError *error);
+void PILI_RTMP_Log(PILI_RTMP *r, char *message);
 
 int PILI_RTMP_LibVersion(void);
 void PILI_RTMP_UserInterrupt(void); /* user typed Ctrl-C */

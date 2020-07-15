@@ -610,6 +610,13 @@
         [self.delegate liveSession:self errorCode:errorCode message:message];
     }
 }
+
+- (void)socket:(id<LFStreamSocket>)socket rtmpCommandLog:(NSString *)log {
+    if ([self.delegate respondsToSelector:@selector(liveSession:message:)]) {
+        [self.delegate liveSession:self message:log];
+    }
+}
+
 #pragma mark - ReplayKitCapture Delegate
 
 - (void)replayKitCapture:(RKReplayKitCapture *)capture didCaptureVideo:(CVPixelBufferRef)pixelBuffer {

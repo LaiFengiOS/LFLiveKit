@@ -22,6 +22,20 @@
 #import "RKReplayKitCapture.h"
 #import "BitrateHandler.h"
 
+@implementation UIImage (Resize)
+- (UIImage *)scaledToSize:(CGSize)newSize {
+    //UIGraphicsBeginImageContext(newSize);
+    // In next line, pass 0.0 to use the current device's pixel scaling factor (and thus account for Retina resolution).
+    // Pass 1.0 to force exact pixel size.
+    UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
+    [self drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
+}
+@end
+
+
 @interface LFLiveSession ()<LFAudioCaptureDelegate, LFVideoCaptureInterfaceDelegate, LFAudioEncodingDelegate, LFVideoEncodingDelegate, LFStreamSocketDelegate, RKReplayKitCaptureDelegate>
 
 /// 音频配置
@@ -62,6 +76,8 @@
 @property (nonatomic, assign, readwrite) LFLiveInternetState internetSignal;
 @property (nonatomic, strong) BitrateHandler *bitrateHandler;
 
+@property (nonatomic) CVPixelBufferRef backgroundPlaceholder;
+@property (nonatomic, strong) dispatch_source_t timer;
 @end
 
 /**  时间戳 */
@@ -81,7 +97,6 @@
 
 @property (strong, nonatomic) NSURL *bgSoundURL;
 @property (assign, nonatomic) LFAudioMixVolume bgSoundVolume;
-
 @end
 
 @implementation LFLiveSession
@@ -122,6 +137,9 @@
                                                               min:videoConfiguration.videoMinBitRate
                                                             count:5];
         }
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterBackground:) name:UIApplicationWillResignActiveNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationDidBecomeActiveNotification object:nil];
+
     }
     return self;
 }
@@ -135,9 +153,34 @@
 }
 
 - (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+
     _videoCaptureSource.running = NO;
     _audioCaptureSource.running = NO;
     _bitrateHandler.bitrateShouldChangeBlock = nil;
+}
+#pragma mark - Notification
+
+- (void)willEnterBackground:(NSNotification *)notification {
+    CGFloat frameTime = 1 / _videoConfiguration.videoFrameRate;
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    self.timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+    dispatch_source_set_timer(self.timer, dispatch_walltime(NULL, 0), frameTime * NSEC_PER_SEC, 0);
+    dispatch_source_set_event_handler(self.timer, ^{
+        [self sendVideoPlaceholder];
+    });
+    dispatch_resume(self.timer);
+}
+
+- (void)willEnterForeground:(NSNotification *)notification {
+    dispatch_cancel(self.timer);
+    self.timer = nil;
+}
+
+- (void)sendVideoPlaceholder {
+    if ((self.uploading) && (self.backgroundPlaceholder)) {
+        [self.videoEncoder encodeVideoData:self.backgroundPlaceholder timeStamp:NOW];
+    }
 }
 
 #pragma mark -- CustomMethod
@@ -863,6 +906,45 @@
     }else{
         return YES;
     }
+}
+
+- (void)setVideoPlaceholder:(UIImage *)image {
+    CGSize videoSize = _videoConfiguration.videoSize;
+    UIImage *resizeImage = [image scaledToSize:videoSize];
+    _backgroundPlaceholder = [self getPixelBufferFromCGImage:resizeImage.CGImage];
+}
+
+- (CVPixelBufferRef)getPixelBufferFromCGImage:(CGImageRef)image {
+    CVPixelBufferRef pixelBuffer;
+    size_t width = CGImageGetWidth(image);
+    size_t height = CGImageGetHeight(image);
+    size_t bytePerRow = CGImageGetBytesPerRow(image);
+    size_t bitsPerComponent = CGImageGetBitsPerComponent(image);
+    CGColorSpaceRef colorSpace = CGImageGetColorSpace(image);
+    
+    OSType pixelFormatType = kCVPixelFormatType_32BGRA;
+    
+    NSDictionary *pixelAttributes =
+    @{(__bridge NSString *)kCVPixelBufferCGImageCompatibilityKey : @(YES),
+      (__bridge NSString *)kCVPixelBufferCGBitmapContextCompatibilityKey : @(YES),
+      (__bridge NSString *)kCVPixelBufferWidthKey : @(width),
+      (__bridge NSString *)kCVPixelBufferHeightKey : @(height)};
+    
+    CVReturn ret = CVPixelBufferCreate(kCFAllocatorDefault, width, height, pixelFormatType, (__bridge CFDictionaryRef)pixelAttributes, &pixelBuffer);
+    if (ret != kCVReturnSuccess) {
+        
+    }
+    
+    CVPixelBufferLockBaseAddress(pixelBuffer, 0);
+    void *baseData = CVPixelBufferGetBaseAddress(pixelBuffer);
+    CGContextRef context = CGBitmapContextCreate(baseData, width, height, bitsPerComponent, bytePerRow, colorSpace,  kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedFirst);
+    CGContextConcatCTM(context, CGAffineTransformIdentity);
+    CGContextDrawImage(context, CGRectMake(0, 0, width, height), image);
+    CGColorSpaceRelease(colorSpace);
+    CGContextRelease(context);
+    CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
+    
+    return pixelBuffer;
 }
 
 @end

@@ -25,7 +25,7 @@ static NSTimeInterval const kSessionLockDuration = 2.0f;
 @property (nonatomic, strong) LFLiveVideoConfiguration *configuration;
 @property (nonatomic, weak) id<LFVideoEncodingDelegate> h264Delegate;
 @property (nonatomic) NSInteger currentVideoBitRate;
-@property (nonatomic) BOOL isBackGround;
+
 @property (nonatomic) BOOL isResetting;
 @property (strong, nonatomic) dispatch_semaphore_t sessionLock;
 @end
@@ -39,8 +39,6 @@ static NSTimeInterval const kSessionLockDuration = 2.0f;
         _sessionLock = dispatch_semaphore_create(1);
         _configuration = configuration;
         [self resetCompressionSession];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterBackground:) name:UIApplicationWillResignActiveNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationDidBecomeActiveNotification object:nil];
         frameCount = -1;
 #ifdef DEBUG
         enabledWriteVideoFile = NO;
@@ -83,7 +81,7 @@ static NSTimeInterval const kSessionLockDuration = 2.0f;
 }
 
 - (void)setVideoBitRate:(NSInteger)videoBitRate {
-    if (_isBackGround || _isResetting) return;
+    if (_isResetting) return;
     VTSessionSetProperty(compressionSession, kVTCompressionPropertyKey_AverageBitRate, (__bridge CFTypeRef)@(videoBitRate));
     NSArray *limit = @[@(videoBitRate * 1.5/8), @(1)];
     VTSessionSetProperty(compressionSession, kVTCompressionPropertyKey_DataRateLimits, (__bridge CFArrayRef)limit);
@@ -107,7 +105,7 @@ static NSTimeInterval const kSessionLockDuration = 2.0f;
 
 #pragma mark -- LFVideoEncoder
 - (void)encodeVideoData:(CVPixelBufferRef)pixelBuffer timeStamp:(uint64_t)timeStamp {
-    if (_isBackGround || _isResetting) return;
+    if (_isResetting) return;
     frameCount++;
     accVideoFrameBufferCount++;
     CMTime presentationTimeStamp = CMTimeMake(frameCount, (int32_t)_configuration.videoFrameRate);
@@ -152,16 +150,6 @@ static NSTimeInterval const kSessionLockDuration = 2.0f;
     [self resetCompressionSession];
     
     _isResetting = NO;
-}
-
-#pragma mark -- Notification
-- (void)willEnterBackground:(NSNotification*)notification{
-    _isBackGround = YES;
-}
-
-- (void)willEnterForeground:(NSNotification*)notification{
-    [self resetCompressionSession];
-    _isBackGround = NO;
 }
 
 #pragma mark -- VideoCallBack

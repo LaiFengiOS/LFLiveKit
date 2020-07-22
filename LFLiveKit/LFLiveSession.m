@@ -162,7 +162,9 @@
 #pragma mark - Notification
 
 - (void)willEnterBackground:(NSNotification *)notification {
-    CGFloat frameTime = 1 / _videoConfiguration.videoFrameRate;
+    CGFloat frameRate = _videoConfiguration.videoFrameRate;
+    CGFloat frameTime = 1 / frameRate;
+
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     self.timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
     dispatch_source_set_timer(self.timer, dispatch_walltime(NULL, 0), frameTime * NSEC_PER_SEC, 0);

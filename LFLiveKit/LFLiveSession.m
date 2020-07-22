@@ -137,8 +137,8 @@
                                                               min:videoConfiguration.videoMinBitRate
                                                             count:5];
         }
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterBackground:) name:UIApplicationWillResignActiveNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationDidBecomeActiveNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
 
     }
     return self;
@@ -180,6 +180,9 @@
 - (void)sendVideoPlaceholder {
     if ((self.uploading) && (self.backgroundPlaceholder)) {
         [self.videoEncoder encodeVideoData:self.backgroundPlaceholder timeStamp:NOW];
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC));
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        });
     }
 }
 

@@ -182,9 +182,6 @@
 - (void)sendVideoPlaceholder {
     if ((self.uploading) && (self.backgroundPlaceholder)) {
         [self.videoEncoder encodeVideoData:self.backgroundPlaceholder timeStamp:NOW];
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC));
-        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        });
     }
 }
 

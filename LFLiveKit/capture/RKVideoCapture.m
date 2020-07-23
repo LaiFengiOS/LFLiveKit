@@ -284,7 +284,6 @@
 - (void)willEnterBackground:(NSNotification *)notification {
     [LFUtils sharedApplication].idleTimerDisabled = NO;
     [self.videoCamera pauseCapture];
-    glFinish();
     runSynchronouslyOnVideoProcessingQueue(^{
         glFinish();
     });

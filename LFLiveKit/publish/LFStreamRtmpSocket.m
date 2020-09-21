@@ -248,6 +248,9 @@ SAVC(mp4a);
 - (NSInteger)RTMP264_Connect:(char *)push_url {
     //由于摄像头的timestamp是一直在累加，需要每次得到相对时间戳
     //分配与初始化
+    char msg[100];
+    memset(msg, 0, 100);
+    PILI_RTMPError_Alloc(&_error, strlen(msg));
     _rtmp = PILI_RTMP_Alloc();
     PILI_RTMP_Init(_rtmp);
 

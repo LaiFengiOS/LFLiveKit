@@ -113,6 +113,8 @@ SAVC(mp4a);
     if (_isConnecting) return;
     
     _isConnecting = YES;
+    _retryTimes4netWorkBreaken = 0;
+
     if (self.delegate && [self.delegate respondsToSelector:@selector(socketStatus:status:)]) {
         [self.delegate socketStatus:self status:LFLivePending];
     }

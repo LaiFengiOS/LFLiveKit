@@ -291,6 +291,7 @@ SAVC(mp4a);
     _isConnecting = NO;
     _isReconnecting = NO;
     _isSending = NO;
+    _retryTimes4netWorkBreaken = 0;
     return 0;
 
 Failed:

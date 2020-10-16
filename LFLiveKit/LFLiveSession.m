@@ -137,8 +137,8 @@
                                                               min:videoConfiguration.videoMinBitRate
                                                             count:5];
         }
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
 
     }
     return self;
@@ -161,7 +161,7 @@
 }
 #pragma mark - Notification
 
-- (void)willEnterBackground:(NSNotification *)notification {
+- (void)willResignActive:(NSNotification *)notification {
     CGFloat frameRate = _videoConfiguration.videoFrameRate;
     CGFloat frameTime = 1 / frameRate;
 
@@ -174,7 +174,7 @@
     dispatch_resume(self.timer);
 }
 
-- (void)willEnterForeground:(NSNotification *)notification {
+- (void)didBecomeActive:(NSNotification *)notification {
     dispatch_cancel(self.timer);
     self.timer = nil;
 }

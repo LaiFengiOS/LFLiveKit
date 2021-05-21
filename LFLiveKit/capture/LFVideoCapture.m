@@ -160,6 +160,7 @@
 
 - (void)setMirror:(BOOL)mirror {
     _mirror = mirror;
+    [self reloadMirror];
 }
 
 - (void)setBeautyFace:(BOOL)beautyFace{

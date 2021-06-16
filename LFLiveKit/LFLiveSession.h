@@ -190,6 +190,10 @@ typedef NS_ENUM(NSUInteger, RKReplayKitSampleType) {
 
 @property (strong, nonatomic, readonly) EAGLContext * _Nullable glContext;
 
+@property (nonatomic, assign) NSUInteger videoSize;
+
+@property (nonatomic, assign) BOOL isSocketConnectSuccess;
+
 // 是否要停止將採集到的video/audio data做encode, 沒有encoded的data就不會推送到rtmp
 @property (assign, nonatomic, readonly) BOOL stopEncodingVideoAudioData;
 
@@ -290,5 +294,6 @@ typedef NS_ENUM(NSUInteger, RKReplayKitSampleType) {
 - (void)updateVideoConfiguration:(LFLiveVideoConfiguration *)videoConfiguration;
 
 - (void)setVideoPlaceholder:(UIImage *)image;
+
 
 @end

@@ -949,4 +949,9 @@
     return pixelBuffer;
 }
 
+- (void)socketCallbackIsSuccess:(BOOL)isSuccess videoSize:(NSInteger)videoSize {
+    self.videoSize = videoSize;
+    self.isSocketConnectSuccess = isSuccess;
+}
+
 @end

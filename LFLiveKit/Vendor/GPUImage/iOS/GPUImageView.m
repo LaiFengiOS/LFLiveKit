@@ -232,6 +232,7 @@
 
 - (void)recalculateViewGeometry;
 {
+    dispatch_async(dispatch_get_main_queue(), ^(void){
     runSynchronouslyOnVideoProcessingQueue(^{
         CGFloat heightScaling, widthScaling;
         
@@ -270,6 +271,7 @@
         imageVertices[5] = heightScaling;
         imageVertices[6] = widthScaling;
         imageVertices[7] = heightScaling;
+    });
     });
     
 //    static const GLfloat imageVertices[] = {

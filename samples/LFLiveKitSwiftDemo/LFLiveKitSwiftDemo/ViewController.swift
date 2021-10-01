@@ -41,11 +41,11 @@ class ViewController: UIViewController, LFLiveSessionDelegate {
     //MARK: AccessAuth
     
     func requestAccessForVideo() -> Void {
-        let status = AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo);
+        let status = AVCaptureDevice.authorizationStatus(for: AVMediaType.video);
         switch status  {
         // 许可对话没有出现，发起授权许可
         case AVAuthorizationStatus.notDetermined:
-            AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: { (granted) in
+            AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler: { (granted) in
                 if(granted){
                     DispatchQueue.main.async {
                         self.session.running = true
@@ -66,11 +66,11 @@ class ViewController: UIViewController, LFLiveSessionDelegate {
     }
     
     func requestAccessForAudio() -> Void {
-        let status = AVCaptureDevice.authorizationStatus(forMediaType:AVMediaTypeAudio)
+        let status = AVCaptureDevice.authorizationStatus(for:AVMediaType.audio)
         switch status  {
         // 许可对话没有出现，发起授权许可
         case AVAuthorizationStatus.notDetermined:
-            AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeAudio, completionHandler: { (granted) in
+            AVCaptureDevice.requestAccess(for: AVMediaType.audio, completionHandler: { (granted) in
                 
             })
             break;
@@ -122,29 +122,29 @@ class ViewController: UIViewController, LFLiveSessionDelegate {
     //MARK: - Events
     
     // 开始直播
-    func didTappedStartLiveButton(_ button: UIButton) -> Void {
+    @objc func didTappedStartLiveButton(_ button: UIButton) -> Void {
         startLiveButton.isSelected = !startLiveButton.isSelected;
         if (startLiveButton.isSelected) {
-            startLiveButton.setTitle("结束直播", for: UIControlState())
+            startLiveButton.setTitle("结束直播", for: UIControl.State())
             let stream = LFLiveStreamInfo()
             stream.url = "rtmp://live.hkstv.hk.lxdns.com:1935/live/stream153"
             session.startLive(stream)
         } else {
-            startLiveButton.setTitle("开始直播", for: UIControlState())
+            startLiveButton.setTitle("开始直播", for: UIControl.State())
             session.stopLive()
         }
     }
     
     // 美颜
-    func didTappedBeautyButton(_ button: UIButton) -> Void {
+    @objc func didTappedBeautyButton(_ button: UIButton) -> Void {
         session.beautyFace = !session.beautyFace;
         beautyButton.isSelected = !session.beautyFace
     }
     
     // 摄像头
-    func didTappedCameraButton(_ button: UIButton) -> Void {
+    @objc func didTappedCameraButton(_ button: UIButton) -> Void {
         let devicePositon = session.captureDevicePosition;
-        session.captureDevicePosition = (devicePositon == AVCaptureDevicePosition.back) ? AVCaptureDevicePosition.front : AVCaptureDevicePosition.back;
+        session.captureDevicePosition = (devicePositon == AVCaptureDevice.Position.back) ? AVCaptureDevice.Position.front : AVCaptureDevice.Position.back;
     }
     
     // 关闭
@@ -166,7 +166,7 @@ class ViewController: UIViewController, LFLiveSessionDelegate {
     var containerView: UIView = {
         let containerView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
         containerView.backgroundColor = UIColor.clear
-        containerView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleHeight]
+        containerView.autoresizingMask = [UIView.AutoresizingMask.flexibleHeight, UIView.AutoresizingMask.flexibleHeight]
         return containerView
     }()
     
@@ -182,22 +182,22 @@ class ViewController: UIViewController, LFLiveSessionDelegate {
     // 关闭按钮
     var closeButton: UIButton = {
         let closeButton = UIButton(frame: CGRect(x: UIScreen.main.bounds.width - 10 - 44, y: 20, width: 44, height: 44))
-        closeButton.setImage(UIImage(named: "close_preview"), for: UIControlState())
+        closeButton.setImage(UIImage(named: "close_preview"), for: UIControl.State())
         return closeButton
     }()
     
     // 摄像头
     var cameraButton: UIButton = {
         let cameraButton = UIButton(frame: CGRect(x: UIScreen.main.bounds.width - 54 * 2, y: 20, width: 44, height: 44))
-        cameraButton.setImage(UIImage(named: "camra_preview"), for: UIControlState())
+        cameraButton.setImage(UIImage(named: "camra_preview"), for: UIControl.State())
         return cameraButton
     }()
     
     // 摄像头
     var beautyButton: UIButton = {
         let beautyButton = UIButton(frame: CGRect(x: UIScreen.main.bounds.width - 54 * 3, y: 20, width: 44, height: 44))
-        beautyButton.setImage(UIImage(named: "camra_beauty"), for: UIControlState.selected)
-        beautyButton.setImage(UIImage(named: "camra_beauty_close"), for: UIControlState())
+        beautyButton.setImage(UIImage(named: "camra_beauty"), for: UIControl.State.selected)
+        beautyButton.setImage(UIImage(named: "camra_beauty_close"), for: UIControl.State())
         return beautyButton
     }()
     
@@ -205,10 +205,10 @@ class ViewController: UIViewController, LFLiveSessionDelegate {
     var startLiveButton: UIButton = {
         let startLiveButton = UIButton(frame: CGRect(x: 30, y: UIScreen.main.bounds.height - 50, width: UIScreen.main.bounds.width - 10 - 44, height: 44))
         startLiveButton.layer.cornerRadius = 22
-        startLiveButton.setTitleColor(UIColor.black, for:UIControlState())
-        startLiveButton.setTitle("开始直播", for: UIControlState())
+        startLiveButton.setTitleColor(UIColor.black, for:UIControl.State())
+        startLiveButton.setTitle("开始直播", for: UIControl.State())
         startLiveButton.titleLabel!.font = UIFont.systemFont(ofSize: 14)
-        startLiveButton.backgroundColor = UIColor(colorLiteralRed: 50, green: 32, blue: 245, alpha: 1)
+        startLiveButton.backgroundColor = .red
         return startLiveButton
     }()
 }

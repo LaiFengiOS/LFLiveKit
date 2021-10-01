@@ -175,7 +175,7 @@
 }
 
 - (void)didBecomeActive:(NSNotification *)notification {
-    dispatch_cancel(self.timer);
+//    dispatch_cancel(self.timer);
     self.timer = nil;
 }
 

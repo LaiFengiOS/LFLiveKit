@@ -133,12 +133,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 84D8B49A1D757D4000752B56 /* Build configuration list for PBXNativeTarget "LFLiveKitSwiftDemo" */;
 			buildPhases = (
+				FAF77642DAE166050D8BD3E6 /* [CP] Check Pods Manifest.lock */,
 				FC46EAD69B9F095AB7372DB6 /* 📦 Check Pods Manifest.lock */,
 				84D8B4841D757D4000752B56 /* Sources */,
 				84D8B4851D757D4000752B56 /* Frameworks */,
 				84D8B4861D757D4000752B56 /* Resources */,
 				951756CA4F11963EE3622ADB /* 📦 Embed Pods Frameworks */,
-				1D8289CE7990A09D5E67FA15 /* 📦 Copy Pods Resources */,
+				1CC3F84F644352FCAAEEEEC8 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -161,8 +162,8 @@
 				TargetAttributes = {
 					84D8B4871D757D4000752B56 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = G497YX6CBT;
 						LastSwiftMigration = 0800;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -171,6 +172,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -206,19 +208,22 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1D8289CE7990A09D5E67FA15 /* 📦 Copy Pods Resources */ = {
+		1CC3F84F644352FCAAEEEEC8 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LFLiveKitSwiftDemo/Pods-LFLiveKitSwiftDemo-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/LFLiveKit/LFLiveKit.framework",
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LFLiveKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LFLiveKitSwiftDemo/Pods-LFLiveKitSwiftDemo-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LFLiveKitSwiftDemo/Pods-LFLiveKitSwiftDemo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		951756CA4F11963EE3622ADB /* 📦 Embed Pods Frameworks */ = {
@@ -234,6 +239,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LFLiveKitSwiftDemo/Pods-LFLiveKitSwiftDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FAF77642DAE166050D8BD3E6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-LFLiveKitSwiftDemo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FC46EAD69B9F095AB7372DB6 /* 📦 Check Pods Manifest.lock */ = {
@@ -373,7 +400,9 @@
 			baseConfigurationReference = 7265B07B4B6CEE8ECE8F7A63 /* Pods-LFLiveKitSwiftDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = G497YX6CBT;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = LFLiveKitSwiftDemo/Info.plist;
@@ -383,8 +412,9 @@
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = com.youku.LaiFeng;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "LFLiveKitSwiftDemo/LFLiveKitSwiftDemo-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -393,7 +423,9 @@
 			baseConfigurationReference = DAC498DB742E949DED005ECE /* Pods-LFLiveKitSwiftDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = G497YX6CBT;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = LFLiveKitSwiftDemo/Info.plist;
@@ -403,8 +435,9 @@
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = com.youku.LaiFeng;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "LFLiveKitSwiftDemo/LFLiveKitSwiftDemo-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};

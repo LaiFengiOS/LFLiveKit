@@ -814,12 +814,6 @@
     if (!_videoCaptureSource) {
         if(self.captureType & LFLiveCaptureMaskVideo){
             _videoCaptureSource = [[MetalVideoCapture alloc] initWithVideoConfiguration:_videoConfiguration];
-//            if (_gpuimageOn) {
-//                _videoCaptureSource = [[LFVideoCapture alloc] initWithVideoConfiguration:_videoConfiguration];
-//                ((LFVideoCapture*)_videoCaptureSource).useAdvanceBeauty = _gpuimageAdvanceBeautyEnabled;
-//            } else {
-//                _videoCaptureSource = [[RKVideoCapture alloc] initWithVideoConfiguration:_videoConfiguration eaglContext:_glContext];
-//            }
             _videoCaptureSource.delegate = self;
         }
     }

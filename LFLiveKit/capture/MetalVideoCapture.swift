@@ -30,8 +30,10 @@ public class MetalVideoCapture: NSObject, LFVideoCaptureInterface {
     public var mirrorOutput: Bool = true
 
     private let configuration: LFLiveVideoConfiguration?
-    private let metalView: MTIImageView
+    private let metalView: MTIImageView = MTIImageView()
     private let filter = MTIHighPassSkinSmoothingFilter()
+    private let imageRenderer = PixelBufferPoolBackedImageRenderer()
+    private let renderContext: MTIContext
 
     private let camera: Camera = {
         var configurator = Camera.Configurator()
@@ -44,29 +46,29 @@ public class MetalVideoCapture: NSObject, LFVideoCaptureInterface {
     
     @objc
     public required init?(videoConfiguration configuration: LFLiveVideoConfiguration?) {
-        metalView = MTIImageView()
-        self.configuration = configuration
-
-        super.init()
         
+        guard let device = MTLCreateSystemDefaultDevice(), let context = try? MTIContext(device: device) else { return nil }
+        renderContext = context
+        self.configuration = configuration
+        super.init()
+        metalView.resizingMode = .aspectFill
+
+        setupCamera()
+    }
+    
+    public func previousColorFilter() {}
+    
+    public func nextColorFilter() {}
+    
+    public func setTargetColorFilter(_ targetIndex: Int) {}
+
+    
+    private func setupCamera() {
         try? camera.enableVideoDataOutput(on: DispatchQueue.main, delegate: self)
         camera.videoDataOutput?.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_420YpCbCr8BiPlanarFullRange]
         
         camera.startRunningCaptureSession()
     }
-    
-    public func previousColorFilter() {
-        
-    }
-    
-    public func nextColorFilter() {
-        
-    }
-    
-    public func setTargetColorFilter(_ targetIndex: Int) {
-        
-    }
-
 }
 
 extension MetalVideoCapture {
@@ -90,9 +92,15 @@ extension MetalVideoCapture: AVCaptureVideoDataOutputSampleBufferDelegate {
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
             return
         }
-        let inputImage = MTIImage(cvPixelBuffer: pixelBuffer, alphaType: .alphaIsOne)
-        filter.inputImage = inputImage
-        metalView.image = filter.outputImage
+        filter.inputImage = MTIImage(cvPixelBuffer: pixelBuffer, alphaType: .alphaIsOne)
+        guard let filterOutputImage = filter.outputImage else { return }
+        
+        let outputImage = filterOutputImage.oriented(.upMirrored)
+        metalView.image = outputImage
+
+        guard let renderOutput = try? self.imageRenderer.render(outputImage, using: renderContext) else { return }
+        let time = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
+        delegate?.captureOutput?(self, pixelBuffer: renderOutput.pixelBuffer, at: time, didUpdateVideoConfiguration: false)
 
     }
 }

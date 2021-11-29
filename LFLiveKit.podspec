@@ -10,11 +10,13 @@ Pod::Spec.new do |s|
   s.platform     = :ios, "7.0"
   s.ios.deployment_target = "7.0"
   s.source       = { :git => "https://github.com/LaiFengiOS/LFLiveKit.git", :tag => "#{s.version}" }
-  s.source_files  = "LFLiveKit/**/*.{h,m,mm,cpp,c}"
-  s.public_header_files = ['LFLiveKit/*.h', 'LFLiveKit/objects/*.h', 'LFLiveKit/configuration/*.h']
+  s.source_files  = "LFLiveKit/**/*.{h,m,mm,cpp,c,swift,metal}"
+  s.public_header_files = ['LFLiveKit/*.h', 'LFLiveKit/objects/*.h', 'LFLiveKit/configuration/*.h', 'LFLiveKit/capture/*.h']
 
   s.frameworks = "VideoToolbox", "AudioToolbox","AVFoundation","Foundation","UIKit"
   s.libraries = "c++", "z"
 
   s.requires_arc = true
+  s.dependency 'MetalPetal/Swift'
+  s.dependency 'VideoIO'
 end

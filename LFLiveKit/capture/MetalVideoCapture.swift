@@ -12,9 +12,14 @@ import VideoIO
 @objcMembers
 public class MetalVideoCapture: NSObject, LFVideoCaptureInterface {
     public var running: Bool = true
-    public var delegate: LFVideoCaptureInterfaceDelegate?
+    public weak var delegate: LFVideoCaptureInterfaceDelegate?
 
-    public var captureDevicePosition: AVCaptureDevice.Position = .front
+    public var captureDevicePosition: AVCaptureDevice.Position = .front {
+        didSet {
+            try? camera.switchToVideoCaptureDevice(with: captureDevicePosition)
+        }
+    }
+    
     public var beautyFace: Bool = true
     public var torch: Bool = false
     public var mirror: Bool = true
@@ -68,6 +73,7 @@ public class MetalVideoCapture: NSObject, LFVideoCaptureInterface {
         camera.videoDataOutput?.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_420YpCbCr8BiPlanarFullRange]
         
         camera.startRunningCaptureSession()
+        
     }
 }
 
@@ -92,15 +98,26 @@ extension MetalVideoCapture: AVCaptureVideoDataOutputSampleBufferDelegate {
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
             return
         }
-        filter.inputImage = MTIImage(cvPixelBuffer: pixelBuffer, alphaType: .alphaIsOne)
-        guard let filterOutputImage = filter.outputImage else { return }
-        
-        let outputImage = filterOutputImage.oriented(.upMirrored)
-        metalView.image = outputImage
+        let sourceImage = MTIImage(cvPixelBuffer: pixelBuffer, alphaType: .alphaIsOne)
+        guard let filteredImage = filterImageIfNeeded(sourceImage) else { return }
+        let mirroredImage = mirroredIfNeeded(filteredImage)
 
-        guard let renderOutput = try? self.imageRenderer.render(outputImage, using: renderContext) else { return }
+        metalView.image = mirroredImage
+
+        guard let renderOutput = try? self.imageRenderer.render(mirroredImage, using: renderContext) else { return }
         let time = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
         delegate?.captureOutput?(self, pixelBuffer: renderOutput.pixelBuffer, at: time, didUpdateVideoConfiguration: false)
 
+    }
+    
+    private func filterImageIfNeeded(_ image: MTIImage) -> MTIImage? {
+        guard beautyFace else { return image }
+        filter.inputImage = image
+        return filter.outputImage
+    }
+    
+    private func mirroredIfNeeded(_ image: MTIImage) -> MTIImage {
+        guard captureDevicePosition == .front else { return image }
+        return image.oriented(.upMirrored)
     }
 }

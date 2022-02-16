@@ -813,7 +813,7 @@
 - (id<LFVideoCaptureInterface>)videoCaptureSource {
     if (!_videoCaptureSource) {
         if(self.captureType & LFLiveCaptureMaskVideo){
-            _videoCaptureSource = [[MetalVideoCapture alloc] initWithVideoConfiguration:_videoConfiguration];
+            _videoCaptureSource = [[XMagicCapture alloc] initWithVideoConfiguration:_videoConfiguration];
             _videoCaptureSource.delegate = self;
         }
     }

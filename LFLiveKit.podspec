@@ -19,4 +19,5 @@ Pod::Spec.new do |s|
   s.requires_arc = true
   s.dependency 'MetalPetal/Swift'
   s.dependency 'VideoIO'
+  s.dependency 'XMagicKit'
 end

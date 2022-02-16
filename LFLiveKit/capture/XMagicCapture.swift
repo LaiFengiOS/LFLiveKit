@@ -51,6 +51,7 @@ public class XMagicCapture: NSObject, LFVideoCaptureInterface {
         
         LicenseManager.sharedInstance().setup()
         displayView.layer.insertSublayer(capture.previewLayer, at: 0)
+        capture.delegate = self
         capture.startCaputre()
     }
     
@@ -73,4 +74,11 @@ extension XMagicCapture {
         }
     }
 
+}
+
+
+extension XMagicCapture: CaptureInterfaceDelegate {
+    public func captureOutput(_ pixelBuffer: CVPixelBuffer?, at time: CMTime) {
+        delegate?.captureOutput?(self, pixelBuffer: pixelBuffer, at: time, didUpdateVideoConfiguration: false)
+    }
 }

@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
 #import "LFLiveVideoConfiguration.h"
+#import <XMagicKit/XMagicFilterType.h>
 
 typedef NS_ENUM(NSInteger, RKColorFilter) {
     RKColorFilterNone,
@@ -122,6 +123,9 @@ typedef NS_ENUM(NSInteger, RKColorFilter) {
 
 /** Switch to target color filter. */
 - (void)setTargetColorFilter:(NSInteger)targetIndex;
+
+@optional
+- (void)setFilter:(XMagicFilterType)type withValue:(int)value;
 
 @end
 

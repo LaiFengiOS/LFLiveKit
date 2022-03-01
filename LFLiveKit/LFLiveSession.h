@@ -16,6 +16,7 @@
 #import "LFLiveAudioConfiguration.h"
 #import "LFLiveVideoConfiguration.h"
 #import "LFLiveDebug.h"
+#import <XMagicKit/XMagicFilterType.h>
 
 /// LFLiveInternetState, There are only two state,
 /// 1. Normal
@@ -295,5 +296,6 @@ typedef NS_ENUM(NSUInteger, RKReplayKitSampleType) {
 
 - (void)setVideoPlaceholder:(UIImage *)image;
 
+- (void)setFilter:(XMagicFilterType)type withValue:(int)value;
 
 @end

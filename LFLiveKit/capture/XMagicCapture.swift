@@ -7,7 +7,7 @@
 
 import Foundation
 import XMagicKit
-
+//import XMagic
 @objcMembers
 public class XMagicCapture: NSObject, LFVideoCaptureInterface {
 
@@ -48,13 +48,18 @@ public class XMagicCapture: NSObject, LFVideoCaptureInterface {
     public required init?(videoConfiguration configuration: LFLiveVideoConfiguration?) {
         self.configuration = configuration
         super.init()
-        
+
         LicenseManager.sharedInstance().setup()
         displayView.layer.insertSublayer(capture.previewLayer, at: 0)
         capture.delegate = self
         capture.startCaputre()
+        
     }
-    
+
+    public func setFilter(_ type: XMagicFilterType, withValue value: Int32) {
+        capture.setFilter(type, withValue: value)
+    }
+
     private var displayView = UIView()
 
     

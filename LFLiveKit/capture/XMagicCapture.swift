@@ -7,7 +7,7 @@
 
 import Foundation
 import XMagicKit
-//import XMagic
+
 @objcMembers
 public class XMagicCapture: NSObject, LFVideoCaptureInterface {
 
@@ -29,7 +29,14 @@ public class XMagicCapture: NSObject, LFVideoCaptureInterface {
     public var delegate: LFVideoCaptureInterfaceDelegate?
     
     public var running: Bool = true
-    public var captureDevicePosition: AVCaptureDevice.Position = .front
+    public var captureDevicePosition: AVCaptureDevice.Position = .front {
+        didSet {
+            if oldValue != captureDevicePosition {
+                capture.rotateCamera()
+            }
+        }
+    }
+    
     private let configuration: LFLiveVideoConfiguration?
     
     private let capture: XMagicCameraCapture = XMagicCameraCapture()

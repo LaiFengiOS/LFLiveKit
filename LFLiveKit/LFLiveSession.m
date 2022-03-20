@@ -950,7 +950,7 @@
     self.isSocketConnectSuccess = isSuccess;
 }
 
-- (void)setFilter:(XMagicFilterType)type withValue:(int)value {
+- (void)setFilter:(XMagicFilterType)type withValue:(CGFloat)value {
     [_videoCaptureSource setFilter:type withValue:value];
 }
 

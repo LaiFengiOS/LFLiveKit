@@ -296,6 +296,6 @@ typedef NS_ENUM(NSUInteger, RKReplayKitSampleType) {
 
 - (void)setVideoPlaceholder:(UIImage *)image;
 
-- (void)setFilter:(XMagicFilterType)type withValue:(int)value;
+- (void)setFilter:(XMagicFilterType)type withValue:(CGFloat)value;
 
 @end

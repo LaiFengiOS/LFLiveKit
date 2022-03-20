@@ -63,7 +63,7 @@ public class XMagicCapture: NSObject, LFVideoCaptureInterface {
         
     }
 
-    public func setFilter(_ type: XMagicFilterType, withValue value: Int32) {
+    public func setFilter(_ type: XMagicFilterType, withValue value: CGFloat) {
         capture.setFilter(type, withValue: value)
     }
 

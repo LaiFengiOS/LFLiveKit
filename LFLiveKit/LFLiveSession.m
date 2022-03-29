@@ -103,23 +103,20 @@
 @implementation LFLiveSession
 
 #pragma mark -- LifeCycle
-- (instancetype)initWithAudioConfiguration:(nullable LFLiveAudioConfiguration *)audioConfiguration
-                        videoConfiguration:(nullable LFLiveVideoConfiguration *)videoConfiguration {
-    return [self initWithAudioConfiguration:audioConfiguration
-                         videoConfiguration:videoConfiguration captureType:LFLiveCaptureDefaultMask];
-}
 
 - (nullable instancetype)initWithAudioConfiguration:(nullable LFLiveAudioConfiguration *)audioConfiguration
                                  videoConfiguration:(nullable LFLiveVideoConfiguration *)videoConfiguration
-                                        captureType:(LFLiveCaptureTypeMask)captureType {
+                                       videoCapture:(id<LFVideoCaptureInterface>_Nullable)videoCapture {
     return [self initWithAudioConfiguration:audioConfiguration
                          videoConfiguration:videoConfiguration
-                                captureType:captureType
+                               videoCapture:videoCapture
+                                captureType:LFLiveCaptureDefaultMask
                                 eaglContext:nil];
 }
 
 - (nullable instancetype)initWithAudioConfiguration:(nullable LFLiveAudioConfiguration *)audioConfiguration
                                  videoConfiguration:(nullable LFLiveVideoConfiguration *)videoConfiguration
+                                       videoCapture:(id<LFVideoCaptureInterface>_Nullable)videoCapture
                                         captureType:(LFLiveCaptureTypeMask)captureType
                                         eaglContext:(EAGLContext *)glContext {
     if ((captureType & LFLiveCaptureMaskAudio || captureType & LFLiveInputMaskAudio) && !audioConfiguration)
@@ -127,6 +124,10 @@
     if ((captureType & LFLiveCaptureMaskVideo || captureType & LFLiveInputMaskVideo) && !videoConfiguration)
         @throw [NSException exceptionWithName:@"LFLiveSession init error" reason:@"videoConfiguration is nil " userInfo:nil];
     if (self = [super init]) {
+        if (videoCapture) {
+            _videoCaptureSource = videoCapture;
+            _videoCaptureSource.delegate = self;
+        }
         _audioConfiguration = audioConfiguration;
         _videoConfiguration = videoConfiguration;
         _adaptiveBitrate = NO;
@@ -813,7 +814,7 @@
 - (id<LFVideoCaptureInterface>)videoCaptureSource {
     if (!_videoCaptureSource) {
         if(self.captureType & LFLiveCaptureMaskVideo){
-            _videoCaptureSource = [[XMagicCapture alloc] initWithVideoConfiguration:_videoConfiguration];
+            _videoCaptureSource = [[MetalVideoCapture alloc] initWithVideoConfiguration:_videoConfiguration];
             _videoCaptureSource.delegate = self;
         }
     }
@@ -948,10 +949,6 @@
 - (void)socketCallbackIsSuccess:(BOOL)isSuccess videoSize:(NSInteger)videoSize {
     self.videoSize = videoSize;
     self.isSocketConnectSuccess = isSuccess;
-}
-
-- (void)setFilter:(XMagicFilterType)type withValue:(CGFloat)value {
-    [_videoCaptureSource setFilter:type withValue:value];
 }
 
 @end

@@ -15,8 +15,8 @@
 #import "LFVideoFrame.h"
 #import "LFLiveAudioConfiguration.h"
 #import "LFLiveVideoConfiguration.h"
+#import "LFVideoCaptureInterface.h"
 #import "LFLiveDebug.h"
-#import <XMagicKit/XMagicFilterType.h>
 
 /// LFLiveInternetState, There are only two state,
 /// 1. Normal
@@ -209,19 +209,17 @@ typedef NS_ENUM(NSUInteger, RKReplayKitSampleType) {
    The designated initializer. Multiple instances with the same configuration will make the
    capture unstable.
  */
-- (nullable instancetype)initWithAudioConfiguration:(nullable LFLiveAudioConfiguration *)audioConfiguration
-                                 videoConfiguration:(nullable LFLiveVideoConfiguration *)videoConfiguration;
 
 - (nullable instancetype)initWithAudioConfiguration:(nullable LFLiveAudioConfiguration *)audioConfiguration
                                  videoConfiguration:(nullable LFLiveVideoConfiguration *)videoConfiguration
-                                        captureType:(LFLiveCaptureTypeMask)captureType;
+                                       videoCapture:(id<LFVideoCaptureInterface>_Nullable)videoCapture;
 
 /**
  The designated initializer. Multiple instances with the same configuration will make the
  capture unstable.
  */
 - (nullable instancetype)initWithAudioConfiguration:(nullable LFLiveAudioConfiguration *)audioConfiguration
-                                 videoConfiguration:(nullable LFLiveVideoConfiguration *)videoConfiguration
+                                 videoConfiguration:(nullable LFLiveVideoConfiguration *)videoConfiguration videoCapture:(id<LFVideoCaptureInterface>_Nullable)videoCapture
                                         captureType:(LFLiveCaptureTypeMask)captureType
                                         eaglContext:(EAGLContext *_Nullable)glContext NS_DESIGNATED_INITIALIZER;
 
@@ -295,7 +293,5 @@ typedef NS_ENUM(NSUInteger, RKReplayKitSampleType) {
 - (void)updateVideoConfiguration:(LFLiveVideoConfiguration *)videoConfiguration;
 
 - (void)setVideoPlaceholder:(UIImage *)image;
-
-- (void)setFilter:(XMagicFilterType)type withValue:(CGFloat)value;
 
 @end

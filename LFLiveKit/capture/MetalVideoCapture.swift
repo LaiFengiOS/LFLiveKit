@@ -61,6 +61,10 @@ public class MetalVideoCapture: NSObject, LFVideoCaptureInterface {
         setupCamera()
     }
     
+    deinit {
+        camera.stopRunningCaptureSession()
+    }
+    
     public func previousColorFilter() {}
     
     public func nextColorFilter() {}

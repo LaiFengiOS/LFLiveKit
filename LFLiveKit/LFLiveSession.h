@@ -191,6 +191,8 @@ typedef NS_ENUM(NSUInteger, RKReplayKitSampleType) {
 
 @property (strong, nonatomic, readonly) EAGLContext * _Nullable glContext;
 
+@property (nonatomic, assign, readonly) NSInteger encoderTargetBitrate;
+
 @property (nonatomic, assign) NSUInteger videoSize;
 
 @property (nonatomic, assign) BOOL isSocketConnectSuccess;

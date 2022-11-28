@@ -8,6 +8,9 @@
 
 #import "BitrateHandler.h"
 
+
+static NSInteger kb = 1024;
+
 @interface BitrateHandler()
 
 @property (nonatomic, assign) NSUInteger avgBitrate;
@@ -15,7 +18,8 @@
 @property (nonatomic, assign) NSUInteger minBitrate;
 @property (nonatomic, assign) NSUInteger currentBitrate;
 @property (nonatomic, assign) NSUInteger count;
-@property (nonatomic, assign) NSUInteger totalSize;
+@property (nonatomic, assign) NSUInteger cursor;
+@property (nonatomic, retain) NSMutableArray *samples;
 
 @end
 
@@ -30,8 +34,9 @@
         _maxBitrate = maxBitrate;
         _minBitrate = minBitrate;
         _currentBitrate = avgBitrate;
-        _count = count;
-        _totalSize = 0;
+        _count = MAX(1, count);
+        _cursor = 0;
+        _samples = [NSMutableArray arrayWithCapacity:count];
     }
     return self;
 }
@@ -39,35 +44,65 @@
 #pragma mark - Public Methods
 
 - (void)sendBufferSize:(NSUInteger)size {
-    self.totalSize += size;
-    self.count ++;
-    if (self.count < 5) {
+    self.samples[self.cursor] = @(size);
+    self.cursor = (self.cursor + 1) % self.count;
+    if (self.samples.count < self.count) {
         return;
     }
-    
-    if (self.bitrateShouldChangeBlock) {
-        self.bitrateShouldChangeBlock([self calculateAdaptBitrateInput:self.totalSize/self.count]);
+    if (self.bitrateShouldChangeBlock == nil) {
+        return;
     }
+    NSInteger suggestedBitrate = [self calculateAdaptBitrateInput:self.movingAverage];
+    if (suggestedBitrate == self.currentBitrate) {
+        return;
+    }
+    NSLog(@"StreamStats: Reset to %@", @(suggestedBitrate));
+    self.currentBitrate = suggestedBitrate;
     [self reset];
+    self.bitrateShouldChangeBlock(suggestedBitrate);
 }
 
 #pragma mark - Private Methods
 
-- (NSUInteger)calculateAdaptBitrateInput:(NSUInteger)input {
-    if (input >= self.maxBitrate) {
-        self.currentBitrate = self.maxBitrate;
-    } else if (input <= self.currentBitrate * 0.8) {
-        self.currentBitrate = (NSUInteger)(input * 0.8);
-    } else {
-        NSUInteger expected = (NSUInteger)(input * 1.1);
-        self.currentBitrate = expected > self.maxBitrate ? self.maxBitrate : expected;
+- (NSUInteger)movingAverage {
+    if (self.samples.count == 0) {
+        return 0;
     }
-    return self.currentBitrate;
+    NSUInteger sum = 0;
+    NSArray *list = [self.samples copy];
+    for (NSNumber *size in list) {
+        sum += [size integerValue];
+    }
+    return sum / self.samples.count;
+}
+
+- (NSUInteger)calculateAdaptBitrateInput:(NSUInteger)input {
+    NSUInteger suggestion = input;
+    if (input <= (self.currentBitrate - 200 * kb)) {
+        suggestion = input;
+    } else if (input < (self.currentBitrate - 100 * kb)) {
+        suggestion = self.currentBitrate;
+    } else if (input < self.currentBitrate) {
+        suggestion = self.currentBitrate + 50 * kb;
+    } else {
+        suggestion = self.currentBitrate + 100 * kb;
+    }
+    suggestion = [self quantize:suggestion];
+    if (suggestion > self.maxBitrate) {
+        return self.maxBitrate;
+    }
+    return suggestion;
+}
+
+- (NSUInteger)quantize:(NSUInteger)input {
+    return ((NSUInteger)round((
+                  (double)input / (50 * kb)
+               ))) * 50 * kb;
 }
 
 - (void)reset {
-    self.count = 0;
-    self.totalSize = 0;
+    self.cursor = 0;
+    self.samples = [NSMutableArray arrayWithCapacity:self.count];
 }
 
 @end

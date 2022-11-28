@@ -691,6 +691,10 @@
     return self.videoCaptureSource.colorFilterNames;
 }
 
+- (NSInteger)encoderTargetBitrate {
+    return self.bitrateHandler.currentBitrate;
+}
+
 - (void)setRunning:(BOOL)running {
     if (_running == running) return;
     [self willChangeValueForKey:@"running"];

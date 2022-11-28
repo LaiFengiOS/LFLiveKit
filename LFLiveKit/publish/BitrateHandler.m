@@ -55,8 +55,7 @@ static NSInteger kb = 1024;
     NSInteger suggestedBitrate = [self calculateAdaptBitrateInput:self.movingAverage];
     if (suggestedBitrate == self.currentBitrate) {
         return;
-    }
-    NSLog(@"StreamStats: Reset to %@", @(suggestedBitrate));
+    }    
     self.currentBitrate = suggestedBitrate;
     [self reset];
     self.bitrateShouldChangeBlock(suggestedBitrate);

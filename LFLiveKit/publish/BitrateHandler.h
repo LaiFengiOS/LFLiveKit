@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface BitrateHandler : NSObject
 
 @property (nonatomic, copy, nullable) void (^bitrateShouldChangeBlock)(NSUInteger);
+@property (nonatomic, assign, readonly) NSUInteger currentBitrate;
 
 - (instancetype)initWithAvg:(NSUInteger)avgBitrate
                         max:(NSUInteger)maxBitrate

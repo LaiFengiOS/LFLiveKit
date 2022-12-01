@@ -42,7 +42,6 @@ static NSInteger kb = 1024;
 }
 
 #pragma mark - Public Methods
-
 - (void)sendBufferSize:(NSUInteger)size {
     self.samples[self.cursor] = @(size);
     self.cursor = (self.cursor + 1) % self.count;
@@ -55,7 +54,7 @@ static NSInteger kb = 1024;
     NSInteger suggestedBitrate = [self calculateAdaptBitrateInput:self.movingAverage];
     if (suggestedBitrate == self.currentBitrate) {
         return;
-    }    
+    }
     self.currentBitrate = suggestedBitrate;
     [self reset];
     self.bitrateShouldChangeBlock(suggestedBitrate);
@@ -76,6 +75,9 @@ static NSInteger kb = 1024;
 }
 
 - (NSUInteger)calculateAdaptBitrateInput:(NSUInteger)input {
+    if (input == 0) {
+        return self.currentBitrate;
+    }
     NSUInteger suggestion = input;
     if (input <= (self.currentBitrate - 200 * kb)) {
         suggestion = input;
@@ -94,9 +96,10 @@ static NSInteger kb = 1024;
 }
 
 - (NSUInteger)quantize:(NSUInteger)input {
+    NSInteger stepSize = 50;
     return ((NSUInteger)round((
-                  (double)input / (50 * kb)
-               ))) * 50 * kb;
+                  (double)input / (stepSize * kb)
+               ))) * stepSize * kb;
 }
 
 - (void)reset {

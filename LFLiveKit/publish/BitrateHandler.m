@@ -19,6 +19,7 @@ static NSInteger kb = 1024;
 @property (nonatomic, assign) NSUInteger currentBitrate;
 @property (nonatomic, assign) NSUInteger count;
 @property (nonatomic, assign) NSUInteger cursor;
+@property (nonatomic, assign) NSUInteger skips;
 @property (nonatomic, retain) NSMutableArray *samples;
 
 @end
@@ -30,6 +31,7 @@ static NSInteger kb = 1024;
                         min:(NSUInteger)minBitrate
                       count:(NSUInteger)count {
     if (self) {
+        _skips = 10;
         _avgBitrate = avgBitrate;
         _maxBitrate = maxBitrate;
         _minBitrate = minBitrate;
@@ -43,6 +45,10 @@ static NSInteger kb = 1024;
 
 #pragma mark - Public Methods
 - (void)sendBufferSize:(NSUInteger)size {
+    if (self.skips > 0) {
+        self.skips--;
+        return;
+    }
     self.samples[self.cursor] = @(size);
     self.cursor = (self.cursor + 1) % self.count;
     if (self.samples.count < self.count) {
@@ -79,7 +85,7 @@ static NSInteger kb = 1024;
         return self.currentBitrate;
     }
     NSUInteger suggestion = input;
-    if (input <= (self.currentBitrate - 200 * kb)) {
+    if (input <= (self.currentBitrate - 350 * kb)) {
         suggestion = input;
     } else if (input < (self.currentBitrate - 100 * kb)) {
         suggestion = self.currentBitrate;

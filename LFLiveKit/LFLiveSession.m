@@ -451,7 +451,11 @@
 #if DEBUG
         NSLog(@"change bitrate !!!! %@", @(expected));
 #endif
-        [self.videoEncoder setVideoBitRate:expected];
+        NSUInteger adjustment = 1;
+        if ([[[UIDevice currentDevice] systemVersion] isEqualToString:@"16.4"]) {
+            adjustment = 4.8;
+        }
+        [self.videoEncoder setVideoBitRate:expected * adjustment];
           
         [[LFStreamLog logger] logWithDict:@{
             @"lt": @"pbrt",
